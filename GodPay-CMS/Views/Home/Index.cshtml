@@ -1,0 +1,52 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>@Model</p>
+    <p>{{message}}</p>
+    <ag-grid-vue style="width: 500px; height: 200px"
+                 class="ag-theme-alpine"
+                 :column-defs="columnDefs"
+                 :row-data="rowData">
+    </ag-grid-vue>
+</div>
+
+<script type="text/javascript">
+    // Template compilation error: Tags with side effect (<script> and <style>) are ignored in client component templates.
+    // 此錯誤只是警告 因為 script的東西移去Latout渲染，換正式版的Vue不會出現
+    @section Vue
+    {
+        // import AgGridVue
+        let agVueObj = window["ag-grid-vue3"];
+        let AgGridVue = agVueObj.AgGridVue;
+        const app = Vue.createApp({
+            data: function () {
+                return {
+                    message: 'hello vue',
+                    columnDefs: null,
+                    rowData: null,
+                }
+            },
+            components: {
+                AgGridVue,
+            },
+            beforeMount() {
+                this.columnDefs = [
+                    { field: "make" },
+                    { field: "model" },
+                    { field: "price" },
+                ];
+
+                this.rowData = [
+                    { make: "Toyota", model: "Celica", price: 35000 },
+                    { make: "Ford", model: "Mondeo", price: 32000 },
+                    { make: "Porsche", model: "Boxter", price: 72000 },
+                ];
+            },
+        })
+
+    }
+</script>
