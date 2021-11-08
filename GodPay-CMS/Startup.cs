@@ -37,11 +37,19 @@ namespace GodPay_CMS
             {
                 pipeline.AddCssBundle(
                      "/site-css/bundle.css",
-                     "/lib/bootstrap/css/bootstrap.css",
+                     "/lib/dash-ui/css/theme.css",
                      "/site-css/bootstrap-custom.css",
+                     "/lib/bootstrap-icons/font/bootstrap-icons.css",
                      "/lib/ag-grid/styles/ag-grid.css",
                      "/lib/ag-grid/styles/ag-theme-alpine.css",
                      "/site-css/site.css"
+                );
+
+                pipeline.AddJavaScriptBundle(
+                     "/site-js/bundle.js",
+                     "/lib/dash-ui/js/main.js",
+                     "/lib/dash-ui/js/feather.js",
+                     "/lib/dash-ui/js/sidebarMenu.js"
                 );
             });
 
