@@ -36,12 +36,12 @@ namespace GodPay_CMS
             services.AddWebOptimizer(pipeline =>
             {
                 pipeline.AddCssBundle(
-                     "/css/bundle.css",
+                     "/site-css/bundle.css",
                      "/lib/bootstrap/css/bootstrap.css",
-                     "/css/bootstrap-custom.css",
+                     "/site-css/bootstrap-custom.css",
                      "/lib/ag-grid/styles/ag-grid.css",
                      "/lib/ag-grid/styles/ag-theme-alpine.css",
-                     "/css/site.css"
+                     "/site-css/site.css"
                 );
             });
 
@@ -70,12 +70,12 @@ namespace GodPay_CMS
             app.UseStaticFiles();
 
             // 額外增加靜態內容檔案
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(env.ContentRootPath, "StaticFiles")),
-                RequestPath = "/StaticFiles"
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //    Path.Combine(env.ContentRootPath, "StaticFiles")),
+            //    RequestPath = "/StaticFiles"
+            //});
 
             app.UseRouting();
 
