@@ -19,7 +19,7 @@
             </div>
         </nav>
     </header>
-    <main>
+    <main id="app">
         @RenderBody()
     </main>
 
@@ -52,34 +52,51 @@
     <script src="~/site-js/bundle.js"></script>
     <!--custom-->
     <script src="~/site-js/site.js" asp-append-version="true"></script>
+
+    <script type="text/javascript">
+        // 設定 axios 基礎設定
+        let baseURL = '';
+        @if (env.IsDevelopment())
+        {
+           @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
+        }
+        axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+        axios.defaults.baseURL = baseURL;
+    </script>
+
     <script type="module">
         // Vue進入點
         @RenderSection("Vue", required: false)
+        // Vuer結束點
 
-        //// 全域註冊vue method
-        //const emitter = mitt();
-        //app.config.globalProperties.emitter = emitter;
+        // 全域註冊vue method
+        const emitter = mitt();
+        import { CheckValueOfObjectIsNotEmpty } from '/StaticFiles/Vue/Methods/Common.js'
+        app.config.globalProperties.$emitter = emitter;
+        app.config.globalProperties.$common = {
+            CheckValueOfObjectIsNotEmpty
+        }
 
-        //// 全域註冊Component
-        //app.component('VForm', VeeValidate.Form);
-        //app.component('VField', VeeValidate.Field);
-        //app.component('ErrorMessage', VeeValidate.ErrorMessage);
+        // 全域註冊Component
+        app.component('VForm', VeeValidate.Form);
+        app.component('VField', VeeValidate.Field);
+        app.component('ErrorMessage', VeeValidate.ErrorMessage);
 
-        //// 驗證規則
-        //Object.keys(VeeValidateRules).forEach(rule => {
-        //    if (rule !== 'default') {
-        //        VeeValidate.defineRule(rule, VeeValidateRules[rule]);
-        //    }
-        //});
-        //// 多國語系
-        //VeeValidateI18n.loadLocaleFromURL('/lib/vee-validate/i18n/dist/locale/zh_TW.json');
-        //// 配置
-        //VeeValidate.configure({
-        //    generateMessage: VeeValidateI18n.localize('zh_TW'),
-        //    validateOnInput: true, // 調整為輸入字元立即進行驗證
-        //});
+        // 驗證規則
+        Object.keys(VeeValidateRules).forEach(rule => {
+            if (rule !== 'default') {
+                VeeValidate.defineRule(rule, VeeValidateRules[rule]);
+            }
+        });
+        // 多國語系
+        VeeValidateI18n.loadLocaleFromURL('/lib/vee-validate/i18n/dist/locale/zh_TW.json');
+        // 配置
+        VeeValidate.configure({
+            generateMessage: VeeValidateI18n.localize('zh_TW'),
+            validateOnInput: true, // 調整為輸入字元立即進行驗證
+        });
 
-        //app.mount('#app');
+        app.mount('#app');
     </script>
 
 </body>
