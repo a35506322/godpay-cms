@@ -21,12 +21,8 @@
     <Folder Include="Common\Enums\" />
     <Folder Include="Common\Profiles\" />
     <Folder Include="Controllers\Parameters\" />
-    <Folder Include="Repositories\Implements\" />
-    <Folder Include="Repositories\Entity\" />
     <Folder Include="Services\Implements\" />
-    <Folder Include="Services\DTO\" />
     <Folder Include="StaticFiles\Vue\Components\" />
-    <Folder Include="StaticFiles\Vue\Methods\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

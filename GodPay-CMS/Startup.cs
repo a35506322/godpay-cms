@@ -78,12 +78,12 @@ namespace GodPay_CMS
             app.UseStaticFiles();
 
             // 額外增加靜態內容檔案
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //    Path.Combine(env.ContentRootPath, "StaticFiles")),
-            //    RequestPath = "/StaticFiles"
-            //});
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(env.ContentRootPath, "StaticFiles")),
+                RequestPath = "/StaticFiles"
+            });
 
             app.UseRouting();
 
