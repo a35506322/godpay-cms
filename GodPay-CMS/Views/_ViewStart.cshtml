@@ -1,3 +1,12 @@
 ﻿@{
-    Layout = "_Layout";
+    string path = ViewData["Path"]  is  null ?   string.Empty :  ViewData["path"].ToString();
+    switch (path)
+    {
+        case "/Signin":
+            Layout = "_SignInLayout";
+            break;
+        default:
+            Layout = "_BackendLayout";
+            break;
+    }
 }

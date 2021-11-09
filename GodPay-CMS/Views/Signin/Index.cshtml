@@ -1,0 +1,47 @@
+﻿@*@{
+    Layout = "_SignInLayout";
+}*@
+
+<div class="container d-flex flex-column">
+    <div class="row align-items-center justify-content-center g-0 min-vh-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">
+            <!-- Card -->
+            <div class="card smooth-shadow-md">
+                <!-- Card body -->
+                <div class="card-body p-6">
+                    <div class="mb-4">
+                        <a href="../index.html"><img src="/lib/dash-ui/images/brand/logo/logo-primary.svg" class="mb-2" alt=""></a>
+                        <p class="mb-6">請輸入您的資訊</p>
+                    </div>
+                    <!-- Form -->
+                    <form>
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="UserId" class="form-label">Account</label>
+                            <input type="email" id="UserId" class="form-control" name="email" placeholder="請輸入帳號" required="">
+                        </div>
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="UserKey" class="form-label">Password</label>
+                            <input type="password" id="UserKey" class="form-control" name="password" placeholder="請輸入密碼" required="">
+                        </div>
+                        <!-- Checkbox -->
+                        <div class="d-lg-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check custom-checkbox">
+                                <input type="checkbox" class="form-check-input" id="rememberme">
+                                <label class="form-check-label" for="rememberme">記住此帳號</label>
+                            </div>
+                        </div>
+                        <div>
+                            <!-- Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

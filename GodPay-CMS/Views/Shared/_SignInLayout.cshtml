@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GodPay_CMS</title>
+    <link href="~/site-css/bundle.css" rel="stylesheet" />
+    <style>
+        .main-header {
+            background-color:aqua
+        }
+    </style>
+</head>
+<body class="position-relative">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 position-absolute top-0 w-100">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GodPay</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+
+
+    <!--vue-->
+    @if (env.IsDevelopment())
+    {
+        <script src="~/lib/vue/vue.global.js"></script>
+
+    }
+    else
+    {
+        <script src="~/lib/vue/vue.global.prod.js"></script>
+    }
+    <script src="~/lib/vee-validate/vee-validate.min.js"></script>
+    <script src="~/lib/vee-validate/rules/dist/vee-validate-rules.min.js"></script>
+    <script src="~/lib/vee-validate/i18n/dist/vee-validate-i18n.min.js"></script>
+    <script src="~/lib/mitt/dist/mitt.umd.js"></script>
+    <!--ag grid-->
+    <script src="~/ag-grid/ag-grid-community.js"></script>
+    <script src="~/ag-grid/ag-grid-vue3.umd.js"></script>
+    <!--bootstrap-->
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
+    <!--axios-->
+    <script src="~/lib/axios/axios.min.js"></script>
+    <!--dash ui-->
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jQuery-slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="~/lib/feather-icons/feather.min.js"></script>
+    <script src="~/site-js/bundle.js"></script>
+    <!--custom-->
+    <script src="~/site-js/site.js" asp-append-version="true"></script>
+    <script type="module">
+        // Vue進入點
+        @RenderSection("Vue", required: false)
+
+        //// 全域註冊vue method
+        //const emitter = mitt();
+        //app.config.globalProperties.emitter = emitter;
+
+        //// 全域註冊Component
+        //app.component('VForm', VeeValidate.Form);
+        //app.component('VField', VeeValidate.Field);
+        //app.component('ErrorMessage', VeeValidate.ErrorMessage);
+
+        //// 驗證規則
+        //Object.keys(VeeValidateRules).forEach(rule => {
+        //    if (rule !== 'default') {
+        //        VeeValidate.defineRule(rule, VeeValidateRules[rule]);
+        //    }
+        //});
+        //// 多國語系
+        //VeeValidateI18n.loadLocaleFromURL('/lib/vee-validate/i18n/dist/locale/zh_TW.json');
+        //// 配置
+        //VeeValidate.configure({
+        //    generateMessage: VeeValidateI18n.localize('zh_TW'),
+        //    validateOnInput: true, // 調整為輸入字元立即進行驗證
+        //});
+
+        //app.mount('#app');
+    </script>
+
+</body>
+</html>
