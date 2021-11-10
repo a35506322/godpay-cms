@@ -10,6 +10,7 @@ namespace GodPay_CMS.Controllers.ViewModels
     {
         [Required]
         public string UserId { get; set; }
+        [Required]
         public string UserKey { get; set; }
     }
 }
