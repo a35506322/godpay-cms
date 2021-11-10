@@ -15,14 +15,14 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 回傳狀態碼
         /// </summary>
-        public ReturnCodeEnum RtnCode { get; set; }
+        public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Success;
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>
-        public string RtnMessage { get; set; }
+        public string RtnMessage { get; set; } = "";
         /// <summary>
         /// 回傳狀態資料
         /// </summary>
-        public T RtnData { get; set; }
+        public T RtnData { get; set; } = default(T);
     }
 }
