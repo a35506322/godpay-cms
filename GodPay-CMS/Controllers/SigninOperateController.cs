@@ -18,10 +18,10 @@ namespace GodPay_CMS.Controllers
         {
             var signinReq = _mapper.Map<SigninReq>(signinViewModel);
 
-            ResponseViewModel<UserViewModel> responseViewModel = new ResponseViewModel<UserViewModel>();
+            ResponseViewModel<SigninViewModel> responseViewModel = new ResponseViewModel<SigninViewModel>();
             responseViewModel.RtnCode = Common.Enums.ReturnCodeEnum.Success;
             responseViewModel.RtnMessage = "Server驗證成功";
-            responseViewModel.RtnData = userViewModel;
+            responseViewModel.RtnData = signinViewModel;
             return Ok(responseViewModel);
         }
     }
