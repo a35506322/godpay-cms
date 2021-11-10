@@ -15,7 +15,11 @@ namespace GodPay_CMS.Controllers
         [HttpPost]
         public IActionResult SignIn([FromBody] UserViewModel userViewModel)
         {
-            return Ok(userViewModel);
+            ResponseViewModel<UserViewModel> responseViewModel = new ResponseViewModel<UserViewModel>();
+            responseViewModel.RtnCode = Common.Enums.ReturnCodeEnum.Success;
+            responseViewModel.RtnMessage = "Server驗證成功";
+            responseViewModel.RtnData = userViewModel;
+            return Ok(responseViewModel);
         }
     }
 }
