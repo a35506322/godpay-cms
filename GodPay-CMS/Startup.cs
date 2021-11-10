@@ -1,3 +1,4 @@
+using GodPay_CMS.Common.Filiters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -53,7 +54,11 @@ namespace GodPay_CMS
                 );
             });
 
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options => 
+                    {
+                        // 統一回傳ModelState
+                        options.Filters.Add<ModelStateValidationFilter>();
+                    })
                     // 預設都會回傳開頭小寫的屬性,此為取消Json.Text的設定
                     // 巨雷千萬要用axios傳你要用NewtonsoftJson，千萬別用內建的會有問題
                     .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
