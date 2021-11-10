@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GodPay_CMS.Controllers
@@ -13,9 +14,11 @@ namespace GodPay_CMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignIn([FromBody] UserViewModel userViewModel)
+        public IActionResult SignIn([FromBody] SigninViewModel signinViewModel)
         {
-            return Ok(userViewModel);
+            var signinReq = _mapper.Map<SigninReq>(signinViewModel);
+
+            return Ok(signinViewModel);
         }
     }
 }
