@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
 {
-    public class IRepostioryWrapper
+    public interface IRepostioryWrapper
     {
-       public IUserRepository userRepository { get; }
+       IUserRepository userRepository { get; }
     }
 }
