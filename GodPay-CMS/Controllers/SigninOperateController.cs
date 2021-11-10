@@ -6,16 +6,16 @@ namespace GodPay_CMS.Controllers
 {
     public class SigninOperateController : Controller
     {
-        private readonly IMapper mapper;
-        public SigninOperateController(IMapper Mapper)
+        private readonly IMapper _mapper;
+        public SigninOperateController(IMapper mapper)
         {
-            mapper = Mapper;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public IActionResult SignIn([FromBody] UserViewModel UserViewModel)
+        public IActionResult SignIn([FromBody] UserViewModel userViewModel)
         {
-            return Ok(UserViewModel);
+            return Ok(userViewModel);
         }
     }
 }
