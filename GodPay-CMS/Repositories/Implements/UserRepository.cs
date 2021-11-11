@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Implements
 {
-    public class UserRepository : IGenericRepository<User>, IGenericRepositoryById<User, int>, IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
