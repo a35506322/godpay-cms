@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Implements
@@ -50,6 +49,11 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 以帳號密碼驗證使用者
+        /// </summary>
+        /// <param name="signinReq"></param>
+        /// <returns></returns>
         public async Task<UserRsp> GetByUserIdAndUserKey(SigninReq signinReq)
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))

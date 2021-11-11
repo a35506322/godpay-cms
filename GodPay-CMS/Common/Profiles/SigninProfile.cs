@@ -5,9 +5,9 @@ using GodPay_CMS.Services.DTO;
 
 namespace GodPay_CMS.Common.Profiles
 {
-    public class SigninMapper : Profile
+    public class SigninProfile : Profile
     {
-        public SigninMapper()
+        public SigninProfile()
         {
             CreateMap<SigninViewModel, SigninReq>();
             CreateMap<User, UserRsp>();

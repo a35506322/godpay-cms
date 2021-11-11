@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Parameters\" />
-    <Folder Include="Services\Implements\" />
     <Folder Include="StaticFiles\Vue\Components\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>

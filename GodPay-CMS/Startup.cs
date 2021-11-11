@@ -1,17 +1,18 @@
 using GodPay_CMS.Common.Filiters;
+using GodPay_CMS.Repositories.Implements;
+using GodPay_CMS.Repositories.Interfaces;
+using GodPay_CMS.Services.Implements;
+using GodPay_CMS.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS
 {
@@ -29,9 +30,16 @@ namespace GodPay_CMS
             // Atuo mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            // Cookie Register
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
             // Repository
+            services.AddScoped<IRepostioryWrapper, RepostioryWrapper>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Service
+            services.AddScoped<IServiceWrapper, ServiceWrapper>();
+            services.AddScoped<ISigninService, SigninService>();
 
             // Bundle
             services.AddWebOptimizer(pipeline =>
@@ -54,7 +62,7 @@ namespace GodPay_CMS
                 );
             });
 
-            services.AddControllersWithViews(options => 
+            services.AddControllersWithViews(options =>
                     {
                         // 統一回傳ModelState
                         options.Filters.Add<ModelStateValidationFilter>();
@@ -72,7 +80,7 @@ namespace GodPay_CMS
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");              
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
@@ -91,6 +99,8 @@ namespace GodPay_CMS
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -15,7 +15,7 @@
                         <div class="mb-3">
                             <label for="account" class="form-label">Account</label>
                             <v-field type="text" id="account" class="form-control" name="account" placeholder="請輸入帳號"
-                                   v-model.trim="UserViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelState['UserId']}]"></v-field>
+                                     v-model.trim="UserViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelState['UserId']}]"></v-field>
                             <error-message name="account" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'UserId'"></server-error-message>
                         </div>
@@ -69,10 +69,15 @@
             SignIn: function () {
                 axios.post('@this.Url.Action("SignIn", "SigninOperate")', this.UserViewModel)
                     .then((response) => {
-                        const responseData = response.data;                   
+                        const responseData = response.data;
                         if(responseData.RtnCode === 1)
                         {
-
+                                    let baseURL = '';
+                                    @if (env.IsDevelopment())
+                                    {
+                                       @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
+                                    }
+                            window.location.href = `${baseURL}`;
                         }
                         else
                         {
