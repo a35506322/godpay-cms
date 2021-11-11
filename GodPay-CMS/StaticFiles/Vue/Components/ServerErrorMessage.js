@@ -2,14 +2,17 @@
     props:['attr'],
     data: function () {
         return {
-            errorMessage:''
+            errorMessages:[]
         }
     },
     mounted: function () {
         this.$emitter.on('ServerErrorMessages', modelState => {
-            console.log(modelState);
-            this.errorMessage = modelState[this.attr][0]
+            this.errorMessages = modelState[this.attr]
         })
     },
-    template: `<span role="alert" class="invalid-feedback">{{errorMessage}}</span>`
+    template: `
+                <template v-for="(errorMessage,index) in errorMessages" v-bind:key="'key'+index">
+                    <span role="alert" class="invalid-feedback">{{errorMessage}}</span>
+                </template>
+               `
 }
