@@ -14,7 +14,7 @@ namespace GodPay_CMS.Controllers
         public SigninOperateController(IMapper mapper, IServiceWrapper serviceWrapper)
         {
             _mapper = mapper;
-            _serviceWrapper = serviceWrapper;
+            _serviceWrapper = serviceWrapper;      
         }
 
         [HttpPost]
