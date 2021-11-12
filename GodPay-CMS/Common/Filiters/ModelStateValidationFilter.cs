@@ -1,11 +1,8 @@
-﻿using GodPay_CMS.Common.Helpers;
+﻿using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Common.Filiters
 {
@@ -17,7 +14,7 @@ namespace GodPay_CMS.Common.Filiters
             ResponseViewModel<string> responseViewModel = new ResponseViewModel<string>();
             if (!context.ModelState.IsValid)
             {
-                responseViewModel.RtnCode = Enums.ReturnCodeEnum.Fail;
+                responseViewModel.RtnCode = ReturnCodeEnum.AuthenticationFail;
                 responseViewModel.RtnMessage = "Server驗證失敗";
                 responseViewModel.RtnData = context.ModelState.GetModelStateHelper();
                 context.Result = new OkObjectResult(responseViewModel);

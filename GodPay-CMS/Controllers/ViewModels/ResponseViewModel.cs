@@ -14,7 +14,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 回傳狀態碼
         /// </summary>
-        public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Success;
+        public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Ok;
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>
@@ -31,7 +31,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 回傳狀態碼
         /// </summary>
-        public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Success;
+        public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Ok;
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>

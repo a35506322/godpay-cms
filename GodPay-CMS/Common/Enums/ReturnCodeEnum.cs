@@ -11,12 +11,16 @@ namespace GodPay_CMS.Common.Enums
     /// </summary>
     public enum ReturnCodeEnum
     {
-        /// <summary>回應失敗</summary>
-        [Description("失敗")]
-        Fail = 0,
-
         /// <summary>回應成功</summary>
         [Description("成功")]
-        Success = 1,
+        Ok = 200,
+
+        /// <summary>驗證失敗</summary>
+        [Description("驗證失敗")]
+        AuthenticationFail = 401,
+
+        /// <summary>登入失敗</summary>
+        [Description("登入失敗")]
+        LoginFail = 402,
     }
 }
