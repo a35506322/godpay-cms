@@ -69,7 +69,7 @@ namespace GodPay_CMS
                         options.Filters.Add<ModelStateValidationFilter>();
 
                         // 和CSRF資安有關，在這裡加入全域驗證範圍Filter，Controller就不必再加上[AutoValidateAntiforgeryToken]屬性
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                        //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     })
                     // 預設都會回傳開頭小寫的屬性,此為取消Json.Text的設定
                     // 巨雷千萬要用axios傳你要用NewtonsoftJson，千萬別用內建的會有問題
