@@ -6,7 +6,7 @@ using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -32,7 +32,13 @@ namespace GodPay_CMS
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Cookie Register
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            {
+                option.LoginPath = new PathString("/Signin");
+                option.LogoutPath = new PathString("/SigninOperate/SignOut");
+                option.AccessDeniedPath = new PathString("");
+                option.ReturnUrlParameter = "ret";
+            });
 
             // Repository
             services.AddScoped<IRepostioryWrapper, RepostioryWrapper>();
@@ -103,6 +109,16 @@ namespace GodPay_CMS
             });
 
             app.UseRouting();
+
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+                HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always,
+                Secure = CookieSecurePolicy.None,
+            };
+
+            app.UseCookiePolicy(cookiePolicyOptions);
+
 
             app.UseAuthentication();
 

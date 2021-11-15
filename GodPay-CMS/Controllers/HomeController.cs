@@ -1,24 +1,22 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    [ResponseCache(NoStore = true)]
     public class HomeController : Controller
     {
         public HomeController()
         {
-            
+
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View("Index","Hello MVC");
+            return View("Index", "Hello MVC");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
