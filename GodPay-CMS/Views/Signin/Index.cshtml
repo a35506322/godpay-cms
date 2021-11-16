@@ -51,7 +51,6 @@
 @section Vue
 {
     import ServerErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
-
     const app = Vue.createApp({
         components: {
             ServerErrorMessage
@@ -70,6 +69,7 @@
                 try {
                     axios.post('@this.Url.Action("SignIn", "SigninOperate")', this.UserViewModel)
                         .then((response) => {
+                            console.log(response);
                             const responseData = response.data;
                             switch (responseData.RtnCode) {
                                 case 200:
@@ -85,20 +85,22 @@
                                     this.$emitter.emit('ServerErrorMessages', this.modelState);
                                     break;
                                 case 402:
-                                    alert('帳號密碼錯誤');
+                                    const globalMessage = { title: responseData.RtnMessage , status:'danger', message:'帳號密碼錯誤'}
+                                    this.$emitter.emit('GlobalMessage', globalMessage)
                                     break;
                                 default:
                                     throw new Error('代碼有誤');
                                     break;
-                            }
-                            console.log(response);
+                            }                         
                         })
                         .catch((error) => {
                             alert('登入狀況有誤，請洽詢相關人員');
-                            console.log(error);
+                            throw new Error(error);
                         })
                 }
                 catch (exception) {
+                    // 存入log
+                    // 導去錯誤頁面
                     console.log(exception);
                 }
 

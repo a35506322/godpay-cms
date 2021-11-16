@@ -11,7 +11,7 @@
         }
     </style>
 </head>
-<body class="position-relative">
+<body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 position-absolute top-0 w-100">
             <div class="container">
@@ -19,10 +19,10 @@
             </div>
         </nav>
     </header>
-    <main id="app">
+    <main id="app" class="position-relative">
         @RenderBody()
+        <message-push></message-push>
     </main>
-
 
     <!--vue-->
     @if (env.IsDevelopment())
@@ -78,6 +78,8 @@
         }
 
         // 全域註冊Component
+        import messagePush from '/StaticFiles/Vue/Components/MessagePush.js'
+        app.component('messagePush', messagePush);
         app.component('VForm', VeeValidate.Form);
         app.component('VField', VeeValidate.Field);
         app.component('ErrorMessage', VeeValidate.ErrorMessage);

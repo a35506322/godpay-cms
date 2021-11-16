@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Parameters\" />
-    <Folder Include="StaticFiles\Vue\Components\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
