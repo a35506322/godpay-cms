@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -22,8 +24,13 @@ namespace GodPay_CMS.Controllers
             _serviceWrapper = serviceWrapper;
         }
 
+        /// <summary>
+        /// 登入
+        /// </summary>
+        /// <param name="signinViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> SignIn([FromBody] SigninViewModel signinViewModel, string url)
+        public async Task<IActionResult> SignIn([FromBody] SigninViewModel signinViewModel)
         {
             var signinReq = _mapper.Map<SigninReq>(signinViewModel);
 
@@ -32,12 +39,18 @@ namespace GodPay_CMS.Controllers
             if (result.RtnCode == ReturnCodeEnum.Ok)
             {
                 UserRsp data = (UserRsp)result.RtnData;
-                Claim[] claims = new[]
+
+                var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,data.UserId),
+                    new Claim(ClaimTypes.Name,data.UserId)
                 };
+
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                AuthenticationProperties authProperties = new AuthenticationProperties { };
+                AuthenticationProperties authProperties = new AuthenticationProperties 
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
+                    IsPersistent = true,
+                };
                 await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
             }
             return Ok(result);
