@@ -40,6 +40,9 @@ namespace GodPay_CMS
                 option.ReturnUrlParameter = "ret";
             });
 
+            // HttpContext
+            services.AddHttpContextAccessor();
+
             // Repository
             services.AddScoped<IRepostioryWrapper, RepostioryWrapper>();
             services.AddScoped<IUserRepository, UserRepository>();

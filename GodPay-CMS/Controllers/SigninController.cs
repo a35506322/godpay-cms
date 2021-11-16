@@ -11,7 +11,6 @@ namespace GodPay_CMS.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "Sign In";
-            ViewData["Path"] = Request.Path;
             return View();
         }
     }

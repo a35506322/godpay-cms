@@ -1,5 +1,5 @@
 ﻿@{
-    string path = ViewData["Path"]  is  null ?   string.Empty :  ViewData["Path"].ToString();
+    string path = httpContextAccessor.HttpContext.Request.Path;
     switch (path)
     {
         case "/Signin":
