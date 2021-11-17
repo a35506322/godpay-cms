@@ -11,6 +11,7 @@ export default {
     mounted: function () {
         this.$emitter.on('GlobalMessage', globalMessage => {
             let { title = '', status = 'success', message = '' } = globalMessage;
+            status = this.$common.ChangeReturnCode(status)
             this.globalMessages.push({ title, status, message });
         })
     },

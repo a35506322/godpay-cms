@@ -3,4 +3,9 @@
     border-color: #198754;
 }
 
+.form-control:focus {
+    border-color: #139a74;
+    box-shadow: 0 0 0 0.25rem rgb(19 154 116 / 25%);
+}
+
 

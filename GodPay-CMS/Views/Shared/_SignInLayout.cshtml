@@ -71,10 +71,11 @@
 
         // 全域註冊vue method
         const emitter = mitt();
-        import { CheckValueOfObjectIsNotEmpty } from '/StaticFiles/Vue/Methods/Common.js'
+        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '/StaticFiles/Vue/Methods/Common.js'
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
-            CheckValueOfObjectIsNotEmpty
+            CheckValueOfObjectIsNotEmpty,
+            ChangeReturnCode
         }
 
         // 全域註冊Component

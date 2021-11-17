@@ -21,7 +21,7 @@ namespace GodPay_CMS.Services.Implements
             var result = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(signinReq);
 
             if (result == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData="帳號密碼錯誤" };
 
             return new ResponseViewModel() { RtnData = result };
         }

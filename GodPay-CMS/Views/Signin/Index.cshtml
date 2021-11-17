@@ -87,7 +87,7 @@
                                     this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                     break;
                                 case 402:
-                                    const globalMessage = { title: responseData.RtnMessage , status:'danger', message:'帳號密碼錯誤'}
+                                    const globalMessage = { title: responseData.RtnMessage, status: responseData.RtnCode, message: responseData.RtnData}
                                     this.$emitter.emit('GlobalMessage', globalMessage)
                                     break;
                                 default:
