@@ -19,6 +19,6 @@ namespace GodPay_CMS.Common.Enums
 
         /// <summary>特店人員</summary>
         [Description("特店人員")]
-        Attachment = 3,
+        Personnel = 3,
     }
 }
