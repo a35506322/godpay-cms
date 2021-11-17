@@ -9,8 +9,8 @@ export default {
         }
     },
     mounted: function () {
-        this.$emitter.on('GlobalMessage', request => {
-            let { title = '', status = 'success', message = '' } = request;
+        this.$emitter.on('GlobalMessage', globalMessage => {
+            let { title = '', status = 'success', message = '' } = globalMessage;
             this.globalMessages.push({ title, status, message });
         })
     },

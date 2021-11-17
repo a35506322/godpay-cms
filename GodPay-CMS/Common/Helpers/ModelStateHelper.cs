@@ -8,6 +8,11 @@ namespace GodPay_CMS.Common.Helpers
 {
     public static class ModelStateHelper
     {
+        /// <summary>
+        /// 轉換物件(ModelStateError)
+        /// </summary>
+        /// <param name="ModelState"></param>
+        /// <returns></returns>
         public static string GetModelStateHelper(this ModelStateDictionary ModelState)
         {
             IEnumerable<KeyValuePair<string, string[]>> errors = ModelState.IsValid ? null :

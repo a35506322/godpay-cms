@@ -12,7 +12,10 @@ namespace GodPay_CMS.Controllers
         {
 
         }
-
+        /// <summary>
+        /// GodPay首頁
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public IActionResult Index()
         {

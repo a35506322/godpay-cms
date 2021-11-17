@@ -5,6 +5,12 @@ namespace GodPay_CMS.Common.Util
 {
     public static class RNGCrypto
     {
+        /// <summary>
+        /// 雜湊HMACSHA256
+        /// </summary>
+        /// <param name="message">訊息</param>
+        /// <param name="key">金鑰</param>
+        /// <returns></returns>
         public static string HMACSHA256(string message, string key)
         {
             var encoding = new System.Text.UTF8Encoding();

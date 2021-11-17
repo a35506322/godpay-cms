@@ -9,6 +9,11 @@ namespace GodPay_CMS.Services.Interfaces
 {
     public interface ISigninService
     {
+        /// <summary>
+        /// 登入
+        /// </summary>
+        /// <param name="signinReq"></param>
+        /// <returns></returns>
         public Task<ResponseViewModel> SigninUser(SigninReq signinReq);
     }
 }
