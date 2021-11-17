@@ -4,23 +4,22 @@
 	2. 名稱大駝峰
 	3. 參數小駝峰
 	4. 例如:GetProductAsync
-	
+ <br>
 2. Class 命名
 	1. 名稱大寫 例如Class Product
 	2. 屬性名稱，大駝峰
-	
+ <br>
 3. 變數 命名
 	1. 動詞在前,副詞在後
 	2. 小駝峰 例如getProduct
 	3. 不能寫magic number,除了lumbda以及迴圈系列
-
+ <br>
 4. 建構子 命名
 	1. 參數小駝峰
 	2. 變數"_"+小駝峰
-
+ <br>
 4. 與前端溝通物件(Ex:Session) 命名
 
-	
 ## C#縮寫
 | 英文全名  |  縮寫 |
 | ------------ | ------------ |
@@ -32,20 +31,20 @@
 	2. 名稱大駝峰
 	3. 參數小駝峰
 	4. 例如:GetProductAsync
-	
+<br>
 2. Class 命名
 	1. 名稱大寫 例如Class Product
 	2. 屬性名稱，大駝峰
-	
+<br>
 3. 變數 命名
 	1. 動詞在前,副詞在後
 	2. 小駝峰 例如getProduct
 	3. 不能寫magic number,除了lumbda,for迴圈
-
+<br>
 4. 建構子 命名
 	1. 參數大駝峰
 	2. 變數"_"+小駝峰
-
+<br>
 5. 型別使用
 	1. var 只用使用在全域
 	2. let 涵式內
