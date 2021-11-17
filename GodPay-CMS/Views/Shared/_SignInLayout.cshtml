@@ -80,9 +80,9 @@
         // 全域註冊Component
         import messagePush from '/StaticFiles/Vue/Components/MessagePush.js'
         app.component('messagePush', messagePush);
-        app.component('VForm', VeeValidate.Form);
-        app.component('VField', VeeValidate.Field);
-        app.component('ErrorMessage', VeeValidate.ErrorMessage);
+        app.component('vForm', VeeValidate.Form);
+        app.component('vField', VeeValidate.Field);
+        app.component('errorMessage', VeeValidate.ErrorMessage);
 
         // 驗證規則
         Object.keys(VeeValidateRules).forEach(rule => {

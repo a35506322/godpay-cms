@@ -1,6 +1,6 @@
-﻿export function CheckValueOfObjectIsNotEmpty(values) {
-    for (let key in values) {
-        if (values[key] === '') {
+﻿export function CheckValueOfObjectIsNotEmpty(object) {
+    for (let key in object) {
+        if (object[key] === '') {
             return false;
         }
     }

@@ -10,10 +10,10 @@
             delay : 10000
         }
         this.toast = new bootstrap.Toast(this.$refs.globalMessage, option);
-        this.show();
+        this.Show();
     },
     methods: {
-        show: function () {
+        Show: function () {
             this.toast.show();
         }
     },

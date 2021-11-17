@@ -6,8 +6,8 @@
         }
     },
     mounted: function () {
-        this.$emitter.on('ServerErrorMessages', modelState => {
-            this.errorMessages = modelState[this.attr]
+        this.$emitter.on('ServerErrorMessages', modelStateError => {
+            this.errorMessages = modelStateError[this.attr]
         })
     },
     template: `

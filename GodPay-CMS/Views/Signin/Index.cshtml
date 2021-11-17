@@ -15,7 +15,7 @@
                         <div class="mb-3">
                             <label for="account" class="form-label">Account</label>
                             <v-field type="text" id="account" class="form-control" name="account" placeholder="請輸入帳號"
-                                     v-model.trim="UserViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelState['UserId']}]"></v-field>
+                                     v-model.trim="signinViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelStateError['UserId']}]"></v-field>
                             <error-message name="account" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'UserId'"></server-error-message>
                         </div>
@@ -23,7 +23,7 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <v-field type="password" id="password" class="form-control" name="password" placeholder="請輸入密碼"
-                                     v-model.trim="UserViewModel.UserKey" rules="required" v-bind:class="[{'is-invalid':errors['password']||modelState['UserKey']}]"></v-field>
+                                     v-model.trim="signinViewModel.UserKey" rules="required" v-bind:class="[{'is-invalid':errors['password']||modelStateError['UserKey']}]"></v-field>
                             <error-message name="password" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'UserKey'"></server-error-message>
                         </div>
@@ -50,15 +50,15 @@
 <script type="text/javascript">
 @section Vue
 {
-    import ServerErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
+    import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
     const app = Vue.createApp({
         components: {
-            ServerErrorMessage
+            serverErrorMessage
         },
         data: function () {
             return {
-                modelState: {},
-                UserViewModel: {
+                modelStateError: {},
+                signinViewModel: {
                     UserId: '',
                     UserKey:''
                 }
@@ -67,7 +67,7 @@
         methods: {
             SignIn: function () {
                 try {
-                    axios.post('@this.Url.Action("SignIn", "SigninOperate")', this.UserViewModel)
+                    axios.post('@this.Url.Action("SignIn", "SigninOperate")', this.signinViewModel)
                         .then((response) => {
                             console.log(response);
                             const responseData = response.data;
@@ -81,8 +81,10 @@
                                     window.location.href = `${baseURL}`;
                                     break;
                                 case 401:
-                                    this.modelState = JSON.parse(responseData.RtnData);
-                                    this.$emitter.emit('ServerErrorMessages', this.modelState);
+                                    if (typeof(responseData.RtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.RtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                     break;
                                 case 402:
                                     const globalMessage = { title: responseData.RtnMessage , status:'danger', message:'帳號密碼錯誤'}
