@@ -26,6 +26,5 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = result };
         }
 
-
     }
 }

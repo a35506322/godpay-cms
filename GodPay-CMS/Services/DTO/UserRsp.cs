@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GodPay_CMS.Common.Enums;
+using System;
 
 namespace GodPay_CMS.Services.DTO
 {
@@ -22,7 +23,7 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 角色
         /// </summary>
-        public int Role { get; set; }
+        public RoleEnum Role { get; set; }
         /// <summary>
         /// 權限總數
         /// </summary>
