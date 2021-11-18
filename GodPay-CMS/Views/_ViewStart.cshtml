@@ -1,8 +1,8 @@
 ﻿@{
-    string path = httpContextAccessor.HttpContext.Request.Path;
-    switch (path)
+    string controller = httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string;
+    switch (controller)
     {
-        case "/Signin":
+        case "Signin":
             Layout = "_SignInLayout";
             break;
         default:
