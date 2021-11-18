@@ -22,7 +22,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 回傳狀態資料
         /// </summary>
-        public object RtnData { get; set; }
+        public object RtnData { get; set; } = default(object);
     }
 
     /// <typeparam name="T">回傳資料型態</typeparam>

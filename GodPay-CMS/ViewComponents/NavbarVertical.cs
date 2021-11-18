@@ -24,15 +24,14 @@ namespace GodPay_CMS.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var role = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(claim => claim.Type == ClaimTypes.Role).Value;
-            if (role != RoleEnum.Admin.ToString())
+            var response = await _authorityService.GetListOfFunctions();
+            if (response.RtnCode == ReturnCodeEnum.Ok)
             {
-                return View("NavbarVertical", "權限不足");
-            }
-            else
-            {
-                var response = await _authorityService.GetListOfFunctions();
                 return View("NavbarVertical", response.RtnData as IEnumerable<FunctionListViewModel>);
+            }
+            else 
+            {
+                return View("NavbarVertical", new List<FunctionListViewModel>());
             }
         }
     }
