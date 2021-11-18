@@ -22,5 +22,9 @@ namespace GodPay_CMS.Common.Enums
         /// <summary>登入失敗</summary>
         [Description("登入失敗")]
         LoginFail = 402,
+
+        /// <summary>Get資料失敗</summary>
+        [Description("Get資料失敗")]
+        GetFail = 403,
     }
 }
