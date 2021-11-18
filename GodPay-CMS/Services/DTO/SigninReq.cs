@@ -19,6 +19,6 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 帳號啟用狀態
         /// </summary>
-        public AccountStatusEnum Status { get; set; } = AccountStatusEnum.AccountSuccess;
+        public AccountStatusEnum Status { get; set; } = AccountStatusEnum.Activate;
     }
 }
