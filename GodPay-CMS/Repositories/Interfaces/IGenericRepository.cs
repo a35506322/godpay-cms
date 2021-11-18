@@ -11,7 +11,7 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// 查詢全部資料
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<T>>  GetAll();
+        public Task<IEnumerable<T>> GetAll();
         /// <summary>
         /// 新增
         /// </summary>
