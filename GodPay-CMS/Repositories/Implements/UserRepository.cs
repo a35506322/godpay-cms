@@ -23,7 +23,7 @@ namespace GodPay_CMS.Repositories.Implements
             _mapper = mapper;
         }
 
-        public Task<bool> Add(User model)
+        public Task<bool> Add(UserRsp model)
         {
             throw new NotImplementedException();
         }
@@ -33,17 +33,16 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAll()
+        public Task<IEnumerable<UserRsp>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> GetById(int id)
+        public Task<UserRsp> GetById(int id)
         {
             throw new NotImplementedException();
         }
-
-        public Task<bool> Update(User mdoel)
+        public Task<bool> Update(UserRsp mdoel)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +56,10 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-                string sql = @"SELECT * FROM [dbo].[User] WHERE UserId = @UserId AND UserKey = @UserKey ";
+                string sql = @"SELECT * FROM [dbo].[User] 
+                               WHERE UserId = @UserId 
+                               AND UserKey  = @UserKey
+                               AND Status   = @Status";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, signinReq);
 
                 if (entity == null)
@@ -68,5 +70,6 @@ namespace GodPay_CMS.Repositories.Implements
                 return userRsp;
             }
         }
+
     }
 }

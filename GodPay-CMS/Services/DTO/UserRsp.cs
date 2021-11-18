@@ -31,7 +31,7 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 目前狀態
         /// </summary>
-        public int Status { get; set; }
+        public AccountStatusEnum Status { get; set; }
         /// <summary>
         /// 創造時間
         /// </summary>

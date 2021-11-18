@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<User>, IGenericRepositoryById<User, int>
+    public interface IUserRepository : IGenericRepository<UserRsp>, IGenericRepositoryById<UserRsp, int>
     {
         /// <summary>
         /// 查詢使用者帳號密碼
