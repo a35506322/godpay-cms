@@ -1,4 +1,8 @@
-﻿<div class="container d-flex flex-column">
+﻿@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container d-flex flex-column">
     <div class="row align-items-center justify-content-center g-0 min-vh-100">
         <div class="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">
             <!-- Card -->
@@ -93,7 +97,7 @@
                                 default:
                                     throw new Error('代碼有誤');
                                     break;
-                            }                         
+                            }
                         })
                         .catch((error) => {
                             alert('登入狀況有誤，請洽詢相關人員');

@@ -13,8 +13,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
-        {
-            ViewData["Title"] = "Sign In";
+        {            
             return View();
         }
     }

@@ -19,7 +19,7 @@ namespace GodPay_CMS.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View("Index", "Hello MVC");
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
