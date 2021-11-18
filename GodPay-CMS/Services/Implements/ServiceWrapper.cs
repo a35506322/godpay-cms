@@ -8,11 +8,15 @@ namespace GodPay_CMS.Services.Implements
 {
     public class ServiceWrapper : IServiceWrapper
     {
-        public readonly ISigninService _signinService;
-        public ServiceWrapper(ISigninService signinService)
+        private readonly ISigninService _signinService;
+        private readonly IAuthorityService _authorityService;
+        public ServiceWrapper(ISigninService signinService, IAuthorityService authorityService)
         {
             _signinService = signinService;
+            _authorityService = authorityService;
         }
         public ISigninService signinService => _signinService;
+
+        public IAuthorityService authorityService => _authorityService;
     }
 }
