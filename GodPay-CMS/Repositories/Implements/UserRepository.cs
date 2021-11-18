@@ -78,7 +78,7 @@ namespace GodPay_CMS.Repositories.Implements
         /// <returns></returns>
         public async Task<UserRsp> GetByUserId(string userId)
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("UBSEC_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
                 string sql = @"SELECT * FROM [dbo].[User] WHERE UserId = @UserId";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, new { UserId = userId });
