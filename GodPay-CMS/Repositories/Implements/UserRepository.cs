@@ -71,5 +71,25 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
+        /// <summary>
+        /// 以帳號取得使用者資訊
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<UserRsp> GetByUserId(string userId)
+        {
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("UBSEC_Conn")))
+            {
+                string sql = @"SELECT * FROM [dbo].[User] WHERE UserId = @UserId";
+                var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, new { UserId = userId });
+
+                if (entity == null)
+                    return null;
+
+                var userRsp = _mapper.Map<UserRsp>(entity);
+
+                return userRsp;
+            }
+        }
     }
 }

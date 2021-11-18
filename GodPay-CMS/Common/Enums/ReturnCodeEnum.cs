@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace GodPay_CMS.Common.Enums
 {
@@ -26,5 +22,9 @@ namespace GodPay_CMS.Common.Enums
         /// <summary>Get資料失敗</summary>
         [Description("Get資料失敗")]
         GetFail = 403,
+
+        /// <summary>查無資料</summary>
+        [Description("查無資料")]
+        NotFound = 404,
     }
 }

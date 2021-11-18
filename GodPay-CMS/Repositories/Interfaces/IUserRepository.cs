@@ -1,5 +1,4 @@
-﻿using GodPay_CMS.Repositories.Entity;
-using GodPay_CMS.Services.DTO;
+﻿using GodPay_CMS.Services.DTO;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
@@ -12,5 +11,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="signinReq"></param>
         /// <returns></returns>
         public Task<UserRsp> GetByUserIdAndUserKey(SigninReq signinReq);
+        public Task<UserRsp> GetByUserId(string userId);
     }
 }
