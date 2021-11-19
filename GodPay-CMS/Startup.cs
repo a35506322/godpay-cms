@@ -54,6 +54,7 @@ namespace GodPay_CMS
             services.AddScoped<IServiceWrapper, ServiceWrapper>();
             services.AddScoped<ISigninService, SigninService>();
             services.AddScoped<IAuthorityService, AuthorityService>();
+            services.AddScoped<IUserService, UserService>();
 
             // Bundle
             services.AddWebOptimizer(pipeline =>
@@ -83,7 +84,7 @@ namespace GodPay_CMS
                     })
                     // 預設都會回傳開頭小寫的屬性,此為取消Json.Text的設定
                     // 巨雷千萬要用axios傳你要用NewtonsoftJson，千萬別用內建的會有問題
-                    .AddNewtonsoftJson(options => 
+                    .AddNewtonsoftJson(options =>
                     {
                         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                     });
