@@ -103,7 +103,7 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sql = @" UPDATE [dbo].[User] 
                                 SET Email = @Email, 
-                                    LastModifier = @ModifierId,
+                                    LastModifier = (select Uid from [dbo].[User] where UserId= @ModifierId),
                                     LastModifyDate = GETDATE()
                                 WHERE UserId = @UserId";
 
