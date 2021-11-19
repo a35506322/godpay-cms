@@ -91,5 +91,25 @@ namespace GodPay_CMS.Repositories.Implements
                 return userRsp;
             }
         }
+
+        /// <summary>
+        /// 變更使用者資訊
+        /// </summary>
+        /// <param name="updateUserReq"></param>
+        /// <returns></returns>
+        public async Task<int> UpdateUser(UpdateUserReq updateUserReq)
+        {
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @" UPDATE [dbo].[User] 
+                                SET Email = @Email, 
+                                    LastModifier = @ModifierId,
+                                    LastModifyDate = GETDATE()
+                                WHERE UserId = @UserId";
+
+                var entity = await _connection.ExecuteAsync(sql, updateUserReq);
+                return entity;
+            }
+        }
     }
 }

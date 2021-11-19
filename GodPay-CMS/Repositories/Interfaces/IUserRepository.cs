@@ -12,5 +12,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <returns></returns>
         public Task<UserRsp> GetByUserIdAndUserKey(SigninReq signinReq);
         public Task<UserRsp> GetByUserId(string userId);
+        public Task<int> UpdateUser(UpdateUserReq updateUserReq);
     }
 }
