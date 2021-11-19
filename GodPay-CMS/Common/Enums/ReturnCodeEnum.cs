@@ -19,12 +19,16 @@ namespace GodPay_CMS.Common.Enums
         [Description("登入失敗")]
         LoginFail = 402,
 
-        /// <summary>Get資料失敗</summary>
-        [Description("Get資料失敗")]
+        /// <summary>取得資料失敗</summary>
+        [Description("取得資料失敗")]
         GetFail = 403,
 
         /// <summary>查無資料</summary>
         [Description("查無資料")]
         NotFound = 404,
+
+        /// <summary>執行失敗</summary>
+        [Description("執行失敗")]
+        ExecutionFail = 417,
     }
 }
