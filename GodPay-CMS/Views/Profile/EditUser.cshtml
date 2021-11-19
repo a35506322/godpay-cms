@@ -7,10 +7,10 @@
             <div class="card-body">
                 <div class="col-12 mb-10">
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-advanced me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="編輯基本資料">
+                        <button type="button" class="btn btn-outline-advanced me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="編輯基本資料" v-on:click="OpenEditUserModal">
                             <i class="bi bi-pencil-square fs-4"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="變更密碼">
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="變更密碼" v-on:click="OpenChangePasswordModal">
                             <i class="bi bi-gear-fill fs-4"></i>
                         </button>              
                     </div>
@@ -84,22 +84,39 @@
         </div>
     </div>
 </div>
+<edit-user-modal ref="editUser"></edit-user-modal>
+<change-password-modal ref="changePassword"></change-password-modal>
 
 <script type="text/javascript">
-    @section Vue 
+    @section Vue
     {
+    import editUserModal from '/StaticFiles/Vue/Components/EditUserModal.js'
+    import changePasswordModal from '/StaticFiles/Vue/Components/ChangePasswordModal.js'
+
         const app = Vue.createApp({
+            components: {
+                editUserModal,
+                changePasswordModal
+            },
             data: function () {
                 return {
-                    message: 'hello edit user',
                     tooltipList:[]
                 }
             },
             mounted: function () {
+                // tooltip
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
                 this.tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl)
                 })
+            },
+            methods: {
+                OpenEditUserModal: function () {
+                    this.$refs.editUser.Show();
+                },
+                OpenChangePasswordModal: function () {
+                    this.$refs.changePassword.Show();
+                },
             }
         })
     }
