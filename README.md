@@ -30,6 +30,7 @@
 | 英文全名 | 縮寫 |
 | -------- | ---- |
 |     Funtion     |   Fun   |
+|     Password     |   Key   |
 
 ## JavaScript 寫作風格
 
