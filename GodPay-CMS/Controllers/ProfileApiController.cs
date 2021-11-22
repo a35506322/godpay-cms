@@ -21,7 +21,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="userId">使用者帳號</param>
         /// <returns></returns>
-        public async Task<IActionResult> Get([FromBody] string userId)
+        public async Task<IActionResult> Get([FromQuery] string userId)
         {
             var result = await _serviceWrapper.userService.GetUserByUserId(userId);
             return Ok(result);

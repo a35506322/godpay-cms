@@ -23,7 +23,7 @@ namespace GodPay_CMS.Services.Implements
         {
             var user = await _repostioryWrapper.userRepository.GetByUserId(userId);
 
-            var userRsp = _mapper.Map<UserRsp>(user);
+            var userRsp = _mapper.Map<UserFilterRsp>(user);
 
             if (userRsp == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };

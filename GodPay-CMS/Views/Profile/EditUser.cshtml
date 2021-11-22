@@ -12,7 +12,7 @@
                         </button>
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="變更密碼" v-on:click="OpenChangePasswordModal">
                             <i class="bi bi-gear-fill fs-4"></i>
-                        </button>              
+                        </button>
                     </div>
                 </div>
                 <div class="col-12">
@@ -30,7 +30,7 @@
                                     <div class="mb-3 row">
                                         <label for="staticEmail" class="col-sm-2 col-form-label">帳號</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="test">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" v-bind:value="user.UserId">
                                         </div>
                                     </div>
                                 </td>
@@ -38,9 +38,9 @@
                             <tr>
                                 <td>
                                     <div class="mb-3 row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                                        <label class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                                            <input type="email" readonly class="form-control-plaintext" v-bind:value="user.Email">
                                         </div>
                                     </div>
                                 </td>
@@ -48,9 +48,9 @@
                             <tr>
                                 <td>
                                     <div class="mb-3 row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                                        <label class="col-sm-2 col-form-label">權限</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                                            <input type="email" readonly class="form-control-plaintext" value="Admin">
                                         </div>
                                     </div>
                                 </td>
@@ -58,27 +58,17 @@
                             <tr>
                                 <td>
                                     <div class="mb-3 row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">權限</label>
+                                        <label class="col-sm-2 col-form-label">狀態</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext" id="staticEmail" value="Admin">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="mb-3 row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">狀態</label>
-                                        <div class="col-sm-10">
-                                            <span class="badge bg-success fs-5">啟用</span>
-                                            <span class="badge bg-danger fs-5">註銷</span>
-                                            <span class="badge bg-warning text-dark fs-5">驗證中</span>
+                                            <span v-if="user.Status==''帳號啟用中" class="badge bg-success fs-5">{{user.Status}}</span>
+                                            <span v-else-if="user.Status==''帳號尚未開通" class="badge bg-danger fs-5">{{user.Status}}</span>
+                                            <span v-else class="badge bg-warning text-dark fs-5">{{user.Status}}</span>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
-                    </table>                
+                    </table>
                 </div>
             </div>
         </div>
@@ -100,8 +90,15 @@
             },
             data: function () {
                 return {
-                    tooltipList:[]
+                    tooltipList: [],
+                    user: {
+                        UserId: '',
+                        Email: ''
+                    }
                 }
+            },
+            created: function () {
+                this.user = this.GetUserById();
             },
             mounted: function () {
                 // tooltip
@@ -117,6 +114,35 @@
                 OpenChangePasswordModal: function () {
                     this.$refs.changePassword.Show();
                 },
+                GetUserById: function () {
+                    const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
+                    try {
+                        axios.get('@Url.Action("Get", "ProfileApi")', {
+                            params: {
+                                userId: Id
+                            }})
+                            .then((response) => {
+                                console.log(this);
+                                console.log(response);
+                                const data = response.data;
+                                const code = data.RtnCode;
+                                switch (code) {
+                                    case 200:
+                                        this.user = data.RtnData;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            })
+                            .catch((error) => {
+                                alert('取得資料有誤');
+                                throw new Error(error);
+                            })
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+                }
             }
         })
     }
