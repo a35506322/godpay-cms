@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {
+    /// <summary>
+    /// 功能
+    /// </summary>
     public class FuncRsp
     {
         /// <summary>

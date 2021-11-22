@@ -24,6 +24,10 @@ namespace GodPay_CMS.Repositories.Entity
         /// </summary>
         public string UserKey { get; set; }
         /// <summary>
+        /// Email
+        /// </summary>
+        public string Email { get; set; }
+        /// <summary>
         /// 角色
         /// </summary>
         public int Role { get; set; }

@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 namespace GodPay_CMS.Services.DTO
 {
     /// <summary>
-    /// 功能類別
+    /// 功能類別(塞選)
     /// </summary>
-    public class FuncClassRsp
+    public class FuncClassFilterRsp
     {
-        /// <summary>
-        /// 功能類別代碼Code(PK)
-        /// </summary>
-        public string FuncClassCode { get; set; }
         /// <summary>
         /// 英文名子(controller)
         /// </summary>
@@ -25,6 +21,6 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 功能(多筆)
         /// </summary>
-        public List<FuncRsp> FuncRsps { get; set; }
+        public IEnumerable<FuncFilterRsp> Functions { get; set; }
     }
 }
