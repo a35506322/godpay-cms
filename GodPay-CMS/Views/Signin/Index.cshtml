@@ -19,7 +19,7 @@
                         <div class="mb-3">
                             <label for="account" class="form-label">Account</label>
                             <v-field type="text" id="account" class="form-control" name="account" placeholder="請輸入帳號"
-                                     v-model.trim="signinViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelStateError['UserId']}]"></v-field>
+                                     v-model.trim="SigninViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelStateError['UserId']}]"></v-field>
                             <error-message name="account" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'UserId'"></server-error-message>
                         </div>
@@ -27,7 +27,7 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <v-field type="password" id="password" class="form-control" name="password" placeholder="請輸入密碼"
-                                     v-model.trim="signinViewModel.UserKey" rules="required" v-bind:class="[{'is-invalid':errors['password']||modelStateError['UserKey']}]"></v-field>
+                                     v-model.trim="SigninViewModel.UserKey" rules="required" v-bind:class="[{'is-invalid':errors['password']||modelStateError['UserKey']}]"></v-field>
                             <error-message name="password" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'UserKey'"></server-error-message>
                         </div>
@@ -62,7 +62,7 @@
         data: function () {
             return {
                 modelStateError: {},
-                signinViewModel: {
+                SigninViewModel: {
                     UserId: '',
                     UserKey:''
                 }
@@ -71,7 +71,7 @@
         methods: {
             SignIn: function () {
                 try {
-                    axios.post('@this.Url.Action("SignIn", "SigninOperate")', this.signinViewModel)
+                    axios.post('@this.Url.Action("SignIn", "SigninOperate")', this.SigninViewModel)
                         .then((response) => {
                             console.log(response);
                             const responseData = response.data;

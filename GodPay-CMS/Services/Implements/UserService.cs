@@ -13,19 +13,22 @@ namespace GodPay_CMS.Services.Implements
         private readonly IMapper _mapper;
         private readonly IRepostioryWrapper _repostioryWrapper;
 
-        public UserService(IMapper mapper, IRepostioryWrapper repostioryWrapper)
+        public UserService(IRepostioryWrapper repostioryWrapper, IMapper mapper)
         {
-            _mapper = mapper;
             _repostioryWrapper = repostioryWrapper;
+            _mapper = mapper;
         }
 
-        public async Task<ResponseViewModel> GetUser(string userId)
+        public async Task<ResponseViewModel> GetUserByUserId(string userId)
         {
-            var result = await _repostioryWrapper.userRepository.GetByUserId(userId);
-            if (result == null)
+            var user = await _repostioryWrapper.userRepository.GetByUserId(userId);
+
+            var userRsp = _mapper.Map<UserRsp>(user);
+
+            if (userRsp == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
 
-            return new ResponseViewModel() { RtnData = result };
+            return new ResponseViewModel() { RtnData = userRsp };
         }
 
         public async Task<ResponseViewModel> UpdateUser(EditUserViewModel editUserViewModel)
@@ -47,5 +50,6 @@ namespace GodPay_CMS.Services.Implements
             var result = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.UserId);
             return new ResponseViewModel() { RtnData = result };
         }
+
     }
 }

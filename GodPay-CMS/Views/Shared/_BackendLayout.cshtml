@@ -12,11 +12,11 @@
         <vc:navbar-vertical></vc:navbar-vertical>
         <!-- Page content -->
         <div id="page-content">
-            <partial name="/Views/Frame/Header.cshtml" />
+            <vc:header></vc:header>
             <!-- Container fluid -->
             <main id="app">
                 @RenderBody()
-            </main>        
+            </main>
         </div>
     </div>
     <!--vue-->
@@ -85,7 +85,6 @@
             generateMessage: VeeValidateI18n.localize('zh_TW'),
             validateOnInput: true, // 調整為輸入字元立即進行驗證
         });
-
         app.mount('#app');
     </script>
 

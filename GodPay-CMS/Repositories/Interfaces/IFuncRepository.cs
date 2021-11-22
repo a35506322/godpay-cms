@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
 {
-    public interface IFuncRepository : IGenericRepository<FuncRsp>, IGenericRepositoryById<FuncRsp, int>
+    public interface IFuncRepository : IGenericRepository<Func>, IGenericRepositoryById<Func, int>
     {
-
-        public Task<IEnumerable<FuncRsp>> GetByFuncClassAndFunc();
+        /// <summary>
+        /// 取得功能列表(1對1)
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<Func>> GetByFuncClassAndFunc();
     }
 }

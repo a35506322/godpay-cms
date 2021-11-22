@@ -19,16 +19,14 @@ namespace GodPay_CMS.Repositories.Implements
     public class FuncRepository : IFuncRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-        public FuncRepository(IHttpContextAccessor httpContextAccessor, IMapper mapper, IConfiguration config)
+        public FuncRepository(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
             _httpContextAccessor = httpContextAccessor;
-            _mapper = mapper;
             _config = config;
         }
 
-        public Task<bool> Add(FuncRsp model)
+        public Task<bool> Add(Func model)
         {
             throw new NotImplementedException();
         }
@@ -38,46 +36,39 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<FuncRsp>> GetAll()
+        public Task<IEnumerable<Func>> GetAll()
         {
             throw new NotImplementedException();
         }
-        public Task<FuncRsp> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Update(FuncRsp mdoel)
+        public Task<Func> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 取得功能列表 (1對1)
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<FuncRsp>> GetByFuncClassAndFunc()
+        public Task<bool> Update(Func mdoel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Func>> GetByFuncClassAndFunc()
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-                var  Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
+                var Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
 
                 string sqlString = @"Select * 
                                     From [dbo].[Func] A
                                     Join [dbo].[FuncClass]	B on A.FuncClassCode = B.FuncClassCode
                                     Where A.Role = @Role ";
 
-                var funcs = await _connection.QueryAsync<Func,FuncClass,Func>(sqlString, (func,funcClass) =>
-                            {
-                                func.FuncClass = funcClass;
-                                return func;
-                            }, new { Role = Role }, splitOn: "FuncClassCode");
+                var funcs = await _connection.QueryAsync<Func, FuncClass, Func>(sqlString, (func, funcClass) =>
+                {
+                    func.FuncClass = funcClass;
+                    return func;
+                }, new { Role = Role }, splitOn: "FuncClassCode");
 
-                var funcRsp =_mapper.Map<IEnumerable<FuncRsp>>(funcs);
-
-                return funcRsp;
+                return funcs;
             }
         }
-
     }
 }

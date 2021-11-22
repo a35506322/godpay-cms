@@ -5,6 +5,7 @@ using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    [AllowAnonymous]
     public class SigninOperateController : Controller
     {
         private readonly IMapper _mapper;
@@ -32,9 +34,7 @@ namespace GodPay_CMS.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] SigninViewModel signinViewModel)
         {
-            var signinReq = _mapper.Map<SigninReq>(signinViewModel);
-
-            var result = await _serviceWrapper.signinService.SigninUser(signinReq);
+            var result = await _serviceWrapper.signinService.SigninUser(signinViewModel);
 
             if (result.RtnCode == ReturnCodeEnum.Ok)
             {
@@ -47,7 +47,7 @@ namespace GodPay_CMS.Controllers
                 };
 
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                AuthenticationProperties authProperties = new AuthenticationProperties 
+                AuthenticationProperties authProperties = new AuthenticationProperties
                 {
                     ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
                     IsPersistent = true,

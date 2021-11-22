@@ -1,4 +1,5 @@
-﻿using GodPay_CMS.Common.Enums;
+﻿using AutoMapper;
+using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -10,21 +11,26 @@ namespace GodPay_CMS.Services.Implements
     public class SigninService : ISigninService
     {
         private readonly IRepostioryWrapper _repostioryWrapper;
+        private readonly IMapper _mapper;
 
-        public SigninService(IRepostioryWrapper repostioryWrapper)
+        public SigninService(IRepostioryWrapper repostioryWrapper, IMapper mapper)
         {
             _repostioryWrapper = repostioryWrapper;
+            _mapper = mapper;
         }
 
-        public async Task<ResponseViewModel> SigninUser(SigninReq signinReq)
+        public async Task<ResponseViewModel> SigninUser(SigninViewModel signinViewModel)
         {
-            var result = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(signinReq);
+            var signinReq = _mapper.Map<SigninReq>(signinViewModel);
 
-            if (result == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData="帳號密碼錯誤" };
+            var user = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(signinReq);
 
-            return new ResponseViewModel() { RtnData = result };
+            var userRsp = _mapper.Map<UserRsp>(user);
+
+            if (userRsp == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData = "帳號密碼錯誤" };
+
+            return new ResponseViewModel() { RtnData = userRsp };
         }
-
     }
 }

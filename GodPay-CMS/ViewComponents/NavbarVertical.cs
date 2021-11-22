@@ -1,5 +1,4 @@
 ﻿using GodPay_CMS.Common.Enums;
-using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -27,11 +26,11 @@ namespace GodPay_CMS.ViewComponents
             var response = await _authorityService.GetListOfFunctions();
             if (response.RtnCode == ReturnCodeEnum.Ok)
             {
-                return View("NavbarVertical", response.RtnData as IEnumerable<FunctionListViewModel>);
+                return View("NavbarVertical", response.RtnData as IEnumerable<FuncClassFilterRsp>);
             }
-            else 
+            else
             {
-                return View("NavbarVertical", new List<FunctionListViewModel>());
+                return View("NavbarVertical", new List<FuncClassFilterRsp>());
             }
         }
     }

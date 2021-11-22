@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;

@@ -36,7 +36,8 @@ namespace GodPay_CMS
             {
                 option.LoginPath = new PathString("/Signin");
                 option.LogoutPath = new PathString("/SigninOperate/SignOut");
-                option.AccessDeniedPath = new PathString("");
+                // 無權限的時候，轉到此網址
+                option.AccessDeniedPath = new PathString("/Signin");
                 option.ReturnUrlParameter = "ret";
                 option.Cookie.Name = "ascc-gpb";
             });
@@ -52,9 +53,10 @@ namespace GodPay_CMS
 
             // Service
             services.AddScoped<IServiceWrapper, ServiceWrapper>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISigninService, SigninService>();
             services.AddScoped<IAuthorityService, AuthorityService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBusinessManagementService, BusinessManagementService>();
 
             // Bundle
             services.AddWebOptimizer(pipeline =>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Dapper;
+using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -15,15 +16,13 @@ namespace GodPay_CMS.Repositories.Implements
     public class UserRepository : IUserRepository
     {
         private readonly IConfiguration _config;
-        private readonly IMapper _mapper;
 
-        public UserRepository(IConfiguration config, IMapper mapper)
+        public UserRepository(IConfiguration config)
         {
             _config = config;
-            _mapper = mapper;
         }
 
-        public Task<bool> Add(UserRsp model)
+        public Task<bool> Add(User model)
         {
             throw new NotImplementedException();
         }
@@ -33,26 +32,22 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserRsp>> GetAll()
+        public Task<IEnumerable<User>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<UserRsp> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<bool> Update(UserRsp mdoel)
+        public Task<User> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 以帳號密碼驗證使用者
-        /// </summary>
-        /// <param name="signinReq"></param>
-        /// <returns></returns>
-        public async Task<UserRsp> GetByUserIdAndUserKey(SigninReq signinReq)
+        public Task<bool> Update(User mdoel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<User> GetByUserIdAndUserKey(SigninReq signinReq)
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
@@ -65,38 +60,40 @@ namespace GodPay_CMS.Repositories.Implements
                 if (entity == null)
                     return null;
 
-                var userRsp = _mapper.Map<UserRsp>(entity);
-
-                return userRsp;
+                return entity;
             }
         }
 
-        /// <summary>
-        /// 以帳號取得使用者資訊
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<UserRsp> GetByUserId(string userId)
+        public async Task<User> GetByUserId(string userId)
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-                string sql = @"SELECT * FROM [dbo].[User] WHERE UserId = @UserId";
+                string sql = @"SELECT * FROM [dbo].[User]
+                               WHERE UserId = @UserId";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, new { UserId = userId });
 
                 if (entity == null)
                     return null;
 
-                var userRsp = _mapper.Map<UserRsp>(entity);
-
-                return userRsp;
+                return entity;
             }
         }
 
-        /// <summary>
-        /// 變更使用者資訊
-        /// </summary>
-        /// <param name="updateUserReq"></param>
-        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetByRole(RoleEnum role)
+        {
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sqlString = @"SELECT * FROM [dbo].[User]
+                                     WHERE Role = @Role";
+                var users = await _connection.QueryAsync<User>(sqlString, new { Role = role });
+
+                if (users == null)
+                    return null;
+
+                return users;
+            }
+        }
+
         public async Task<int> UpdateUser(UpdateUserReq updateUserReq)
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))

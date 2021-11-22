@@ -1,12 +1,11 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
-using GodPay_CMS.Services.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
 {
+    /// <summary>
+    /// 登入伺服器
+    /// </summary>
     public interface ISigninService
     {
         /// <summary>
@@ -14,6 +13,6 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="signinReq"></param>
         /// <returns></returns>
-        public Task<ResponseViewModel> SigninUser(SigninReq signinReq);
+        public Task<ResponseViewModel> SigninUser(SigninViewModel signinViewModel);
     }
 }

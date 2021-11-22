@@ -1,4 +1,5 @@
-﻿using GodPay_CMS.Services.DTO;
+﻿using GodPay_CMS.Repositories.Entity;
+using GodPay_CMS.Services.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
 {
-    public interface IFuncClassRepository : IGenericRepository<FuncClassRsp>, IGenericRepositoryById<FuncClassRsp, string>
+    public interface IFuncClassRepository : IGenericRepository<FuncClass>, IGenericRepositoryById<FuncClass, string>
     {
-        public Task<IEnumerable<FuncClassRsp>> GetByFuncClassAndFunc();
+        /// <summary>
+        /// 取得功能列表(1對多)
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<FuncClass>> GetByFuncClassAndFunc();
     }
 }

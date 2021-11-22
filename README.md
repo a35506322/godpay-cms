@@ -1,6 +1,6 @@
 ## C#寫作風格
 
-1. Funtion 命名
+1. Function 命名
 
    1. 動詞在前,副詞在後
    2. 名稱大駝峰
@@ -29,12 +29,14 @@
 
 | 英文全名 | 縮寫 |
 | -------- | ---- |
-|     Funtion     |   Fun   |
-|     Password     |   Key   |
+| Function | Fun  |
+| Password | Key  |
+| Request  | Req  |
+| Response | Rsp  |
 
 ## JavaScript 寫作風格
 
-1. Funtion 命名
+1. Function 命名
 
    1. 動詞在前,副詞在後
    2. 名稱大駝峰
@@ -71,7 +73,7 @@
 
 ## Vue 寫作風格
 
-1. Option Funtion 命名
+1. Option Function 命名
 
 ```javascript
 data:function () {

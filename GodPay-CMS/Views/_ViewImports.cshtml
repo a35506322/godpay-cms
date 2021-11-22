@@ -1,9 +1,11 @@
 ﻿@using GodPay_CMS.Controllers.ViewModels
+@using GodPay_CMS.Services.DTO
 @using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Hosting;
 @using Microsoft.Extensions.Hosting;
 @using Microsoft.AspNetCore.Http;
 @using GodPay_CMS.ViewComponents
+@using System.Security.Claims;
 @inject IConfiguration Configuration
 @inject IWebHostEnvironment env
 @inject IHttpContextAccessor httpContextAccessor
