@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "業務列表";
+}
+<div class="row p-3">
+    <div class="col-12 vh-90" id="current">
+        <ag-grid-vue class="ag-theme-alpine w-100 h-100"
+                     v-bind:default-col-def="defaultColDef"
+                     v-bind:column-defs="columnDefs"
+                     v-bind:row-data="businesses"
+                     v-on:grid-ready="onGridReady"></ag-grid-vue>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @section Vue
+    {
+         // import AgGridVue
+         let agVueObj = window["ag-grid-vue3"];
+         let AgGridVue = agVueObj.AgGridVue;
+         const app = Vue.createApp({
+            components: {
+                 AgGridVue
+            },
+            data: function () {
+                return {
+                    value:'',
+                    businesses: [],
+                    columnDefs: [],
+                    defaultColDef: {},
+                    gridApi: {},
+                    gridColumnApi: {},
+                }
+             },
+             created: function () {
+                 // 設定或取得資料
+                 this.businesses = this.GetBusinesses();
+                 this.InitColDef();
+             },
+             mounted: function () {
+                 // 處理Dom元素
+             },
+             methods: {
+                 // 取得ag-grid-api
+                 onGridReady(params) {
+                     this.gridApi = params.api;
+                     this.gridColumnApi = params.columnApi;
+                 },
+                 // 設定col
+                 InitColDef: function () {
+                     this.columnDefs = [
+                         { headerName: '帳號',field: "UserId" },
+                         { headerName: '電子信箱',field: "Email",width:300},
+                         { headerName: '角色',field: "Role" },
+                         { headerName: '狀態', field: "Status",width: 150 },
+                         { headerName: '最後修改者', field: "LastModifier", width: 200 },
+                         { headerName: '最後修改日期', field: "LastModifyDate", width: 250, type: ['dateColumn'] },
+                         { headerName: '最後變更密碼日期', field: "LastChangePwdDate", width: 250, type: ['dateColumn']  },
+                         { headerName: '最後登入日期', field: "LastLoginDates", width: 250, type: ['dateColumn'] }
+                     ];
+                     this.defaultColDef = {
+                         width: 100
+                     };
+                 },
+                GetBusinesses: function () {
+                    try {
+                        axios.get('@Url.Action("GetUsersByRole","BusinessManagementOperate")', {
+                            params: {
+                                role:'Manager'
+                            }})
+                            .then((response) => {
+                                const data = response.data;
+                                const code = data.RtnCode;
+                                switch (code) {
+                                    case 200:
+                                        this.businesses = data.RtnData;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            })
+                            .catch((error) => {
+                                alert('取得資料有誤');
+                                throw new Error(error);
+                            })
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+
+                }
+            }
+        })
+    }
+</script>
