@@ -65,9 +65,14 @@
     </script>
 
     <script type="module">
-        // Vue進入點
-        @RenderSection("Vue", required: false)
-        // Vuer結束點
+        @if (IsSectionDefined("Vue")) {
+            // Vue進入點
+            @RenderSection("Vue", required: false)
+            // Vuer結束點
+        }
+        else {
+            @:const app = Vue.createApp({})
+        }
 
         // 全域註冊vue method
         const emitter = mitt();

@@ -60,17 +60,23 @@
     </script>
 
     <script type="module">
-        // Vue進入點
-        @RenderSection("Vue", required: false)
+        @if (IsSectionDefined("Vue")) {
+            // Vue進入點
+            @RenderSection("Vue", required: false)
+            // Vuer結束點
+        }
+        else {
+            @:const app = Vue.createApp({})
+        }
 
         // 全域註冊vue method
         const emitter = mitt();
-        app.config.globalProperties.emitter = emitter;
+        app.config.globalProperties.$emitter = emitter;
 
         // 全域註冊Component
-        app.component('VForm', VeeValidate.Form);
-        app.component('VField', VeeValidate.Field);
-        app.component('ErrorMessage', VeeValidate.ErrorMessage);
+        app.component('vForm', VeeValidate.Form);
+        app.component('vField', VeeValidate.Field);
+        app.component('errorMessage', VeeValidate.ErrorMessage);
 
         // 驗證規則
         Object.keys(VeeValidateRules).forEach(rule => {
