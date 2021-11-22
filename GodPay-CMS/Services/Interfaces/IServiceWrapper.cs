@@ -4,5 +4,6 @@
     {
         public ISigninService signinService { get; }
         public IAuthorityService authorityService { get; }
+        public IUserService userService { get; }
     }
 }

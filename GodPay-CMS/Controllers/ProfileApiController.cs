@@ -1,27 +1,40 @@
-﻿using AutoMapper;
+﻿using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
     public class ProfileApiController : Controller
     {
-        private readonly IMapper _mapper;
         private readonly IServiceWrapper _serviceWrapper;
 
-        public ProfileApiController(IMapper mapper, IServiceWrapper serviceWrapper)
+        public ProfileApiController(IServiceWrapper serviceWrapper)
         {
-            _mapper = mapper;
             _serviceWrapper = serviceWrapper;
         }
 
-        public IActionResult Index()
+        /// <summary>
+        /// 取得使用者資訊
+        /// </summary>
+        /// <param name="userId">使用者帳號</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Get([FromBody] string userId)
         {
-            return View();
+            var result = await _serviceWrapper.userService.GetUser(userId);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// 編輯使用者資訊
+        /// </summary>
+        /// <param name="editUserViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Edit([FromBody] EditUserViewModel editUserViewModel)
+        {
+            var result = await _serviceWrapper.userService.UpdateUser(editUserViewModel);
+            return Ok(result);
         }
     }
 }

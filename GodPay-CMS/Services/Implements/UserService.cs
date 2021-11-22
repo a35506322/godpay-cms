@@ -1,4 +1,5 @@
-﻿using GodPay_CMS.Common.Enums;
+﻿using AutoMapper;
+using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -9,10 +10,12 @@ namespace GodPay_CMS.Services.Implements
 {
     public class UserService : IUserService
     {
+        private readonly IMapper _mapper;
         private readonly IRepostioryWrapper _repostioryWrapper;
 
-        public UserService(IRepostioryWrapper repostioryWrapper)
+        public UserService(IMapper mapper, IRepostioryWrapper repostioryWrapper)
         {
+            _mapper = mapper;
             _repostioryWrapper = repostioryWrapper;
         }
 
@@ -25,8 +28,10 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = result };
         }
 
-        public async Task<ResponseViewModel> UpdateUser(UpdateUserReq updateUserReq)
+        public async Task<ResponseViewModel> UpdateUser(EditUserViewModel editUserViewModel)
         {
+            var updateUserReq = _mapper.Map<UpdateUserReq>(editUserViewModel);
+
             var modifier = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.ModifierId);
             if (modifier == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationFail, RtnMessage = "驗證錯誤" };
