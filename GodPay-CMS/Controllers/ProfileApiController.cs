@@ -1,10 +1,12 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    [Authorize]
     public class ProfileApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
@@ -21,7 +23,7 @@ namespace GodPay_CMS.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Get([FromBody] string userId)
         {
-            var result = await _serviceWrapper.userService.GetUser(userId);
+            var result = await _serviceWrapper.userService.GetUserByUserId(userId);
             return Ok(result);
         }
 
