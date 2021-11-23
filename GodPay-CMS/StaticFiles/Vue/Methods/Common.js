@@ -18,12 +18,12 @@ export function ChangeReturnCode(returnCode) {
     const statusEnum = Object.freeze({
         /*
          success : 成功
-         dnager:失敗
-         warning:警告
+         error:失敗
+         warn:警告
          */
         200: 'success',
-        401: 'dnager',
-        402: 'danger'
+        401: 'error',
+        402: 'error'
     })
 
     if (returnCode === null) {
