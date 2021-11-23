@@ -66,8 +66,9 @@ namespace GodPay_CMS
                      "/lib/dash-ui/css/theme.css",
                      "/site-css/bootstrap-custom.css",
                      "/lib/bootstrap-icons/font/bootstrap-icons.css",
-                     "/lib/ag-grid/styles/ag-grid.css",
-                     "/lib/ag-grid/styles/ag-theme-alpine.css",
+                     "/lib/primevue/resources/themes/saga-green/theme.css",
+                     "/lib/primevue/resources/primevue.min.css",
+                     "/lib/primeicons/primeicons.css",
                      "/site-css/site.css"
                 );
 

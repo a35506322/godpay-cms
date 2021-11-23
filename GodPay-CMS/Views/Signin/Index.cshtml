@@ -81,7 +81,7 @@
                                     @if (env.IsDevelopment())
                                     {
                                         @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
-                                    }
+                                    }                                    
                                     window.location.href = `${baseURL}`;
                                     break;
                                 case 401:
@@ -91,8 +91,8 @@
                                     this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                     break;
                                 case 402:
-                                    const globalMessage = { title: responseData.RtnMessage, status: responseData.RtnCode, message: responseData.RtnData}
-                                    this.$emitter.emit('GlobalMessage', globalMessage)
+                                    const status = this.$common.ChangeReturnCode(responseData.RtnCode);
+                                    this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'signin-laoout' });
                                     break;
                                 default:
                                     throw new Error('代碼有誤');
