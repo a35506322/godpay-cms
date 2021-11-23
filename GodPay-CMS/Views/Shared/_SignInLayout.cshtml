@@ -39,9 +39,9 @@
     <script src="~/lib/vee-validate/i18n/dist/vee-validate-i18n.min.js"></script>
     <script src="~/lib/mitt/dist/mitt.umd.js"></script>
     <!--primevue-->
-    <script src="/lib/primevue/core/core.min.js"></script>
-    <script src="/lib/primevue/toast/toast.min.js"></script>
-    <script src="/lib/primevue/toastservice/toastservice.min.js"></script>
+    <script src="~/lib/primevue/core/core.min.js"></script>
+    <script src="~/lib/primevue/toast/toast.min.js"></script>
+    <script src="~/lib/primevue/toastservice/toastservice.min.js"></script>
     <!--bootstrap-->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
     <!--axios-->
@@ -61,8 +61,7 @@
         {
            @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
         }
-        axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
-        axios.defaults.baseURL = baseURL;
+        window.baseURL = baseURL;
     </script>
 
     <script type="module">
@@ -77,7 +76,7 @@
 
         // 全域註冊vue method
         const emitter = mitt();
-        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '/StaticFiles/Vue/Methods/Common.js'
+        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '/StaticFiles/Vue/Methods/Common.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
@@ -85,7 +84,7 @@
         }
 
         // 全域註冊Component
-        app.component('pToast', primevue.toast)
+        app.component('pToast', primevue.toast);
         app.component('vForm', VeeValidate.Form);
         app.component('vField', VeeValidate.Field);
         app.component('errorMessage', VeeValidate.ErrorMessage);

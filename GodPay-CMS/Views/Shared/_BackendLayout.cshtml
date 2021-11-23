@@ -38,10 +38,11 @@
     <script src="~/lib/primevue/core/core.min.js"></script>
     <script src="~/lib/primevue/datatable/datatable.min.js"></script>
     <script src="~/lib/primevue/column/column.min.js"></script>
+    <script src="~/lib/primevue/toolbar/toolbar.min.js"></script>
     <script src="~/lib/primevue/button/button.min.js"></script>
-    <script src="~/lib/primevue/multiselect/multiselect.min.js"></script>
-    <script src="/lib/primevue/toast/toast.min.js"></script>
-    <script src="/lib/primevue/toastservice/toastservice.min.js"></script>
+    <script src="~/lib/primevue/toast/toast.min.js"></script>
+    <script src="~/lib/primevue/toastservice/toastservice.min.js"></script>
+    <script src="~/lib/primevue/tooltip/tooltip.min.js"></script>
     <!--bootstrap-->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
     <!--axios-->
@@ -80,7 +81,9 @@
         app.config.globalProperties.$emitter = emitter;
 
         // 全域註冊Component
-        app.component('pToast', primevue.toast)
+        app.component('pDialog', primevue.dialog);
+        app.component('pToast', primevue.toast);
+        app.component('pButton', primevue.button);
         app.component('vForm', VeeValidate.Form);
         app.component('vField', VeeValidate.Field);
         app.component('errorMessage', VeeValidate.ErrorMessage);
@@ -98,9 +101,11 @@
             generateMessage: VeeValidateI18n.localize('zh_TW'),
             validateOnInput: true, // 調整為輸入字元立即進行驗證
         });
-
+       
         app.use(primevue.config.default);
         app.use(primevue.toastservice);
+        const tooltip = primevue.tooltip;
+        app.directive("tooltip", tooltip);
         app.mount('#app');
     </script>
 

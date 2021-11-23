@@ -1,73 +1,80 @@
 ﻿@{
     ViewData["Title"] = "業務列表";
 }
-<div class="row p-3">
-    <div class="col-12 vh-90" id="current">
-        <ag-grid-vue class="ag-theme-alpine w-100 h-100"
-                     v-bind:default-col-def="defaultColDef"
-                     v-bind:column-defs="columnDefs"
-                     v-bind:row-data="businesses"
-                     v-on:grid-ready="onGridReady"></ag-grid-vue>
-    </div>
+<div class="row p-3 justify-content-center">
+    <p-toolbar class="w-98 mb-3">
+        @*<template #start>
+            <button type="button" class="btn btn-advanced fs-5">
+                <i class="bi bi-plus"></i>新增
+            </button>
+        </template>*@
+        <template #start>
+            <p-button label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></p-button>
+            <p-button label="Delete" icon="pi pi-trash" class="p-button-danger"></p-button>
+        </template>
+    </p-toolbar>
+    <p-datatable v-bind:value="businesses" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
+                 paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="Showing {first} to {last} of {totalRecords}"
+                 v-model:selection="selectedBusinesse" selection-mode="single" data-key="UserId"
+                 v-bind:resizable-columns="true" column-resize-mode="fit">
+        <p-column field="UserId" header="帳號"></p-column>
+        <p-column field="Email" header="電子信箱"></p-column>
+        <p-column field="Role" header="業務"></p-column>
+        <p-column field="Status" header="帳號狀態"></p-column>
+        <p-column field="LastModifier" header="最後修改使用者"></p-column>
+        <p-column field="LastModifyDate" header="最後修改時間"></p-column>
+        <p-column field="LastLoginDate" header="最後登入時間"></p-column>
+        <p-column field="LastChangePwdDate" header="最後更改密碼時間"></p-column>
+        <p-column style="min-width:8rem">
+            <template #body="slotProps">
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" v-on:click="editProduct(slotProps.data)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" v-on:click="confirmDeleteProduct(slotProps.data)"></p-button>
+            </template>
+        </p-column>
+        <template #paginatorstart>
+            <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
+        </template>
+        <template #paginatorend>
+            <p-button type="button" icon="pi pi-cloud" class="p-button-text"></p-button>
+        </template>
+    </p-datatable>
 </div>
 
 <script type="text/javascript">
     @section Vue
     {
-         // import AgGridVue
-         let agVueObj = window["ag-grid-vue3"];
-         let AgGridVue = agVueObj.AgGridVue;
+        import { GetUsersByRole } from '/StaticFiles/Vue/Services/IpassService.js'
+
          const app = Vue.createApp({
             components: {
-                 AgGridVue
+                 "p-datatable": primevue.datatable,
+                 "p-column": primevue.column,
+                 "p-button": primevue.button,
+                 "p-toolbar": primevue.toolbar
             },
             data: function () {
                 return {
-                    value:'',
                     businesses: [],
-                    columnDefs: [],
-                    defaultColDef: {},
-                    gridApi: {},
-                    gridColumnApi: {},
+                    selectedBusinesse: {}
                 }
              },
              created: function () {
-                 // 設定或取得資料
-                 this.businesses = this.GetBusinesses();
-                 this.InitColDef();
+                this.GetBusinesses();
              },
              mounted: function () {
-                 // 處理Dom元素
+
              },
              methods: {
-                 // 取得ag-grid-api
-                 onGridReady(params) {
-                     this.gridApi = params.api;
-                     this.gridColumnApi = params.columnApi;
-                 },
-                 // 設定col
-                 InitColDef: function () {
-                     this.columnDefs = [
-                         { headerName: '帳號',field: "UserId" },
-                         { headerName: '電子信箱',field: "Email",width:300},
-                         { headerName: '角色',field: "Role" },
-                         { headerName: '狀態', field: "Status",width: 150 },
-                         { headerName: '最後修改者', field: "LastModifier", width: 200 },
-                         { headerName: '最後修改日期', field: "LastModifyDate", width: 250, type: ['dateColumn'] },
-                         { headerName: '最後變更密碼日期', field: "LastChangePwdDate", width: 250, type: ['dateColumn']  },
-                         { headerName: '最後登入日期', field: "LastLoginDates", width: 250, type: ['dateColumn'] }
-                     ];
-                     this.defaultColDef = {
-                         width: 100
-                     };
-                 },
                 GetBusinesses: function () {
-                    try {
-                        axios.get('@Url.Action("GetUsersByRole","BusinessManagementOperate")', {
-                            params: {
-                                role:'Manager'
-                            }})
-                            .then((response) => {
+                     try {
+                         const data = {
+                             params: {
+                                 role: 'Manager'
+                             }
+                         };
+                         GetUsersByRole(data)
+                             .then((response) => {
                                 const data = response.data;
                                 const code = data.RtnCode;
                                 switch (code) {
@@ -76,19 +83,22 @@
                                         break;
                                     default:
                                         break;
-                                }
-                            })
-                            .catch((error) => {
-                                alert('取得資料有誤');
-                                throw new Error(error);
-                            })
+                                    }
+                                })
+                                .catch((error) => {
+                                    alert('取得資料有誤');
+                                    throw new Error(error);
+                                })
                     }
                     catch (exception) {
                         console.log(exception)
                     }
 
-                }
+                 },
+                 editProduct: function (prod) {
+                     console.log(prod);
+                 }
             }
-        })
+         })
     }
 </script>
