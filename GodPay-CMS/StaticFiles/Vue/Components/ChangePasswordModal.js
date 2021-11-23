@@ -10,7 +10,7 @@
         },
         Close: function () {
             this.displayModal = false;
-        }
+        } 
     },
     template: `
     <p-dialog header="變更密碼" v-model:visible="displayModal" v-bind:style="{width:'50vw'}" v-bind:position="'top'" v-bind:modal="true">
