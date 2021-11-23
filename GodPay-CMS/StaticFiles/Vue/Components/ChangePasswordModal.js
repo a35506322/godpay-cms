@@ -27,15 +27,15 @@
                 <form>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">舊密碼</label>
-                    <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" autocomplete="off">
                   </div>
                  <div class="mb-3">
                     <label for="exampleInputEmail2" class="form-label">新密碼</label>
-                    <input type="password" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp">
+                    <input type="password" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" autocomplete="off">
                   </div>
                  <div class="mb-3">
                     <label for="exampleInputEmail3" class="form-label">再次輸入新密碼</label>
-                    <input type="password" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp">
+                    <input type="password" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp" autocomplete="off">
                   </div>
                 </form>
             </div>
