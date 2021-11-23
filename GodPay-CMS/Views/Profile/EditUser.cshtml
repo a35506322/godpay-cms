@@ -30,7 +30,7 @@
                                     <div class="mb-3 row">
                                         <label for="staticEmail" class="col-sm-2 col-form-label">帳號</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" v-bind:value="user.UserId">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" id="staticEmail" v-bind:value="user.UserId">
                                         </div>
                                     </div>
                                 </td>
@@ -40,7 +40,7 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext" v-bind:value="user.Email">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="user.Email">
                                         </div>
                                     </div>
                                 </td>
@@ -50,7 +50,7 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-2 col-form-label">權限</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext" value="Admin">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="user.Role" autocomplete="off">
                                         </div>
                                     </div>
                                 </td>
@@ -60,8 +60,8 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-2 col-form-label">狀態</label>
                                         <div class="col-sm-10">
-                                            <span v-if="user.Status==''帳號啟用中" class="badge bg-success fs-5">{{user.Status}}</span>
-                                            <span v-else-if="user.Status==''帳號尚未開通" class="badge bg-danger fs-5">{{user.Status}}</span>
+                                            <span v-if="user.Status=='帳號啟用中'" class="badge bg-success fs-5">{{user.Status}}</span>
+                                            <span v-else-if="user.Status=='帳號尚未開通'" class="badge bg-danger fs-5">{{user.Status}}</span>
                                             <span v-else class="badge bg-warning text-dark fs-5">{{user.Status}}</span>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@
         </div>
     </div>
 </div>
-<edit-user-modal ref="editUser"></edit-user-modal>
+<edit-user-modal ref="editUser" v-bind:pemail="user.Email" v-on:save="SaveProfile"></edit-user-modal>
 <change-password-modal ref="changePassword"></change-password-modal>
 
 <script type="text/javascript">
@@ -83,6 +83,7 @@
     import editUserModal from '/StaticFiles/Vue/Components/EditUserModal.js'
     import changePasswordModal from '/StaticFiles/Vue/Components/ChangePasswordModal.js'
 
+    const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
         const app = Vue.createApp({
             components: {
                 editUserModal,
@@ -94,11 +95,16 @@
                     user: {
                         UserId: '',
                         Email: ''
+                    },
+                    EditViewModel: {
+                        ModifierId: Id,
+                        UserId: '',
+                        Email: ''
                     }
                 }
             },
             created: function () {
-                this.user = this.GetUserById();
+                 this.GetUserById();
             },
             mounted: function () {
                 // tooltip
@@ -115,7 +121,6 @@
                     this.$refs.changePassword.Show();
                 },
                 GetUserById: function () {
-                    const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
                     try {
                         axios.get('@Url.Action("Get", "ProfileApi")', {
                             params: {
@@ -141,6 +146,46 @@
                     }
                     catch (exception) {
                         console.log(exception)
+                    }
+                },
+                SaveProfile: function (value) {
+                    // 確認取得值
+                    // POST
+                    // 關掉MODAL
+                    // 成功:重新渲染 失敗:跳出提示
+                    console.log(value);
+                    console.log(this.$refs.editUser);
+                    this.EditViewModel.Email = value;
+                    this.EditViewModel.UserId = this.user.UserId;
+                    try {
+                        axios.post('@this.Url.Action("Edit", "ProfileApi")', this.EditViewModel)
+                        .then((response) => {
+                            console.log(response);
+                            const responseData = response.data;
+                            switch (responseData.RtnCode) {
+                                case 200:
+                                    this.GetUserById();
+                                    this.$refs.editUser.Close();
+                                    break;
+                                case 401:
+                                case 404:
+                                case 417:
+                                    if (typeof(responseData.RtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.RtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    break;
+                                default:
+                                    throw new Error('代碼有誤');
+                                    break;
+                            }
+                        })
+                        .catch((error) => {
+                            alert('變更資料有誤，請洽詢相關人員');
+                            throw new Error(error);
+                        })
+                    } catch (exception) {
+                        console.log(exception);
                     }
                 }
             }
