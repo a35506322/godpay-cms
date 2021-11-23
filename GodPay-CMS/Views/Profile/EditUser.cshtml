@@ -7,12 +7,8 @@
             <div class="card-body">
                 <div class="col-12 mb-10">
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-advanced me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="編輯基本資料" v-on:click="OpenEditUserModal">
-                            <i class="bi bi-pencil-square fs-4"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="變更密碼" v-on:click="OpenChangePasswordModal">
-                            <i class="bi bi-gear-fill fs-4"></i>
-                        </button>
+                        <p-button type="button" icon="pi pi-user-edit" class="me-1 px-2" v-tooltip.top="'編輯基本資料'" v-on:click="OpenEditUserModal"></p-button>
+                        <p-button type="button" icon="bi bi-gear-fill" class="me-1 px-2 p-button-danger" v-tooltip.top="'變更密碼'" v-on:click="OpenChangePasswordModal"></p-button>
                     </div>
                 </div>
                 <div class="col-12">
@@ -60,9 +56,9 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-2 col-form-label">狀態</label>
                                         <div class="col-sm-10">
-                                            <span v-if="user.Status=='帳號啟用中'" class="badge bg-success fs-5">{{user.Status}}</span>
-                                            <span v-else-if="user.Status=='帳號尚未開通'" class="badge bg-danger fs-5">{{user.Status}}</span>
-                                            <span v-else class="badge bg-warning text-dark fs-5">{{user.Status}}</span>
+                                            @*<span v-if="user.Status==''帳號啟用中" class="badge bg-success fs-5">{{user.Status}}</span>
+                                            <span v-else-if="user.Status==''帳號尚未開通" class="badge bg-danger fs-5">{{user.Status}}</span>*@
+                                            @*<span v-else class="badge bg-warning text-dark fs-5">{{user.Status}}</span>*@
                                         </div>
                                     </div>
                                 </td>
@@ -121,6 +117,7 @@
                     this.$refs.changePassword.Show();
                 },
                 GetUserById: function () {
+                    const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
                     try {
                         axios.get('@Url.Action("Get", "ProfileApi")', {
                             params: {

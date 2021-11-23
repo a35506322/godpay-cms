@@ -1,51 +1,41 @@
 ﻿export default {
     data: function () {
         return {
-            modal: {}
+            displayModal: false
         }
-    },
-    mounted: function () {
-        this.modal = new bootstrap.Modal(this.$refs.modal);
     },
     methods: {
         Show: function () {
-            this.modal.show();
+            this.displayModal = true;
+        },
+        Close: function () {
+            this.displayModal = false;
         }
     },
     template: `
-    <div class="modal fade" ref="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header bg-dark">
-            <h4 class="modal-title text-light" id="staticBackdropLabel">變更密碼</h4>
-            <button type="button" class="btn text-light p-0" data-bs-dismiss="modal" aria-label="Close">
-                <i class="bi bi-x-circle fs-3"></i>
-            </button>
-          </div>
-          <div class="modal-body">
+    <p-dialog header="變更密碼" v-model:visible="displayModal" v-bind:style="{width:'50vw'}" v-bind:position="'top'" v-bind:modal="true">
+         <div class="modal-body">
             <div class="container-fluid">
                 <form>
-                  <div class="mb-3">
+                    <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">舊密碼</label>
-                    <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" autocomplete="off">
-                  </div>
-                 <div class="mb-3">
+                    <input type="password" class="p-inputtext p-component form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
                     <label for="exampleInputEmail2" class="form-label">新密碼</label>
-                    <input type="password" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" autocomplete="off">
-                  </div>
-                 <div class="mb-3">
+                    <input type="password" class="p-inputtext p-component form-control" id="exampleInputEmail2" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
                     <label for="exampleInputEmail3" class="form-label">再次輸入新密碼</label>
-                    <input type="password" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp" autocomplete="off">
-                  </div>
+                    <input type="password" class="p-inputtext p-component form-control" id="exampleInputEmail3" aria-describedby="emailHelp">
+                    </div>
                 </form>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success">儲存</button>
-          </div>
+         </div>
+        <div class="p-dialog-footer">
+            <p-button label="取消" icon="pi pi-times" v-on:click="Close()" class="p-button-text"></p-button>
+            <p-button label="儲存" icon="pi pi-check" autofocus></p-button>
         </div>
-      </div>
-    </div>
+    </p-dialog>
     `
 }
