@@ -1,5 +1,9 @@
-﻿export default {
-    props: ['pemail'],
+﻿import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
+export default {
+    props: ['pemail', 'modelError'],
+    components: {
+        serverErrorMessage
+    },
     data: function () {
         return {
             displayModal: false,
@@ -8,6 +12,7 @@
     },
     methods: {
         Show: function () {
+            this.email = this.pemail;            
             this.displayModal = true;
         },
         Close: function () {
@@ -16,11 +21,6 @@
         SaveProfile: function () {
             // 自定義,值
             this.$emit('save', this.email)
-        }
-    },
-    watch: {
-        pemail: function (newVal, oldVal) {
-            this.email = this.pemail
         }
     },
     template: `
@@ -32,8 +32,9 @@
                         <div class="mb-3">
                             <label for="userEmail" class="form-label">Email</label>
                             <v-field type="email" class="p-inputtext p-component form-control" name="email" id="userEamil"
-                                    v-model.trim="email" rules="email|required" v-bind:class="[{'is-invalid':errors['email']}]" autocomplete="off"></v-field>
+                                    v-model.trim="email" rules="email|required" v-bind:class="[{'is-invalid':errors['email']||modelError['Email']}]" autocomplete="off"></v-field>
                             <error-message name="email" class="invalid-feedback"></error-message>
+                            <server-error-message v-bind:attr="'Email'"></server-error-message>
                         </div>           
                 </div>
             </div>
