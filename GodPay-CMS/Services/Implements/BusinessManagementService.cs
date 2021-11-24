@@ -20,14 +20,27 @@ namespace GodPay_CMS.Services.Implements
             _repostioryWrapper = repostioryWrapper;
             _mapper = mapper;
         }
-        public async Task<ResponseViewModel> GetUsersByRole(RoleEnum role)
+
+        public async Task<ResponseViewModel> GetBusinessmenDeatil(string id)
         {
-            var users = await _repostioryWrapper.userRepository.GetByRole(role);
+            var insider = await _repostioryWrapper.insiderRepository.GetById(id);
+
+            if (insider == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+
+            var insiderRsp = _mapper.Map<InsiderFilterRsp>(insider);
+
+            return new ResponseViewModel() { RtnData = insiderRsp };
+        }
+
+        public async Task<ResponseViewModel> GetBusinessmens()
+        {
+            var users = await _repostioryWrapper.userRepository.GetByRole(RoleEnum.Manager);
+
+            if (users == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無錯誤",RtnData= "查無使用者資料" };
 
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
-
-            if (userRsp == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
 
             return new ResponseViewModel() { RtnData = userRsp };
         }

@@ -5,5 +5,6 @@
        public IUserRepository userRepository { get; }
        public IFuncRepository funcRepository { get; }
        public IFuncClassRepository funcClassRepository { get; }
+       public IInsiderRepository insiderRepository { get; }
     }
 }
