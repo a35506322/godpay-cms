@@ -70,7 +70,7 @@
         </div>
     </div>
 </div>
-<edit-user-modal ref="editUser" v-bind:pemail="user.Email" v-on:save="SaveProfile"></edit-user-modal>
+<edit-user-modal ref="editUser" v-bind:pemail="user.Email" v-bind:model-error="modelStateError" v-on:save="SaveProfile"></edit-user-modal>
 <change-password-modal ref="changePassword"></change-password-modal>
 
 <script type="text/javascript">
@@ -87,6 +87,7 @@
         },
         data: function () {
             return {
+                modelStateError: {},
                 tooltipList: [],
                 user: {
                     UserId: '',
@@ -104,6 +105,7 @@
         },
         methods: {
             OpenEditUserModal: function () {
+                this.modelStateError = {};
                 this.$refs.editUser.Show();
             },
             OpenChangePasswordModal: function () {
