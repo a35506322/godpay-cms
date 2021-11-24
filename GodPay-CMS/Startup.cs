@@ -44,12 +44,13 @@ namespace GodPay_CMS
 
             // HttpContext
             services.AddHttpContextAccessor();
-
+           
             // Repository
             services.AddScoped<IRepostioryWrapper, RepostioryWrapper>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFuncClassRepository, FuncClassRepository>();
             services.AddScoped<IFuncRepository, FuncRepository>();
+            services.AddScoped<IInsiderRepository, InsiderRepository>();
 
             // Service
             services.AddScoped<IServiceWrapper, ServiceWrapper>();

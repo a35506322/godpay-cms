@@ -72,11 +72,10 @@
             }
         },
         methods: {
-            SignIn: function () {
+            SignIn: async function () {
                 try {
-                    PostSignin(this.SigninViewModel)
+                    await PostSignin(this.SigninViewModel)
                         .then((response) => {
-                            console.log(response);
                             const responseData = response.data;
                             switch (responseData.RtnCode) {
                                 case 200:
@@ -84,7 +83,7 @@
                                     @if (env.IsDevelopment())
                                     {
                                         @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
-                                    }                                    
+                                    }
                                     window.location.href = `${baseURL}`;
                                     break;
                                 case 401:
