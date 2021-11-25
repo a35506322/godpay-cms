@@ -18,6 +18,8 @@ namespace GodPay_CMS.Common.Profiles
                     .ForMember(n => n.Status, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
 
             CreateMap<EditUserViewModel, UpdateUserReq>();
+
+            CreateMap<PostUserAndInsiderViewModal, PostUserAndInsiderReq>();                   
         }
     }
 }

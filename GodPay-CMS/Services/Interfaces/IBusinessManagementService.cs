@@ -1,5 +1,6 @@
 ﻿using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -21,5 +22,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="id">帳號</param>
         /// <returns></returns>
         Task<ResponseViewModel> GetBusinessmenDeatil(string id);
+        /// <summary>
+        /// 新增業務及詳細資料
+        /// </summary>
+        /// <param name="postUserAndInsiderReq"></param>
+        /// <returns></returns>
+        Task<ResponseViewModel> PostBusinessmanBAndInsider(PostUserAndInsiderViewModal postUserAndInsiderReq);
     }
 }

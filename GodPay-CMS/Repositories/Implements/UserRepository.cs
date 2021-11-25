@@ -108,5 +108,35 @@ namespace GodPay_CMS.Repositories.Implements
                 return entity;
             }
         }
+
+        public async Task<bool> PostBusinessmanBAndInsider(PostUserAndInsiderReq userAndInsiderReq)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                
+                string sqlString = @"Insert Into [dbo].[User] (UserId,UserKey,Email,Func,Status,Role,CreateDate)
+                                    Values (@UserId,@UserKey,@Email,@Func,@Status,@Role,@CreateDate)";
+                sqlString += @"Insert Into [dbo].[Insider] (UserId,Name,Department)
+                               Values (@UserId,@Name,@Department)";
+
+                connection.Open();
+                bool result = false;
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        int rowCont =  await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
+                        if (rowCont > 0) { result = true; }                        
+                        tran.Commit();
+                    }
+                    catch (Exception excpetion)
+                    {
+                        tran.Rollback();
+                        throw new Exception(excpetion.Message.ToString());                      
+                    }
+                    return result;
+                }
+            }
+        }
     }
 }

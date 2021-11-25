@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,13 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> GetBusinessmenDeatil([FromQuery] string userId)
         {
             var response = await _serviceWrapper.businessManagementService.GetBusinessmenDeatil(userId);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostBusinessmen([FromBody] PostUserAndInsiderViewModal postUserAndInsiderViewModal)
+        {
+            var response = await _serviceWrapper.businessManagementService.PostBusinessmanBAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
         }
     }

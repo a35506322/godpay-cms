@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -43,6 +44,21 @@ namespace GodPay_CMS.Services.Implements
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
 
             return new ResponseViewModel() { RtnData = userRsp };
+        }
+
+        public async Task<ResponseViewModel> PostBusinessmanBAndInsider(PostUserAndInsiderViewModal postUserAndInsiderViewModal)
+        {
+            var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
+            postUserAndInsiderReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndInsiderReq.UserId);
+            postUserAndInsiderReq.Role = RoleEnum.Manager;
+            postUserAndInsiderReq.CreateDate = DateTime.Now;
+            postUserAndInsiderReq.Func = 0;
+
+            var result = await _repostioryWrapper.userRepository.PostBusinessmanBAndInsider(postUserAndInsiderReq);
+            if (result)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "新增成功" };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增失敗" };
         }
     }
 }
