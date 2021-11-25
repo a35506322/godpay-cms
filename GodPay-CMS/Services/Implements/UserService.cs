@@ -48,7 +48,7 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "變更使用者資料失敗" };
 
             var result = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.UserId);
-            return new ResponseViewModel() { RtnData = result };
+            return new ResponseViewModel() { RtnMessage="更新成功",RtnData = result };
         }
 
     }
