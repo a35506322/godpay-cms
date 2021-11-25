@@ -44,13 +44,13 @@
         import { GetBusinessmens, GetBusinessmanDetail } from '/StaticFiles/Vue/Services/IpassService.js'
         import  BusinessmanDetailModal  from '/StaticFiles/Vue/Components/BusinessmanDetailModal.js'
 
-         const app = Vue.createApp({
+        const app = Vue.createApp({
             components: {
-                 "p-datatable": primevue.datatable,
-                 "p-column": primevue.column,
-                 "p-button": primevue.button,
-                 "p-toolbar": primevue.toolbar,
-                 BusinessmanDetailModal
+                "p-datatable": primevue.datatable,
+                "p-column": primevue.column,
+                "p-button": primevue.button,
+                "p-toolbar": primevue.toolbar,
+                BusinessmanDetailModal
             },
             data: function () {
                 return {
@@ -58,80 +58,71 @@
                     selectedBusinesse: {},
                     businesmanDetail: {}
                 }
-             },
-             created: function () {
-                 this.GetBusinessmens();
-             },
-             mounted: function () {
-
-             },
-             methods: {
-                 GetBusinessmens: async function () {
-                     try {
-                         await GetBusinessmens()
-                                 .then((response) => {
-                                    const data = response.data;
-                                    const code = data.RtnCode;
-                                    switch (code) {
-                                        case 200:
-                                            this.businesses = data.RtnData;
-                                            break;
-                                        default:
-                                            break;
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        alert('取得資料有誤');
-                                        throw new Error(error);
-                                    })
+            },
+            created: function () {
+                this.GetBusinessmens();
+            },
+            methods: {
+                GetBusinessmens: async function () {
+                    try {
+                        const response = await GetBusinessmens().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.businesses = data.RtnData;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                     catch (exception) {
+                        console.log(exception);
+                    }
+                },
+                editProduct: function (prod) {
+                    console.log(prod);
+                },
+                GetBusinessmanDetail: async function (userId) {
+                    try {
+                        let query = {
+                            params: {
+                                userId: userId
+                            }
+                        }
+                        const response = await GetBusinessmanDetail(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    console.log('200');
+                                    this.businesmanDetail = data.RtnData;
+                                    break;
+                                case 404:
+                                    const status = this.$common.ChangeReturnCode(data.RtnCode);
+                                    this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                    break
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                catch (exception) {
                         console.log(exception)
                     }
-
-                 },
-                 editProduct: function (prod) {
-                     console.log(prod);
-                 },
-                 GetBusinessmanDetail: async function (userId) {
-                     try {
-                         let data = {
-                             params: {
-                                 userId: userId
-                             }
-                         }
-                         await GetBusinessmanDetail(data)
-                             .then((response) => {
-                                     const data = response.data;
-                                     const code = data.RtnCode;
-                                     switch (code) {
-                                         case 200:
-                                             this.businesmanDetail = data.RtnData;
-                                             break;
-                                         case 404:
-                                             const status = this.$common.ChangeReturnCode(data.RtnCode);
-                                             this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
-                                             break
-                                         default:
-                                             break;
-                                     }
-                                 })
-                                 .catch((error) => {
-                                     alert('取得資料有誤');
-                                     throw new Error(error);                                    
-                                 })
-                     }
-                    catch (exception) {
-                         console.log(exception)
-                     }
-                 },
-                 OpenBusinessmanDetailModal: function (userId) {
-                     this.GetBusinessmanDetail(userId).then(() => {
-                         if (Object.keys(this.businesmanDetail).length !== 0) {
-                             this.$refs.businessmanDetail.Show();
-                         }                        
-                     });                   
-                 }
+                },
+                OpenBusinessmanDetailModal: function (userId) {
+                    this.GetBusinessmanDetail(userId).then(() => {
+                        if (Object.keys(this.businesmanDetail).length !== 0) {
+                            this.$refs.businessmanDetail.Show();
+                        }
+                    });                   
+                }
             }
          })
     }
