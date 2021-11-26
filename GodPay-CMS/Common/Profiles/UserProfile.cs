@@ -19,7 +19,11 @@ namespace GodPay_CMS.Common.Profiles
 
             CreateMap<EditUserViewModel, UpdateUserReq>();
 
-            CreateMap<PostUserAndInsiderViewModal, PostUserAndInsiderReq>();                   
+            CreateMap<PostUserAndInsiderViewModal, PostUserAndInsiderReq>();
+
+            CreateMap<User, BusinessmanRsp>()
+                    .ForMember(n=>n.Name,o=>o.MapFrom(o=>o.Insider.Name))
+                    .ForMember(n => n.Department, o => o.MapFrom(o => o.Insider.Department));
         }
     }
 }

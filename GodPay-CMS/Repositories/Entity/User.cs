@@ -59,5 +59,9 @@ namespace GodPay_CMS.Repositories.Entity
         /// 最後登入日期
         /// </summary>
         public DateTime? LastLoginDate { get; set; }
+        /// <summary>
+        /// 業務詳細資料
+        /// </summary>
+        public Insider Insider { get; set; }
     }
 }

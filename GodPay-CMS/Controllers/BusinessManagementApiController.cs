@@ -40,5 +40,12 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.businessManagementService.PostBusinessmanAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserAndInsiderByUserId([FromQuery] string userId)
+        {
+            var response = await _serviceWrapper.businessManagementService.GetUserAndInsiderByUserId(userId);
+            return Ok(response);
+        }
     }
 }

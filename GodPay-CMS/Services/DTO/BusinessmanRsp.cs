@@ -1,23 +1,24 @@
-﻿using System;
+﻿using GodPay_CMS.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GodPay_CMS.Repositories.Entity
+namespace GodPay_CMS.Services.DTO
 {
     /// <summary>
-    /// 內部人員詳細資料
+    /// 業務篩選資料
     /// </summary>
-    public class Insider
+    public class BusinessmanRsp
     {
         /// <summary>
-        /// 流水號(PK)
+        /// Email
         /// </summary>
-        public int Iid { get; set; }
+        public string Email { get; set; }
         /// <summary>
-        /// 帳號
+        /// 目前狀態
         /// </summary>
-        public string UserId { get; set; }
+        public AccountStatusEnum Status { get; set; }
         /// <summary>
         /// 名子
         /// </summary>
@@ -26,9 +27,5 @@ namespace GodPay_CMS.Repositories.Entity
         /// 部門
         /// </summary>
         public string Department { get; set; }
-        /// <summary>
-        /// 使用者
-        /// </summary>
-        public User User { get; set; }
     }
 }

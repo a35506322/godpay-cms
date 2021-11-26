@@ -109,7 +109,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> PostBusinessmanBAndInsider(PostUserAndInsiderReq userAndInsiderReq)
+        public async Task<bool> PostBusinessmanAndInsider(PostUserAndInsiderReq userAndInsiderReq)
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
@@ -136,6 +136,25 @@ namespace GodPay_CMS.Repositories.Implements
                     }
                     return result;
                 }
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetUserAndInsiderByUserId(string userId)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sqlString = @"Select *
+	                                 From　[dbo].[User] A
+	                                 Left Join [dbo].[Insider] B On A.UserId = B.UserId
+	                                 Where B.UserId = @userId";
+
+                var users = await connection.QueryAsync<User, Insider, User>(sqlString, (user, insider) =>
+                 {
+                     user.Insider = insider;
+                     return user;
+                 }, new { userId = userId }, splitOn: "Iid");
+
+                return users;
             }
         }
     }

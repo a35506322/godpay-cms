@@ -28,5 +28,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="postUserAndInsiderReq"></param>
         /// <returns></returns>
         Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModal postUserAndInsiderReq);
+        /// <summary>
+        /// 取得業務及詳細資料
+        /// </summary>
+        /// <param name="userId">帳號</param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetUserAndInsiderByUserId(string userId);
     }
 }
