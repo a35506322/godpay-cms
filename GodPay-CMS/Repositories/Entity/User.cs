@@ -46,7 +46,7 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 最後更改使用者
         /// </summary>
-        public int? LastModifier { get; set; }
+        public string LastModifier { get; set; }
         /// <summary>
         /// 最後更改資訊日期
         /// </summary>
