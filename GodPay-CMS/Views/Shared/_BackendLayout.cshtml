@@ -98,6 +98,8 @@
                 VeeValidate.defineRule(rule, VeeValidateRules[rule]);
             }
         });
+        import { VerifyAccount } from '/StaticFiles/Vue/Methods/Validates.js';
+        VeeValidate.defineRule('account', VerifyAccount);
         // 多國語系
         VeeValidateI18n.loadLocaleFromURL('/lib/vee-validate/i18n/dist/locale/zh_TW.json');
         // 配置
