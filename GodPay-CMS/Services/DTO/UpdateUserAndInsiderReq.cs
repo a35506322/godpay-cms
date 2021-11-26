@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace GodPay_CMS.Services.DTO
 {
     /// <summary>
-    /// 業務篩選資料
+    /// ser And Insider Request
     /// </summary>
-    public class BusinessmanRsp
+    public class UpdateUserAndInsiderReq
     {
         /// <summary>
         /// 帳號
@@ -19,14 +19,25 @@ namespace GodPay_CMS.Services.DTO
         /// Email
         /// </summary>
         public string Email { get; set; }
+
         /// <summary>
         /// 目前狀態
         /// </summary>
         public AccountStatusEnum Status { get; set; }
         /// <summary>
+        /// 最後更改使用者
+        /// </summary>
+        public string LastModifier { get; set; }
+        /// <summary>
+        /// 最後更改資訊日期
+        /// </summary>
+        public DateTime? LastModifyDate { get; set; }
+
+        /// <summary>
         /// 名子
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// 部門
         /// </summary>

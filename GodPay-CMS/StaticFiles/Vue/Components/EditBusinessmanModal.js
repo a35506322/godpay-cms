@@ -14,7 +14,9 @@ export default {
     methods: {
         Show: function () {
             if (this.isNew) {
-                this.header ='新增業務'
+                this.header = '新增業務資料'
+            } else {
+                this.header = '修改業務資料'
             }
             this.displayModal = true;
         },

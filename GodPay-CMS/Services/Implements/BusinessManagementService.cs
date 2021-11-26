@@ -5,21 +5,25 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
 {
     public class BusinessManagementService : IBusinessManagementService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepostioryWrapper _repostioryWrapper;
         private readonly IMapper _mapper;
-        public BusinessManagementService(IRepostioryWrapper repostioryWrapper, IMapper mapper)
+        public BusinessManagementService(IRepostioryWrapper repostioryWrapper, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _repostioryWrapper = repostioryWrapper;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ResponseViewModel> GetBusinessmenDeatil(string id)
@@ -61,23 +65,30 @@ namespace GodPay_CMS.Services.Implements
 
         }
 
-        public async Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModal postUserAndInsiderViewModal)
+        public async Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModal)
         {
             var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
-            postUserAndInsiderReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndInsiderReq.UserId);
-            postUserAndInsiderReq.Role = RoleEnum.Manager;
-            postUserAndInsiderReq.CreateDate = DateTime.Now;
-            postUserAndInsiderReq.Func = 0;
 
             var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndInsiderViewModal.UserId);
             if (user != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗",RtnData="已有重複帳號" };
 
-            var result = await _repostioryWrapper.userRepository.PostBusinessmanAndInsider(postUserAndInsiderReq);
+            var result = await _repostioryWrapper.userRepository.PostUserAndInsider(postUserAndInsiderReq);
             if (result)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "新增成功" };
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增失敗" };
+        }
+
+        public async Task<ResponseViewModel> UpdateBusinessmanAndInsider(UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
+        {
+            var updateUserAndInsiderReq = _mapper.Map<UpdateUserAndInsiderReq>(updateUserAndInsiderViewModal);
+            updateUserAndInsiderReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            var result = await _repostioryWrapper.userRepository.UpdateUserAndInsider(updateUserAndInsiderReq);
+            if (result)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "修改成功" };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改失敗" };
         }
     }
 }

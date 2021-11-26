@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     public class BusinessManagementApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
@@ -35,16 +35,23 @@ namespace GodPay_CMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostBusinessmen([FromBody] PostUserAndInsiderViewModal postUserAndInsiderViewModal)
+        public async Task<IActionResult> PostBusinessmen([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
         {
             var response = await _serviceWrapper.businessManagementService.PostBusinessmanAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUserAndInsiderByUserId([FromQuery] string userId)
+        public async Task<IActionResult> GetBusinessmen([FromQuery] string userId)
         {
             var response = await _serviceWrapper.businessManagementService.GetUserAndInsiderByUserId(userId);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateBusinessmen([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
+        {
+            var response = await _serviceWrapper.businessManagementService.UpdateBusinessmanAndInsider(updateUserAndInsiderViewModal);
             return Ok(response);
         }
     }

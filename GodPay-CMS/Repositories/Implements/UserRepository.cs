@@ -100,7 +100,7 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sql = @" UPDATE [dbo].[User] 
                                 SET Email = @Email, 
-                                    LastModifier = (select Uid from [dbo].[User] where UserId= @ModifierId),
+                                    LastModifier =   @ModifierId,
                                     LastModifyDate = GETDATE()
                                 WHERE UserId = @UserId";
 
@@ -109,7 +109,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> PostBusinessmanAndInsider(PostUserAndInsiderReq userAndInsiderReq)
+        public async Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq)
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
@@ -125,14 +125,14 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        int rowCont =  await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
-                        if (rowCont > 0) { result = true; }                        
+                        int rowCounts =  await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
+                        if (rowCounts > 0) { result = true; }                        
                         tran.Commit();
                     }
-                    catch (Exception excpetion)
+                    catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(excpetion.Message.ToString());                      
+                        throw new Exception(exception.Message.ToString());                      
                     }
                     return result;
                 }
@@ -145,7 +145,7 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sqlString = @"Select *
 	                                 From　[dbo].[User] A
-	                                 Left Join [dbo].[Insider] B On A.UserId = B.UserId
+	                                 Join [dbo].[Insider] B On A.UserId = B.UserId
 	                                 Where B.UserId = @userId";
 
                 var users = await connection.QueryAsync<User, Insider, User>(sqlString, (user, insider) =>
@@ -155,6 +155,51 @@ namespace GodPay_CMS.Repositories.Implements
                  }, new { userId = userId }, splitOn: "Iid");
 
                 return users;
+            }
+        }
+
+        public async Task<bool> UpdateUserAndInsider(UpdateUserAndInsiderReq updateUserAndInsiderReq)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sqlString = @"Update T
+                                    SET T.Status = @Status,
+	                                    T.Email = @Email,
+	                                    T.LastModifier = @LastModifier,
+	                                    T.LastModifyDate = @LastModifyDate
+                                    From
+                                    (
+                                        Select A.Status, A.Email, A.LastModifier, A.LastModifyDate
+                                        From [dbo].[User] A
+                                        Where A.UserId = @UserId
+                                    )T;
+
+                                    Update T2
+                                    SET T2.Name = @Name,
+	                                    T2.Department = @Department
+                                    From
+                                    (
+                                        Select A.Name, A.Department
+                                        From [dbo].[Insider] A
+                                        Where A.UserId = @UserId
+                                    )T2;";
+                connection.Open();
+                bool result = false;
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        int rowCounts = await connection.ExecuteAsync(sqlString, updateUserAndInsiderReq, transaction: tran);
+                        if (rowCounts > 0) { result = true; }
+                        tran.Commit();
+                    }
+                    catch (Exception exception)
+                    {
+                        tran.Rollback();
+                        throw new Exception(exception.Message.ToString());
+                    }
+                }
+                return result;
             }
         }
     }

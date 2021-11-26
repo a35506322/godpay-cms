@@ -40,12 +40,18 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="userAndInsiderReq"></param>
         /// <returns></returns>
-        public Task<bool> PostBusinessmanAndInsider(PostUserAndInsiderReq userAndInsiderReq);
+        public Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq);
         /// <summary>
         /// 查詢單筆使用者及業務詳細資料(Join)
         /// </summary>
         /// <param name="userId">帳號</param>
         /// <returns></returns>
         public Task<IEnumerable<User>> GetUserAndInsiderByUserId(string userId);
+        /// <summary>
+        /// 修改業務使用者及詳細資料
+        /// </summary>
+        /// <param name="updateUserAndInsiderReq"></param>
+        /// <returns></returns>
+        public Task<bool> UpdateUserAndInsider(UpdateUserAndInsiderReq updateUserAndInsiderReq);
     }
 }
