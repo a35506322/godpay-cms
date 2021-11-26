@@ -11,8 +11,8 @@ namespace GodPay_CMS.Common.Enums
         [Description("成功")]
         Ok = 200,
 
-        /// <summary>驗證失敗</summary>
-        [Description("驗證失敗")]
+        /// <summary>驗證失敗(表單)</summary>
+        [Description("驗證失敗(表單)")]
         AuthenticationFail = 401,
 
         /// <summary>登入失敗</summary>
@@ -26,6 +26,10 @@ namespace GodPay_CMS.Common.Enums
         /// <summary>查無資料</summary>
         [Description("查無資料")]
         NotFound = 404,
+
+        /// <summary>驗證失敗(商業邏輯)</summary>
+        [Description("驗證失敗(商業邏輯)")]
+        AuthenticationLogicFail = 405,
 
         /// <summary>執行失敗</summary>
         [Description("執行失敗")]
