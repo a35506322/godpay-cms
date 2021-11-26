@@ -48,16 +48,16 @@ export default {
                             <template v-if="isNew">
                                 <div class="col-md-6">
                                     <label for="UserId" class="form-label">帳號</label>
-                                    <input type="text" class="p-inputtext p-component form-control" id="UserId"
-                                     v-model="tempModel.UserId" rules="required|account" name="UserId" v-bind:class="[{'is-invalid':errors['UserId']||modelStateError['UserId']}]"></input>
+                                    <v-field type="text" class="p-inputtext p-component form-control" id="UserId"
+                                     v-model="tempModel.UserId" rules="required" name="UserId" v-bind:class="[{'is-invalid':errors['UserId']||modelStateError['UserId']}]"></v-field>
                                     <error-message name="UserId" class="invalid-feedback"></error-message>
                                     <server-error-message v-bind:attr="'UserId'"></server-error-message>
                                 </div>
                             </template>
                             <div class="col-md-6">
                                 <label for="Email" class="form-label">Email</label>
-                                <input type="email" class="p-inputtext p-component form-control" id="Email" v-model="tempModel.Email"
-                                rules="required|email" name="Email" v-bind:class="[{'is-invalid':errors['Email']||modelStateError['Email']}]"></input>
+                                <v-field type="email" class="p-inputtext p-component form-control" id="Email" v-model="tempModel.Email"
+                                rules="required|email" name="Email" v-bind:class="[{'is-invalid':errors['Email']||modelStateError['Email']}]"></v-field>
                                 <error-message name="Email" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'Email'"></server-error-message>
                             </div>
@@ -79,15 +79,15 @@ export default {
                             </div>
                             <div class="col-md-6">
                                 <label for="Name" class="form-label">名子</label>
-                                <input type="text" class="p-inputtext p-component form-control" id="Name" v-model="tempModel.Name"
-                                rules="required" name="Name" v-bind:class="[{'is-invalid':errors['Name']||modelStateError['Name']}]"></input>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="Name" v-model="tempModel.Name"
+                                rules="required" name="Name" v-bind:class="[{'is-invalid':errors['Name']||modelStateError['Name']}]"></v-field>
                                 <error-message name="Name" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'Name'"></server-error-message>
                             </div>                           
                             <div class="col-md-6">
                                 <label for="Department" class="form-label">部門</label>
-                                <input type="text" class="p-inputtext p-component form-control" id="Department" v-model="tempModel.Department"
-                                rules="required" name="Department" v-bind:class="[{'is-invalid':errors['Department']||modelStateError['Department']}]"></input>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="Department" v-model="tempModel.Department"
+                                rules="required" name="Department" v-bind:class="[{'is-invalid':errors['Department']||modelStateError['Department']}]"></v-field>
                                 <error-message name="Department" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'Department'"></server-error-message>
                             </div>                           
