@@ -49,7 +49,7 @@ export default {
                                 <div class="col-md-6">
                                     <label for="UserId" class="form-label">帳號</label>
                                     <v-field type="text" class="p-inputtext p-component form-control" id="UserId"
-                                     v-model="tempModel.UserId" rules="required" name="UserId" v-bind:class="[{'is-invalid':errors['UserId']||modelStateError['UserId']}]"></v-field>
+                                     v-model="tempModel.UserId" rules="required|account" name="UserId" v-bind:class="[{'is-invalid':errors['UserId']||modelStateError['UserId']}]"></v-field>
                                     <error-message name="UserId" class="invalid-feedback"></error-message>
                                     <server-error-message v-bind:attr="'UserId'"></server-error-message>
                                 </div>
