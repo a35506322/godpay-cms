@@ -27,6 +27,6 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="postUserAndInsiderReq"></param>
         /// <returns></returns>
-        Task<ResponseViewModel> PostBusinessmanBAndInsider(PostUserAndInsiderViewModal postUserAndInsiderReq);
+        Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModal postUserAndInsiderReq);
     }
 }

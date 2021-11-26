@@ -17,6 +17,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// 帳號
         /// </summary>
         [Required]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$",ErrorMessage = "請至少輸入大小寫英文1位、1位數字1位及6-20位帳號")]
         public string UserId { get; set; }
 
         /// <summary>

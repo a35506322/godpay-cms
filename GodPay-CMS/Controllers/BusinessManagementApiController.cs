@@ -37,7 +37,7 @@ namespace GodPay_CMS.Controllers
         [HttpPost]
         public async Task<IActionResult> PostBusinessmen([FromBody] PostUserAndInsiderViewModal postUserAndInsiderViewModal)
         {
-            var response = await _serviceWrapper.businessManagementService.PostBusinessmanBAndInsider(postUserAndInsiderViewModal);
+            var response = await _serviceWrapper.businessManagementService.PostBusinessmanAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
         }
     }

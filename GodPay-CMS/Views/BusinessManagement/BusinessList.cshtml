@@ -4,7 +4,7 @@
 <div class="row p-3 justify-content-center">
     <p-toolbar class="w-98 mb-3">
         <template #start>
-            <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2"></p-button>
+            <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditBusinessmanModal"></p-button>
         </template>
     </p-toolbar>
     <p-datatable v-bind:value="businesses" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
@@ -37,12 +37,15 @@
 </div>
 
 <businessman-detail-modal ref="businessmanDetail" v-bind:pdetail="businesmanDetail"></businessman-detail-modal>
+<edit-businessman-modal ref="editBusinessman" v-bind:temp-businesse="tempBusinesse" v-bind:is-new="isNew" v-bind:model-state-error="modelStateError" v-on:save="SaveBusinessman"></edit-businessman-modal>
+
 
 <script type="text/javascript">
     @section Vue
     {
-        import { GetBusinessmens, GetBusinessmanDetail } from '/StaticFiles/Vue/Services/IpassService.js'
-        import  BusinessmanDetailModal  from '/StaticFiles/Vue/Components/BusinessmanDetailModal.js'
+        import { GetBusinessmens, GetBusinessmanDetail, PostBusinessmen } from '/StaticFiles/Vue/Services/IpassService.js'
+        import BusinessmanDetailModal from '/StaticFiles/Vue/Components/BusinessmanDetailModal.js'
+        import EditBusinessmanModal from '/StaticFiles/Vue/Components/EditBusinessmanModal.js'
 
         const app = Vue.createApp({
             components: {
@@ -50,13 +53,17 @@
                 "p-column": primevue.column,
                 "p-button": primevue.button,
                 "p-toolbar": primevue.toolbar,
-                BusinessmanDetailModal
+                BusinessmanDetailModal,
+                EditBusinessmanModal
             },
             data: function () {
                 return {
                     businesses: [],
                     selectedBusinesse: {},
-                    businesmanDetail: {}
+                    businesmanDetail: {},
+                    tempBusinesse: {},
+                    isNew: true,
+                    modelStateError:{}
                 }
             },
             created: function () {
@@ -98,13 +105,13 @@
                         if (status === 200) {
                             const data = response.data;
                             const code = data.RtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
                             switch (code) {
                                 case 200:
                                     console.log('200');
                                     this.businesmanDetail = data.RtnData;
                                     break;
-                                case 404:
-                                    const status = this.$common.ChangeReturnCode(data.RtnCode);
+                                case 404:                                    
                                     this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
@@ -121,7 +128,44 @@
                         if (Object.keys(this.businesmanDetail).length !== 0) {
                             this.$refs.businessmanDetail.Show();
                         }
-                    });                   
+                    });
+                },
+                OpenEditBusinessmanModal: function (isNew = true) {
+                    this.isNew = isNew;
+                    this.modelStateError = {};
+                    if (isNew) {
+                        this.tempBusinesse = {};
+                    }
+                    
+                    this.$refs.editBusinessman.Show();
+                },
+                SaveBusinessman: async function (value) {
+                    let response = null;
+                    if (this.isNew) {
+                        response = await PostBusinessmen(value).then(response => response);
+                    }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.RtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.$refs.editBusinessman.Close();
+                                this.tempBusinesse = {};
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                this.GetBusinessmens();
+                                break;
+                            case 401:
+                                if (typeof (responseData.RtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
          })

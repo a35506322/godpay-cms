@@ -35,7 +35,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">姓名</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.UserId">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Name">
                                             </div>
                                         </div>
                                     </td>

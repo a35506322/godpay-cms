@@ -46,7 +46,7 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = userRsp };
         }
 
-        public async Task<ResponseViewModel> PostBusinessmanBAndInsider(PostUserAndInsiderViewModal postUserAndInsiderViewModal)
+        public async Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModal postUserAndInsiderViewModal)
         {
             var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
             postUserAndInsiderReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndInsiderReq.UserId);

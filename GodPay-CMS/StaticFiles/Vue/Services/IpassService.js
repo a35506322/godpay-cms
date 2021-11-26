@@ -11,3 +11,4 @@ export const EditUser = data => axios.post('/ProfileApi/Edit', data).then(respon
 // BusinessManagementApiController
 export const GetBusinessmens = () => axios.get('/BusinessManagementApi/GetBusinessmens').then(respone => { console.log(' GetBusinessmens'); return respone; }).catch(error => error);
 export const GetBusinessmanDetail = query => axios.get('/BusinessManagementApi/GetBusinessmenDeatil', query).then(respone => { console.log('GetBusinessmanDetail'); return respone; }).catch(error => error);
+export const PostBusinessmen = data => axios.post('/BusinessManagementApi/PostBusinessmen', data).then(respone => { console.log('PostBusinessmen'); return respone; }).catch(error => error);
