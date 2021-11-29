@@ -38,5 +38,11 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.storeService.PostUserAndStore(postUserAndStoreViewModal);
             return Ok(response);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetStore([FromQuery] string userId)
+        {
+            var response = await _serviceWrapper.storeService.GetUserAndStoreByUserId(userId);
+            return Ok(response);
+        }
     }
 }

@@ -57,5 +57,15 @@ namespace GodPay_CMS.Services.Implements
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增失敗" };
         }
+        public async Task<ResponseViewModel> GetUserAndStoreByUserId(string userId)
+        {
+            var users = await _repostioryWrapper.storeRepository.GetUserAndStoreByUserId(userId);
+            if (users.Count() == 0)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無資料" };
+            if(users.Count() >1)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "資料有誤" };
+            var storeRsp = _mapper.Map<StoreRsp>(users.ToList().SingleOrDefault());
+            return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = storeRsp };
+        }        
     }
 }

@@ -63,5 +63,9 @@ namespace GodPay_CMS.Repositories.Entity
         /// 業務詳細資料
         /// </summary>
         public Insider Insider { get; set; }
+        /// <summary>
+        /// 特約商店詳細資料
+        /// </summary>
+        public Store Store { get; set; }
     }
 }

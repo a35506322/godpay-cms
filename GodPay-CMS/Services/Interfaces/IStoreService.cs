@@ -26,5 +26,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="postUserAndStoreViewModel"></param>
         /// <returns></returns>
         Task<ResponseViewModel> PostUserAndStore(PostUserAndStoreViewModel postUserAndStoreViewModel);
+        /// <summary>
+        /// 取得特店及詳細資料
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetUserAndStoreByUserId(string userId);
     }
 }
