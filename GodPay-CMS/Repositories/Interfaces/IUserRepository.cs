@@ -1,4 +1,5 @@
 ﻿using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Services.DTO;
 using System.Collections.Generic;
@@ -59,5 +60,11 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="postUserAndStoreReq"></param>
         /// <returns></returns>
         public Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq);
+        /// <summary>
+        /// 取得使用者們篩選資料
+        /// </summary>
+        /// <param name="businessmanParams">Query</param>
+        /// <returns></returns>
+        public Task<IEnumerable<User>> GetUsersFilter(BusinessmanParams businessmanParams);
     }
 }

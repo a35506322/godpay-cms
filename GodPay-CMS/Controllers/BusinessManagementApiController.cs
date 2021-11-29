@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,13 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> UpdateBusinessmen([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
         {
             var response = await _serviceWrapper.businessManagementService.UpdateBusinessmanAndInsider(updateUserAndInsiderViewModal);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBusinessmensFilter([FromQuery] BusinessmanParams businessmanParams)
+        {
+            var response = await _serviceWrapper.businessManagementService.GetBusinessmensFilter(businessmanParams);
             return Ok(response);
         }
     }

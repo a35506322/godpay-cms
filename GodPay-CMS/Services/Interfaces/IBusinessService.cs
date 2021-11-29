@@ -1,4 +1,5 @@
 ﻿using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.DTO;
 using System.Threading.Tasks;
@@ -39,5 +40,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="userId">帳號</param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetUserAndInsiderByUserId(string userId);
+        /// <summary>
+        /// 取得篩選業務們詳細資料
+        /// </summary>
+        /// <param name="businessmanParams">Query</param>
+        /// <returns></returns>
+        Task<ResponseViewModel> GetBusinessmensFilter(BusinessmanParams businessmanParams);
     }
 }

@@ -2,6 +2,37 @@
     ViewData["Title"] = "業務列表";
 }
 <div class="row p-3 justify-content-center">
+    <div class="p-toolbar p-component w-98 mb-3">
+        <div class="col-12 mb-3">
+            <div class="row">
+                <div class="col-6 col-lg-4 g-3">
+                    <div class="row">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">帳號</span>
+                            <input type="text" class="p-inputtext p-component form-control" id="qUserId"
+                                   v-model.trim="queryModel.UserId" name="qUserId" placeholder=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4 g-3">
+                    <div class="row">
+                        <div class="p-inputgroup input-group">
+                            <span class="p-inputgroup-addon">帳號狀態</span>
+                            <select id="qStatus" class="form-select rounded-1" v-model.trim="queryModel.Status" name="qStatus">
+                                <option selected value="">全部</option>
+                                <option value="11">啟用</option>
+                                <option value="1">停用</option>
+                                <option value="2">未開通</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text-end">
+                <p-button label="查詢" icon="pi pi-search" class="p-button-success" v-on:click="GetBusinessmensFilter"></p-button>
+        </div>
+    </div>
     <p-toolbar class="w-98 mb-3">
         <template #start>
             <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditBusinessmanModal"></p-button>
@@ -44,7 +75,7 @@
     @section Vue
     {
         import {
-            GetBusinessmens, GetBusinessmanDetail,
+            GetBusinessmens, GetBusinessmanDetail, GetBusinessmensFilter,
             PostBusinessmen, GetBusinessmen, UpdateBusinessmen
         } from '/StaticFiles/Vue/Services/IpassService.js'
         import BusinessmanDetailModal from '/StaticFiles/Vue/Components/BusinessmanDetailModal.js'
@@ -66,7 +97,11 @@
                     businesmanDetail: {},
                     tempBusinesse: {},
                     isNew: true,
-                    modelStateError:{}
+                    modelStateError: {},
+                    queryModel: {
+                        UserId:'',
+                        Status:''
+                    }
                 }
             },
             created: function () {
@@ -144,7 +179,7 @@
                                 case 200:
                                     this.businesmanDetail = data.RtnData;
                                     break;
-                                case 404:                                    
+                                case 404:
                                     this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
@@ -172,7 +207,7 @@
                     else {
                         await this.GetBusinessmen(userId);
                     }
-                    
+
                     this.$refs.editBusinessman.Show();
                 },
                 SaveBusinessman: async function (value) {
@@ -202,6 +237,24 @@
                                 break;
                             case 405:
                                 this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },
+                GetBusinessmensFilter: async function () {
+                    const query = {
+                        params: this.queryModel
+                    };
+                    const response = await GetBusinessmensFilter(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.RtnCode;
+                        switch (code) {
+                            case 200:
+                                this.businesses = responseData.RtnData;
                                 break;
                             default:
                                 break;

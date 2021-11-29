@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Common.Util;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -41,6 +42,16 @@ namespace GodPay_CMS.Services.Implements
         public async Task<ResponseViewModel> GetBusinessmens()
         {
             var users = await _repostioryWrapper.userRepository.GetByRole(RoleEnum.Manager);
+
+            var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
+
+            return new ResponseViewModel() { RtnData = userRsp };
+        }
+
+        public async Task<ResponseViewModel> GetBusinessmensFilter(BusinessmanParams businessmanParams)
+        {
+            businessmanParams.Role = ((int)RoleEnum.Manager).ToString();
+            var users = await _repostioryWrapper.userRepository.GetUsersFilter(businessmanParams);
 
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
 

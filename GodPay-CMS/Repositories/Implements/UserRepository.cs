@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -264,6 +265,39 @@ namespace GodPay_CMS.Repositories.Implements
                     }
                     return result;
                 }
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetUsersFilter(BusinessmanParams businessmanParams)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+               
+                string sqlString = @"Select *
+                                    From [dbo].[User] A
+                                    Where 1=1";
+
+                if (!String.IsNullOrEmpty(businessmanParams.UserId))
+                {
+                    sqlString += "And A.UserId = @UserId ";
+                }
+
+                if (!String.IsNullOrEmpty(businessmanParams.Status))
+                {
+                    sqlString += "And A.Status = @Status ";
+                }
+
+                if (!String.IsNullOrEmpty(businessmanParams.Role))
+                {
+                    sqlString += "And A.Role = @Role ";
+                }
+
+                sqlString = sqlString.TrimEnd(' ');
+                sqlString += ";";
+
+                var users = await connection.QueryAsync<User>(sqlString, businessmanParams);
+
+                return users;
             }
         }
     }
