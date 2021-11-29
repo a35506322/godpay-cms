@@ -13,7 +13,7 @@ namespace GodPay_CMS.Common.Enums
     {
         /// <summary>帳號停用</summary>
         [Description("帳號停用")]
-        Deactivate = 0,
+        Deactivate = 1,
 
         /// <summary>帳號尚未開通</summary>
         [Description("帳號尚未開通")]
