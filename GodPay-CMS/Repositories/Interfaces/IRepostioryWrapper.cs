@@ -6,5 +6,6 @@
        public IFuncRepository funcRepository { get; }
        public IFuncClassRepository funcClassRepository { get; }
        public IInsiderRepository insiderRepository { get; }
+       public IStoreRepository storeRepository { get; }
     }
 }

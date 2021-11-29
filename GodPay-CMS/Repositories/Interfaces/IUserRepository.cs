@@ -53,5 +53,11 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="updateUserAndInsiderReq"></param>
         /// <returns></returns>
         public Task<bool> UpdateUserAndInsider(UpdateUserAndInsiderReq updateUserAndInsiderReq);
+        /// <summary>
+        /// 新增特店使用者及詳細資料
+        /// </summary>
+        /// <param name="postUserAndStoreReq"></param>
+        /// <returns></returns>
+        public Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq);
     }
 }

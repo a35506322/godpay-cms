@@ -14,3 +14,7 @@ export const GetBusinessmanDetail = query => axios.get('/BusinessManagementApi/G
 export const PostBusinessmen = data => axios.post('/BusinessManagementApi/PostBusinessmen', data).then(respone => { console.log('PostBusinessmen'); return respone; }).catch(error => error);
 export const UpdateBusinessmen = data => axios.put('/BusinessManagementApi/UpdateBusinessmen', data).then(respone => { console.log('UpdateBusinessmen'); return respone; }).catch(error => error);
 export const GetBusinessmen = query => axios.get('/BusinessManagementApi/GetBusinessmen', query).then(respone => { console.log('PostBusinessmen'); return respone; }).catch(error => error);
+
+// StoreManagementApi
+export const GetStores = () => axios.get('/StoreManagementApi/GetStores').then(respone => { console.log(' StoreManagementApi'); return respone; }).catch(error => error);
+export const GetStoreDetail = (query) => axios.get('/StoreManagementApi/GetStoreDeatil',query).then(respone => { console.log('GetStoreDeatil'); return respone; }).catch(error => error);

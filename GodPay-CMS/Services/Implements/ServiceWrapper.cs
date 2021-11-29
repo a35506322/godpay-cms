@@ -11,16 +11,19 @@ namespace GodPay_CMS.Services.Implements
         private readonly ISigninService _signinService;
         private readonly IAuthorityService _authorityService;
         private readonly IUserService _userService;
-        private readonly IBusinessManagementService _businessManagementService;
+        private readonly IBusinessService _businessManagementService;
+        private readonly IStoreService _storeService;
         public ServiceWrapper(ISigninService signinService,
                               IAuthorityService authorityService,
                               IUserService userService,
-                              IBusinessManagementService businessManagementService)
+                              IBusinessService businessManagementService,
+                              IStoreService storeService)
         {
             _signinService = signinService;
             _authorityService = authorityService;
             _userService = userService;
             _businessManagementService = businessManagementService;
+            _storeService = storeService;
         }
         public ISigninService signinService => _signinService;
 
@@ -28,6 +31,8 @@ namespace GodPay_CMS.Services.Implements
 
         public IUserService userService => _userService;
 
-        public IBusinessManagementService businessManagementService => _businessManagementService;
+        public IBusinessService businessManagementService => _businessManagementService;
+
+        public IStoreService storeService => _storeService;
     }
 }

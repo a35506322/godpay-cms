@@ -51,13 +51,15 @@ namespace GodPay_CMS
             services.AddScoped<IFuncClassRepository, FuncClassRepository>();
             services.AddScoped<IFuncRepository, FuncRepository>();
             services.AddScoped<IInsiderRepository, InsiderRepository>();
+            services.AddScoped<IStoreRepository, StoreRepository>();
 
             // Service
             services.AddScoped<IServiceWrapper, ServiceWrapper>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISigninService, SigninService>();
             services.AddScoped<IAuthorityService, AuthorityService>();
-            services.AddScoped<IBusinessManagementService, BusinessManagementService>();
+            services.AddScoped<IBusinessService, BusinessService>();
+            services.AddScoped<IStoreService, StoreService>();
 
             // Bundle
             services.AddWebOptimizer(pipeline =>

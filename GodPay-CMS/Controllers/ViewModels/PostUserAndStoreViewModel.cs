@@ -9,20 +9,17 @@ using System.Threading.Tasks;
 namespace GodPay_CMS.Controllers.ViewModels
 {
     /// <summary>
-    /// User And Insider ViewModal
+    /// User And Store ViewModal
     /// </summary>
-    public class UpdateUserAndInsiderViewModel
+    public class PostUserAndStoreViewModel
     {
-        /// <summary>
-        /// 流水號(PK)
-        /// </summary>
-        [Required]
-        public int Uid { get; set; }
         /// <summary>
         /// 帳號
         /// </summary>
         [Required]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$", ErrorMessage = "請至少輸入大小寫英文1位、1位數字1位及6-20位帳號")]
         public string UserId { get; set; }
+
         /// <summary>
         /// Email
         /// </summary>
@@ -37,15 +34,16 @@ namespace GodPay_CMS.Controllers.ViewModels
         public AccountStatusEnum Status { get; set; }
 
         /// <summary>
-        /// 名子
+        /// 全名
         /// </summary>
         [Required]
-        public string Name { get; set; }
-
+        public string FullName { get; set; }
         /// <summary>
-        /// 部門
+        /// 別名
         /// </summary>
         [Required]
-        public string Department { get; set; }
+        public string ShortName { get; set; }
+        public string StoreData1 { get; set; } = string.Empty;
+        public string StoreData2 { get; set; } = string.Empty;
     }
 }

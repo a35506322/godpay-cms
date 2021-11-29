@@ -33,6 +33,12 @@ namespace GodPay_CMS.Common.Profiles
 
             CreateMap<UpdateUserAndInsiderViewModel, UpdateUserAndInsiderReq>()
                     .ForMember(n => n.LastModifyDate, o => o.MapFrom(t=> DateTime.Now));
+
+            CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>()
+                       .ForMember(n => n.UserKey, o => o.MapFrom(o => RNGCrypto.HMACSHA256("p@ssw0rd", o.UserId)))
+                       .ForMember(n => n.Role, o => o.MapFrom(t => RoleEnum.Store))
+                       .ForMember(n => n.CreateDate, o => o.MapFrom(t => DateTime.Now))
+                       .ForMember(n => n.Func, o => o.MapFrom(t => 0));
         }
     }
 }
