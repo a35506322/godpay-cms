@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Parameters\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

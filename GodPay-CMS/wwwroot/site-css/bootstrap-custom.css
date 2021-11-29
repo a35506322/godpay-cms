@@ -81,6 +81,14 @@
     background-color: transparent;
 }
 
+.w-8 {
+    width: 8% !important;
+}
+
+.w-80 {
+    width: 80%
+}
+
 .w-98 {
     width:98%
 }
