@@ -172,6 +172,7 @@
                         const response = await GetBusinessmanDetail(query).then(response => response);
                         const status = response.status;
                         if (status === 200) {
+                            console.log(response)
                             const data = response.data;
                             const code = data.RtnCode;
                             const status = this.$common.ChangeReturnCode(code);
@@ -180,6 +181,7 @@
                                     this.businesmanDetail = data.RtnData;
                                     break;
                                 case 404:
+                                    this.businesmanDetail = {};
                                     this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
