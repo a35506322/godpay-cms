@@ -113,11 +113,27 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-                
+                // 新增User主表
                 string sqlString = @"Insert Into [dbo].[User] (UserId,UserKey,Email,Func,Status,Role,CreateDate)
-                                    Values (@UserId,@UserKey,@Email,@Func,@Status,@Role,@CreateDate)";
-                sqlString += @"Insert Into [dbo].[Insider] (UserId,Name,Department)
-                               Values (@UserId,@Name,@Department)";
+                                    Values (@UserId,@UserKey,@Email,@Func,@Status,@Role,@CreateDate);";
+
+                // 新增業務詳細資料子表
+                sqlString += @"Insert Into [dbo].[Insider] (Uid,Name,Department)
+                                Select A.Uid,'',''
+                                From [dbo].[User] A
+                                Where A.UserId = @UserId;";
+
+                sqlString += @"Update T
+                                Set T.Name = @Name,
+	                                T.Department = @Department
+                                From
+                                (
+	                                Select *
+	                                From [dbo].[Insider] A
+	                                Where A.Uid = (Select A.Uid
+					                                From [dbo].[User] A
+					                                Where A.UserId = @UserId)
+                                )T;";
 
                 connection.Open();
                 bool result = false;
@@ -145,8 +161,8 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sqlString = @"Select *
 	                                 From　[dbo].[User] A
-	                                 Join [dbo].[Insider] B On A.UserId = B.UserId
-	                                 Where B.UserId = @userId";
+	                                 Join [dbo].[Insider] B On A.Uid = B.Uid
+	                                 Where A.UserId = @userId";
 
                 var users = await connection.QueryAsync<User, Insider, User>(sqlString, (user, insider) =>
                  {
@@ -171,7 +187,7 @@ namespace GodPay_CMS.Repositories.Implements
                                     (
                                         Select A.Status, A.Email, A.LastModifier, A.LastModifyDate
                                         From [dbo].[User] A
-                                        Where A.UserId = @UserId
+                                        Where A.Uid = @Uid
                                     )T;
 
                                     Update T2
@@ -181,7 +197,7 @@ namespace GodPay_CMS.Repositories.Implements
                                     (
                                         Select A.Name, A.Department
                                         From [dbo].[Insider] A
-                                        Where A.UserId = @UserId
+                                        Where A.Uid = @Uid
                                     )T2;";
                 connection.Open();
                 bool result = false;
@@ -200,6 +216,54 @@ namespace GodPay_CMS.Repositories.Implements
                     }
                 }
                 return result;
+            }
+        }
+
+        public async Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                // 新增User主表
+                string sqlString = @"Insert Into [dbo].[User] (UserId,UserKey,Email,Func,Status,Role,CreateDate)
+                                    Values (@UserId,@UserKey,@Email,@Func,@Status,@Role,@CreateDate);";
+
+                // 新增特店詳細資料子表
+                sqlString += @"Insert Into [dbo].[Store] (Uid,FullName,ShortName,StoreData1,StoreData2)
+                                Select A.Uid,'','','',''
+                                From [dbo].[User] A
+                                Where A.UserId = @UserId;";
+
+                sqlString += @"Update T
+                                Set T.FullName = @FullName,
+	                                T.ShortName = @ShortName,
+	                                T.StoreData1 = @StoreData1,
+	                                T.StoreData2 = @StoreData2
+                                From
+                                (
+	                                Select *
+	                                From [dbo].[Store] A
+	                                Where A.Uid = (Select A.Uid
+					                                From [dbo].[User] A
+					                                Where A.UserId = @UserId)
+                                )T;";
+
+                connection.Open();
+                bool result = false;
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        int rowCounts = await connection.ExecuteAsync(sqlString, postUserAndStoreReq, transaction: tran);
+                        if (rowCounts > 0) { result = true; }
+                        tran.Commit();
+                    }
+                    catch (Exception exception)
+                    {
+                        tran.Rollback();
+                        throw new Exception(exception.Message.ToString());
+                    }
+                    return result;
+                }
             }
         }
     }
