@@ -68,7 +68,7 @@ export default {
                                 <v-field id="Status" class="form-select rounded-1" v-model="tempModel.Status" as="select"
                                     rules="required" name="Status" v-bind:class="[{'is-invalid':errors['Status']||modelStateError['Status']}]">
                                     <option selected value="11">啟用</option>
-                                    <option value="0">停用</option>
+                                    <option value="1">停用</option>
                                     <option value="2">未開通</option>
                                 </v-field>
                                 <error-message name="Status" class="invalid-feedback"></error-message>
