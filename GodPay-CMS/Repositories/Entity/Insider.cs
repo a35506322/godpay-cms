@@ -15,9 +15,9 @@ namespace GodPay_CMS.Repositories.Entity
         /// </summary>
         public int Iid { get; set; }
         /// <summary>
-        /// 帳號
+        /// 使用者流水號(FK)
         /// </summary>
-        public string UserId { get; set; }
+        public int Uid { get; set; }
         /// <summary>
         /// 名子
         /// </summary>

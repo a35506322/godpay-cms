@@ -28,9 +28,9 @@ namespace GodPay_CMS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBusinessmenDeatil([FromQuery] string userId)
+        public async Task<IActionResult> GetBusinessmenDeatil([FromQuery] int uid)
         {
-            var response = await _serviceWrapper.businessManagementService.GetBusinessmenDeatil(userId);
+            var response = await _serviceWrapper.businessManagementService.GetBusinessmenDeatil(uid);
             return Ok(response);
         }
 

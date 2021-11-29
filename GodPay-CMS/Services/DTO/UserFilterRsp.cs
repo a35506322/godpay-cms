@@ -11,6 +11,10 @@ namespace GodPay_CMS.Services.DTO
     public class UserFilterRsp
     {
         /// <summary>
+        /// 流水號(PK)
+        /// </summary>
+        public int Uid { get; set; }
+        /// <summary>
         /// 帳號
         /// </summary>
         public string UserId { get; set; }

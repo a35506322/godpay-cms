@@ -14,21 +14,21 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
 {
-    public class BusinessManagementService : IBusinessManagementService
+    public class BusinessService : IBusinessService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepostioryWrapper _repostioryWrapper;
         private readonly IMapper _mapper;
-        public BusinessManagementService(IRepostioryWrapper repostioryWrapper, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public BusinessService(IRepostioryWrapper repostioryWrapper, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _repostioryWrapper = repostioryWrapper;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ResponseViewModel> GetBusinessmenDeatil(string id)
+        public async Task<ResponseViewModel> GetBusinessmenDeatil(int uid)
         {
-            var insider = await _repostioryWrapper.insiderRepository.GetById(id);
+            var insider = await _repostioryWrapper.insiderRepository.GetById(uid);
 
             if (insider == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無業務詳細資料" };
@@ -41,9 +41,6 @@ namespace GodPay_CMS.Services.Implements
         public async Task<ResponseViewModel> GetBusinessmens()
         {
             var users = await _repostioryWrapper.userRepository.GetByRole(RoleEnum.Manager);
-
-            if (users == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無業務資料" };
 
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
 
@@ -67,11 +64,11 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModal)
         {
-            var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
-
             var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndInsiderViewModal.UserId);
             if (user != null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗",RtnData="已有重複帳號" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗", RtnData = "已有重複帳號" };
+
+            var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
 
             var result = await _repostioryWrapper.userRepository.PostUserAndInsider(postUserAndInsiderReq);
             if (result)

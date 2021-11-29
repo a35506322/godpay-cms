@@ -8,12 +8,11 @@ namespace GodPay_CMS.Services.Interfaces
     /// <summary>
     /// 業務管理伺服器
     /// </summary>
-    public interface IBusinessManagementService
+    public interface IBusinessService
     {
         /// <summary>
         /// 取得業務們
         /// </summary>
-        /// <param name="role">角色</param>
         /// <returns></returns>
         Task<ResponseViewModel> GetBusinessmens();
         /// <summary>
@@ -21,13 +20,13 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="id">帳號</param>
         /// <returns></returns>
-        Task<ResponseViewModel> GetBusinessmenDeatil(string id);
+        Task<ResponseViewModel> GetBusinessmenDeatil(int id);
         /// <summary>
         /// 新增業務及詳細資料
         /// </summary>
-        /// <param name="postUserAndInsiderReq"></param>
+        /// <param name="postUserAndInsiderViewModel"></param>
         /// <returns></returns>
-        Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModel postUserAndInsiderReq);
+        Task<ResponseViewModel> PostBusinessmanAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModel);
         /// <summary>
         /// 更新業務及詳細資料
         /// </summary>

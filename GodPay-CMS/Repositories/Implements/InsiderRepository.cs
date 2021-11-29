@@ -27,7 +27,7 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(string id)
+        public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -37,13 +37,13 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public async Task<Insider> GetById(string id)
+        public async Task<Insider> GetById(int id)
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
                 string sqlString = @"Select *
                                     From[dbo].[Insider] A
-                                    Where A.UserId = @id";
+                                    Where A.Uid = @id";
                 var insider = await _connection.QuerySingleOrDefaultAsync<Insider>(sqlString, new { id = id });
                 return insider;
             }
@@ -53,5 +53,6 @@ namespace GodPay_CMS.Repositories.Implements
         {
             throw new NotImplementedException();
         }
+
     }
 }

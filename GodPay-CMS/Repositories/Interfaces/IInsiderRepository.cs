@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
 {
-    public interface IInsiderRepository : IGenericRepository<Insider>, IGenericRepositoryById<Insider, string>
+    public interface IInsiderRepository : IGenericRepository<Insider>, IGenericRepositoryById<Insider, int>
     {
 
     }
