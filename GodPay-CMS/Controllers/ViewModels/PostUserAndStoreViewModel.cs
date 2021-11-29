@@ -30,8 +30,8 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 目前狀態
         /// </summary>
-        [RequiredEnumField]
-        public AccountStatusEnum Status { get; set; }
+        [Required]
+        public string Status { get; set; }
 
         /// <summary>
         /// 全名
