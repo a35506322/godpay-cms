@@ -58,12 +58,13 @@
     <script type="text/javascript">
         // 設定 axios 基礎設定
         let baseURL = '';
+        let layout = 'backend-laoout';
         @if (env.IsDevelopment())
         {
            @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
         }
-        axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
-        axios.defaults.baseURL = baseURL;
+        window.layout = layout;
+        window.baseURL = baseURL;
     </script>
 
     <script type="module">

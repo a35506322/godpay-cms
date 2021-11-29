@@ -57,10 +57,12 @@
     <script type="text/javascript">
         // 設定 axios 基礎設定
         let baseURL = '';
+        let layout = 'signin-laoout';
         @if (env.IsDevelopment())
         {
            @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
         }
+        window.layout = layout;
         window.baseURL = baseURL;
     </script>
 
