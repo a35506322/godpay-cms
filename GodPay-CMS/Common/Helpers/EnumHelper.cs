@@ -33,5 +33,26 @@ namespace GodPay_CMS.Common.Helpers
             }
         }
 
+        /// <summary>
+        /// 通過列舉型別獲取列舉串列;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetEnumList<T>() where T : Enum
+        {
+            List<T> list = Enum.GetValues(typeof(T)).OfType<T>().ToList();
+            string result = string.Empty;
+            result += "[";
+            foreach (var l in list)
+            {
+                result += "{";
+                result += $"\"key\":\"{l.GetEnumDescription()}\",\"value\":\"{(int)Enum.Parse(typeof(T), l.ToString())}\"";
+                result += "},";
+            }
+            result = result.TrimEnd(',');
+            result += "]";
+            return result;
+        }
     }
 }

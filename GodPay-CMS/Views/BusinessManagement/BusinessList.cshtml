@@ -20,9 +20,7 @@
                             <span class="p-inputgroup-addon">帳號狀態</span>
                             <select id="qStatus" class="form-select rounded-1" v-model.trim="queryModel.Status" name="qStatus">
                                 <option selected value="">全部</option>
-                                <option value="11">啟用</option>
-                                <option value="1">停用</option>
-                                <option value="2">未開通</option>
+                                <option v-for="(status,index) in AccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
                             </select>
                         </div>
                     </div>
@@ -68,7 +66,8 @@
 </div>
 
 <businessman-detail-modal ref="businessmanDetail" v-bind:pdetail="businesmanDetail"></businessman-detail-modal>
-<edit-businessman-modal ref="editBusinessman" v-bind:temp-businesse="tempBusinesse" v-bind:is-new="isNew" v-bind:model-state-error="modelStateError" v-on:save="SaveBusinessman"></edit-businessman-modal>
+<edit-businessman-modal ref="editBusinessman" v-bind:temp-businesse="tempBusinesse" v-bind:is-new="isNew" 
+                        v-bind:model-state-error="modelStateError" v-on:save="SaveBusinessman" v-bind:temp-account-status="AccountStatus"></edit-businessman-modal>
 
 
 <script type="text/javascript">
@@ -76,7 +75,8 @@
     {
         import {
             GetBusinessmens, GetBusinessmanDetail, GetBusinessmensFilter,
-            PostBusinessmen, GetBusinessmen, UpdateBusinessmen
+            PostBusinessmen, GetBusinessmen, UpdateBusinessmen,
+            GetAccountStatusEnum
         } from '/StaticFiles/Vue/Services/IpassService.js'
         import BusinessmanDetailModal from '/StaticFiles/Vue/Components/BusinessmanDetailModal.js'
         import EditBusinessmanModal from '/StaticFiles/Vue/Components/EditBusinessmanModal.js'
@@ -101,11 +101,13 @@
                     queryModel: {
                         UserId:'',
                         Status:''
-                    }
+                    },
+                    AccountStatus: []
                 }
             },
             created: function () {
                 this.GetBusinessmens();
+                this.GetAccountStatusEnum();
             },
             methods: {
                 GetBusinessmens: async function () {
@@ -128,8 +130,29 @@
                         console.log(exception);
                     }
                 },
-                editProduct: function (prod) {
-                    console.log(prod);
+                GetAccountStatusEnum: async function () {
+                    try {
+                        const response = await GetAccountStatusEnum().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (typeof data.RtnData === 'string') {
+                                        this.AccountStatus = JSON.parse(data.RtnData);
+                                    } else {
+                                        this.AccountStatus = data.RtnData;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
                 },
                 GetBusinessmen: async function (userId) {
                     try {

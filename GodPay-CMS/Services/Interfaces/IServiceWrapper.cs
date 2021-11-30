@@ -7,5 +7,6 @@
         public IUserService userService { get; }
         public IBusinessService businessManagementService { get; }
         public IStoreService storeService { get; }
+        public IEnumService enumService { get; }
     }
 }

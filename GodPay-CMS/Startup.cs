@@ -60,6 +60,7 @@ namespace GodPay_CMS
             services.AddScoped<IAuthorityService, AuthorityService>();
             services.AddScoped<IBusinessService, BusinessService>();
             services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<IEnumService, EnumService>();
 
             // Bundle
             services.AddWebOptimizer(pipeline =>

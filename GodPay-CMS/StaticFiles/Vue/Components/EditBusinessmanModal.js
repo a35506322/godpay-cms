@@ -1,6 +1,7 @@
 ﻿import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
+import {  } from '/StaticFiles/Vue/Services/IpassService.js'
 export default {
-    props: ['isNew', 'tempBusinesse', 'modelStateError'],
+    props: ['isNew', 'tempBusinesse', 'modelStateError','tempAccountStatus'],
     components: {
         serverErrorMessage
     },
@@ -67,9 +68,7 @@ export default {
                                 <label for="Status" class="form-label">帳號狀態</label>
                                 <v-field id="Status" class="form-select rounded-1" v-model="tempModel.Status" as="select"
                                     rules="required" name="Status" v-bind:class="[{'is-invalid':errors['Status']||modelStateError['Status']}]">
-                                    <option selected value="11">啟用</option>
-                                    <option value="1">停用</option>
-                                    <option value="2">未開通</option>
+                                    <option v-for="(status,index) in tempAccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
                                 </v-field>
                                 <error-message name="Status" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'Status'"></server-error-message>

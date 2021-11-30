@@ -7,7 +7,6 @@ export const PostSignin = data => axios.post('/SigninOperate/SignIn', data).then
 export const GetUserById = query => axios.get('/ProfileApi/Get', query).then(respone => { console.log('GetUserById'); return respone; }).catch(error => error);
 export const EditUser = data => axios.post('/ProfileApi/Edit', data).then(respone => { console.log('EditUser'); return respone; }).catch(error => error);
 
-
 // BusinessManagementApiController
 export const GetBusinessmens = () => axios.get('/BusinessManagementApi/GetBusinessmens').then(respone => { console.log(' GetBusinessmens'); return respone; }).catch(error => error);
 export const GetBusinessmanDetail = query => axios.get('/BusinessManagementApi/GetBusinessmenDeatil', query).then(respone => { console.log('GetBusinessmanDetail'); return respone; }).catch(error => error);
@@ -18,4 +17,8 @@ export const GetBusinessmensFilter = query => axios.get('/BusinessManagementApi/
 
 // StoreManagementApi
 export const GetStores = () => axios.get('/StoreManagementApi/GetStores').then(respone => { console.log(' StoreManagementApi'); return respone; }).catch(error => error);
-export const GetStoreDetail = (query) => axios.get('/StoreManagementApi/GetStoreDeatil',query).then(respone => { console.log('GetStoreDeatil'); return respone; }).catch(error => error);
+export const GetStoreDetail = (query) => axios.get('/StoreManagementApi/GetStoreDeatil', query).then(respone => { console.log('GetStoreDeatil'); return respone; }).catch(error => error);
+
+// EnumApi
+export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone => { console.log('GetRoleEnum'); return respone; }).catch(error => error);
+export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEnum').then(respone => { console.log('GetAccountStatusEnum'); return respone; }).catch(error => error);
