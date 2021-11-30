@@ -268,7 +268,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<User>> GetUsersFilter(BusinessmanParams businessmanParams)
+        public async Task<IEnumerable<User>> GetUsersFilter(UserParams userParams)
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
@@ -277,17 +277,17 @@ namespace GodPay_CMS.Repositories.Implements
                                     From [dbo].[User] A
                                     Where 1=1";
 
-                if (!String.IsNullOrEmpty(businessmanParams.UserId))
+                if (!String.IsNullOrEmpty(userParams.UserId))
                 {
                     sqlString += "And A.UserId = @UserId ";
                 }
 
-                if (!String.IsNullOrEmpty(businessmanParams.Status))
+                if (!String.IsNullOrEmpty(userParams.Status))
                 {
                     sqlString += "And A.Status = @Status ";
                 }
 
-                if (!String.IsNullOrEmpty(businessmanParams.Role))
+                if (!String.IsNullOrEmpty(userParams.Role))
                 {
                     sqlString += "And A.Role = @Role ";
                 }
@@ -295,7 +295,7 @@ namespace GodPay_CMS.Repositories.Implements
                 sqlString = sqlString.TrimEnd(' ');
                 sqlString += ";";
 
-                var users = await connection.QueryAsync<User>(sqlString, businessmanParams);
+                var users = await connection.QueryAsync<User>(sqlString, userParams);
 
                 return users;
             }

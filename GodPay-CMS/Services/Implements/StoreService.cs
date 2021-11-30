@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -64,8 +65,14 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無資料" };
             if(users.Count() >1)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "資料有誤" };
-            var storeRsp = _mapper.Map<StoreRsp>(users.ToList().SingleOrDefault());
+            var storeRsp = _mapper.Map<StoreParticularsRsp>(users.ToList().SingleOrDefault());
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = storeRsp };
-        }        
+        }  
+        public async Task<ResponseViewModel> GetStoreFilter(UserParams userParams)
+        {
+            var users = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
+            var storeRsp = _mapper.Map< IEnumerable<UserFilterRsp>>(users);
+            return new ResponseViewModel() { RtnData = storeRsp };
+        }
     }
 }

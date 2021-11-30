@@ -43,8 +43,8 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 取得篩選業務們詳細資料
         /// </summary>
-        /// <param name="businessmanParams">Query</param>
+        /// <param name="userParams">Query</param>
         /// <returns></returns>
-        Task<ResponseViewModel> GetBusinessmensFilter(BusinessmanParams businessmanParams);
+        Task<ResponseViewModel> GetBusinessmensFilter(UserParams userParams);
     }
 }

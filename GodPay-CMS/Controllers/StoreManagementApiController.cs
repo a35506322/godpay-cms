@@ -1,4 +1,5 @@
-﻿using GodPay_CMS.Controllers.ViewModels;
+﻿using GodPay_CMS.Controllers.Parameters;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,12 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> GetStore([FromQuery] string userId)
         {
             var response = await _serviceWrapper.storeService.GetUserAndStoreByUserId(userId);
+            return Ok(response);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetStoreFilter([FromQuery] UserParams userParams)
+        {
+            var response = await _serviceWrapper.storeService.GetStoreFilter(userParams);
             return Ok(response);
         }
     }

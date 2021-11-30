@@ -57,9 +57,9 @@ namespace GodPay_CMS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBusinessmensFilter([FromQuery] BusinessmanParams businessmanParams)
+        public async Task<IActionResult> GetBusinessmensFilter([FromQuery] UserParams userParams)
         {
-            var response = await _serviceWrapper.businessManagementService.GetBusinessmensFilter(businessmanParams);
+            var response = await _serviceWrapper.businessManagementService.GetBusinessmensFilter(userParams);
             return Ok(response);
         }
     }

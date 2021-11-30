@@ -65,6 +65,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="businessmanParams">Query</param>
         /// <returns></returns>
-        public Task<IEnumerable<User>> GetUsersFilter(BusinessmanParams businessmanParams);
+        public Task<IEnumerable<User>> GetUsersFilter(UserParams userParams);
     }
 }

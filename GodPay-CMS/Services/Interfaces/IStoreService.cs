@@ -1,4 +1,5 @@
-﻿using GodPay_CMS.Controllers.ViewModels;
+﻿using GodPay_CMS.Controllers.Parameters;
+using GodPay_CMS.Controllers.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,5 +33,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetUserAndStoreByUserId(string userId);
+        /// <summary>
+        /// 取得篩選特約商店的詳細資料
+        /// </summary>
+        /// <param name="userParams"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetStoreFilter(UserParams userParams);
     }
 }

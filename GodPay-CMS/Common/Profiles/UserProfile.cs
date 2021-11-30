@@ -14,7 +14,7 @@ namespace GodPay_CMS.Common.Profiles
         public UserProfile()
         {
             CreateMap<User, UserRsp>();
-
+            
             CreateMap<User, UserFilterRsp>()
                     .ForMember(n => n.Role, o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
                     .ForMember(n => n.Status, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
@@ -39,7 +39,8 @@ namespace GodPay_CMS.Common.Profiles
                        .ForMember(n => n.Role, o => o.MapFrom(t => RoleEnum.Store))
                        .ForMember(n => n.CreateDate, o => o.MapFrom(t => DateTime.Now))
                        .ForMember(n => n.Func, o => o.MapFrom(t => 0));
-            CreateMap<User, StoreRsp>()
+
+            CreateMap<User, StoreParticularsRsp>()
                        .ForMember(n => n.FullName, o => o.MapFrom(o => o.Store.FullName))
                        .ForMember(n => n.ShortName, o => o.MapFrom(o => o.Store.ShortName))
                        .ForMember(n => n.StoreData1, o => o.MapFrom(o => o.Store.StoreData1))

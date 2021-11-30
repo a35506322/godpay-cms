@@ -48,10 +48,10 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = userRsp };
         }
 
-        public async Task<ResponseViewModel> GetBusinessmensFilter(BusinessmanParams businessmanParams)
+        public async Task<ResponseViewModel> GetBusinessmensFilter(UserParams userParams)
         {
-            businessmanParams.Role = ((int)RoleEnum.Manager).ToString();
-            var users = await _repostioryWrapper.userRepository.GetUsersFilter(businessmanParams);
+            userParams.Role = ((int)RoleEnum.Manager).ToString();
+            var users = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
 
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
 
