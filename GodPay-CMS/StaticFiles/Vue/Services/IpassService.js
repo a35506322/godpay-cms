@@ -6,6 +6,7 @@ export const PostSignin = data => axios.post('/SigninOperate/SignIn', data).then
 // ProfileApiController
 export const GetUserById = query => axios.get('/ProfileApi/Get', query).then(respone => { console.log('GetUserById'); return respone; }).catch(error => error);
 export const EditUser = data => axios.post('/ProfileApi/Edit', data).then(respone => { console.log('EditUser'); return respone; }).catch(error => error);
+export const EditKey = data => axios.post('/ProfileApi/EditKey', data).then(respone => { console.log('EditKey'); return respone; }).catch(error => error);
 
 // BusinessManagementApiController
 export const GetBusinessmens = () => axios.get('/BusinessManagementApi/GetBusinessmens').then(respone => { console.log(' GetBusinessmens'); return respone; }).catch(error => error);

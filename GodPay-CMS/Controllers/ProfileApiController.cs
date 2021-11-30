@@ -38,5 +38,17 @@ namespace GodPay_CMS.Controllers
             var result = await _serviceWrapper.userService.UpdateUser(editUserViewModel);
             return Ok(result);
         }
+
+        /// <summary>
+        /// 變更使用者密碼
+        /// </summary>
+        /// <param name="editKeyViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> EditKey([FromBody] EditKeyViewModel editKeyViewModel)
+        {
+            var result = await _serviceWrapper.userService.UpdateKey(editKeyViewModel);
+            return Ok(result);
+        }
     }
 }

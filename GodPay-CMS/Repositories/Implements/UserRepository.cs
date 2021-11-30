@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Dapper;
+﻿using Dapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using GodPay_CMS.Common.Util;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -106,6 +107,21 @@ namespace GodPay_CMS.Repositories.Implements
                                 WHERE UserId = @UserId";
 
                 var entity = await _connection.ExecuteAsync(sql, updateUserReq);
+                return entity;
+            }
+        }
+
+        public async Task<int> UpdateKey(EditKeyViewModel editKeyViewModel)
+        {
+            editKeyViewModel.NewKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @" UPDATE [dbo].[User] 
+                                SET UserKey = @NewKey, 
+                                    LastChangePwdDate = GETDATE()
+                                WHERE UserId = @UserId";
+
+                var entity = await _connection.ExecuteAsync(sql, editKeyViewModel);
                 return entity;
             }
         }

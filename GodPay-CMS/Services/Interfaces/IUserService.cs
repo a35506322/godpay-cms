@@ -14,11 +14,19 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="userId">帳號</param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetUserByUserId(string userId);
+
         /// <summary>
         /// 更新使用者
         /// </summary>
         /// <param name="editUserViewModel"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> UpdateUser(EditUserViewModel editUserViewModel);
+
+        /// <summary>
+        /// 變更密碼
+        /// </summary>
+        /// <param name="editKeyViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> UpdateKey(EditKeyViewModel editKeyViewModel);
     }
 }
