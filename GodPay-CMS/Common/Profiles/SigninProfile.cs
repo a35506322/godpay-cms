@@ -10,9 +10,7 @@ namespace GodPay_CMS.Common.Profiles
     {
         public SigninProfile()
         {
-            CreateMap<SigninViewModel, SigninReq>()
-                .ForMember(n => n.UserKey,
-                o => o.MapFrom(src => RNGCrypto.HMACSHA256(src.UserKey, src.UserId)));
+            CreateMap<SigninViewModel, SigninReq>();
 
             CreateMap<User, UserRsp>();
         }

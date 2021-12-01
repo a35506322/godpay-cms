@@ -49,7 +49,7 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "變更使用者資料失敗" };
 
             var result = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.UserId);
-            return new ResponseViewModel() { RtnMessage="更新成功",RtnData = result };
+            return new ResponseViewModel() { RtnMessage = "更新成功", RtnData = result };
         }
 
         public async Task<ResponseViewModel> UpdateKey(EditKeyViewModel editKeyViewModel)
@@ -57,7 +57,7 @@ namespace GodPay_CMS.Services.Implements
             var signinReq = new SigninReq
             {
                 UserId = editKeyViewModel.UserId,
-                UserKey = RNGCrypto.HMACSHA256(editKeyViewModel.OldKey, editKeyViewModel.UserId)
+                UserKey = editKeyViewModel.OldKey
             };
             var user = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(signinReq);
 

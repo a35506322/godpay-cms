@@ -51,6 +51,8 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<User> GetByUserIdAndUserKey(SigninReq signinReq)
         {
+            signinReq.UserKey = RNGCrypto.HMACSHA256(signinReq.UserKey, signinReq.UserId);
+
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
                 string sql = @"SELECT * FROM [dbo].[User] 
@@ -114,6 +116,7 @@ namespace GodPay_CMS.Repositories.Implements
         public async Task<int> UpdateKey(EditKeyViewModel editKeyViewModel)
         {
             editKeyViewModel.NewKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
+
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
                 string sql = @" UPDATE [dbo].[User] 
@@ -158,14 +161,14 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        int rowCounts =  await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
-                        if (rowCounts > 0) { result = true; }                        
+                        int rowCounts = await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
+                        if (rowCounts > 0) { result = true; }
                         tran.Commit();
                     }
                     catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(exception.Message.ToString());                      
+                        throw new Exception(exception.Message.ToString());
                     }
                     return result;
                 }
@@ -288,7 +291,7 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-               
+
                 string sqlString = @"Select *
                                     From [dbo].[User] A
                                     Where 1=1";
