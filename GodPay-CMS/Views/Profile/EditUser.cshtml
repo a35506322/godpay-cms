@@ -182,9 +182,7 @@
                 }
             },
             SaveKey: async function (value) {
-                console.log('SaveKey value');
-                console.log(value);
-                //this.EditKeyViewModel = value;
+                this.EditKeyViewModel = value;
                 this.EditKeyViewModel.UserId = this.user.UserId;
                 try {
                     const response = await EditKey(this.EditKeyViewModel).then(response => response);
