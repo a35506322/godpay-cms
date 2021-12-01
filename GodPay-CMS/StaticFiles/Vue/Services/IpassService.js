@@ -18,6 +18,7 @@ export const GetBusinessmensFilter = query => axios.get('/BusinessManagementApi/
 // StoreManagementApi
 export const GetStores = () => axios.get('/StoreManagementApi/GetStores').then(respone => { console.log(' StoreManagementApi'); return respone; }).catch(error => error);
 export const GetStoreDetail = (query) => axios.get('/StoreManagementApi/GetStoreDeatil', query).then(respone => { console.log('GetStoreDeatil'); return respone; }).catch(error => error);
+export const PostStore = data => axios.post('/StoreManagementApi/PostStore', data).then(respone => { console.log('PostStore'); return respone; }).catch(error => error);
 
 // EnumApi
 export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone => { console.log('GetRoleEnum'); return respone; }).catch(error => error);

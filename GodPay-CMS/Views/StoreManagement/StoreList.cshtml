@@ -1,11 +1,11 @@
-﻿@{ 
+﻿@{
     ViewData["Title"] = "特店列表";
 }
 
 <div class="row p-3 justify-content-center">
     <p-toolbar class="w-98 mb-3">
         <template #start>
-            <p-button label="新增特店" icon="pi pi-plus" class="p-button-success p-mr-2"></p-button>
+            <p-button label="新增特店" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditStoreModal"></p-button>
         </template>
     </p-toolbar>
     <p-datatable v-bind:value="stores" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
@@ -13,7 +13,7 @@
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="Showing {first} to {last} of {totalRecords}"
                  v-model:selection="selectedStore" selection-mode="single" data-key="UserId"
                  v-bind:resizable-columns="true" column-resize-mode="fit">
-        <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field"  v-bind:header="col.header"></p-column>
+        <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header"></p-column>
         <p-column style="min-width:8rem" class="text-center">
             <template #body="slotProps">
                 <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'特店詳細資訊'" v-on:click="OpenStoreDetailModal(slotProps.data.Uid)"></p-button>
@@ -31,30 +31,34 @@
 </div>
 
 <store-detail-modal ref="storeDetail" v-bind:pdetail="storeDetail"></store-detail-modal>
-
+<edit-store-modal ref="editStore" v-bind:stores="stores" v-bind:is-new="isNew"
+                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores"></edit-store-modal>
 
 <script type="text/javascript">
     @section Vue
     {
         import {
-            GetStores, GetStoreDetail
+        GetStores, GetStoreDetail, PostStore
         } from '/StaticFiles/Vue/Services/IpassService.js'
         import StoreDetailModal from '/StaticFiles/Vue/Components/StoreDetailModal.js'
-
+        import EditStoreModal from '/StaticFiles/Vue/Components/EditStoreModal.js'
         const app = Vue.createApp({
             components: {
                 "p-datatable": primevue.datatable,
                 "p-column": primevue.column,
                 "p-button": primevue.button,
                 "p-toolbar": primevue.toolbar,
-                StoreDetailModal
+                StoreDetailModal,
+                EditStoreModal
             },
             data: function () {
                 return {
                     columnsDefs: [],
                     stores: [],
                     selectedStore: {},
-                    storeDetail: {}
+                    storeDetail: {},
+                    isNew: true,
+                    modelStateError: {},
                 }
             },
             created: function () {
@@ -130,7 +134,26 @@
                 },
                 editProduct: function (prod) {
                     console.log(prod);
+                },
+                OpenEditStoreModal: async function (isNew = true, userId = '') {
+                    this.isNew = isNew;
+                    if (isNew) {
+                        this.tempBusinesse = {};
+                    }
+                    else {
+                        await this.GetStores(userId);
+                    }
+                    this.$refs.editStore.Show();
+                },
+                SaveStore: async function (value) {
+                    let response = null;
+                    if (this.isNew) {
+                        response = await PostBusinessmen(value).then(response => response);
+                    } else {
+
+                    }
                 }
+
             }
          })
     }
