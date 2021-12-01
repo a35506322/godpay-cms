@@ -33,7 +33,7 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 角色
         /// </summary>
-        public int Role { get; set; }
+        public int RoleFlag { get; set; }
         /// <summary>
         /// 功能類別(單筆)
         /// </summary>
