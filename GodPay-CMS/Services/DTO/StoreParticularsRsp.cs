@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {
-    public class StoreRsp
+    public class StoreParticularsRsp
     {
         /// <summary>
         /// 流水號
@@ -40,5 +40,9 @@ namespace GodPay_CMS.Services.DTO
         /// 測試欄位2
         /// </summary>
         public string StoreData2 { get; set; }
+        /// <summary>
+        /// 使用者ID
+        /// </summary>
+        public string UserId { get; set; }
     }
 }

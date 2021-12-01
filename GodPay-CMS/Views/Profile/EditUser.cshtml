@@ -71,14 +71,14 @@
     </div>
 </div>
 <edit-user-modal ref="editUser" v-bind:pemail="user.Email" v-bind:model-error="modelStateError" v-on:save="SaveProfile"></edit-user-modal>
-<change-password-modal ref="changePassword"></change-password-modal>
+<change-password-modal ref="changePassword" v-bind:model-error="modelStateError" v-on:save="SaveKey"></change-password-modal>
 
 <script type="text/javascript">
     @section Vue
     {
     import editUserModal from '/StaticFiles/Vue/Components/EditUserModal.js'
     import changePasswordModal from '/StaticFiles/Vue/Components/ChangePasswordModal.js'
-    import { GetUserById, EditUser } from '/StaticFiles/Vue/Services/IpassService.js'
+    import { GetUserById, EditUser, EditKey } from '/StaticFiles/Vue/Services/IpassService.js'
 
     const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
     const app = Vue.createApp({
@@ -98,6 +98,12 @@
                     ModifierId: Id,
                     UserId: '',
                     Email: ''
+                },
+                EditKeyViewModel: {
+                    UserId: Id,
+                    OldKey: '',
+                    NewKey: '',
+                    NewKey2:''
                 }
             }
         },
@@ -172,6 +178,35 @@
                     }
                 }
                 catch (exception) {
+                    console.log(exception);
+                }
+            },
+            SaveKey: async function (value) {
+                this.EditKeyViewModel = value;
+                this.EditKeyViewModel.UserId = this.user.UserId;
+                try {
+                    const response = await EditKey(this.EditKeyViewModel).then(response => response);
+                    console.log('SaveKey response');
+                    console.log(response);
+                    if (response.status === 200) {
+                        switch (response.data.RtnCode) {
+                            case 200:
+                                this.$refs.changePassword.Close();
+                                break;
+                            case 401:
+                            case 417:
+                            case 423:
+                                if (typeof (response.data.RtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(response.data.RtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            default:
+                                throw new Error('代碼有誤');
+                                break;
+                        }
+                    }
+                } catch (exception) {
                     console.log(exception);
                 }
             }

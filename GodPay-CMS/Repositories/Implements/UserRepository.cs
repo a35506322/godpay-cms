@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Dapper;
+﻿using Dapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using GodPay_CMS.Common.Util;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -50,6 +51,8 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<User> GetByUserIdAndUserKey(SigninReq signinReq)
         {
+            signinReq.UserKey = RNGCrypto.HMACSHA256(signinReq.UserKey, signinReq.UserId);
+
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
                 string sql = @"SELECT * FROM [dbo].[User] 
@@ -110,6 +113,22 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
+        public async Task<int> UpdateKey(EditKeyViewModel editKeyViewModel)
+        {
+            editKeyViewModel.NewKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
+
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @" UPDATE [dbo].[User] 
+                                SET UserKey = @NewKey, 
+                                    LastChangePwdDate = GETDATE()
+                                WHERE UserId = @UserId";
+
+                var entity = await _connection.ExecuteAsync(sql, editKeyViewModel);
+                return entity;
+            }
+        }
+
         public async Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq)
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
@@ -142,14 +161,14 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        int rowCounts =  await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
-                        if (rowCounts > 0) { result = true; }                        
+                        int rowCounts = await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
+                        if (rowCounts > 0) { result = true; }
                         tran.Commit();
                     }
                     catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(exception.Message.ToString());                      
+                        throw new Exception(exception.Message.ToString());
                     }
                     return result;
                 }
@@ -268,26 +287,26 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<User>> GetUsersFilter(BusinessmanParams businessmanParams)
+        public async Task<IEnumerable<User>> GetUsersFilter(UserParams userParams)
         {
             using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-               
+
                 string sqlString = @"Select *
                                     From [dbo].[User] A
                                     Where 1=1";
 
-                if (!String.IsNullOrEmpty(businessmanParams.UserId))
+                if (!String.IsNullOrEmpty(userParams.UserId))
                 {
                     sqlString += "And A.UserId = @UserId ";
                 }
 
-                if (!String.IsNullOrEmpty(businessmanParams.Status))
+                if (!String.IsNullOrEmpty(userParams.Status))
                 {
                     sqlString += "And A.Status = @Status ";
                 }
 
-                if (!String.IsNullOrEmpty(businessmanParams.Role))
+                if (!String.IsNullOrEmpty(userParams.Role))
                 {
                     sqlString += "And A.Role = @Role ";
                 }
@@ -295,7 +314,7 @@ namespace GodPay_CMS.Repositories.Implements
                 sqlString = sqlString.TrimEnd(' ');
                 sqlString += ";";
 
-                var users = await connection.QueryAsync<User>(sqlString, businessmanParams);
+                var users = await connection.QueryAsync<User>(sqlString, userParams);
 
                 return users;
             }

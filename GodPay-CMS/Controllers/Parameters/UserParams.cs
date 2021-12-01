@@ -9,7 +9,7 @@ namespace GodPay_CMS.Controllers.Parameters
     /// <summary>
     /// Businessman Query
     /// </summary>
-    public class BusinessmanParams
+    public class UserParams
     {
         /// <summary>
         /// 帳號

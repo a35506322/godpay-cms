@@ -34,5 +34,9 @@ namespace GodPay_CMS.Common.Enums
         /// <summary>執行失敗</summary>
         [Description("執行失敗")]
         ExecutionFail = 417,
+
+        /// <summary>新密碼不可與舊密碼相同</summary>
+        [Description("新密碼不可與舊密碼相同")]
+        SameKeyFail = 423,
     }
 }
