@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using GodPay_CMS.Common.Enums;
+﻿using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Repositories.Interfaces;
-using GodPay_CMS.Services.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -54,12 +52,12 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-               var Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
+                var Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
 
                 string sqlString = @"Select * 
                                     From [dbo].[FuncClass] A
                                     Join [dbo].[Func] B on A.FuncClassCode = B.FuncClassCode
-                                    Where B.RoleFlag & @Role <> 0";
+                                    Where B.RoleFlag & @Role <> 0 AND B.IsWebsite = 1";
 
                 // 偽1對多
                 var funcClass = await _connection.QueryAsync<FuncClass, Func, FuncClass>(sqlString, (funcClass, func) =>
