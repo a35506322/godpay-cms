@@ -57,8 +57,7 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sql = @"SELECT * FROM [dbo].[User] 
                                WHERE UserId = @UserId 
-                               AND UserKey  = @UserKey
-                               AND Status   = @Status";
+                               AND UserKey  = @UserKey";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, signinReq);
 
                 if (entity == null)
