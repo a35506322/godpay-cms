@@ -33,6 +33,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 目前狀態
         /// </summary>
+        [Required]
         public string Status { get; set; }
 
         /// <summary>
