@@ -16,9 +16,5 @@ namespace GodPay_CMS.Services.DTO
         /// 密碼
         /// </summary>
         public string UserKey { get; set; }
-        /// <summary>
-        /// 帳號啟用狀態
-        /// </summary>
-        public AccountStatusEnum Status { get; set; } = AccountStatusEnum.Activate;
     }
 }

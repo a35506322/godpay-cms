@@ -21,6 +21,13 @@ namespace GodPay_CMS.Repositories.Interfaces
         public Task<User> GetByUserIdAndUserKey(SigninReq signinReq);
 
         /// <summary>
+        /// 紀錄登入時間
+        /// </summary>
+        /// <param name="signinReq"></param>
+        /// <returns></returns>
+        public Task<int> UpdateLoginTime(SigninReq signinReq);
+
+        /// <summary>
         /// 以帳號取得使用者資訊
         /// </summary>
         /// <param name="userId">帳號</param>
@@ -47,30 +54,35 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="editKeyViewModel"></param>
         /// <returns></returns>
         public Task<int> UpdateKey(EditKeyViewModel editKeyViewModel);
+
         /// <summary>
         /// 新增業務使用者及詳細資料
         /// </summary>
         /// <param name="userAndInsiderReq"></param>
         /// <returns></returns>
         public Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq);
+
         /// <summary>
         /// 查詢單筆使用者及業務詳細資料(Join)
         /// </summary>
         /// <param name="userId">帳號</param>
         /// <returns></returns>
         public Task<IEnumerable<User>> GetUserAndInsiderByUserId(string userId);
+
         /// <summary>
         /// 修改業務使用者及詳細資料
         /// </summary>
         /// <param name="updateUserAndInsiderReq"></param>
         /// <returns></returns>
         public Task<bool> UpdateUserAndInsider(UpdateUserAndInsiderReq updateUserAndInsiderReq);
+
         /// <summary>
         /// 新增特店使用者及詳細資料
         /// </summary>
         /// <param name="postUserAndStoreReq"></param>
         /// <returns></returns>
         public Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq);
+
         /// <summary>
         /// 取得使用者們篩選資料
         /// </summary>

@@ -30,6 +30,11 @@ namespace GodPay_CMS.Services.Implements
             if (userRsp == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData = "帳號密碼錯誤" };
 
+            if(userRsp.Status==AccountStatusEnum.Deactivate)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData = "帳號停用中，請聯絡管理員" };
+
+            await _repostioryWrapper.userRepository.UpdateLoginTime(signinReq);
+
             return new ResponseViewModel() { RtnData = userRsp };
         }
     }

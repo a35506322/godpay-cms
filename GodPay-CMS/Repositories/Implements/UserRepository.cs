@@ -57,13 +57,25 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sql = @"SELECT * FROM [dbo].[User] 
                                WHERE UserId = @UserId 
-                               AND UserKey  = @UserKey
-                               AND Status   = @Status";
+                               AND UserKey  = @UserKey";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, signinReq);
 
                 if (entity == null)
                     return null;
 
+                return entity;
+            }
+        }
+
+        public async Task<int> UpdateLoginTime(SigninReq signinReq)
+        {
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @" UPDATE [dbo].[User] 
+                                SET LastLoginDate = GETDATE()
+                                WHERE UserId = @UserId";
+
+                var entity = await _connection.ExecuteAsync(sql, signinReq);
                 return entity;
             }
         }
