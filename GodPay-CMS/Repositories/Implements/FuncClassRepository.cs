@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Repositories.Entity;
+using GodPay_CMS.Services.DTO;
 
 namespace GodPay_CMS.Repositories.Implements
 {
