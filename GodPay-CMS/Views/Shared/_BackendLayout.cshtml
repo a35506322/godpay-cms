@@ -79,11 +79,12 @@
 
         // 全域註冊vue method
         const emitter = mitt();
-        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '/StaticFiles/Vue/Methods/Common.js';
+        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode, CheckAuthority } from '/StaticFiles/Vue/Methods/Common.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
-            ChangeReturnCode
+            ChangeReturnCode,
+            CheckAuthority
         }
         // 全域註冊Component
         app.component('pDialog', primevue.dialog);

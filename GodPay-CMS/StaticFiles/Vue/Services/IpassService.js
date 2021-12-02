@@ -24,3 +24,6 @@ export const PostStore = data => axios.post('/StoreManagementApi/PostStore', dat
 // EnumApi
 export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone => { console.log('GetRoleEnum'); return respone; }).catch(error => error);
 export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEnum').then(respone => { console.log('GetAccountStatusEnum'); return respone; }).catch(error => error);
+
+// AuthorityApi
+export const GetListOfFunctionFilter = query => axios.get('/AuthorityApi/GetListOfFunctionFilter', query).then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);

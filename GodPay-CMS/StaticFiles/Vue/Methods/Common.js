@@ -33,3 +33,12 @@ export function ChangeReturnCode(returnCode) {
     }
     return statusEnum[returnCode]
 }
+
+export function CheckAuthority(array, action) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i]['FuncEnName'] === action) {
+            return true;
+        }
+    }
+    return false;
+}

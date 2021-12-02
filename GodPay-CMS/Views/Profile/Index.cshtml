@@ -7,8 +7,8 @@
             <div class="card-body">
                 <div class="col-12 mb-10">
                     <div class="d-flex justify-content-end">
-                        <p-button type="button" icon="pi pi-user-edit" class="me-1 px-2" v-tooltip.top="'編輯基本資料'" v-on:click="OpenEditUserModal"></p-button>
-                        <p-button type="button" icon="bi bi-gear-fill" class="me-1 px-2 p-button-danger" v-tooltip.top="'變更密碼'" v-on:click="OpenChangePasswordModal"></p-button>
+                        <p-button v-if="this.$common.CheckAuthority(funcs,'Edit')" type="button" icon="pi pi-user-edit" class="me-1 px-2" v-tooltip.top="'編輯基本資料'" v-on:click="OpenEditUserModal"></p-button>
+                        <p-button v-if="this.$common.CheckAuthority(funcs,'EditKey')" type="button" icon="bi bi-gear-fill" class="me-1 px-2 p-button-danger" v-tooltip.top="'變更密碼'" v-on:click="OpenChangePasswordModal"></p-button>
                     </div>
                 </div>
                 <div class="col-12">
@@ -78,7 +78,10 @@
     {
     import editUserModal from '/StaticFiles/Vue/Components/EditUserModal.js'
     import changePasswordModal from '/StaticFiles/Vue/Components/ChangePasswordModal.js'
-    import { GetUserById, EditUser, EditKey } from '/StaticFiles/Vue/Services/IpassService.js'
+    import {
+        GetUserById, EditUser, EditKey,
+        GetListOfFunctionFilter
+    } from '/StaticFiles/Vue/Services/IpassService.js'
 
     const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
     const app = Vue.createApp({
@@ -88,6 +91,7 @@
         },
         data: function () {
             return {
+                funcs:[],
                 modelStateError: {},
                 tooltipList: [],
                 user: {
@@ -109,6 +113,7 @@
         },
         created: function () {
             this.GetUserById();
+            this.GetListOfFunctionFilter();
         },
         methods: {
             OpenEditUserModal: function () {
@@ -144,11 +149,35 @@
                     console.log(exception)
                 }
             },
+            GetListOfFunctionFilter: async function () {
+                try {
+                    const query = {
+                        params: {
+                            IsWebSite: 'false',
+                            FuncClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                        }
+                    };
+                    const response = await GetListOfFunctionFilter(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.RtnCode;
+                        switch (code) {
+                            case 200:
+                                if (data.RtnData.length > 0) {
+                                    this.funcs = data.RtnData[0].Functions;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception)
+                }
+            },
             SaveProfile: async function (value) {
-                // 確認取得值
-                // POST
-                // 關掉MODAL
-                // 成功:重新渲染 失敗:跳出提示
                 this.EditViewModel.Email = value;
                 this.EditViewModel.UserId = this.user.UserId;
                 try {

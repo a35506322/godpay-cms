@@ -10,42 +10,62 @@
             @foreach (var funcClass in Model)
             {
 
-                string controller   = httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string;
-                string action       = httpContextAccessor.HttpContext.Request.RouteValues["action"] as string;
-                string collapsed = "";
-                string show = "";
-                if (String.Compare(controller, funcClass.FuncClassEnName, true) == 0)
+                string controller = httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string;
+                string action = httpContextAccessor.HttpContext.Request.RouteValues["action"] as string;
+
+
+                @if (funcClass.Functions.Count() == 1)
                 {
-                    show = "show";
+
+                    string active = "";
+                    if (String.Compare(action, funcClass.Functions.SingleOrDefault().FuncEnName, true) == 0)
+                    {
+                        active = "active";
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link has-arrow @active" asp-controller="@funcClass.FuncClassEnName" asp-action="@funcClass.Functions.SingleOrDefault().FuncEnName">
+                            <i data-feather="home" class="nav-icon icon-xs me-2"></i> @funcClass.Functions.SingleOrDefault().FuncChName
+                        </a>
+                    </li>
                 }
                 else
                 {
-                    collapsed = "collapsed";
-                }
-                <li class="nav-item">
-                    <a class="nav-link has-arrow @collapsed" href="#!" data-bs-toggle="collapse" data-bs-target="#@funcClass.FuncClassEnName" aria-expanded="false" aria-controls="@funcClass.FuncClassEnName">
-                        <i data-feather="layers"
-                           class="nav-icon icon-xs me-2">
-                        </i> @funcClass.FuncClassChName
-                    </a>
-                    <div id="@funcClass.FuncClassEnName" class="collapse @show" data-bs-parent="#sideNavbar">
-                        <ul class="nav flex-column">
-                            @foreach (var func in funcClass.Functions)
-                            {
-                                string active = "";
-                                if (String.Compare(action, func.FuncEnName, true) == 0)
+                    string collapsed = "";
+                    string show = "";
+                    if (String.Compare(controller, funcClass.FuncClassEnName, true) == 0)
+                    {
+                        show = "show";
+                    }
+                    else
+                    {
+                        collapsed = "collapsed";
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link has-arrow @collapsed" href="#!" data-bs-toggle="collapse" data-bs-target="#@funcClass.FuncClassEnName" aria-expanded="false" aria-controls="@funcClass.FuncClassEnName">
+                            <i data-feather="layers"
+                               class="nav-icon icon-xs me-2">
+                            </i> @funcClass.FuncClassChName
+                        </a>
+                        <div id="@funcClass.FuncClassEnName" class="collapse @show" data-bs-parent="#sideNavbar">
+                            <ul class="nav flex-column">
+                                @foreach (var func in funcClass.Functions)
                                 {
-                                    active = "active";
+                                    string active = "";
+                                    if (String.Compare(action, func.FuncEnName, true) == 0)
+                                    {
+                                        active = "active";
+                                    }
+                                    <li class="nav-item">
+                                        <a class="nav-link @active" asp-controller="@funcClass.FuncClassEnName" asp-action="@func.FuncEnName">
+                                            @func.FuncChName
+                                        </a>
+                                    </li>
                                 }
-                                <li class="nav-item">
-                                    <a class="nav-link @active" asp-controller="@funcClass.FuncClassEnName" asp-action="@func.FuncEnName">
-                                        @func.FuncChName
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </li>
+                            </ul>
+                        </div>
+                    </li>
+                }
+
             }
         </ul>
     </div>
