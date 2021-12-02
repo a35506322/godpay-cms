@@ -31,14 +31,15 @@
 </div>
 
 <store-detail-modal ref="storeDetail" v-bind:pdetail="storeDetail"></store-detail-modal>
-<edit-store-modal ref="editStore" v-bind:stores="stores" v-bind:is-new="isNew"
-                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores"></edit-store-modal>
+<edit-store-modal ref="editStore" v-bind:temp-store="tempStore" v-bind:is-new="isNew"
+                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores" v-bind:temp-account-status="AccountStatus" ></edit-store-modal>
 
 <script type="text/javascript">
     @section Vue
     {
         import {
-        GetStores, GetStoreDetail, PostStore
+        GetStores, GetStoreDetail, PostStore,
+        GetAccountStatusEnum
         } from '/StaticFiles/Vue/Services/IpassService.js'
         import StoreDetailModal from '/StaticFiles/Vue/Components/StoreDetailModal.js'
         import EditStoreModal from '/StaticFiles/Vue/Components/EditStoreModal.js'
@@ -55,10 +56,12 @@
                 return {
                     columnsDefs: [],
                     stores: [],
+                    tempStore: {},
                     selectedStore: {},
                     storeDetail: {},
                     isNew: true,
                     modelStateError: {},
+                    AccountStatus: []
                 }
             },
             created: function () {
@@ -73,6 +76,7 @@
                     { field: 'LastLoginDate', header: '最後登入時間' },
                     { field: 'LastChangePwdDate', header: '最後更改密碼時間' }
                 ];
+                this.GetAccountStatusEnum();
             },
             methods: {
                 GetStores: async function () {
@@ -137,20 +141,71 @@
                 },
                 OpenEditStoreModal: async function (isNew = true, userId = '') {
                     this.isNew = isNew;
+                    this.modelStateError = {};
                     if (isNew) {
-                        this.tempBusinesse = {};
+                        this.tempStore = {};
                     }
                     else {
                         await this.GetStores(userId);
                     }
                     this.$refs.editStore.Show();
                 },
-                SaveStore: async function (value) {
+                SaveStores: async function (value) {
                     let response = null;
                     if (this.isNew) {
-                        response = await PostBusinessmen(value).then(response => response);
+                        response = await PostStore(value).then(response => response);
                     } else {
 
+                    }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.RtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.$refs.editStore.Close();
+                                this.tempStore = {};
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                this.GetStores();
+                                break;
+                            case 401:
+                                if (typeof (responseData.RtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            case 405:
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                },
+                GetAccountStatusEnum: async function () {
+                    try {
+                        const response = await GetAccountStatusEnum().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (typeof data.RtnData === 'string') {
+                                        this.AccountStatus = JSON.parse(data.RtnData);
+                                    } else {
+                                        this.AccountStatus = data.RtnData;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
                     }
                 }
 

@@ -1,6 +1,9 @@
-﻿
+﻿import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
 export default {
-    props: ['isNew', 'stores', 'modelStateError'],
+    props: ['isNew', 'tempStore', 'modelStateError', 'tempAccountStatus'],
+    components: {
+        serverErrorMessage
+    },
     data: function () {
         return {
             displayModal: false,
@@ -25,9 +28,9 @@ export default {
         }
     },
     watch: {
-        stores: {
+        tempStore: {
             handler: function (newVal, oldVal) {
-                this.storeModel = { ...this.stores };
+                this.storeModel = { ...this.tempStore };
                 if (this.isNew) {
                     this.storeModel.Status = 11;
                 }
@@ -50,6 +53,7 @@ export default {
                                     <v-field type="text" class="p-inputtext p-component form-control" id="UserId"
                                         v-model="storeModel.UserId" rules="required|account" name="UserId" v-bind:class="[{'is-invalid':errors['UserId']||modelStateError['UserId']}]" ></v-field>
                                     <error-message name="UserId" class="invalid-feedback"></error-message>
+                                    <server-error-message v-bind:attr="'UserId'"></server-error-message>
                                 </div>
                             </template>
                             <div class="col-md-6">
@@ -57,15 +61,15 @@ export default {
                                 <v-field type="email" class="p-inputtext p-component form-control" id="Email" v-model="storeModel.Email"
                                     name="Email" rules="required|email" v-bind:class="[{'is-invalid':errors['Email']||modelStateError['Email']}]" ></v-field>
                                 <error-message name="Email" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'Email'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="Status" class="form-label">帳號狀態</label>
                                 <v-field id="Status" class="form-select rounded-1" v-model="storeModel.Status" as="select" name="Status" rules="required" v-bind:class="[{'is-invalid':errors['Status']||modelStateError['Status']}]" >
-                                    <option selected value="11">啟用</option>
-                                    <option value="0">停用</option>
-                                    <option value="2">未開通</option>
+                                    <option v-for="(status,index) in tempAccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
                                 </v-field>
                                 <error-message name="Status" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'Status'"></server-error-message>
                             </div>
                         </div>
                         <div class="row g-3 mb-5">
@@ -77,12 +81,14 @@ export default {
                                 <v-field type="text" class="p-inputtext p-component form-control" id="FullName" v-model="storeModel.FullName"
                                     name="FullName" rules="required" v-bind:class="[{'is-invalid':errors['FullName']||modelStateError['FullName']}]" ></v-field>
                                 <error-message name="FullName" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'FullName'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="Department" class="form-label">別名</label>
                                 <v-field type="text" class="p-inputtext p-component form-control" id="ShortName" v-model="storeModel.ShortName"
                                     name="ShortName" rules="required" v-bind:class="[{'is-invalid':errors['ShortName']||modelStateError['ShortName']}]" ></v-field>
                                 <error-message name="ShortName" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'ShortName'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="Name" class="form-label">測試資料1</label>
