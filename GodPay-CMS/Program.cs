@@ -34,8 +34,8 @@ namespace GodPay_CMS
                         .Enrich.FromLogContext()
                         // 新增屬性
                         //.Enrich.WithProperty("Environment", configuration["Z21Url"])
-                        // 最小為Debug輸出
-                        .MinimumLevel.Debug()
+                        // 最小為Information輸出
+                        .MinimumLevel.Information()
                         // 處理Text 樣板字面值
                         // {Properties:j} 自定義屬性
                         .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy/MM/dd HH:mm:ss} {Level:u3}] {Properties:j} {Message:lj}{NewLine}{Exception}"
