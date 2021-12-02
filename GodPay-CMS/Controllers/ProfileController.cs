@@ -14,13 +14,5 @@ namespace GodPay_CMS.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// 編輯使用者
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult EditUser()
-        {
-            return View();
-        }
     }
 }
