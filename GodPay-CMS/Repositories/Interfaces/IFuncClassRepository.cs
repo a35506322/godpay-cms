@@ -14,5 +14,10 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <returns></returns>
         public Task<IEnumerable<FuncClass>> GetByFuncClassAndFunc();
+        /// <summary>
+        /// 取得功能列表(1對多)(塞選)
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<FuncClass>> GetByFuncClassAndFuncFilter(GetFuncFilterReq getFuncFilterReq);
     }
 }

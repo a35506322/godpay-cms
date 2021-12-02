@@ -16,11 +16,9 @@ namespace GodPay_CMS.Repositories.Implements
 {
     public class FuncClassRepository : IFuncClassRepository
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _config;
-        public FuncClassRepository(IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        public FuncClassRepository(IConfiguration config)
         {
-            _httpContextAccessor = httpContextAccessor;
             _config = config;
         }
         public Task<bool> Add(FuncClass model)
@@ -52,19 +50,59 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
             {
-                var Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
-
                 string sqlString = @"Select * 
                                     From [dbo].[FuncClass] A
-                                    Join [dbo].[Func] B on A.FuncClassCode = B.FuncClassCode
-                                    Where B.RoleFlag & @Role <> 0 AND B.IsWebsite = 1";
+                                    Join [dbo].[Func] B on A.FuncClassCode = B.FuncClassCode";
 
                 // 偽1對多
                 var funcClass = await _connection.QueryAsync<FuncClass, Func, FuncClass>(sqlString, (funcClass, func) =>
                 {
                     funcClass.Funcs.Add(func);
                     return funcClass;
-                }, new { Role = Role }, splitOn: "Fid");
+                }, splitOn: "Fid");
+
+                // 重做一份真1對多
+                var result = funcClass.GroupBy(f => f.FuncClassCode).Select(g =>
+                {
+                    var groupedfuncClass = g.First();
+                    groupedfuncClass.Funcs = g.Select(p => p.Funcs.Single()).ToList();
+                    return groupedfuncClass;
+                });
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFuncFilter(GetFuncFilterReq getFuncFilterReq)
+        {
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sqlString = @"Select * 
+                                    From [dbo].[FuncClass] A
+                                    Join [dbo].[Func] B on A.FuncClassCode = B.FuncClassCode
+                                    Where 1=1";
+                sqlString += "And B.RoleFlag & @Role <> 0 ";
+                sqlString += "And B.FuncCode & @FuncFlag <> 0 ";
+
+                if (!String.IsNullOrEmpty(getFuncFilterReq.IsWebSite))
+                {
+                    sqlString += "And B.IsWebsite = @IsWebSite ";
+                }
+                
+                if (!String.IsNullOrEmpty(getFuncFilterReq.FuncClassEnName))
+                {
+                    sqlString += "And A.FuncClassEnName = @FuncClassEnName ";
+                }
+
+                sqlString = sqlString.TrimEnd(' ');
+                sqlString += ";";
+
+               // 偽1對多
+               var funcClass = await _connection.QueryAsync<FuncClass, Func, FuncClass>(sqlString, (funcClass, func) =>
+                {
+                    funcClass.Funcs.Add(func);
+                    return funcClass;
+                }, getFuncFilterReq, splitOn: "Fid");
 
                 // 重做一份真1對多
                 var result = funcClass.GroupBy(f => f.FuncClassCode).Select(g =>

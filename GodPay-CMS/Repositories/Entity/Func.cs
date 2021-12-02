@@ -35,6 +35,10 @@ namespace GodPay_CMS.Repositories.Entity
         /// </summary>
         public int RoleFlag { get; set; }
         /// <summary>
+        /// 是否出現在網站
+        /// </summary>
+        public bool IsWebSite { get; set; }
+        /// <summary>
         /// 功能類別(單筆)
         /// </summary>
         public FuncClass FuncClass { get; set; }

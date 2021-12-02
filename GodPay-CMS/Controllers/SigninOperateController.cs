@@ -43,7 +43,8 @@ namespace GodPay_CMS.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,data.UserId),
-                    new Claim(ClaimTypes.Role,data.Role.ToString())
+                    new Claim(ClaimTypes.Role,data.Role.ToString()),
+                    new Claim("FuncFlag",data.Func.ToString())
                 };
 
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
