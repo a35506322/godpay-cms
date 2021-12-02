@@ -68,6 +68,19 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
+        public async Task<int> UpdateLoginTime(SigninReq signinReq)
+        {
+            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @" UPDATE [dbo].[User] 
+                                SET LastLoginDate = GETDATE()
+                                WHERE UserId = @UserId";
+
+                var entity = await _connection.ExecuteAsync(sql, signinReq);
+                return entity;
+            }
+        }
+
         public async Task<User> GetByUserId(string userId)
         {
             using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
