@@ -51,5 +51,11 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.storeService.GetStoreFilter(userParams);
             return Ok(response);
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdateStore([FromBody] UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
+        {
+            var reponse = await _serviceWrapper.storeService.UpateUserAndStore(updateUserAndStoreViewModel);
+            return Ok(reponse);
+        }
     }
 }
