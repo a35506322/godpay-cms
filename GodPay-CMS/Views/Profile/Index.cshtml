@@ -18,8 +18,7 @@
                         </div>
                         <span class="position-absolute top-0 start-50 translate-middle px-3 bg-white fw-bold fs-3 text-success">基本資料</span>
                     </div>
-
-                    <table class="table table-responsive table-hover">
+                    <table class="table table-responsive table-hover" v-if="this.$common.CheckAuthority(funcs,'Get')">
                         <tbody>
                             <tr>
                                 <td>

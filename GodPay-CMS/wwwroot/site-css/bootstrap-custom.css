@@ -107,18 +107,14 @@
     box-shadow: 0 0 0 0.25rem #b7e0b8;
 }
 
-.p-modal-lg {
-    width: 60vw;
+.p-modal {
+    width: 80vw;
 }
 
-@media(max-width: 768px) {
-    .p-modal-md {
-        width: 70vw;
+
+@media (min-width: 992px) {
+    .p-modal-lg {
+        width: 60vw;
     }
 }
 
-@media(max-width: 576px) {
-    .p-modal-sm {
-        width: 80vw;
-    }
-}
