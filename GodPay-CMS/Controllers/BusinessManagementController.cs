@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
-    [Authorize]
+    [ResponseCache(NoStore = true)]
+    [Authorize(Roles = "Admin")]
     public class BusinessManagementController : Controller
     {
         public IActionResult Index()
