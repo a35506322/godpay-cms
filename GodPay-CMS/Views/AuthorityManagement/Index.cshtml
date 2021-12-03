@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "權限管理";
+}
+<div class="row p-3 justify-content-center">
+    <div class="p-datatable p-component p-datatable-scrollable p-datatable-scrollable-vertical p-datatable-responsive-stack p-datatable-gridlines"
+         data-scrollselectors=".p-datatable-wrapper">
+        <div class="p-datatable-wrapper" style="max-height: 90vh">
+            <table class="p-datatable-table">
+                <thead class="p-datatable-thead">
+                    <tr>
+                        <th class="justify-content-center">
+                            <div class="p-column-header-content">
+                                <span class="p-column-title"></span>
+                            </div>
+                        </th>
+                        <th style="width:22%" class="justify-content-center">
+                            <div class="p-column-header-content">
+                                <span class="p-column-title">管理員</span>
+                            </div>
+                        </th>
+                        <th style="width:22%" class="justify-content-center">
+                            <div class="p-column-header-content">
+                                <span class="p-column-title">業務</span>
+                            </div>
+                        </th>
+                        <th style="width:22%" class="justify-content-center">
+                            <div class="p-column-header-content">
+                                <span class="p-column-title">特店</span>
+                            </div>
+                        </th>
+                        <th style="width:22%" class="justify-content-center">
+                            <div class="p-column-header-content">
+                                <span class="p-column-title">特店人員</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead> 
+                <tbody class="p-datatable-tbody">
+                    <template v-for="(funcclass,index) in authoritys" v-bind:key="funcclass.FuncClassEnName">
+                        <tr>
+                            <td colspan="5" class="text-center bg-green-100">{{funcclass.FuncClassChName}}</td>
+                        </tr>
+                        <template v-for="(func,index) in funcclass.Functions" v-bind:key="func.FuncEnName">
+                            <tr>
+                                <td>{{func.FuncChName}}</td>
+                                <td class="justify-content-center">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="1" v-model.number="func.RoleFlag">
+                                </td>
+                                <td class="justify-content-center">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="2" v-model.number="func.RoleFlag">
+                                </td>
+                                <td class="justify-content-center">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="4" v-model.number="func.RoleFlag">
+                                </td>
+                                <td class="justify-content-center">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="8" v-model.number="func.RoleFlag">
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+@section Vue
+{
+    import { GetListOfFunction } from '/StaticFiles/Vue/Services/IpassService.js'
+    const app = Vue.createApp({
+        data: function () {
+            return {
+                message: 'hello',
+                authoritys:[]
+            }
+        },
+        created: function () {
+            this.GetListOfFunction();
+        },
+        methods: {
+            GetListOfFunction: async function () {
+                  try {
+                        const response = await GetListOfFunction().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (data.RtnData.length > 0) {
+                                        this.authoritys = data.RtnData;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                  catch (exception) {
+                        console.log(exception)
+                  }
+            },
+        }
+    })
+
+}
+</script>
