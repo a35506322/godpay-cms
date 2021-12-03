@@ -14,14 +14,5 @@ namespace GodPay_CMS.Controllers
         {
             return View();
         }
-
-        /// <summary>
-        /// 業務列表
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult BusinessList()
-        {
-            return View();
-        }
     }
 }
