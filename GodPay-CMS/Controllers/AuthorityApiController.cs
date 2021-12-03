@@ -20,6 +20,14 @@ namespace GodPay_CMS.Controllers
             _mapper = mapper;
             _serviceWrapper = serviceWrapper;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetListOfFunction()
+        {
+            var response = await _serviceWrapper.authorityService.GetListOfFunctions();
+            return Ok(response);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetListOfFunctionFilter([FromQuery]FunctionParams functionParams)
         {

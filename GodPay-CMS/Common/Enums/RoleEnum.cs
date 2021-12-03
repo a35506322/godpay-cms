@@ -22,9 +22,5 @@ namespace GodPay_CMS.Common.Enums
         /// <summary>特店人員</summary>
         [Description("特店人員")]
         Personnel = 1 << 3,
-
-        /// <summary>所有角色</summary>
-        [Description("所有角色")]
-        All = Admin | Manager | Store | Personnel
     }
 }

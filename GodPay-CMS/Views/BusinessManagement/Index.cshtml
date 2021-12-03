@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "業務列表";
+    ViewData["Title"] = "業務管理";
 }
 <div class="row p-3 justify-content-center">
     <div class="p-toolbar p-component w-98 mb-3" v-if="this.$common.CheckAuthority(funcs,'GetBusinessmensFilter')">
@@ -40,7 +40,8 @@
                  paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="Showing {first} to {last} of {totalRecords}"
                  v-model:selection="selectedBusinesse" selection-mode="single" data-key="UserId"
-                 v-bind:resizable-columns="true" column-resize-mode="fit" v-if="this.$common.CheckAuthority(funcs,'GetBusinessmens')">
+                 v-bind:resizable-columns="true" column-resize-mode="fit" v-if="this.$common.CheckAuthority(funcs,'GetBusinessmens')"
+                 v-bind:scrollable="true" scroll-height="58vh">
         <p-column field="UserId" header="帳號"></p-column>
         <p-column field="Email" header="電子信箱"></p-column>
         <p-column field="Role" header="角色"></p-column>

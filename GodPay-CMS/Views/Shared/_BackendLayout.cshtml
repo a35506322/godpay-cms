@@ -109,12 +109,12 @@
             generateMessage: VeeValidateI18n.localize('zh_TW'),
             validateOnInput: true, // 調整為輸入字元立即進行驗證
         });
-       
+
         app.use(primevue.config.default);
         app.use(primevue.toastservice);
         const tooltip = primevue.tooltip;
         app.directive("tooltip", tooltip);
-        app.mount('#app');     
+        app.mount('#app');
     </script>
 
 </body>

@@ -26,4 +26,5 @@ export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone 
 export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEnum').then(respone => { console.log('GetAccountStatusEnum'); return respone; }).catch(error => error);
 
 // AuthorityApi
+export const GetListOfFunction = () => axios.get('/AuthorityApi/GetListOfFunction').then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);
 export const GetListOfFunctionFilter = query => axios.get('/AuthorityApi/GetListOfFunctionFilter', query).then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);
