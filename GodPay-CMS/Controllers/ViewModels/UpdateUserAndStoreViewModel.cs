@@ -24,22 +24,24 @@ namespace GodPay_CMS.Controllers.ViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
         /// <summary>
         /// 目前狀態
         /// </summary>
+        [Required]
         public string Status { get; set; }
         /// <summary>
         /// 特約商店全名
         /// </summary>
+        [Required]
         public string FullName { get; set; }
         /// <summary>
         /// 特約商店別名
         /// </summary>
+        [Required]
         public string ShortName { get; set; }
         /// <summary>
         /// 測試欄位1
-        /// </summary>
+        /// </summary>        
         public string StoreData1 { get; set; }
         /// <summary>
         /// 測試欄位2
