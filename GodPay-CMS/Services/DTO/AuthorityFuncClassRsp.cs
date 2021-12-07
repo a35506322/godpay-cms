@@ -8,7 +8,7 @@ namespace GodPay_CMS.Services.DTO
     /// <summary>
     /// 功能類別(塞選)
     /// </summary>
-    public class FuncClassFilterRsp
+    public class AuthorityFuncClassRsp
     {
         /// <summary>
         /// 英文名子(controller)
@@ -21,6 +21,6 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 功能(多筆)
         /// </summary>
-        public IEnumerable<FuncFilterRsp> Functions { get; set; }
+        public IEnumerable<AuthorityFuncRsp> Functions { get; set; }
     }
 }
