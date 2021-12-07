@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Services.DTO;
@@ -16,7 +17,11 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<Func, FuncRsp>()
                 // 名子不同記得轉換
                 .ForMember(n => n.FuncClassRsp, o => o.MapFrom(o => o.FuncClass));
-            CreateMap<Func, FuncFilterRsp>();
+            CreateMap<Func, FuncFilterRsp>()
+                .ForMember(n => n.RoleFlag, o => o.MapFrom(o => Enum.GetValues(typeof(RoleEnum))
+                                                            .Cast<int>()
+                                                            .Where(r => Convert.ToBoolean(r & o.RoleFlag))
+                                                            .ToArray()));
         }
     }
 }

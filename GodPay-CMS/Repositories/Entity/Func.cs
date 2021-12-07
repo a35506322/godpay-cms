@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Repositories.Entity
+﻿namespace GodPay_CMS.Repositories.Entity
 {
     /// <summary>
     /// 功能
@@ -21,7 +16,7 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 功能代碼
         /// </summary>
-        public string FuncCode { get; set; }
+        public long FuncCode { get; set; }
         /// <summary>
         /// 英文名子(action)
         /// </summary>

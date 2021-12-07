@@ -37,7 +37,7 @@ namespace GodPay_CMS
                 option.LoginPath = new PathString("/Signin");
                 option.LogoutPath = new PathString("/SigninOperate/SignOut");
                 // 無權限的時候，轉到此網址
-                option.AccessDeniedPath = new PathString("/Signin");
+                option.AccessDeniedPath = new PathString("/");
                 option.ReturnUrlParameter = "ret";
                 option.Cookie.Name = "ascc-gpb";
             });

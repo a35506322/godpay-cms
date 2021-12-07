@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using GodPay_CMS.Services.DTO;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -52,23 +53,6 @@ namespace GodPay_CMS.Repositories.Implements
         public Task<bool> Update(Store mdoel)
         {
             throw new NotImplementedException();
-        }
-        public async Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId)
-        {
-            string sql = @"Select *
-                         From [dbo].[User] U
-                         Join [dbo].[Store] S
-                         On U.Uid=S.Uid
-                         Where U.UserId=@userId";
-            using (IDbConnection connection=new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
-            {
-                var users = await connection.QueryAsync<User, Store, User>(sql, (user, store) =>
-                    {
-                        user.Store = store;
-                        return user;
-                    }, new { userId = userId }, splitOn: "uid");
-                return users;
-            }
-        }
+        }        
     }
 }

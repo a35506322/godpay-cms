@@ -89,5 +89,18 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="businessmanParams">Query</param>
         /// <returns></returns>
         public Task<IEnumerable<User>> GetUsersFilter(UserParams userParams);
+
+        /// <summary>
+        /// 查詢單筆業務及特約商店詳細資料
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId);
+        /// <summary>
+        /// 修改特約商店詳細資料
+        /// </summary>
+        /// <param name="updateUserAndStoreReq"></param>
+        /// <returns></returns>
+        public Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq);
     }
 }

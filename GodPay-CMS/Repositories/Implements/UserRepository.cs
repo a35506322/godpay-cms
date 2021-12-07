@@ -331,5 +331,69 @@ namespace GodPay_CMS.Repositories.Implements
                 return users;
             }
         }
+        public async Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId)
+        {
+            string sql = @"Select *
+                         From [dbo].[User] U
+                         Join [dbo].[Store] S
+                         On U.Uid=S.Uid
+                         Where U.UserId=@userId";
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                var users = await connection.QueryAsync<User, Store, User>(sql, (user, store) =>
+                {
+                    user.Store = store;
+                    return user;
+                }, new { userId = userId }, splitOn: "Uid");
+                return users;
+            }
+        }
+        public async Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq)
+        {
+            string sql = @"Update T
+                                    SET T.Status = @Status,
+	                                    T.Email = @Email,
+	                                    T.LastModifier = @LastModifier,
+	                                    T.LastModifyDate = @LastModifyDate
+                                    From
+                                    (
+                                        Select U.Status, U.Email, U.LastModifier, U.LastModifyDate
+                                        From [dbo].[User] U
+                                        Where U.Uid = @Uid
+                                    )T;
+
+                                    Update T2
+                                    SET T2.FullName = @FullName,
+	                                    T2.ShortName = @ShortName,
+                                        T2.StoreData1 = @StoreData1,
+                                        T2.StoreData2 = @StoreData2
+                                    From
+                                    (
+                                        Select S.FullName, S.ShortName, S.StoreData1, S.StoreData2
+                                        From [dbo].[Store] S
+                                        Where S.Uid = @Uid
+                                    )T2;";
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                bool result = false;
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var response = await connection.ExecuteAsync(sql, updateUserAndStoreReq, transaction: tran);
+                        if (response > 0)
+                            result = true;
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message.ToString());
+                    }
+                    return result;
+                }
+            }
+        }
     }
 }

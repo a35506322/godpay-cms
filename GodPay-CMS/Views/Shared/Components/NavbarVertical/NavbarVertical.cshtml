@@ -18,7 +18,8 @@
                 {
 
                     string active = "";
-                    if (String.Compare(action, funcClass.Functions.SingleOrDefault().FuncEnName, true) == 0)
+                    if (String.Compare(action, funcClass.Functions.SingleOrDefault().FuncEnName, true) == 0 &&
+                        (String.Compare(controller, funcClass.FuncClassEnName, true) == 0))
                     {
                         active = "active";
                     }

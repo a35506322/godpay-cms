@@ -5,19 +5,24 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
 {
     public class StoreService : IStoreService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepostioryWrapper _repostioryWrapper;
         private readonly IMapper _mapper;
-        public StoreService(IRepostioryWrapper repostioryWrapper, IMapper mapper)
+
+        public StoreService(IHttpContextAccessor httpContextAccessor, IRepostioryWrapper repostioryWrapper, IMapper mapper)
         {
+            _httpContextAccessor = httpContextAccessor;
             _repostioryWrapper = repostioryWrapper;
             _mapper = mapper;
         }
@@ -60,7 +65,7 @@ namespace GodPay_CMS.Services.Implements
         }
         public async Task<ResponseViewModel> GetUserAndStoreByUserId(string userId)
         {
-            var users = await _repostioryWrapper.storeRepository.GetUserAndStoreByUserId(userId);
+            var users = await _repostioryWrapper.userRepository.GetUserAndStoreByUserId(userId);
             if (users.Count() == 0)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無資料" };
             if(users.Count() >1)
@@ -73,6 +78,16 @@ namespace GodPay_CMS.Services.Implements
             var users = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
             var storeRsp = _mapper.Map< IEnumerable<UserFilterRsp>>(users);
             return new ResponseViewModel() { RtnData = storeRsp };
+        }
+        public async Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
+        {
+            var updateUserAndStoreReq = _mapper.Map<UpdateUserAndStoreReq>(updateUserAndStoreViewModel);
+            updateUserAndStoreReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            var result = await _repostioryWrapper.userRepository.UpateUserAndStore(updateUserAndStoreReq);
+            if (result)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "修改成功" };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改失敗" };
         }
     }
 }

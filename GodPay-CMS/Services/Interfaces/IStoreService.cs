@@ -39,5 +39,6 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="userParams"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetStoreFilter(UserParams userParams);
+        public Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel);
     }
 }
