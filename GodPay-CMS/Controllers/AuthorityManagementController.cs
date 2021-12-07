@@ -8,7 +8,17 @@ namespace GodPay_CMS.Controllers
 {
     public class AuthorityManagementController : Controller
     {
-        public IActionResult Index()
+        public IActionResult AuthorityEdit()
+        {
+            return View();
+        }
+
+        public IActionResult ClassManagement()
+        {
+            return View();
+        }
+
+        public IActionResult FunctionManagement()
         {
             return View();
         }
