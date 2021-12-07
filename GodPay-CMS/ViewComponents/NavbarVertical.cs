@@ -31,11 +31,11 @@ namespace GodPay_CMS.ViewComponents
             var response = await _authorityService.GetListOfFunctionsFilter(functionParams);
             if (response.RtnCode == ReturnCodeEnum.Ok)
             {
-                return View("NavbarVertical", response.RtnData as IEnumerable<FuncClassFilterRsp>);
+                return View("NavbarVertical", response.RtnData as IEnumerable<AuthorityFuncClassRsp>);
             }
             else
             {
-                return View("NavbarVertical", new List<FuncClassFilterRsp>());
+                return View("NavbarVertical", new List<AuthorityFuncClassRsp>());
             }
         }
     }
