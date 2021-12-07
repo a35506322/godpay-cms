@@ -33,7 +33,7 @@ namespace GodPay_CMS.Services.Implements
             if (funcCalss == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "取得功能資料失敗" };
 
-            var functionListViewModel = _mapper.Map<IEnumerable<FuncClassFilterRsp>>(funcCalss);
+            var functionListViewModel = _mapper.Map<IEnumerable<AuthorityFuncClassRsp>>(funcCalss);
 
             return new ResponseViewModel() { RtnData = functionListViewModel };
         }
@@ -49,9 +49,36 @@ namespace GodPay_CMS.Services.Implements
             if (funcCalss == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "取得功能資料失敗" };
 
-            var functionListViewModel = _mapper.Map<IEnumerable<FuncClassFilterRsp>>(funcCalss);
+            var functionListViewModel = _mapper.Map<IEnumerable<AuthorityFuncClassRsp>>(funcCalss);
 
             return new ResponseViewModel() { RtnData = functionListViewModel };
+        }
+
+        public async Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateFuncClassViewModel> updateFuncClassViewModels)
+        {
+            if (updateFuncClassViewModels.Count() == 0)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnData = "修改角色資訊個數不能為0" };
+
+            // 取得原資料與新資料做差異對比
+            var funcCalsses = await _repostioryWrapper.funcClassRepository.GetByFuncClassAndFunc();
+            List<UpdateRoleAuthorityReq> oldAuthority = new List<UpdateRoleAuthorityReq>();
+            foreach (var funClass in funcCalsses)
+            {
+                oldAuthority.AddRange(_mapper.Map<IEnumerable<UpdateRoleAuthorityReq>>(funClass.Funcs));
+            }
+
+            List<UpdateRoleAuthorityReq> newAuthority = new List<UpdateRoleAuthorityReq>();
+            foreach (var funClass in updateFuncClassViewModels)
+            {
+                newAuthority.AddRange(_mapper.Map<IEnumerable<UpdateRoleAuthorityReq>>(funClass.UpdateFuncViewModel));
+            }
+            var updateRoleAuthorityReqs = newAuthority.Where(c => !oldAuthority.Any(n => n.Fid == c.Fid && n.FuncCode == c.FuncCode && n.RoleFlag == c.RoleFlag));
+
+            var result =  await _repostioryWrapper.funcRepository.BatchUpdateRoleFlag(updateRoleAuthorityReqs);
+            if (result)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = "修改角色最大權限成功" };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnData = "修改角色最大權限失敗" };
         }
     }
 }

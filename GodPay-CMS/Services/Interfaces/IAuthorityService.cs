@@ -1,6 +1,7 @@
 ﻿using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -20,5 +21,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         public Task<ResponseViewModel> GetListOfFunctionsFilter(FunctionParams functionParams);
+        /// <summary>
+        /// 修改角色最大權限
+        /// </summary>
+        /// <param name="updateFuncClassViewModels"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateFuncClassViewModel> updateFuncClassViewModels);
+       
     }
 }

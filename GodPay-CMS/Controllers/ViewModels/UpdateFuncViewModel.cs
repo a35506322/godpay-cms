@@ -1,37 +1,40 @@
-﻿namespace GodPay_CMS.Services.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GodPay_CMS.Controllers.ViewModels
 {
     /// <summary>
-    /// 功能
+    /// 修改功能 View Model
     /// </summary>
-    public class FuncRsp
+    public class UpdateFuncViewModel
     {
         /// <summary>
         /// 流水號(PK)
         /// </summary>
+        [Required]
         public int Fid { get; set; }
-        /// <summary>
-        /// 功能類別代碼(FK)
-        /// </summary>
-        public string FuncClassCode { get; set; }
-        /// <summary>
-        /// 功能代碼
-        /// </summary>
-        public long FuncCode { get; set; }
         /// <summary>
         /// 英文名子(action)
         /// </summary>
+        [Required]
         public string FuncEnName { get; set; }
         /// <summary>
         /// 中文名子(action)
         /// </summary>
+        [Required]
         public string FuncChName { get; set; }
         /// <summary>
-        /// 角色
+        /// 功能代碼
         /// </summary>
-        public int Role { get; set; }
+        [Required]
+        public long FuncCode { get; set; }
         /// <summary>
-        /// 功能類別(單筆)
+        /// Role Value 陣列
         /// </summary>
-        public FuncClassRsp FuncClassRsp { get; set; }
+        [Required]
+        public int[] RoleFlag { get; set; }
     }
 }

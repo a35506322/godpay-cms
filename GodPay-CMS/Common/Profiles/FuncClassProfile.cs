@@ -17,7 +17,7 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<FuncClass, FuncClassRsp>()
                 // 名子不同記得轉換
                 .ForMember(n => n.FuncRsps, o => o.MapFrom(o => o.Funcs));
-            CreateMap<FuncClass, FuncClassFilterRsp>()
+            CreateMap<FuncClass, AuthorityFuncClassRsp>()
                 // 名子不同記得轉換
                 .ForMember(n => n.Functions, o => o.MapFrom(o => o.Funcs));
             CreateMap<FunctionParams, GetFuncFilterReq>();

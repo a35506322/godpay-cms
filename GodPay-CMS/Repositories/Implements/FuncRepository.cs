@@ -70,5 +70,48 @@ namespace GodPay_CMS.Repositories.Implements
                 return funcs;
             }
         }
+
+        public async Task<bool> BatchUpdateRoleFlag(IEnumerable<UpdateRoleAuthorityReq> updateRoleAuthorityReqs)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sqlString = @"Update T
+                                    Set	    T.RoleFlag = @RoleFlag
+                                    From 
+                                    (
+	                                    Select * 
+	                                    From [dbo].[Func] A
+	                                    Where A.Fid = @Fid
+                                    )T;
+
+                                    Update T2
+                                    Set	   T2.Func = T2.Func - @FuncCode
+                                    From 
+                                    (
+	                                    Select *
+	                                    From [dbo].[User] A
+	                                    Where A.Role & @RoleFlag = 0
+	                                    And A.Func & @FuncCode <> 0
+                                    )T2;";
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    bool result = false;
+                    try
+                    {
+                        int rowConunts = await connection.ExecuteAsync(sqlString, updateRoleAuthorityReqs, transaction: tran);
+                        if (rowConunts > 0)
+                            result = true;
+                        tran.Commit();
+                    }
+                    catch (Exception exception)
+                    {
+                        tran.Rollback();
+                        throw new Exception(exception.Message.ToString());
+                    }
+                    return result;
+                }                
+            }            
+        }
     }
 }
