@@ -1,1 +1,59 @@
-﻿
+﻿@{
+    ViewData["Title"] = "類別編輯";
+}
+<div class="row p-3 justify-content-center">
+    <p-toolbar class="w-98 mb-2">
+        <template #start>
+            <p-button label="新增類別" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditFuncClassModal"></p-button>
+        </template>
+    </p-toolbar>
+    <p-datatable v-bind:value="funcClass" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
+                 paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="Showing {first} to {last} of {totalRecords}"
+                 v-model:selection="selectedFuncClass" selection-mode="single" data-key="FuncClassCode"
+                 v-bind:resizable-columns="true" column-resize-mode="fit"
+                 v-bind:scrollable="true" scroll-height="58vh">
+        <p-column field="FuncClassEnName" header="英文名稱"></p-column>
+        <p-column field="FuncClassChName" header="中文名稱"></p-column>
+        <p-column style="min-width:8rem" class="d-flex justify-content-center">
+            <template #body="slotProps">
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯類別'"></p-button>
+            </template>
+        </p-column>
+        <template #paginatorstart>
+            <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
+        </template>
+        <template #paginatorend>
+            <p-button type="button" icon="pi pi-cloud" class="p-button-text"></p-button>
+        </template>
+    </p-datatable>
+</div>
+
+<edit-func-class-modal ref="editFuncClass"></edit-func-class-modal>
+
+<script type="text/javascript">
+    @section Vue
+    {
+        import EditFuncClassModal from '/StaticFiles/Vue/Components/EditFuncClassModal.js'
+        const app = Vue.createApp({
+            components: {
+                "p-datatable": primevue.datatable,
+                "p-column": primevue.column,
+                "p-button": primevue.button,
+                "p-toolbar": primevue.toolbar,
+                EditFuncClassModal
+            },
+            data: function () {
+                return {
+                    funcClass: [],
+                    selectedFuncClass: {}
+                }
+            },
+            methods: {
+                OpenEditFuncClassModal: function () {
+                    this.$refs.editFuncClass.Show();
+                }
+            }
+         })
+    }
+    </script>
