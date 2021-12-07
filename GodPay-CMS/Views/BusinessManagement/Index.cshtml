@@ -2,7 +2,7 @@
     ViewData["Title"] = "業務管理";
 }
 <div class="row p-3 justify-content-center">
-    <div class="p-toolbar p-component w-98 mb-3" v-if="this.$common.CheckAuthority(funcs,'GetBusinessmensFilter')">
+    <div class="p-toolbar p-component w-98 mb-2" v-if="this.$common.CheckAuthority(funcs,'GetBusinessmensFilter')">
         <div class="col-12 mb-3">
             <div class="row">
                 <div class="col-6 col-lg-4 g-3">
@@ -31,7 +31,7 @@
             <p-button label="查詢" icon="pi pi-search" class="p-button-success" v-on:click="GetBusinessmensFilter"></p-button>
         </div>
     </div>
-    <p-toolbar class="w-98 mb-3" v-if="this.$common.CheckAuthority(funcs,'PostBusinessmen')">
+    <p-toolbar class="w-98 mb-2" v-if="this.$common.CheckAuthority(funcs,'PostBusinessmen')">
         <template #start>
             <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditBusinessmanModal"></p-button>
         </template>
@@ -50,10 +50,10 @@
         <p-column field="LastModifyDate" header="最後修改時間"></p-column>
         <p-column field="LastLoginDate" header="最後登入時間"></p-column>
         <p-column field="LastChangePwdDate" header="最後更改密碼時間"></p-column>
-        <p-column style="min-width:8rem" class="text-center">
+        <p-column style="min-width:8rem" class="d-flex justify-content-center">
             <template #body="slotProps">
-                <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenBusinessmanDetailModal(slotProps.data.Uid)"></p-button>
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditBusinessmanModal(false,slotProps.data.UserId)" v-if="this.$common.CheckAuthority(funcs,'UpdateBusinessmen')"></p-button>
+                <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-1" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenBusinessmanDetailModal(slotProps.data.Uid)"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditBusinessmanModal(false,slotProps.data.UserId)" v-if="this.$common.CheckAuthority(funcs,'UpdateBusinessmen')"></p-button>
                 <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="confirmDeleteProduct(slotProps.data)"></p-button>
             </template>
         </p-column>
