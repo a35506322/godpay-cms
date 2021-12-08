@@ -3,16 +3,25 @@
 }
 
 <div class="row p-3 justify-content-center">
-    <p-toolbar class="w-98 mb-3">
-        <template #start>
+    <div class="p-toolbar p-component w-98 mb-2">
+        <div class="p-toolbar-group-left">
             <p-button label="新增特店" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditStoreModal"></p-button>
-        </template>
-    </p-toolbar>
+        </div>
+        <div class="p-toolbar-group-right">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" class="p-inputtext p-component p-filled"
+                       v-model="filtersStores['global'].value" placeholder="Keyword Search" />
+            </span>
+        </div>
+    </div>
     <p-datatable v-bind:value="stores" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
                  paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="Showing {first} to {last} of {totalRecords}"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
                  v-model:selection="selectedStore" selection-mode="single" data-key="UserId"
-                 v-bind:resizable-columns="true" column-resize-mode="fit">
+                 v-bind:resizable-columns="true" column-resize-mode="fit"
+                 v-bind:global-filter-fields="['UserId','Email','Status']"
+                 v-model:filters="filtersStores" filter-display="menu">
         <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header"></p-column>
         <p-column style="min-width:8rem" class="text-center">
             <template #body="slotProps">
@@ -21,6 +30,9 @@
                 <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'"></p-button>
             </template>
         </p-column>
+        <template #empty>
+            查無相關特店資訊
+        </template>
         <template #paginatorstart>
             <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
         </template>
@@ -37,6 +49,7 @@
 <script type="text/javascript">
     @section Vue
     {
+        const { FilterMatchMode } = primevue.api;
         import {
         GetStores, GetStoreDetail, PostStore,
         GetAccountStatusEnum, GetStore, UpdateStore
@@ -61,7 +74,8 @@
                     storeDetail: {},
                     isNew: true,
                     modelStateError: {},
-                    AccountStatus: []
+                    AccountStatus: [],
+                    filtersStores: null
                 }
             },
             created: function () {
@@ -77,6 +91,7 @@
                     { field: 'LastChangePwdDate', header: '最後更改密碼時間' }
                 ];
                 this.GetAccountStatusEnum();
+                this.InitFilters();
             },
             methods: {
                 GetStores: async function () {
@@ -231,6 +246,11 @@
                     }
                     catch (exception) {
                         console.log(exception)
+                    }
+                },
+                InitFilters: function () {
+                    this.filtersStores = {
+                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                     }
                 }
 
