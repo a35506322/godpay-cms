@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    /// <summary>
+    /// 登入Api
+    /// </summary>
     [AllowAnonymous]
     public class SigninOperateController : Controller
     {

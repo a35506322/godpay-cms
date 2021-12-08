@@ -39,6 +39,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="userParams"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetStoreFilter(UserParams userParams);
+        /// <summary>
+        /// 更新特店及詳細資料
+        /// </summary>
+        /// <param name="updateUserAndStoreViewModel"></param>
+        /// <returns></returns>
         public Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel);
     }
 }

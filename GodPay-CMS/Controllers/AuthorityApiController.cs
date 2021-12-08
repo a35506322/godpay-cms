@@ -14,7 +14,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 權限管理伺服器
     /// </summary>
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class AuthorityApiController : Controller
     {
         private readonly IMapper _mapper;
@@ -56,6 +56,10 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateFuncClassViewModels);
             return Ok(response);
         }
+        /// <summary>
+        /// 取得所有類別
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetListOfFuncClass()
         {

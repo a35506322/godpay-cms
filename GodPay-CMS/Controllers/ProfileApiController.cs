@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    /// <summary>
+    /// 使用者管理Api
+    /// </summary>
     [Authorize]
     public class ProfileApiController : Controller
     {

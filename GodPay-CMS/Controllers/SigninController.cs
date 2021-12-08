@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    /// <summary>
+    /// 登入頁面
+    /// </summary>
     [AllowAnonymous]
     public class SigninController : Controller
     {

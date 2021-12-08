@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    /// <summary>
+    /// 轉換Enum
+    /// </summary>
     [Authorize]
     public class EnumApiController : Controller
     {
@@ -16,10 +19,16 @@ namespace GodPay_CMS.Controllers
         {
             _serviceWrapper = serviceWrapper;
         }
-
+        /// <summary>
+        /// 取得角色
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetRoleEnum() => Ok(_serviceWrapper.enumService.GetRoleEnum());
-
+        /// <summary>
+        /// 取得帳號狀態
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetAccountStatusEnum() => Ok(_serviceWrapper.enumService.GetAccountStatusEnum());
     }

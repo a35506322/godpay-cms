@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GodPay_CMS.Controllers
 {
+    /// <summary>
+    /// 特店管理頁面
+    /// </summary>
     public class StoreManagementController : Controller
     {
         [ResponseCache(NoStore = true)]
