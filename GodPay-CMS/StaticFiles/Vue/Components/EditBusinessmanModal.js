@@ -32,9 +32,6 @@ export default {
         tempBusinesse: {
             handler: function (newVal, oldVal) {
                 this.tempModel = { ...this.tempBusinesse };
-                if (this.isNew) {
-                    this.tempModel.Status = 11;
-                }
             },
             deep: true
         }
@@ -64,15 +61,17 @@ export default {
                                 <error-message name="Email" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'Email'"></server-error-message>
                             </div>
-                            <div class="col-md-6">
-                                <label for="Status" class="form-label">帳號狀態</label>
-                                <v-field id="Status" class="form-select rounded-1" v-model="tempModel.Status" as="select"
-                                    rules="required" name="Status" v-bind:class="[{'is-invalid':errors['Status']||modelStateError['Status']}]">
-                                    <option v-for="(status,index) in tempAccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
-                                </v-field>
-                                <error-message name="Status" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'Status'"></server-error-message>
-                            </div>
+                            <template v-if="!isNew">
+                                <div class="col-md-6">
+                                    <label for="Status" class="form-label">帳號狀態</label>
+                                    <v-field id="Status" class="form-select rounded-1" v-model="tempModel.Status" as="select"
+                                        rules="required" name="Status" v-bind:class="[{'is-invalid':errors['Status']||modelStateError['Status']}]">
+                                        <option v-for="(status,index) in tempAccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
+                                    </v-field>
+                                    <error-message name="Status" class="invalid-feedback"></error-message>
+                                    <server-error-message v-bind:attr="'Status'"></server-error-message>
+                                </div>
+                          </template>
                         </div>
                         <div class="row g-3 mb-5">
                             <div class="d-flex justify-content-center p-0">

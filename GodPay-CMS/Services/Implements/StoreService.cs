@@ -55,6 +55,7 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗", RtnData = "已有重複帳號" };
 
             var storeReq = _mapper.Map<PostUserAndStoreReq>(postUserAndStoreViewModel);
+            storeReq.Status = AccountStatusEnum.Activate;
 
             var result = await _repostioryWrapper.userRepository.PostUserAndStore(storeReq);
 

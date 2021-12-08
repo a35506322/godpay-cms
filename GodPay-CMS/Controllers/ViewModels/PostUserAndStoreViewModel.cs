@@ -26,13 +26,6 @@ namespace GodPay_CMS.Controllers.ViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
-        /// <summary>
-        /// 目前狀態
-        /// </summary>
-        [Required]
-        public string Status { get; set; }
-
         /// <summary>
         /// 全名
         /// </summary>
