@@ -5,7 +5,7 @@
         public ISigninService signinService { get; }
         public IAuthorityService authorityService { get; }
         public IUserService userService { get; }
-        public IBusinessService businessManagementService { get; }
+        public IManagerService managerService { get; }
         public IStoreService storeService { get; }
         public IEnumService enumService { get; }
     }

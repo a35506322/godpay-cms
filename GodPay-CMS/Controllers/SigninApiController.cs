@@ -19,11 +19,11 @@ namespace GodPay_CMS.Controllers
     /// 登入Api
     /// </summary>
     [AllowAnonymous]
-    public class SigninOperateController : Controller
+    public class SigninApiController : Controller
     {
         private readonly IMapper _mapper;
         private readonly IServiceWrapper _serviceWrapper;
-        public SigninOperateController(IMapper mapper, IServiceWrapper serviceWrapper)
+        public SigninApiController(IMapper mapper, IServiceWrapper serviceWrapper)
         {
             _mapper = mapper;
             _serviceWrapper = serviceWrapper;

@@ -1,0 +1,346 @@
+﻿@{
+    ViewData["Title"] = "業務管理";
+}
+<div class="row p-3 justify-content-center">
+    <div class="p-toolbar p-component w-98 mb-2">
+        <div class="col-12 mb-3">
+            <div class="row">
+                <div class="col-6 col-lg-4 g-3">
+                    <div class="row">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">帳號</span>
+                            <input type="text" class="p-inputtext p-component form-control" id="qUserId"
+                                   v-model.trim="queryModel.UserId" name="qUserId" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4 g-3">
+                    <div class="row">
+                        <div class="p-inputgroup input-group">
+                            <span class="p-inputgroup-addon">帳號狀態</span>
+                            <select id="qStatus" class="form-select rounded-1" v-model.trim="queryModel.Status" name="qStatus">
+                                <option selected value="">全部</option>
+                                <option v-for="(status,index) in AccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text-end">
+            <p-button label="查詢" icon="pi pi-search" class="p-button-success" v-on:click="GetManagerFilter"></p-button>
+        </div>
+    </div>
+    <div class="p-toolbar p-component w-98 mb-2" >
+        <div class="p-toolbar-group-left">
+            <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditBusinessmanModal"  v-if="this.$common.CheckAuthority(funcs,'PostManager')"></p-button>
+        </div>
+        <div class="p-toolbar-group-right">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" class="p-inputtext p-component p-filled"
+                       v-model="filtersBusinesses['global'].value" placeholder="搜尋" />
+            </span>
+        </div>
+    </div>
+    <p-datatable v-bind:value="businesses" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
+                 paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
+                 v-model:selection="selectedBusinesse" selection-mode="single" data-key="UserId"
+                 v-bind:resizable-columns="true" column-resize-mode="fit"
+                 v-bind:global-filter-fields="['UserId','Email','Status']"
+                 v-model:filters="filtersBusinesses" filter-display="menu">
+        <p-column field="UserId" header="帳號"></p-column>
+        <p-column field="Email" header="電子信箱"></p-column>
+        <p-column field="Role" header="角色"></p-column>
+        <p-column field="Status" header="帳號狀態"></p-column>
+        <p-column field="LastModifier" header="最後修改使用者"></p-column>
+        <p-column field="LastModifyDate" header="最後修改時間"></p-column>
+        <p-column field="LastLoginDate" header="最後登入時間"></p-column>
+        <p-column field="LastChangePwdDate" header="最後更改密碼時間"></p-column>
+        <p-column style="min-width:8rem" class="text-center">
+            <template #body="slotProps">
+                <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenBusinessmanDetailModal(slotProps.data.Uid)"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditBusinessmanModal(false,slotProps.data.UserId)" 
+                          v-if="this.$common.CheckAuthority(funcs,'UpdateManager')"></p-button>
+                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="confirmDeleteProduct(slotProps.data)"></p-button>
+            </template>
+        </p-column>
+        <template #empty>
+            查無相關業務資訊
+        </template>
+        <template #paginatorstart>
+            <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
+        </template>
+        <template #paginatorend>
+            <p-button type="button" icon="pi pi-cloud" class="p-button-text"></p-button>
+        </template>
+    </p-datatable>
+</div>
+
+<businessman-detail-modal ref="businessmanDetail" v-bind:pdetail="businesmanDetail"></businessman-detail-modal>
+<edit-businessman-modal ref="editBusinessman" v-bind:temp-businesse="tempBusinesse" v-bind:is-new="isNew"
+                        v-bind:model-state-error="modelStateError" v-on:save="SaveBusinessman" v-bind:temp-account-status="AccountStatus"></edit-businessman-modal>
+
+
+<script type="text/javascript">
+    @section Vue
+    {
+        const { FilterMatchMode} = primevue.api;
+        import {
+            GetManagerAll, GetManagerDeatil, GetManagerFilter,
+            PostManager, GetManager, UpdateManager,
+            GetAccountStatusEnum, GetListOfFunctionFilter
+        } from '/StaticFiles/Vue/Services/IpassService.js'
+        import BusinessmanDetailModal from '/StaticFiles/Vue/Components/BusinessmanDetailModal.js'
+        import EditBusinessmanModal from '/StaticFiles/Vue/Components/EditBusinessmanModal.js'
+
+        const app = Vue.createApp({
+            components: {
+                "p-datatable": primevue.datatable,
+                "p-column": primevue.column,
+                "p-button": primevue.button,
+                "p-toolbar": primevue.toolbar,
+                BusinessmanDetailModal,
+                EditBusinessmanModal
+            },
+            data: function () {
+                return {
+                    funcs: [],
+                    businesses: [],
+                    selectedBusinesse: {},
+                    businesmanDetail: {},
+                    tempBusinesse: {},
+                    isNew: true,
+                    modelStateError: {},
+                    queryModel: {
+                        UserId:'',
+                        Status:''
+                    },
+                    AccountStatus: [],
+                    filtersBusinesses: null
+                }
+            },
+            created: function () {
+                this.GetManagerAll();
+                this.GetListOfFunctionFilter();
+                this.GetAccountStatusEnum();
+                this.InitFilters();
+            },
+            methods: {
+                 GetListOfFunctionFilter: async function () {
+                    try {
+                        const query = {
+                            params: {
+                                IsWebSite: 'false',
+                                FuncClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                            }
+                        };
+                        const response = await GetListOfFunctionFilter(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (data.RtnData.length > 0) {
+                                        this.funcs = data.RtnData[0].Functions;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+                },
+                GetManagerAll: async function () {
+                    try {
+                        const response = await GetManagerAll().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.businesses = data.RtnData;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+                },
+                GetAccountStatusEnum: async function () {
+                    try {
+                        const response = await GetAccountStatusEnum().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (typeof data.RtnData === 'string') {
+                                        this.AccountStatus = JSON.parse(data.RtnData);
+                                    } else {
+                                        this.AccountStatus = data.RtnData;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+                },
+                GetManager: async function (userId) {
+                    try {
+                        let query = {
+                            params: {
+                                userId: userId
+                            }
+                        }
+                        const response = await GetManager(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.tempBusinesse = data.RtnData;
+                                    break;
+                                case 403:
+                                case 404:
+                                    this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                    break
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+
+                },
+                GetManagerDeatil: async function (uid) {
+                    try {
+                        let query = {
+                            params: {
+                                uid: uid
+                            }
+                        }
+                        const response = await GetManagerDeatil(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            console.log(response)
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.businesmanDetail = data.RtnData;
+                                    break;
+                                case 404:
+                                    this.businesmanDetail = {};
+                                    this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                    break
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                catch (exception) {
+                        console.log(exception)
+                    }
+                },
+                OpenBusinessmanDetailModal: function (uid) {
+                    this.GetManagerDeatil(uid).then(() => {
+                        if (Object.keys(this.businesmanDetail).length !== 0) {
+                            this.$refs.businessmanDetail.Show();
+                        }
+                    });
+                },
+                OpenEditBusinessmanModal: async function (isNew = true,userId='') {
+                    this.isNew = isNew;
+                    this.modelStateError = {};
+                    if (isNew) {
+                        this.tempBusinesse = {};
+                        this.$refs.editBusinessman.Show();
+                    }
+                    else {
+                        this.GetManager(userId).then(() => {
+                            if (Object.keys(this.tempBusinesse).length !== 0) {
+                                this.$refs.editBusinessman.Show();
+                            }
+                        });
+                    }               
+                },
+                SaveBusinessman: async function (value) {
+                    let response = null;
+                    if (this.isNew) {
+                        response = await PostManager(value).then(response => response);
+                    } else {
+                        response = await UpdateManager(value).then(response => response);
+                    }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.RtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.$refs.editBusinessman.Close();
+                                this.tempBusinesse = {};
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                this.GetManagerAll();
+                                break;
+                            case 401:
+                                if (typeof (responseData.RtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            case 405:
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },
+                GetManagerFilter: async function () {
+                    const query = {
+                        params: this.queryModel
+                    };
+                    const response = await GetManagerFilter(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.RtnCode;
+                        switch (code) {
+                            case 200:
+                                this.businesses = responseData.RtnData;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },
+                InitFilters: function () {
+                    this.filtersBusinesses = {
+                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+                    }
+                }
+            }
+         })
+    }
+</script>

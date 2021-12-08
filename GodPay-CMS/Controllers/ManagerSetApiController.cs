@@ -11,10 +11,10 @@ namespace GodPay_CMS.Controllers
     /// 業務管理Api
     /// </summary>
     [Authorize(Roles = "Admin")]
-    public class BusinessManagementApiController : Controller
+    public class ManagerSetApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
-        public BusinessManagementApiController(IServiceWrapper serviceWrapper)
+        public ManagerSetApiController(IServiceWrapper serviceWrapper)
         {
             _serviceWrapper = serviceWrapper;
         }
@@ -23,9 +23,9 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetBusinessmens()
+        public async Task<IActionResult> GetManagerAll()
         {
-            var response = await _serviceWrapper.businessManagementService.GetBusinessmens();
+            var response = await _serviceWrapper.managerService.GetManagerAll();
             return Ok(response);
         }
         /// <summary>
@@ -34,9 +34,9 @@ namespace GodPay_CMS.Controllers
         /// <param name="uid"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetBusinessmenDeatil([FromQuery] int uid)
+        public async Task<IActionResult> GetManagerDeatil([FromQuery] int uid)
         {
-            var response = await _serviceWrapper.businessManagementService.GetBusinessmenDeatil(uid);
+            var response = await _serviceWrapper.managerService.GetManagerDeatil(uid);
             return Ok(response);
         }
         /// <summary>
@@ -45,9 +45,9 @@ namespace GodPay_CMS.Controllers
         /// <param name="postUserAndInsiderViewModal"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostBusinessmen([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
+        public async Task<IActionResult> PostManager([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
         {
-            var response = await _serviceWrapper.businessManagementService.PostBusinessmanAndInsider(postUserAndInsiderViewModal);
+            var response = await _serviceWrapper.managerService.PostManagerAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
         }
         /// <summary>
@@ -56,9 +56,9 @@ namespace GodPay_CMS.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetBusinessmen([FromQuery] string userId)
+        public async Task<IActionResult> GetManager([FromQuery] string userId)
         {
-            var response = await _serviceWrapper.businessManagementService.GetUserAndInsiderByUserId(userId);
+            var response = await _serviceWrapper.managerService.GetManagerAndInsiderByUserId(userId);
             return Ok(response);
         }
         /// <summary>
@@ -67,9 +67,9 @@ namespace GodPay_CMS.Controllers
         /// <param name="updateUserAndInsiderViewModal"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateBusinessmen([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
+        public async Task<IActionResult> UpdateManager([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
         {
-            var response = await _serviceWrapper.businessManagementService.UpdateBusinessmanAndInsider(updateUserAndInsiderViewModal);
+            var response = await _serviceWrapper.managerService.UpdateManagerAndInsider(updateUserAndInsiderViewModal);
             return Ok(response);
         }
         /// <summary>
@@ -78,9 +78,9 @@ namespace GodPay_CMS.Controllers
         /// <param name="userParams"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetBusinessmensFilter([FromQuery] UserParams userParams)
+        public async Task<IActionResult> GetManagerFilter([FromQuery] UserParams userParams)
         {
-            var response = await _serviceWrapper.businessManagementService.GetBusinessmensFilter(userParams);
+            var response = await _serviceWrapper.managerService.GetManagerFilter(userParams);
             return Ok(response);
         }
     }

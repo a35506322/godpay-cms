@@ -11,10 +11,10 @@ namespace GodPay_CMS.Controllers
     /// 特店管理Api
     /// </summary>
     [Authorize(Roles = "Admin,Manager")]
-    public class StoreManagementApiController : Controller
+    public class StoreSetApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
-        public StoreManagementApiController(IServiceWrapper serviceWrapper)
+        public StoreSetApiController(IServiceWrapper serviceWrapper)
         {
             _serviceWrapper = serviceWrapper;
         }

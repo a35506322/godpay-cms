@@ -11,7 +11,7 @@ namespace GodPay_CMS.Controllers
     /// 權限管理頁面
     /// </summary>
     [Authorize(Roles = "Admin")]
-    public class AuthorityManagementController : Controller
+    public class AuthoritySetController : Controller
     {
         /// <summary>
         /// 權限設定頁面

@@ -29,8 +29,8 @@ export default {
                 <div class="container-fluid">                
                     <div class="mb-3">
                         <label for="oldkey" class="form-label">舊密碼</label>
-                        <v-field type="password" class="p-inputtext p-component form-control" v-model.trim="EditKeyViewModel.OldKey" rules="required" name="OldKey" id="oldkey" v-bind:class="[{'is-invalid':errors['OldKey']||modelError['OldKey']}]" aria-describedby="emailHelp" autocomplete="off"></v-field>
-                        <error-message name="OldKey" class="invalid-feedback"></error-message>
+                        <v-field type="password" class="p-inputtext p-component form-control" v-model.trim="EditKeyViewModel.OldKey" rules="required" name="密碼" id="oldkey" v-bind:class="[{'is-invalid':errors['密碼']||modelError['OldKey']}]" aria-describedby="emailHelp" autocomplete="off"></v-field>
+                        <error-message name="密碼" class="invalid-feedback"></error-message>
                         <server-error-message v-bind:attr="'OldKey'"></server-error-message>
                     </div>
                     <div class="mb-3">

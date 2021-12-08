@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace GodPay_CMS.Controllers
 {
     /// <summary>
-    /// 業務管理頁面
+    /// 特店管理頁面
     /// </summary>
-    [ResponseCache(NoStore = true)]
-    [Authorize(Roles = "Admin")]
-    public class BusinessManagementController : Controller
+    public class StoreSetController : Controller
     {
         /// <summary>
-        /// 業務管理首頁
+        /// 特店首頁
         /// </summary>
         /// <returns></returns>
+        [ResponseCache(NoStore = true)]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Index()
         {
             return View();

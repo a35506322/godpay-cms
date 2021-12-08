@@ -14,12 +14,11 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 權限管理伺服器
     /// </summary>
-    [Authorize(Roles ="Admin")]
-    public class AuthorityApiController : Controller
+    public class AuthoritySetApiController : Controller
     {
         private readonly IMapper _mapper;
         private readonly IServiceWrapper _serviceWrapper;
-        public AuthorityApiController(IMapper mapper, IServiceWrapper serviceWrapper)
+        public AuthoritySetApiController(IMapper mapper, IServiceWrapper serviceWrapper)
         {
             _mapper = mapper;
             _serviceWrapper = serviceWrapper;
@@ -51,6 +50,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="functionParams"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize("Admin")]
         public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateFuncClassViewModel> updateFuncClassViewModels)
         {
             var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateFuncClassViewModels);
