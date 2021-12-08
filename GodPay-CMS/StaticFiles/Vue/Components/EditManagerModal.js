@@ -1,7 +1,7 @@
 ﻿import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
 import {  } from '/StaticFiles/Vue/Services/IpassService.js'
 export default {
-    props: ['isNew', 'tempBusinesse', 'modelStateError','tempAccountStatus'],
+    props: ['isNew', 'tempManager', 'modelStateError','tempAccountStatus'],
     components: {
         serverErrorMessage
     },
@@ -29,9 +29,9 @@ export default {
         }
     },
     watch: {
-        tempBusinesse: {
+        tempManager: {
             handler: function (newVal, oldVal) {
-                this.tempModel = { ...this.tempBusinesse };
+                this.tempModel = { ...this.tempManager };
             },
             deep: true
         }
