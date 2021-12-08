@@ -31,4 +31,4 @@ export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEn
 export const GetListOfFunction = () => axios.get('/AuthoritySetApi/GetListOfFunction').then(respone => { console.log('GetListOfFunction'); return respone; }).catch(error => error);
 export const GetListOfFunctionFilter = query => axios.get('/AuthoritySetApi/GetListOfFunctionFilter', query).then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);
 export const UpdateRoleMaxAuthority = data => axios.put('/AuthoritySetApi/UpdateRoleMaxAuthority', data).then(respone => { console.log('UpdateRoleMaxAuthority'); return respone; }).catch(error => error);
-export const GetListOfFuncClass = () => axios.get('/AuthorityApi/GetListOfFuncClass').then(respone => { console.log('GetListOfFuncClass'); return respone; }).catch(error => error);
+export const GetListOfFuncClass = () => axios.get('/AuthoritySetApi/GetListOfFuncClass').then(respone => { console.log('GetListOfFuncClass'); return respone; }).catch(error => error);
