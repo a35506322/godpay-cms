@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\AuthorityManagement\**" />
+    <Compile Remove="Views\BusinessManagement\**" />
+    <Compile Remove="Views\StoreManagement\**" />
+    <Content Remove="Views\AuthorityManagement\**" />
+    <Content Remove="Views\BusinessManagement\**" />
+    <Content Remove="Views\StoreManagement\**" />
+    <EmbeddedResource Remove="Views\AuthorityManagement\**" />
+    <EmbeddedResource Remove="Views\BusinessManagement\**" />
+    <EmbeddedResource Remove="Views\StoreManagement\**" />
+    <None Remove="Views\AuthorityManagement\**" />
+    <None Remove="Views\BusinessManagement\**" />
+    <None Remove="Views\StoreManagement\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Dapper" Version="2.0.90" />
