@@ -80,5 +80,13 @@ namespace GodPay_CMS.Services.Implements
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnData = "修改角色最大權限失敗" };
         }
+        public async Task<ResponseViewModel> GetListOfFuncClass()
+        {
+            var allFunc = await _repostioryWrapper.funcClassRepository.GetAll();
+            if (allFunc == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "取得資料失敗" };
+            var allFuncRsp = _mapper.Map<IEnumerable<FuncClassRsp>>(allFunc);
+            return new ResponseViewModel() { RtnData = allFuncRsp };
+        }
     }
 }

@@ -56,5 +56,11 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateFuncClassViewModels);
             return Ok(response);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetListOfFuncClass()
+        {
+            var response = await _serviceWrapper.authorityService.GetListOfFuncClass();
+            return Ok(response);
+        }
     }
 }

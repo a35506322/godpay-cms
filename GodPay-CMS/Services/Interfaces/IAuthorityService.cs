@@ -28,5 +28,10 @@ namespace GodPay_CMS.Services.Interfaces
         /// <returns></returns>
         public Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateFuncClassViewModel> updateFuncClassViewModels);
        
+        /// <summary>
+        /// 功能類別列表
+        /// </summary>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetListOfFuncClass();
     }
 }

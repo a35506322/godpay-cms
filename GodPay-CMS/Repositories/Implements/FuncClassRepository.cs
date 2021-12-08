@@ -32,9 +32,22 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<FuncClass>> GetAll()
+        public async Task<IEnumerable<FuncClass>> GetAll()
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                try
+                {
+                    string sql = @"SELECT *
+                              FROM [IPASS].[dbo].[FuncClass]";
+                    var funcClass = await connection.QueryAsync<FuncClass>(sql);
+                    return funcClass.ToList();
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception(ex.Message.ToString());
+                }
+            }             
         }
 
         public Task<FuncClass> GetById(string id)
