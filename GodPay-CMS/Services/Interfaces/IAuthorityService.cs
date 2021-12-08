@@ -33,5 +33,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         public Task<ResponseViewModel> GetListOfFuncClass();
+        /// <summary>
+        /// 新增功能類別
+        /// </summary>
+        /// <param name="postFuncClassViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> PostFuncClass(PostFuncClassViewModel postFuncClassViewModel);
     }
 }

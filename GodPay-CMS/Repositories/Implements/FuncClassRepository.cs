@@ -22,9 +22,30 @@ namespace GodPay_CMS.Repositories.Implements
         {
             _config = config;
         }
-        public Task<bool> Add(FuncClass model)
+        public async Task<bool> Add(FuncClass model)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @"INSERT INTO [dbo].[FuncClass](FuncClassEnName,FuncClassChName)
+                                  VALUES (@FuncClassEnName,@FuncClassChName)";
+                bool result = false;
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var response = await connection.ExecuteAsync(sql, model, transaction: tran);
+                        if (response > 0) { result = true; }
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message.ToString());
+                    }
+                    return result;
+                }
+            }
         }
 
         public Task<bool> Delete(string id)

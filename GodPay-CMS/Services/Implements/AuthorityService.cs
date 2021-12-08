@@ -2,6 +2,7 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
@@ -87,6 +88,14 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "取得資料失敗" };
             var allFuncRsp = _mapper.Map<IEnumerable<FuncClassRsp>>(allFunc);
             return new ResponseViewModel() { RtnData = allFuncRsp };
+        }
+        public async Task<ResponseViewModel> PostFuncClass(PostFuncClassViewModel postFuncClassViewModel)
+        {
+            var funClass = _mapper.Map<FuncClass>(postFuncClassViewModel);
+            var response = await _repostioryWrapper.funcClassRepository.Add(funClass);
+            if(response)
+                return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "新增成功" };
+            return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "執行失敗" };
         }
     }
 }

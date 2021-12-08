@@ -57,13 +57,22 @@ namespace GodPay_CMS.Controllers
             return Ok(response);
         }
         /// <summary>
-        /// 取得所有類別
+        /// 取得所有功能類別
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetListOfFuncClass()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFuncClass();
+            return Ok(response);
+        }
+        /// <summary>
+        /// 新增功能類別
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
+        {
+            var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassViewModel);
             return Ok(response);
         }
     }
