@@ -19,5 +19,10 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <returns></returns>
         public Task<IEnumerable<FuncClass>> GetByFuncClassAndFuncFilter(GetFuncFilterReq getFuncFilterReq);
+        /// <summary>
+        /// 取得角色權限(包含是否有權限)
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<UserAuthorityFuncClassRsp>> GetRoleAuthority(GetRoleAuthorityReq getRoleAuthorityReq);
     }
 }

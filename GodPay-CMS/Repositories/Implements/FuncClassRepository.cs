@@ -150,5 +150,36 @@ namespace GodPay_CMS.Repositories.Implements
                 return result;
             }
         }
+
+        public async Task<IEnumerable<UserAuthorityFuncClassRsp>> GetRoleAuthority(GetRoleAuthorityReq getRoleAuthorityReq)
+        {
+            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            {
+                string sql = @"Select A.FuncClassCode,A.FuncClassChName,A.FuncClassEnName,
+	                           B.Fid,B.FuncEnName,B.FuncChName,B.FuncCode,
+	                         Case
+	                          when (B.FuncCode & @FuncFlag) <> 0 then 1
+	                          when (B.FuncCode & @FuncFlag) =  0 then 0 
+	                         END  as  'IsAuthority'
+                            From [dbo].[FuncClass] A
+                            Join [dbo].[Func] B on A.FuncClassCode = B.FuncClassCode
+                            Where B.RoleFlag & @Role <> 0";
+                // 偽1對多
+                var funcClass = await connection.QueryAsync<UserAuthorityFuncClassRsp, UserAuthorityFuncRsp, UserAuthorityFuncClassRsp>(sql, (funcClass, func) =>
+                {
+                    funcClass.UserAuthorityFuncRsps.Add(func);
+                    return funcClass;
+                }, getRoleAuthorityReq, splitOn: "Fid");
+
+                // 重做一份真1對多
+                var result = funcClass.GroupBy(f => f.FuncClassCode).Select(g =>
+                {
+                    var groupedfuncClass = g.First();
+                    groupedfuncClass.UserAuthorityFuncRsps = g.Select(p => p.UserAuthorityFuncRsps.Single()).ToList();
+                    return groupedfuncClass;
+                });
+                return result;
+            }
+        }
     }
 }

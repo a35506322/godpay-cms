@@ -99,5 +99,16 @@ namespace GodPay_CMS.Services.Implements
 
             return new ResponseViewModel() { RtnData = userRsp };
         }
+
+        public async Task<ResponseViewModel> GetManagerAuthority()
+        {
+            GetRoleAuthorityReq getRoleAuthorityReq = new GetRoleAuthorityReq()
+            {
+                Role = (int)(RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value),
+                FuncFlag = int.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "FuncFlag").Value)
+            };
+            var managerAuthority = await _repostioryWrapper.funcClassRepository.GetRoleAuthority(getRoleAuthorityReq);
+            return new ResponseViewModel() { RtnData = managerAuthority };
+        }
     }
 }

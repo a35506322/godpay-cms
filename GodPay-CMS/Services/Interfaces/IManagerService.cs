@@ -13,28 +13,28 @@ namespace GodPay_CMS.Services.Interfaces
         /// 取得業務們
         /// </summary>
         /// <returns></returns>
-        Task<ResponseViewModel> GetManagerAll();
+        public Task<ResponseViewModel> GetManagerAll();
 
         /// <summary>
         /// 取得業務詳細資料
         /// </summary>
         /// <param name="id">帳號</param>
         /// <returns></returns>
-        Task<ResponseViewModel> GetManagerDeatil(int id);
+        public Task<ResponseViewModel> GetManagerDeatil(int id);
 
         /// <summary>
         /// 新增業務及詳細資料
         /// </summary>
         /// <param name="postUserAndInsiderViewModel"></param>
         /// <returns></returns>
-        Task<ResponseViewModel> PostManagerAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModel);
+        public Task<ResponseViewModel> PostManagerAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModel);
 
         /// <summary>
         /// 更新業務及詳細資料
         /// </summary>
         /// <param name="postUserAndInsiderReq"></param>
         /// <returns></returns>
-        Task<ResponseViewModel> UpdateManagerAndInsider(UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal);
+        public Task<ResponseViewModel> UpdateManagerAndInsider(UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal);
 
         /// <summary>
         /// 取得業務及詳細資料
@@ -48,6 +48,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="userParams">Query</param>
         /// <returns></returns>
-        Task<ResponseViewModel> GetManagerFilter(UserParams userParams);
+        public  Task<ResponseViewModel> GetManagerFilter(UserParams userParams);
+
+        /// <summary>
+        /// 取得單筆業務權限
+        /// </summary>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetManagerAuthority();
     }
 }

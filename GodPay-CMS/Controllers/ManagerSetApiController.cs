@@ -83,5 +83,15 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.GetManagerFilter(userParams);
             return Ok(response);
         }
+        /// <summary>
+        /// 取得業務角色權限
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetManagerAuthority()
+        {
+            var response = await _serviceWrapper.managerService.GetManagerAuthority();
+            return Ok(response);
+        }
     }
 }
