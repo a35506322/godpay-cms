@@ -16,11 +16,11 @@ namespace GodPay_CMS.Repositories.Entity
         /// </summary>
         public string FuncClassCode { get; set; }
         /// <summary>
-        /// 英文名子(action)
+        /// 英文名字(action)
         /// </summary>
         public string FuncClassEnName { get; set; }
         /// <summary>
-        /// 中文名子(action)
+        /// 中文名字(action)
         /// </summary>
         public string FuncClassChName { get; set; }
         /// <summary>

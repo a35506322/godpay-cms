@@ -85,7 +85,7 @@ namespace GodPay_CMS.Services.Implements
         {
             var allFunc = await _repostioryWrapper.funcClassRepository.GetAll();
             if (allFunc == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "取得資料失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "查無資料" };
             var allFuncRsp = _mapper.Map<IEnumerable<FuncClassRsp>>(allFunc);
             return new ResponseViewModel() { RtnData = allFuncRsp };
         }
