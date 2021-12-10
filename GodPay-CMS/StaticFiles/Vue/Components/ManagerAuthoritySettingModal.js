@@ -15,12 +15,15 @@
         },
         Close: function () {
             this.displayModal = false;
+        },
+        changeJson: function (obj) {
+            return JSON.parse(JSON.stringify(obj))
         }
     },
     watch: {
         managerAuthority: {
             handler: function (newVal, oldVal) {
-                this.tempModel = { ...this.managerAuthority };
+                this.tempModel = this.changeJson(this.managerAuthority);
             },
             deep: true
         }
@@ -30,19 +33,19 @@
          <div class="modal-body" style="background-color: var(--surface-b);">
             <div class="container-fluid">
                 <div class="row gy-5">
-                <template v-for="(authority,index) in tempModel"  v-bind:key="authority.FuncClassCode">
+                <template v-for="(authority,index) in x"  v-bind:key="authority.FuncClassCode">
                     <div class="col-12 col-lg-6">
                         <p-card style="width: 25em" class="m-auto">
                             <template #title>
                                 {{authority.FuncClassChName}}
                             </template>
                             <template #content>
-                            <template v-for="(func,index) in authority.UserAuthorityFuncRsps" v-bind:key="func.UserAuthorityFuncRsps">
+                            <template v-for="(func,index) in authority.UserAuthorityFuncRsps" v-bind:key="func.FuncCode">
                                 <div class="row mb-3">
                                     <label class="col-sm-8 col-form-label pt-0">{{func.FuncChName}}</label>
                                     <div class="col-sm-4">
                                         <div class="form-check">
-                                            <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" style="margin-top:2px" v-bind:value="func.FuncCode" :checked="func.IsAuthority">
+                                            <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" style="margin-top:2px" v-model="func.IsAuthority">
                                         </div> 
                                     </div>
                                 </div>
