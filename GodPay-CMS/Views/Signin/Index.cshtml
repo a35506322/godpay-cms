@@ -80,11 +80,7 @@
                         const responseData = response.data;
                         switch (responseData.RtnCode) {
                             case 200:
-                                let baseURL = '';
-                                @if (env.IsDevelopment())
-                                {
-                                    @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
-                                }
+                                let baseURL = window.baseURL;
                                 window.location.href = `${baseURL}`;
                                 break;
                             case 401:

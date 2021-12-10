@@ -10,17 +10,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Common.Helpers.Decipher;
+using Microsoft.Extensions.Options;
 
 namespace GodPay_CMS.Repositories.Implements
 {
     public class StoreRepository : IStoreRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IConfiguration _config;
-        public StoreRepository(IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        private readonly IDecipherHelper _decipherHelper;
+        private readonly IOptionsSnapshot<SettingConfig> _settings;
+        public StoreRepository(IHttpContextAccessor httpContextAccessor, IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings)
         {
             _httpContextAccessor = httpContextAccessor;
-            _config = config;
+            _decipherHelper = decipherHelper;
+            _settings = settings;
         }
 
         public Task<bool> Add(Store model)
@@ -40,7 +44,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<Store> GetById(int id)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Select *
                                     From[dbo].[Store] A

@@ -13,17 +13,21 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Repositories.Entity;
+using GodPay_CMS.Common.Helpers.Decipher;
+using Microsoft.Extensions.Options;
 
 namespace GodPay_CMS.Repositories.Implements
 {
     public class FuncRepository : IFuncRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IConfiguration _config;
-        public FuncRepository(IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        private readonly IDecipherHelper _decipherHelper;
+        private readonly IOptionsSnapshot<SettingConfig> _settings;
+        public FuncRepository(IHttpContextAccessor httpContextAccessor,IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings)
         {
             _httpContextAccessor = httpContextAccessor;
-            _config = config;
+            _decipherHelper = decipherHelper;
+            _settings = settings;
         }
 
         public Task<bool> Add(Func model)
@@ -52,7 +56,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<Func>> GetByFuncClassAndFunc()
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 var Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
 
@@ -73,7 +77,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> BatchUpdateRoleFlag(IEnumerable<UpdateRoleAuthorityReq> updateRoleAuthorityReqs)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Update T
                                     Set	    T.RoleFlag = @RoleFlag

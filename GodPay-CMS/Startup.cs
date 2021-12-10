@@ -1,4 +1,5 @@
 using GodPay_CMS.Common.Filiters;
+using GodPay_CMS.Common.Helpers.Decipher;
 using GodPay_CMS.Repositories.Implements;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.Implements;
@@ -28,6 +29,9 @@ namespace GodPay_CMS
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // appsettings
+            services.Configure<SettingConfig>(Configuration.GetSection("SettingConfig"));
+
             // Atuo mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -61,6 +65,9 @@ namespace GodPay_CMS
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IEnumService, EnumService>();
+
+            //Helper
+            services.AddSingleton<IDecipherHelper, DecipherHelper>();
 
             // Bundle
             services.AddWebOptimizer(pipeline =>

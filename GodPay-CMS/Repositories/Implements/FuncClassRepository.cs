@@ -12,19 +12,23 @@ using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Common.Helpers.Decipher;
+using Microsoft.Extensions.Options;
 
 namespace GodPay_CMS.Repositories.Implements
 {
     public class FuncClassRepository : IFuncClassRepository
     {
-        private readonly IConfiguration _config;
-        public FuncClassRepository(IConfiguration config)
+        private readonly IDecipherHelper _decipherHelper;
+        private readonly IOptionsSnapshot<SettingConfig> _settings;
+        public FuncClassRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings)
         {
-            _config = config;
+            _decipherHelper = decipherHelper;
+            _settings = settings;
         }
         public async Task<bool> Add(FuncClass model)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"INSERT INTO [dbo].[FuncClass](FuncClassEnName,FuncClassChName)
                                   VALUES (@FuncClassEnName,@FuncClassChName)";
@@ -55,7 +59,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<FuncClass>> GetAll()
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 try
                 {
@@ -83,7 +87,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFunc()
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Select * 
                                     From [dbo].[FuncClass] A
@@ -110,7 +114,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFuncFilter(GetFuncFilterReq getFuncFilterReq)
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Select * 
                                     From [dbo].[FuncClass] A
@@ -153,7 +157,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<UserAuthorityFuncClassRsp>> GetRoleAuthority(GetRoleAuthorityReq getRoleAuthorityReq)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"Select A.FuncClassCode,A.FuncClassChName,A.FuncClassEnName,
 	                           B.Fid,B.FuncEnName,B.FuncChName,B.FuncCode,

@@ -12,16 +12,20 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using GodPay_CMS.Common.Util;
+using GodPay_CMS.Common.Helpers.Decipher;
+using Microsoft.Extensions.Options;
 
 namespace GodPay_CMS.Repositories.Implements
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IConfiguration _config;
+        private readonly IDecipherHelper _decipherHelper;
+        private readonly IOptionsSnapshot<SettingConfig> _settings;
 
-        public UserRepository(IConfiguration config)
+        public UserRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings)
         {
-            _config = config;
+            _decipherHelper = decipherHelper;
+            _settings = settings;
         }
 
         public Task<bool> Add(User model)
@@ -53,7 +57,7 @@ namespace GodPay_CMS.Repositories.Implements
         {
             signinReq.UserKey = RNGCrypto.HMACSHA256(signinReq.UserKey, signinReq.UserId);
 
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"SELECT * FROM [dbo].[User] 
                                WHERE UserId = @UserId 
@@ -69,7 +73,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<int> UpdateLoginTime(SigninReq signinReq)
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @" UPDATE [dbo].[User] 
                                 SET LastLoginDate = GETDATE()
@@ -82,7 +86,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<User> GetByUserId(string userId)
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"SELECT * FROM [dbo].[User]
                                WHERE UserId = @UserId";
@@ -97,7 +101,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<User>> GetByRole(RoleEnum role)
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"SELECT * FROM [dbo].[User]
                                      WHERE Role = @Role";
@@ -112,7 +116,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<int> UpdateUser(UpdateUserReq updateUserReq)
         {
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @" UPDATE [dbo].[User] 
                                 SET Email = @Email, 
@@ -129,7 +133,7 @@ namespace GodPay_CMS.Repositories.Implements
         {
             editKeyViewModel.NewKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
 
-            using (IDbConnection _connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @" UPDATE [dbo].[User] 
                                 SET UserKey = @NewKey, 
@@ -143,7 +147,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 // 新增User主表
                 string sqlString = @"Insert Into [dbo].[User] (UserId,UserKey,Email,Func,Status,Role,CreateDate)
@@ -189,7 +193,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<User>> GetUserAndInsiderByUserId(string userId)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Select *
 	                                 From　[dbo].[User] A
@@ -208,7 +212,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> UpdateUserAndInsider(UpdateUserAndInsiderReq updateUserAndInsiderReq)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Update T
                                     SET T.Status = @Status,
@@ -253,7 +257,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 // 新增User主表
                 string sqlString = @"Insert Into [dbo].[User] (UserId,UserKey,Email,Func,Status,Role,CreateDate)
@@ -301,7 +305,7 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<IEnumerable<User>> GetUsersFilter(UserParams userParams)
         {
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
 
                 string sqlString = @"Select *
@@ -338,7 +342,7 @@ namespace GodPay_CMS.Repositories.Implements
                          Join [dbo].[Store] S
                          On U.Uid=S.Uid
                          Where U.UserId=@userId";
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 var users = await connection.QueryAsync<User, Store, User>(sql, (user, store) =>
                 {
@@ -373,7 +377,7 @@ namespace GodPay_CMS.Repositories.Implements
                                         From [dbo].[Store] S
                                         Where S.Uid = @Uid
                                     )T2;";
-            using (IDbConnection connection = new SqlConnection(_config.GetConnectionString("IPASS_Conn")))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 bool result = false;
                 connection.Open();

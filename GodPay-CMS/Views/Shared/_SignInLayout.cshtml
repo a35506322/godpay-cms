@@ -60,7 +60,7 @@
         let layout = 'signin-laoout';
         @if (env.IsDevelopment())
         {
-           @:baseURL = '@Configuration.GetSection("BaseUrl").Value';
+           @:baseURL = '@settings.Value.BaseUrl'
         }
         window.layout = layout;
         window.baseURL = baseURL;
