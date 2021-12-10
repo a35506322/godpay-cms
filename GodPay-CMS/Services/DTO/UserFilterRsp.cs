@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {
@@ -14,6 +11,7 @@ namespace GodPay_CMS.Services.DTO
         /// 流水號(PK)
         /// </summary>
         public int Uid { get; set; }
+
         /// <summary>
         /// 帳號
         /// </summary>
@@ -28,6 +26,11 @@ namespace GodPay_CMS.Services.DTO
         /// 角色
         /// </summary>
         public string Role { get; set; }
+
+        /// <summary>
+        /// 權限旗標
+        /// </summary>
+        public int Func { get; set; }
 
         /// <summary>
         /// 目前狀態

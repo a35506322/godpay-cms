@@ -18,6 +18,7 @@ namespace GodPay_CMS.Controllers
         {
             _serviceWrapper = serviceWrapper;
         }
+
         /// <summary>
         /// 取得所有業務
         /// </summary>
@@ -28,6 +29,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.GetManagerAll();
             return Ok(response);
         }
+
         /// <summary>
         /// 取得單筆業務詳細資料
         /// </summary>
@@ -39,6 +41,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.GetManagerDeatil(uid);
             return Ok(response);
         }
+
         /// <summary>
         /// 新增業務
         /// </summary>
@@ -50,6 +53,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.PostManagerAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
         }
+
         /// <summary>
         /// 取得單筆業務
         /// </summary>
@@ -61,6 +65,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.GetManagerAndInsiderByUserId(userId);
             return Ok(response);
         }
+
         /// <summary>
         /// 更新業務
         /// </summary>
@@ -72,6 +77,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.UpdateManagerAndInsider(updateUserAndInsiderViewModal);
             return Ok(response);
         }
+
         /// <summary>
         /// 取得單筆業務(塞選)
         /// </summary>
@@ -83,14 +89,15 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.GetManagerFilter(userParams);
             return Ok(response);
         }
+
         /// <summary>
         /// 取得業務角色權限
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetManagerAuthority()
+        public async Task<IActionResult> GetManagerAuthority([FromQuery] int func)
         {
-            var response = await _serviceWrapper.managerService.GetManagerAuthority();
+            var response = await _serviceWrapper.managerService.GetManagerAuthority(func);
             return Ok(response);
         }
     }

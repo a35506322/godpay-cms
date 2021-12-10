@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
-using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -79,14 +77,14 @@ namespace GodPay_CMS.Services.Implements
         {
             var users = await _repostioryWrapper.userRepository.GetUserAndInsiderByUserId(userId);
 
-            if(users.Count()==0)
+            if (users.Count() == 0)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無業務資料" };
 
             if (users.Count() > 1)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "資料有誤" };
 
             var businessmanRsp = _mapper.Map<BusinessmanRsp>(users.ToList().SingleOrDefault());
-            return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData=businessmanRsp };
+            return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = businessmanRsp };
 
         }
 
@@ -100,12 +98,12 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = userRsp };
         }
 
-        public async Task<ResponseViewModel> GetManagerAuthority()
+        public async Task<ResponseViewModel> GetManagerAuthority(int func)
         {
             GetRoleAuthorityReq getRoleAuthorityReq = new GetRoleAuthorityReq()
             {
-                Role = (int)(RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value),
-                FuncFlag = int.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "FuncFlag").Value)
+                Role = (int)RoleEnum.Manager,
+                FuncFlag = func
             };
             var managerAuthority = await _repostioryWrapper.funcClassRepository.GetRoleAuthority(getRoleAuthorityReq);
             return new ResponseViewModel() { RtnData = managerAuthority };

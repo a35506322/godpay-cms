@@ -54,6 +54,6 @@ namespace GodPay_CMS.Services.Interfaces
         /// 取得單筆業務權限
         /// </summary>
         /// <returns></returns>
-        public Task<ResponseViewModel> GetManagerAuthority();
+        public Task<ResponseViewModel> GetManagerAuthority(int func);
     }
 }
