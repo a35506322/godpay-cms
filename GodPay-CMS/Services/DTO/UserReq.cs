@@ -1,8 +1,5 @@
 ﻿using GodPay_CMS.Common.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {
@@ -30,7 +27,7 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 權限總數
         /// </summary>
-        public int Func { get; set; }
+        public long Func { get; set; }
         /// <summary>
         /// 目前狀態
         /// </summary>

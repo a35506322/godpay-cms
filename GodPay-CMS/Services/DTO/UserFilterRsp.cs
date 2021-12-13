@@ -30,7 +30,7 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 權限旗標
         /// </summary>
-        public int Func { get; set; }
+        public long Func { get; set; }
 
         /// <summary>
         /// 目前狀態

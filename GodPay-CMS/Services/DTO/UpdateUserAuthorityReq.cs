@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Services.DTO
+﻿namespace GodPay_CMS.Services.DTO
 {
     public class UpdateUserAuthorityReq
     {
@@ -14,6 +9,6 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 權限總數
         /// </summary>
-        public Int64 Func { get; set; }
+        public long Func { get; set; }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Services.DTO
+﻿namespace GodPay_CMS.Services.DTO
 {
     public class GetRoleAuthorityReq
     {
@@ -14,6 +9,6 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 功能Flag
         /// </summary>
-        public int FuncFlag { get; set; }
+        public long FuncFlag { get; set; }
     }
 }
