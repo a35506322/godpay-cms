@@ -63,7 +63,7 @@
                 <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenManagerDetailModal(slotProps.data.Uid)"></p-button>
                 <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditManagerModal(false,slotProps.data.UserId)"
                           v-if="this.$common.CheckAuthority(funcs,'UpdateManager')"></p-button>
-                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="OpenManagerAuthoritySettingModal(slotProps.data.Func)"></p-button>
+                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="OpenManagerAuthoritySettingModal(slotProps.data)"></p-button>
             </template>
         </p-column>
         <template #empty>
@@ -81,7 +81,7 @@
 <manager-detail-modal ref="managerDetail" v-bind:pdetail="managerDetail"></manager-detail-modal>
 <edit-manager-modal ref="editManager" v-bind:temp-manager="tempManager" v-bind:is-new="isNew"
                     v-bind:model-state-error="modelStateError" v-on:save="SaveManager" v-bind:temp-account-status="AccountStatus"></edit-manager-modal>
-<manager-authority-setting-modal ref="managerAuthoritySetting"  v-bind:manager-authority="managerAuthority" ></manager-authority-setting-modal>
+<manager-authority-setting-modal ref="managerAuthoritySetting"  v-bind:manager-authority="managerAuthority" v-bind:temp-uid ="tempUid" v-on:save="SaveAuthority"></manager-authority-setting-modal>
 
 
 <script type="text/javascript">
@@ -91,7 +91,8 @@
         import {
             GetManagerAll, GetManagerDeatil, GetManagerFilter,
             PostManager, GetManager, UpdateManager,
-            GetAccountStatusEnum, GetListOfFunctionFilter, GetManagerAuthority
+            GetAccountStatusEnum, GetListOfFunctionFilter,
+            GetManagerAuthority, UpdateManagerAuthority
         } from '/StaticFiles/Vue/Services/IpassService.js'
         import ManagerDetailModal from '/StaticFiles/Vue/Components/ManagerDetailModal.js'
         import EditManagerModal from '/StaticFiles/Vue/Components/EditManagerModal.js'
@@ -122,7 +123,9 @@
                     },
                     AccountStatus: [],
                     filtersBusinesses: null,
-                    managerAuthority: {}
+                    managerAuthority: {},
+                    tempUid: 0,
+                    updateUserAuthorityViewModel: {}
                 }
             },
             created: function () {
@@ -375,13 +378,44 @@
                         console.log(exception)
                     }
                 },
-                OpenManagerAuthoritySettingModal: function (func) {
-                    this.GetManagerAuthority(func).then(() => {
+                OpenManagerAuthoritySettingModal:  function ({ Func, Uid }) {                  
+                    this.GetManagerAuthority(Func).then(() => {
                         if (Object.keys(this.managerAuthority).length !== 0) {
+                            this.tempUid = Uid;
                             this.$refs.managerAuthoritySetting.Show();
                         }
                     });
-                    this.$refs.managerAuthoritySetting.Show();
+                },
+                SaveAuthority: async function (value) {
+                    this.updateUserAuthorityViewModel = value;
+                    try {
+                        const response = await UpdateManagerAuthority(this.updateUserAuthorityViewModel).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const responseData = response.data;
+                            switch (responseData.RtnCode) {
+                                case 200:
+                                    this.$refs.managerAuthoritySetting.Close();
+                                    const status = this.$common.ChangeReturnCode(responseData.RtnCode);
+                                    this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                    break;
+                                case 401:
+                                case 404:
+                                case 417:
+                                    if (typeof (responseData.RtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.RtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    break;
+                                default:
+                                    throw new Error('代碼有誤');
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
                 }
             }
          })

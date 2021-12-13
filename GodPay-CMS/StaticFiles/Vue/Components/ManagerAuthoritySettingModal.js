@@ -1,5 +1,5 @@
 ﻿export default {
-    props: ['managerAuthority'],
+    props: ['managerAuthority','tempUid'],
     components: {
         'pCard': primevue.card
     },
@@ -7,11 +7,12 @@
         return {
             displayModal: false,
             tempModel: {},
-            total
+            updateUserAuthorityViewModel: {}
         }
     },
     methods: {
         Show: function () {
+            this.updateUserAuthorityViewModel = { }
             this.displayModal = true;
         },
         Close: function () {
@@ -25,12 +26,15 @@
             this.tempModel.forEach(element => {
                 element.UserAuthorityFuncRsps.forEach(elem => {
                     if (elem.IsAuthority == true) {
-                        total += element.FuncCode;
+                        total += elem.FuncCode;
                     }
                 });
             });
-            this.total = total;
-            this.$emit('save', this.total)
+            this.updateUserAuthorityViewModel = {
+                Uid: this.tempUid,
+                Func: total,
+            }
+            this.$emit('save', this.updateUserAuthorityViewModel)
         }
     },
     watch: {
