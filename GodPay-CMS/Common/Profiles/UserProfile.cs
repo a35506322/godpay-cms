@@ -48,6 +48,8 @@ namespace GodPay_CMS.Common.Profiles
                        .ForMember(n => n.ShortName, o => o.MapFrom(o => o.Store.ShortName))
                        .ForMember(n => n.StoreData1, o => o.MapFrom(o => o.Store.StoreData1))
                        .ForMember(n => n.StoreData2, o => o.MapFrom(o => o.Store.StoreData2));
+
+            CreateMap<UpdateUserAuthorityViewModel, UpdateUserAuthorityReq>();
         }
     }
 }

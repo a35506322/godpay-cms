@@ -399,5 +399,38 @@ namespace GodPay_CMS.Repositories.Implements
                 }
             }
         }
+
+        public async Task<bool> UpdateUserAuthority(UpdateUserAuthorityReq updateUserAuthorityReq)
+        {
+            string sqlString = @"Update T
+                                Set	T.Func = @Func
+                                From
+                                (
+	                                Select *
+	                                From [dbo].[User] A
+	                                Where A.Uid = @Uid
+                                )T";
+
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                bool result = false;
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var rowCount =  await connection.ExecuteAsync(sqlString, updateUserAuthorityReq, transaction: tran);
+                        result = rowCount > 0 ? true:false;
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message.ToString());
+                    }
+                }
+                return result;
+            }
+        }
     }
 }

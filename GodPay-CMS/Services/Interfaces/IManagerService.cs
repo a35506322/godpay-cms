@@ -55,5 +55,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         public Task<ResponseViewModel> GetManagerAuthority(int func);
+
+        /// <summary>
+        /// 修改業務權限
+        /// </summary>
+        /// <param name="updateUserAuthorityViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> UpdateManagerAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
     }
 }

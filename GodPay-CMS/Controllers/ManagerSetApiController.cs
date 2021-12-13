@@ -100,5 +100,16 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.managerService.GetManagerAuthority(func);
             return Ok(response);
         }
+
+        /// <summary>
+        /// 修改業務角色權限
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> UpdateManagerAuthority([FromBody]UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        {
+            var response = await _serviceWrapper.managerService.UpdateManagerAuthority(updateUserAuthorityViewModel);
+            return Ok(response);
+        }
     }
 }
