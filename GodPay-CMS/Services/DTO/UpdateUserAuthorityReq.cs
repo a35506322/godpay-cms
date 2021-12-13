@@ -14,6 +14,6 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 權限總數
         /// </summary>
-        public int Func { get; set; }
+        public Int64 Func { get; set; }
     }
 }
