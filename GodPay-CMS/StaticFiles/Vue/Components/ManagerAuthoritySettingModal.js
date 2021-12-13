@@ -6,7 +6,8 @@
     data: function () {
         return {
             displayModal: false,
-            tempModel: {}
+            tempModel: {},
+            total
         }
     },
     methods: {
@@ -18,6 +19,18 @@
         },
         changeJson: function (obj) {
             return JSON.parse(JSON.stringify(obj))
+        },
+        SaveAuthority: function () {
+            var total = 0;
+            this.tempModel.forEach(element => {
+                element.UserAuthorityFuncRsps.forEach(elem => {
+                    if (elem.IsAuthority == true) {
+                        total += element.FuncCode;
+                    }
+                });
+            });
+            this.total = total;
+            this.$emit('save', this.total)
         }
     },
     watch: {
@@ -30,10 +43,11 @@
     },
     template: `
     <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+        <v-form v-slot="{values, errors}" v-on:submit ="SaveAuthority">
          <div class="modal-body" style="background-color: var(--surface-b);">
             <div class="container-fluid">
                 <div class="row gy-5">
-                <template v-for="(authority,index) in x"  v-bind:key="authority.FuncClassCode">
+                <template v-for="(authority,index) in managerAuthority"  v-bind:key="authority.FuncClassCode">
                     <div class="col-12 col-lg-6">
                         <p-card style="width: 25em" class="m-auto">
                             <template #title>
@@ -61,5 +75,6 @@
             <p-button label="取消" icon="pi pi-times" v-on:click="Close()" class="p-button-text"></p-button>
             <p-button label="儲存" icon="pi pi-check" autofocus type="submit"></p-button>
         </div>
+        </v-form>
     </p-dialog>`
 }

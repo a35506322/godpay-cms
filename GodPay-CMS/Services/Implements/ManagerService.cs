@@ -113,10 +113,10 @@ namespace GodPay_CMS.Services.Implements
         {
             var updateUserAuthorityReq = _mapper.Map<UpdateUserAuthorityReq>(updateUserAuthorityViewModel);
             var result = await _repostioryWrapper.userRepository.UpdateUserAuthority(updateUserAuthorityReq);
-            if(result)
-                return new ResponseViewModel() { RtnMessage="修改業務權限成功",RtnData = result };
+            if (result)
+                return new ResponseViewModel() { RtnMessage = "修改業務權限成功", RtnData = result };
             else
-                return new ResponseViewModel() { RtnMessage = "修改業務權限失敗"};
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改業務權限失敗" };
         }
     }
 }
