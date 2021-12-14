@@ -95,9 +95,9 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetManagerAuthority([FromQuery] int func)
+        public async Task<IActionResult> GetManagerAuthority([FromQuery] string userId)
         {
-            var response = await _serviceWrapper.managerService.GetManagerAuthority(func);
+            var response = await _serviceWrapper.managerService.GetManagerAuthority(userId);
             return Ok(response);
         }
 
@@ -106,7 +106,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateManagerAuthority([FromBody]UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        public async Task<IActionResult> UpdateManagerAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
         {
             var response = await _serviceWrapper.managerService.UpdateManagerAuthority(updateUserAuthorityViewModel);
             return Ok(response);

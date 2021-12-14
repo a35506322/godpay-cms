@@ -98,12 +98,16 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = userRsp };
         }
 
-        public async Task<ResponseViewModel> GetManagerAuthority(int func)
+        public async Task<ResponseViewModel> GetManagerAuthority(string userId)
         {
+            var user = await _repostioryWrapper.userRepository.GetByUserId(userId);
+            if (user == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+
             GetRoleAuthorityReq getRoleAuthorityReq = new GetRoleAuthorityReq()
             {
                 Role = (int)RoleEnum.Manager,
-                FuncFlag = func
+                FuncFlag = user.Func
             };
             var managerAuthority = await _repostioryWrapper.funcClassRepository.GetRoleAuthority(getRoleAuthorityReq);
             return new ResponseViewModel() { RtnData = managerAuthority };

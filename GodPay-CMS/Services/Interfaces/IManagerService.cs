@@ -48,13 +48,13 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="userParams">Query</param>
         /// <returns></returns>
-        public  Task<ResponseViewModel> GetManagerFilter(UserParams userParams);
+        public Task<ResponseViewModel> GetManagerFilter(UserParams userParams);
 
         /// <summary>
         /// 取得單筆業務權限
         /// </summary>
         /// <returns></returns>
-        public Task<ResponseViewModel> GetManagerAuthority(int func);
+        public Task<ResponseViewModel> GetManagerAuthority(string userId);
 
         /// <summary>
         /// 修改業務權限

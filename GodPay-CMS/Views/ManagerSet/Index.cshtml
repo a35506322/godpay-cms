@@ -81,7 +81,7 @@
 <manager-detail-modal ref="managerDetail" v-bind:pdetail="managerDetail"></manager-detail-modal>
 <edit-manager-modal ref="editManager" v-bind:temp-manager="tempManager" v-bind:is-new="isNew"
                     v-bind:model-state-error="modelStateError" v-on:save="SaveManager" v-bind:temp-account-status="AccountStatus"></edit-manager-modal>
-<manager-authority-setting-modal ref="managerAuthoritySetting"  v-bind:manager-authority="managerAuthority" v-bind:temp-uid ="tempUid" v-on:save="SaveAuthority"></manager-authority-setting-modal>
+<manager-authority-setting-modal ref="managerAuthoritySetting" v-bind:manager-authority="managerAuthority" v-bind:temp-uid="tempUid" v-on:save="SaveAuthority"></manager-authority-setting-modal>
 
 
 <script type="text/javascript">
@@ -347,11 +347,11 @@
                         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                     }
                 },
-                GetManagerAuthority: async function (func) {
+                GetManagerAuthority: async function (userId) {
                     try {
                         let query = {
                             params: {
-                                func: func
+                                userId: userId
                             }
                         }
                         const response = await GetManagerAuthority(query).then(response => response);
@@ -378,8 +378,8 @@
                         console.log(exception)
                     }
                 },
-                OpenManagerAuthoritySettingModal:  function ({ Func, Uid }) {                  
-                    this.GetManagerAuthority(Func).then(() => {
+                OpenManagerAuthoritySettingModal: function ({ UserId, Uid }) {
+                    this.GetManagerAuthority(UserId).then(() => {
                         if (Object.keys(this.managerAuthority).length !== 0) {
                             this.tempUid = Uid;
                             this.$refs.managerAuthoritySetting.Show();
