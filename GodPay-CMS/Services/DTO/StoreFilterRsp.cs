@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Services.DTO
+﻿namespace GodPay_CMS.Services.DTO
 {
     /// <summary>
-    /// 特店詳細資料(塞選)
+    /// 特店詳細資料(篩選)
     /// </summary>
     public class StoreFilterRsp
     {
@@ -14,15 +9,30 @@ namespace GodPay_CMS.Services.DTO
         /// User PK(FK)
         /// </summary>
         public int Uid { get; set; }
+
         /// <summary>
-        /// 全名
+        /// 特店名稱
         /// </summary>
-        public string FullName { get; set; }
+        public string StoreName { get; set; }
+
         /// <summary>
-        /// 別名
+        /// 統一編號
         /// </summary>
-        public string ShortName { get; set; }
-        public string StoreData1 { get; set; }
-        public string StoreData2 { get; set; }
+        public string TaxId { get; set; }
+
+        /// <summary>
+        ///  負責人
+        /// </summary>
+        public string Owner { get; set; }
+
+        /// <summary>
+        ///  公司地址
+        /// </summary>
+        public string Address { get; set; }
+
+        /// <summary>
+        ///  負責人電子信箱
+        /// </summary>
+        public string Email { get; set; }
     }
 }

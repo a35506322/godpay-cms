@@ -33,9 +33,9 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <label class="col-sm-2 col-form-label">全名</label>
+                                            <label class="col-sm-2 col-form-label">特店名稱</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.FullName">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.StoreName">
                                             </div>
                                         </div>
                                     </td>
@@ -43,9 +43,9 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <label class="col-sm-2 col-form-label">別名</label>
+                                            <label class="col-sm-2 col-form-label">統一編號</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.ShortName">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.TaxId">
                                             </div>
                                         </div>
                                     </td>
@@ -53,9 +53,9 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <label class="col-sm-2 col-form-label">測試資料</label>
+                                            <label class="col-sm-2 col-form-label">負責人</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.StoreData1">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Owner">
                                             </div>
                                         </div>
                                     </td>
@@ -63,9 +63,19 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <label class="col-sm-2 col-form-label">測試資料2</label>
+                                            <label class="col-sm-2 col-form-label">公司地址2</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.StoreData2">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Address">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">負責人電子信箱</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Email">
                                             </div>
                                         </div>
                                     </td>

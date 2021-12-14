@@ -44,10 +44,10 @@ namespace GodPay_CMS.Common.Profiles
                        .ForMember(n => n.Func, o => o.MapFrom(t => 0));
 
             CreateMap<User, StoreParticularsRsp>()
-                       .ForMember(n => n.FullName, o => o.MapFrom(o => o.Store.FullName))
-                       .ForMember(n => n.ShortName, o => o.MapFrom(o => o.Store.ShortName))
-                       .ForMember(n => n.StoreData1, o => o.MapFrom(o => o.Store.StoreData1))
-                       .ForMember(n => n.StoreData2, o => o.MapFrom(o => o.Store.StoreData2));
+                       .ForMember(n => n.StoreName, o => o.MapFrom(o => o.Store.StoreName))
+                       .ForMember(n => n.TaxId, o => o.MapFrom(o => o.Store.TaxId))
+                       .ForMember(n => n.Owner, o => o.MapFrom(o => o.Store.Owner))
+                       .ForMember(n => n.Address, o => o.MapFrom(o => o.Store.Address));
 
             CreateMap<UpdateUserAuthorityViewModel, UpdateUserAuthorityReq>();
         }

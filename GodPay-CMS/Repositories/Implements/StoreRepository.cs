@@ -1,15 +1,12 @@
 ﻿using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
 
@@ -47,7 +44,7 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sqlString = @"Select *
-                                    From[dbo].[Store] A
+                                    From[dbo].[Customer_Store] A
                                     Where A.Uid = @id";
                 var store = await connection.QuerySingleOrDefaultAsync<Store>(sqlString, new { id = id });
                 return store;

@@ -1,8 +1,4 @@
 ﻿using GodPay_CMS.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {
@@ -11,38 +7,46 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 流水號
         /// </summary>
-        public int Sid{ get; set; }
+        public int SeqNo { get; set; }
+
         /// <summary>
         /// 特約商店代表ID
         /// </summary>
         public int Uid { get; set; }
+
         /// <summary>
         /// 特約商店代表Eamil
         /// </summary>
         public string Email { get; set; }
+
         /// <summary>
         /// 目前狀態
         /// </summary>
         public AccountStatusEnum Status { get; set; }
+
         /// <summary>
-        /// 特約商店全名
+        /// 特店名稱
         /// </summary>
-        public string FullName { get; set; }
+        public string StoreName { get; set; }
+
         /// <summary>
-        /// 特約商店別名
+        /// 統一編號
         /// </summary>
-        public string ShortName { get; set; }
+        public string TaxId { get; set; }
+
         /// <summary>
-        /// 測試欄位1
+        /// 負責人
         /// </summary>
-        public string StoreData1 { get; set; }
+        public string Owner { get; set; }
+
         /// <summary>
-        /// 測試欄位2
+        /// 公司地址
         /// </summary>
-        public string StoreData2 { get; set; }
+        public string Address { get; set; }
+
         /// <summary>
-        /// 使用者ID
+        /// 負責人電子信箱
         /// </summary>
-        public string UserId { get; set; }
+        public string OwnerEmail { get; set; }
     }
 }
