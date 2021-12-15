@@ -1,10 +1,4 @@
-﻿using GodPay_CMS.Common.Attributes;
-using GodPay_CMS.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -26,17 +20,32 @@ namespace GodPay_CMS.Controllers.ViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
         /// <summary>
-        /// 全名
+        /// 特店名稱
         /// </summary>
-        [Required]
-        public string FullName { get; set; }
+        public string StoreName { get; set; }
+
         /// <summary>
-        /// 別名
+        /// 統一編號
         /// </summary>
-        [Required]
-        public string ShortName { get; set; }
-        public string StoreData1 { get; set; } = string.Empty;
-        public string StoreData2 { get; set; } = string.Empty;
+        [StringLength(8)]
+        public string TaxId { get; set; }
+
+        /// <summary>
+        /// 負責人
+        /// </summary>        
+        public string Owner { get; set; }
+
+        /// <summary>
+        /// 公司地址
+        /// </summary>
+        public string Address { get; set; }
+
+        /// <summary>
+        ///  負責人電子信箱
+        /// </summary>
+        [EmailAddress]
+        public string OwnerEmail { get; set; }
     }
 }

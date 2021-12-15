@@ -14,7 +14,7 @@ namespace GodPay_CMS.Common.Profiles
         public UserProfile()
         {
             CreateMap<User, UserRsp>();
-            
+
             CreateMap<User, UserFilterRsp>()
                     .ForMember(n => n.Role, o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
                     .ForMember(n => n.Status, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
@@ -34,14 +34,9 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<UpdateUserAndInsiderViewModel, UpdateUserAndInsiderReq>()
                     .ForMember(n => n.LastModifyDate, o => o.MapFrom(t => DateTime.Now));
 
-            CreateMap<UpdateUserAndStoreViewModel, UpdateUserAndStoreReq>()
-                .ForMember(n => n.LastModifyDate, o => o.MapFrom(t => DateTime.Now));
+            CreateMap<UpdateUserAndStoreViewModel, UpdateUserAndStoreReq>();
 
-            CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>()
-                       .ForMember(n => n.UserKey, o => o.MapFrom(o => RNGCrypto.HMACSHA256("p@ssw0rd", o.UserId)))
-                       .ForMember(n => n.Role, o => o.MapFrom(t => RoleEnum.Store))
-                       .ForMember(n => n.CreateDate, o => o.MapFrom(t => DateTime.Now))
-                       .ForMember(n => n.Func, o => o.MapFrom(t => 0));
+            CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>();
 
             CreateMap<User, StoreParticularsRsp>()
                        .ForMember(n => n.StoreName, o => o.MapFrom(o => o.Store.StoreName))

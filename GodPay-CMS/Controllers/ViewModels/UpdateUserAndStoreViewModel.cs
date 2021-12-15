@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -13,39 +9,47 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// </summary>
         [Required]
         public int Uid { get; set; }
-        /// <summary>
-        /// 帳號
-        /// </summary>
-        [Required]
-        public string UserId { get; set; }
+
         /// <summary>
         /// Email
         /// </summary>
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
         /// <summary>
         /// 目前狀態
         /// </summary>
         [Required]
         public string Status { get; set; }
+
         /// <summary>
-        /// 特約商店全名
+        /// 特店名稱
         /// </summary>
         [Required]
-        public string FullName { get; set; }
+        public string StoreName { get; set; }
+
         /// <summary>
-        /// 特約商店別名
+        /// 統一編號
         /// </summary>
         [Required]
-        public string ShortName { get; set; }
+        [StringLength(8)]
+        public string TaxId { get; set; }
+
         /// <summary>
-        /// 測試欄位1
+        /// 負責人
         /// </summary>        
-        public string StoreData1 { get; set; }
+        public string Owner { get; set; }
+
         /// <summary>
-        /// 測試欄位2
+        /// 公司地址
         /// </summary>
-        public string StoreData2 { get; set; }
+        public string Address { get; set; }
+
+        /// <summary>
+        ///  負責人電子信箱
+        /// </summary>
+        [EmailAddress]
+        public string OwnerEmail { get; set; }
     }
 }

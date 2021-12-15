@@ -261,6 +261,14 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq)
         {
+            postUserAndStoreReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndStoreReq.UserId);
+            postUserAndStoreReq.Role = RoleEnum.Store;
+            postUserAndStoreReq.Func = 0;
+            postUserAndStoreReq.Status = AccountStatusEnum.Activate;
+            postUserAndStoreReq.CreateDate = DateTime.Now;
+            postUserAndStoreReq.CustomerId = Guid.NewGuid();
+            postUserAndStoreReq.StoreId = Guid.NewGuid();
+
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 // 新增User主表
@@ -268,20 +276,21 @@ namespace GodPay_CMS.Repositories.Implements
                                     Values (@UserId,@UserKey,@Email,@Func,@Status,@Role,@CreateDate);";
 
                 // 新增特店詳細資料子表
-                sqlString += @"Insert Into [dbo].[Store] (Uid,FullName,ShortName,StoreData1,StoreData2)
-                                Select A.Uid,'','','',''
+                sqlString += @"Insert Into [dbo].[Customer_Store] (Uid,CustomerId,StoreId,StoreName,TaxId,Owner,Address,Risk,TransLimit,OwnerEmail)
+                                Select A.Uid,@CustomerId,@StoreId,'','','','','B',500000.0000,''
                                 From [dbo].[User] A
                                 Where A.UserId = @UserId;";
 
                 sqlString += @"Update T
-                                Set T.FullName = @FullName,
-	                                T.ShortName = @ShortName,
-	                                T.StoreData1 = @StoreData1,
-	                                T.StoreData2 = @StoreData2
+                                Set T.StoreName = @StoreName,
+	                                T.TaxId = @TaxId,
+	                                T.Owner = @Owner,
+	                                T.Address = @Address,
+	                                T.OwnerEmail = @OwnerEmail
                                 From
                                 (
 	                                Select *
-	                                From [dbo].[Store] A
+	                                From [dbo].[Customer_Store] A
 	                                Where A.Uid = (Select A.Uid
 					                                From [dbo].[User] A
 					                                Where A.UserId = @UserId)
@@ -360,6 +369,9 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq)
         {
+            updateUserAndStoreReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateUserAndStoreReq.LastModifyDate = DateTime.Now;
+
             string sql = @"Update T
                                     SET T.Status = @Status,
 	                                    T.Email = @Email,
@@ -373,14 +385,15 @@ namespace GodPay_CMS.Repositories.Implements
                                     )T;
 
                                     Update T2
-                                    SET T2.FullName = @FullName,
-	                                    T2.ShortName = @ShortName,
-                                        T2.StoreData1 = @StoreData1,
-                                        T2.StoreData2 = @StoreData2
+                                    SET T2.StoreName = @StoreName,
+	                                    T2.TaxId = @TaxId,
+                                        T2.Owner = @Owner,
+                                        T2.Address = @Address,
+                                        T2.OwnerEmail = @OwnerEmail
                                     From
                                     (
-                                        Select S.FullName, S.ShortName, S.StoreData1, S.StoreData2
-                                        From [dbo].[Store] S
+                                        Select S.StoreName, S.TaxId, S.Owner, S.Address, S.OwnerEmail
+                                        From [dbo].[Customer_Store] S
                                         Where S.Uid = @Uid
                                     )T2;";
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
