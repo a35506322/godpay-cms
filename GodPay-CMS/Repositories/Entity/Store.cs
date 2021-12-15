@@ -38,6 +38,6 @@
         /// <summary>
         ///  負責人電子信箱
         /// </summary>
-        public string Email { get; set; }
+        public string OwnerEmail { get; set; }
     }
 }

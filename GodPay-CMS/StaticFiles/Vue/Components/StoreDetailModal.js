@@ -63,7 +63,7 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <label class="col-sm-2 col-form-label">公司地址2</label>
+                                            <label class="col-sm-2 col-form-label">公司地址</label>
                                             <div class="col-sm-10">
                                                 <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Address">
                                             </div>
@@ -73,9 +73,9 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <label class="col-sm-2 col-form-label">負責人電子信箱</label>
+                                            <label class="col-sm-2 col-form-label">負責人Email</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Email">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.OwnerEmail">
                                             </div>
                                         </div>
                                     </td>

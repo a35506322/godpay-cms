@@ -47,7 +47,8 @@ namespace GodPay_CMS.Common.Profiles
                        .ForMember(n => n.StoreName, o => o.MapFrom(o => o.Store.StoreName))
                        .ForMember(n => n.TaxId, o => o.MapFrom(o => o.Store.TaxId))
                        .ForMember(n => n.Owner, o => o.MapFrom(o => o.Store.Owner))
-                       .ForMember(n => n.Address, o => o.MapFrom(o => o.Store.Address));
+                       .ForMember(n => n.Address, o => o.MapFrom(o => o.Store.Address))
+                       .ForMember(n => n.OwnerEmail, o => o.MapFrom(o => o.Store.OwnerEmail));
 
             CreateMap<UpdateUserAuthorityViewModel, UpdateUserAuthorityReq>();
         }

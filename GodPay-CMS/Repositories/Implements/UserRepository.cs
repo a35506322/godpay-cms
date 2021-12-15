@@ -344,7 +344,7 @@ namespace GodPay_CMS.Repositories.Implements
         {
             string sql = @"Select *
                          From [dbo].[User] U
-                         Join [dbo].[Store] S
+                         Join [dbo].[Customer_Store] S
                          On U.Uid=S.Uid
                          Where U.UserId=@userId";
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
