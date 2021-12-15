@@ -5,7 +5,6 @@ using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,6 +13,9 @@ using System.Threading.Tasks;
 using GodPay_CMS.Common.Util;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Security.Claims;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -21,11 +23,13 @@ namespace GodPay_CMS.Repositories.Implements
     {
         private readonly IDecipherHelper _decipherHelper;
         private readonly IOptionsSnapshot<SettingConfig> _settings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings)
+        public UserRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings, IHttpContextAccessor httpContextAccessor)
         {
             _decipherHelper = decipherHelper;
             _settings = settings;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public Task<bool> Add(User model)
@@ -335,6 +339,7 @@ namespace GodPay_CMS.Repositories.Implements
                 return users;
             }
         }
+
         public async Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId)
         {
             string sql = @"Select *
@@ -352,6 +357,7 @@ namespace GodPay_CMS.Repositories.Implements
                 return users;
             }
         }
+
         public async Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq)
         {
             string sql = @"Update T
@@ -402,8 +408,13 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> UpdateUserAuthority(UpdateUserAuthorityReq updateUserAuthorityReq)
         {
+            updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateUserAuthorityReq.LastModifyDate = DateTime.Now;
+
             string sqlString = @"Update T
-                                Set	T.Func = @Func
+                                Set	T.Func = @Func,
+                                        T.LastModifier = @LastModifier,
+                                        T.LastModifyDate = @LastModifyDate
                                 From
                                 (
 	                                Select *
@@ -419,8 +430,8 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        var rowCount =  await connection.ExecuteAsync(sqlString, updateUserAuthorityReq, transaction: tran);
-                        result = rowCount > 0 ? true:false;
+                        var rowCount = await connection.ExecuteAsync(sqlString, updateUserAuthorityReq, transaction: tran);
+                        result = rowCount > 0 ? true : false;
                         tran.Commit();
                     }
                     catch (Exception ex)

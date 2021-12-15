@@ -39,17 +39,17 @@
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input type="text" class="p-inputtext p-component p-filled"
-                       v-model="filtersBusinesses['global'].value" placeholder="搜尋" />
+                       v-model="filtersManager['global'].value" placeholder="搜尋" />
             </span>
         </div>
     </div>
-    <p-datatable v-bind:value="businesses" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
+    <p-datatable v-bind:value="managers" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
                  paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
-                 v-model:selection="selectedBusinesse" selection-mode="single" data-key="UserId"
+                 v-model:selection="selectedManager" selection-mode="single" data-key="UserId"
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:global-filter-fields="['UserId','Email','Status']"
-                 v-model:filters="filtersBusinesses" filter-display="menu">
+                 v-model:filters="filtersManager" filter-display="menu">
         <p-column field="UserId" header="帳號"></p-column>
         <p-column field="Email" header="電子信箱"></p-column>
         <p-column field="Role" header="角色"></p-column>
@@ -111,8 +111,8 @@
             data: function () {
                 return {
                     funcs: [],
-                    businesses: [],
-                    selectedBusinesse: {},
+                    managers: [],
+                    selectedManager: {},
                     managerDetail: {},
                     tempManager: {},
                     isNew: true,
@@ -122,7 +122,7 @@
                         Status:''
                     },
                     AccountStatus: [],
-                    filtersBusinesses: null,
+                    filtersManager: null,
                     managerAuthority: {},
                     tempUid: 0,
                     updateUserAuthorityViewModel: {}
@@ -172,7 +172,7 @@
                             const code = data.RtnCode;
                             switch (code) {
                                 case 200:
-                                    this.businesses = data.RtnData;
+                                    this.managers = data.RtnData;
                                     break;
                                 default:
                                     break;
@@ -335,7 +335,7 @@
                         const code = responseData.RtnCode;
                         switch (code) {
                             case 200:
-                                this.businesses = responseData.RtnData;
+                                this.managers = responseData.RtnData;
                                 break;
                             default:
                                 break;
@@ -343,7 +343,7 @@
                     }
                 },
                 InitFilters: function () {
-                    this.filtersBusinesses = {
+                    this.filtersManager = {
                         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                     }
                 },
@@ -395,6 +395,7 @@
                             const responseData = response.data;
                             switch (responseData.RtnCode) {
                                 case 200:
+                                    await this.GetManagerAll();
                                     this.$refs.managerAuthoritySetting.Close();
                                     const status = this.$common.ChangeReturnCode(responseData.RtnCode);
                                     this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
