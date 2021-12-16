@@ -4,9 +4,7 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
@@ -14,6 +12,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 權限管理伺服器
     /// </summary>
+    [Route("[controller]")]
     public class AuthoritySetApiController : Controller
     {
         private readonly IMapper _mapper;
@@ -23,78 +22,78 @@ namespace GodPay_CMS.Controllers
             _mapper = mapper;
             _serviceWrapper = serviceWrapper;
         }
-        
+
         /// <summary>
         /// 取得所有功能權限
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetListOfFunction()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFunctions();
             return Ok(response);
         }
-        
+
         /// <summary>
         /// 取得塞選功能權限
         /// </summary>
         /// <param name="functionParams"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetListOfFunctionFilter([FromQuery]FunctionParams functionParams)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetListOfFunctionFilter([FromQuery] FunctionParams functionParams)
         {
-            var response =  await _serviceWrapper.authorityService.GetListOfFunctionsFilter(functionParams);
+            var response = await _serviceWrapper.authorityService.GetListOfFunctionsFilter(functionParams);
             return Ok(response);
         }
-        
+
         /// <summary>
         /// 批次修改最大權限
         /// </summary>
         /// <param name="functionParams"></param>
         /// <returns></returns>
-        [HttpPut]
-        [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateAuthorityClassViewModel>  updateAuthorityClassViewModels)
+        [HttpPut("[action]")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateAuthorityClassViewModel> updateAuthorityClassViewModels)
         {
             var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateAuthorityClassViewModels);
             return Ok(response);
         }
-        
+
         /// <summary>
         /// 取得所有功能類別
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetListOfFuncClass()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFuncClass();
             return Ok(response);
         }
-        
+
         /// <summary>
         /// 新增功能類別
         /// </summary>
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassViewModel);
             return Ok(response);
         }
-        
+
         /// <summary>
         /// 取得特定功能類別
         /// </summary>
         /// <param name="funcCode"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetFuncClassDetailById([FromQuery] string funcCode)
         {
             var reponse = await _serviceWrapper.authorityService.GetFuncClassDetailById(funcCode);
             return Ok(reponse);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateFuncClass([FromBody]UpdateFuncClassViewModel updateFuncClassViewModel)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateFuncClass([FromBody] UpdateFuncClassViewModel updateFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);
             return Ok(response);

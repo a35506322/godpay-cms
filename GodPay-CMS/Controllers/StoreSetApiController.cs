@@ -10,6 +10,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 特店管理Api
     /// </summary>
+    [Route("[controller]")]
     [Authorize(Roles = "Admin,Manager")]
     public class StoreSetApiController : Controller
     {
@@ -22,7 +23,7 @@ namespace GodPay_CMS.Controllers
         /// 取得所有特店
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetStores()
         {
             var response = await _serviceWrapper.storeService.GetStores();
@@ -44,7 +45,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="postUserAndStoreViewModal"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> PostStore([FromBody] PostUserAndStoreViewModel postUserAndStoreViewModal)
         {
             var response = await _serviceWrapper.storeService.PostUserAndStore(postUserAndStoreViewModal);
@@ -55,7 +56,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="userId">帳號</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetStore([FromQuery] string userId)
         {
             var response = await _serviceWrapper.storeService.GetUserAndStoreByUserId(userId);
@@ -66,7 +67,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="userParams"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetStoreFilter([FromQuery] UserParams userParams)
         {
             var response = await _serviceWrapper.storeService.GetStoreFilter(userParams);
@@ -77,7 +78,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="updateUserAndStoreViewModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> UpdateStore([FromBody] UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
         {
             var reponse = await _serviceWrapper.storeService.UpateUserAndStore(updateUserAndStoreViewModel);

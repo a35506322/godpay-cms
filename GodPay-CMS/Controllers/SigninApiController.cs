@@ -18,6 +18,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 登入Api
     /// </summary>
+    [Route("[controller]")]
     [AllowAnonymous]
     public class SigninApiController : Controller
     {

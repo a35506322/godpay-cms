@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    [Route("[controller]")]
     public class CustomerApiController : Controller
     {
         private readonly IMapper _mapper;

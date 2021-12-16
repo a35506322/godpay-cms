@@ -102,6 +102,15 @@ namespace GodPay_CMS
                     {
                         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                     });
+
+            services.AddOpenApiDocument(config =>
+            {
+                config.DocumentName = "v2";
+                config.Version = "0.0.1";
+                config.Title = "iPass API Document";
+                config.Description = "支付中心後台 API Document";
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -117,6 +126,32 @@ namespace GodPay_CMS
             }
 
             app.UseHttpsRedirection();
+
+            app.UseOpenApi(config =>
+            {
+                config.Path = "/swagger/v2/swagger.json";
+                config.DocumentName = "v2";
+                config.PostProcess = (document, http) =>
+                {
+                    if (env.IsDevelopment() || env.IsEnvironment("Testing"))
+                    {
+                        document.Info.Title += " (開發環境)";
+                        document.Info.Version += "-dev";
+                    }
+                    if (env.IsStaging())
+                    {
+                        document.Info.Title += " (測試環境)";
+                        document.Info.Version += "-test";
+                    }
+                };
+            });
+
+            app.UseSwaggerUi3(config =>
+            {
+                config.DocumentTitle = "iPass API Document";
+                config.DocExpansion = "list";
+                config.DefaultModelsExpandDepth = -1;
+            });
 
             app.UseWebOptimizer();
 
