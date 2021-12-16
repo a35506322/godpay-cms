@@ -22,6 +22,7 @@ namespace GodPay_CMS.Common.Profiles
                 .ForMember(n => n.Functions, o => o.MapFrom(o => o.Funcs));
             CreateMap<FunctionParams, GetFuncFilterReq>();
             CreateMap<PostFuncClassViewModel, FuncClass>();
+            CreateMap<UpdateFuncClassViewModel, FuncClass>();
         }
     }
 }

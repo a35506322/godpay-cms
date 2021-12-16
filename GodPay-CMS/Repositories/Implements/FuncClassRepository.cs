@@ -21,11 +21,13 @@ namespace GodPay_CMS.Repositories.Implements
     {
         private readonly IDecipherHelper _decipherHelper;
         private readonly IOptionsSnapshot<SettingConfig> _settings;
+
         public FuncClassRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings)
         {
             _decipherHelper = decipherHelper;
             _settings = settings;
         }
+
         public async Task<bool> Add(FuncClass model)
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
@@ -75,14 +77,50 @@ namespace GodPay_CMS.Repositories.Implements
             }             
         }
 
-        public Task<FuncClass> GetById(string id)
+        public async Task<FuncClass> GetById(string funcClassCode)
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT * FROM [IPASS].[dbo].[FuncClass]
+                         WHERE FuncClassCode=@funcClassCode";
+            using (IDbConnection connection =new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                try
+                {
+                    var funcClass = await connection.QuerySingleOrDefaultAsync<FuncClass>(sql,new { FuncClassCode = funcClassCode });
+                    return funcClass;
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception(ex.Message.ToString());
+                }
+            }
         }
 
-        public Task<bool> Update(FuncClass mdoel)
+        public async Task<bool> Update(FuncClass funcClass)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            string sql = @"UPDATE [dbo].[FuncClass]
+                          SET FuncClassEnName=@FuncClassEnName,
+                              FuncClassChName=@FuncClassChName
+                          WHERE FuncClassCode=@FuncClassCode";
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                connection.Open();
+                using(var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var rowCounts = await connection.ExecuteAsync(sql, funcClass, transaction: tran);
+                        if (rowCounts > 0) { result = true; }
+                        tran.Commit();
+                    }
+                    catch(Exception ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message.ToString());
+                    }
+                }
+                return result;
+            }
         }
 
         public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFunc()

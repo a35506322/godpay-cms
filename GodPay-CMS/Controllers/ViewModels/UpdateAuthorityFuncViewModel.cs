@@ -9,7 +9,7 @@ namespace GodPay_CMS.Controllers.ViewModels
     /// <summary>
     /// 修改功能 View Model
     /// </summary>
-    public class UpdateFuncViewModel
+    public class UpdateAuthorityFuncViewModel
     {
         /// <summary>
         /// 流水號(PK)

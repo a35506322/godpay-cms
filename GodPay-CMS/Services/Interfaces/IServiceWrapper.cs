@@ -1,4 +1,6 @@
-﻿namespace GodPay_CMS.Services.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace GodPay_CMS.Services.Interfaces
 {
     public interface IServiceWrapper
     {

@@ -55,9 +55,9 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = functionListViewModel };
         }
 
-        public async Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateFuncClassViewModel> updateFuncClassViewModels)
+        public async Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateAuthorityClassViewModel> updateAuthorityClassViewModels)
         {
-            if (updateFuncClassViewModels.Count() == 0)
+            if (updateAuthorityClassViewModels.Count() == 0)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnData = "修改角色資訊個數不能為0" };
 
             // 取得原資料與新資料做差異對比
@@ -69,7 +69,7 @@ namespace GodPay_CMS.Services.Implements
             }
 
             List<UpdateRoleAuthorityReq> newAuthority = new List<UpdateRoleAuthorityReq>();
-            foreach (var funClass in updateFuncClassViewModels)
+            foreach (var funClass in updateAuthorityClassViewModels)
             {
                 newAuthority.AddRange(_mapper.Map<IEnumerable<UpdateRoleAuthorityReq>>(funClass.UpdateFuncViewModel));
             }
@@ -81,6 +81,7 @@ namespace GodPay_CMS.Services.Implements
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnData = "修改角色最大權限失敗" };
         }
+
         public async Task<ResponseViewModel> GetListOfFuncClass()
         {
             var allFunc = await _repostioryWrapper.funcClassRepository.GetAll();
@@ -89,6 +90,7 @@ namespace GodPay_CMS.Services.Implements
             var allFuncRsp = _mapper.Map<IEnumerable<FuncClassRsp>>(allFunc);
             return new ResponseViewModel() { RtnData = allFuncRsp };
         }
+
         public async Task<ResponseViewModel> PostFuncClass(PostFuncClassViewModel postFuncClassViewModel)
         {
             var funClass = _mapper.Map<FuncClass>(postFuncClassViewModel);
@@ -97,5 +99,25 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "新增成功" };
             return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "執行失敗" };
         }
+
+        public async Task<ResponseViewModel> GetFuncClassDetailById(string funcCode)
+        {
+            var response = await _repostioryWrapper.funcClassRepository.GetById(funcCode);
+            if(response==null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnData = "查無資料" };
+            var funcClassRsp = _mapper.Map<FuncClassRsp>(response);
+            return new ResponseViewModel() { RtnData = funcClassRsp };
+
+        }
+
+        public async Task<ResponseViewModel> UpdateFuncClass(UpdateFuncClassViewModel updateFuncClassViewModel)
+        {
+            var funcClass = _mapper.Map<FuncClass>(updateFuncClassViewModel);
+            var response = await _repostioryWrapper.funcClassRepository.Update(funcClass);
+            if (response)
+                return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "修改成功" };
+            return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "執行失敗" };
+        }
+
     }
 }

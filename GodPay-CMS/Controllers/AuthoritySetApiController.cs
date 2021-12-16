@@ -23,6 +23,7 @@ namespace GodPay_CMS.Controllers
             _mapper = mapper;
             _serviceWrapper = serviceWrapper;
         }
+        
         /// <summary>
         /// 取得所有功能權限
         /// </summary>
@@ -33,6 +34,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.authorityService.GetListOfFunctions();
             return Ok(response);
         }
+        
         /// <summary>
         /// 取得塞選功能權限
         /// </summary>
@@ -44,18 +46,20 @@ namespace GodPay_CMS.Controllers
             var response =  await _serviceWrapper.authorityService.GetListOfFunctionsFilter(functionParams);
             return Ok(response);
         }
+        
         /// <summary>
         /// 批次修改最大權限
         /// </summary>
         /// <param name="functionParams"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize("Admin")]
-        public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateFuncClassViewModel> updateFuncClassViewModels)
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateAuthorityClassViewModel>  updateAuthorityClassViewModels)
         {
-            var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateFuncClassViewModels);
+            var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateAuthorityClassViewModels);
             return Ok(response);
         }
+        
         /// <summary>
         /// 取得所有功能類別
         /// </summary>
@@ -66,6 +70,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.authorityService.GetListOfFuncClass();
             return Ok(response);
         }
+        
         /// <summary>
         /// 新增功能類別
         /// </summary>
@@ -73,6 +78,25 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassViewModel);
+            return Ok(response);
+        }
+        
+        /// <summary>
+        /// 取得特定功能類別
+        /// </summary>
+        /// <param name="funcCode"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetFuncClassDetailById([FromQuery] string funcCode)
+        {
+            var reponse = await _serviceWrapper.authorityService.GetFuncClassDetailById(funcCode);
+            return Ok(reponse);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateFuncClass([FromBody]UpdateFuncClassViewModel updateFuncClassViewModel)
+        {
+            var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);
             return Ok(response);
         }
     }

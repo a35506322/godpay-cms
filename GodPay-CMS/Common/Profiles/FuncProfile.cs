@@ -22,7 +22,7 @@ namespace GodPay_CMS.Common.Profiles
                                                             .Cast<int>()
                                                             .Where(r => Convert.ToBoolean(r & o.RoleFlag))
                                                             .ToArray()));
-            CreateMap<UpdateFuncViewModel, UpdateRoleAuthorityReq>()
+            CreateMap<UpdateAuthorityFuncViewModel, UpdateRoleAuthorityReq>()
                 .ForMember(n => n.RoleFlag, o => o.MapFrom(o => o.RoleFlag.Sum()));
             CreateMap<Func, UpdateRoleAuthorityReq>();
         }
