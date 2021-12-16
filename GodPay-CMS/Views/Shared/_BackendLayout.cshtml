@@ -102,8 +102,12 @@
                 VeeValidate.defineRule(rule, VeeValidateRules[rule]);
             }
         });
-        import { VerifyAccount } from '/StaticFiles/Vue/Methods/Validates.js';
+        import {
+            VerifyAccount, VerifyEnClass, VerifyChClass
+        } from '/StaticFiles/Vue/Methods/Validates.js';
         VeeValidate.defineRule('account', VerifyAccount);
+        VeeValidate.defineRule('enClass', VerifyEnClass);
+        VeeValidate.defineRule('chClass', VerifyChClass);
         // 多國語系
         VeeValidateI18n.loadLocaleFromURL('/lib/vee-validate/i18n/dist/locale/zh_TW.json');
         // 配置
@@ -111,7 +115,6 @@
             generateMessage: VeeValidateI18n.localize('zh_TW'),
             validateOnInput: true, // 調整為輸入字元立即進行驗證
         });
-
         app.use(primevue.config.default);
         app.use(primevue.toastservice);
         const tooltip = primevue.tooltip;

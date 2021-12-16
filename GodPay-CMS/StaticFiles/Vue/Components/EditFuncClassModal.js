@@ -12,8 +12,8 @@ export default {
         }
     },
     methods: {
-        Show: function () {
-            if (this.isNew) {
+        Show: function (isNew) {
+            if (isNew) {
                 this.header = '新增類別'
             } else {
                 this.header = '修改類別'
@@ -44,7 +44,7 @@ export default {
                             <div class="col-md-6">
                                 <label for="Email" class="form-label">類別英文名稱</label>
                                 <v-field class="p-inputtext p-component form-control"
-                                    v-model="classModel.FuncClassEnName" name="FuncClassEnName" rules="required" v-bind:class="[{'is-invalid':errors['FuncClassEnName']||modelStateError['FuncClassEnName']}]"
+                                    v-model="classModel.FuncClassEnName" name="FuncClassEnName" rules="required|enClass" v-bind:class="[{'is-invalid':errors['FuncClassEnName']||modelStateError['FuncClassEnName']}]"
                                 />
                                 <error-message name="FuncClassEnName" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'FuncClassEnName'"></server-error-message>
@@ -52,7 +52,7 @@ export default {
                             <div class="col-md-6">
                                 <label for="Status" class="form-label">類別中文名稱</label>
                                 <v-field class="p-inputtext p-component form-control"
-                                    v-model="classModel.FuncClassChName" name="FuncClassChName" rules="required" v-bind:class="[{'is-invalid':errors['FuncClassChName']||modelStateError['FuncClassChName']}]"
+                                    v-model="classModel.FuncClassChName" name="FuncClassChName" rules="required|chClass" v-bind:class="[{'is-invalid':errors['FuncClassChName']||modelStateError['FuncClassChName']}]"
                                 />
                                 <error-message name="FuncClassChName" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'FuncClassChName'"></server-error-message>
@@ -64,6 +64,6 @@ export default {
                     <p-button label="取消" icon="pi pi-times" v-on:click="Close()" class="p-button-text"></p-button>
                     <p-button label="儲存" icon="pi pi-check" autofocus type="submit"></p-button>
                 </div>
-                <v-form>
+                </v-form>
     </p-dialog>`
 }

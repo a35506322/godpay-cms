@@ -35,3 +35,5 @@ export const GetListOfFunctionFilter = query => axios.get('/AuthoritySetApi/GetL
 export const UpdateRoleMaxAuthority = data => axios.put('/AuthoritySetApi/UpdateRoleMaxAuthority', data).then(respone => { console.log('UpdateRoleMaxAuthority'); return respone; }).catch(error => error);
 export const GetListOfFuncClass = () => axios.get('/AuthoritySetApi/GetListOfFuncClass').then(respone => { console.log('GetListOfFuncClass'); return respone; }).catch(error => error);
 export const PostFuncClass = data => axios.post('/AuthoritySetApi/PostFuncClass', data).then(respone => { console.log('PostFuncClass'); return respone; }).catch(error => error);
+export const GetFuncClassDetailById = data => axios.get(`/AuthoritySetApi/GetFuncClassDetailById`, data).then(respone => { console.log('GetFuncClassDetailById'); return respone; }).catch(error => error);
+export const UpdateFuncClass = data => axios.post('/AuthoritySetApi/UpdateFuncClass', data).then(respone => { console.log('UpdateFuncClass'); return respone; }).catch(error => error);

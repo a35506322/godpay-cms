@@ -4,7 +4,7 @@
 <div class="row p-3 justify-content-center">
     <div class="p-toolbar p-component w-98 mb-2">
         <div class="p-toolbar-group-left">
-            <p-button label="新增類別" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditFuncClassModal"></p-button>
+            <p-button label="新增類別" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditFuncClassModal(true)"></p-button>
         </div>
         <div class="p-toolbar-group-right">
             <span class="p-input-icon-left">
@@ -26,7 +26,7 @@
         <p-column field="FuncClassChName" header="中文名稱"></p-column>
         <p-column style="min-width:8rem" class="d-flex justify-content-center">
             <template #body="slotProps">
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯類別'"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯類別'" v-on:click="OpenEditFuncClassModal(false,slotProps.data.FuncClassCode)"></p-button>
             </template>
         </p-column>
         <template #empty>
@@ -40,16 +40,16 @@
         </template>
     </p-datatable>
 </div>
-
-<edit-func-class-modal ref="editFuncClass" v-bind:func-class="funcClass" v-bind:is-new="isNew" 
-                       v-on:save="SaveClass" v-bind:model-state-error="modelStateError" ></edit-func-class-modal>
+<edit-func-class-modal ref="editFuncClass" v-bind:func-class="funcClass" v-bind:is-new="isNew"
+                       v-on:save="SaveClass" v-bind:model-state-error="modelStateError"></edit-func-class-modal>
 
 <script type="text/javascript">
     @section Vue
     {
         const { FilterMatchMode } = primevue.api;
         import {
-        GetListOfFuncClass, PostFuncClass
+        GetListOfFuncClass, PostFuncClass, GetFuncClassDetailById,
+        UpdateFuncClass         
         } from '/StaticFiles/Vue/Services/IpassService.js'
         import EditFuncClassModal from '/StaticFiles/Vue/Components/EditFuncClassModal.js'
         const app = Vue.createApp({
@@ -75,16 +75,16 @@
                 this.InitFilters();
             },
             methods: {
-                OpenEditFuncClassModal: function (isNew = true, classCode = '') {
+                OpenEditFuncClassModal: function (isNew, funcCode = '') {
                     this.isNew = isNew;
                     this.modelStateError = {};
                     if (isNew) {
                         this.funcClass = {};
                     }
                     else {
-                        
+                        this.GetFuncCode(funcCode);
                     }
-                    this.$refs.editFuncClass.Show();
+                    this.$refs.editFuncClass.Show(isNew);
                 },
                 GetListOfFunction: async function () {
                     try {
@@ -116,7 +116,7 @@
                     if (this.isNew) {
                         response = await PostFuncClass(value).then(response => response);
                     } else {
-
+                        response = await UpdateFuncClass(value).then(response => response);
                     }
                     const status = response.status;
                     if (status === 200) {
@@ -144,6 +144,31 @@
                         }
                     }
                 },
+                GetFuncCode: async function (funcCode) {
+                    try {
+                        let query = {
+                            params: {
+                                funcCode: funcCode
+                            }
+                        };
+                        const response = await GetFuncClassDetailById(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.funcClass = data.RtnData;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+                }
 
             }
          })
