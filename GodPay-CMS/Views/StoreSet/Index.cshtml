@@ -5,7 +5,7 @@
 <div class="row p-3 justify-content-center">
     <div class="p-toolbar p-component w-98 mb-2">
         <div class="p-toolbar-group-left">
-            <p-button label="新增特店" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditStoreModal"  v-if="this.$common.CheckAuthority(funcs,'PostStore')"></p-button>
+            <p-button label="新增特店" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditStoreModal(true)"  v-if="this.$common.CheckAuthority(funcs,'PostStore')"></p-button>
         </div>
         <div class="p-toolbar-group-right">
             <span class="p-input-icon-left">
@@ -73,7 +73,7 @@
                     tempStore: {},
                     selectedStore: {},
                     storeDetail: {},
-                    isNew: true,
+                    isNew: null,
                     modelStateError: {},
                     AccountStatus: [],
                     filtersStores: null,
@@ -146,6 +146,7 @@
                     }
                 },
                 GetStore: async function (userId) {
+                    console.log(userId);
                     try {
                         let query = {
                             params: {
@@ -171,7 +172,6 @@
                     }
                 },
                 GetStoreDetail: async function (uid) {
-                    console.log(uid)
                     try {
                         let query = {
                             params: {
@@ -189,6 +189,7 @@
                                     this.storeDetail = data.RtnData;
                                     break;
                                 case 404:
+                                    this.storeDetail = {};
                                     this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:

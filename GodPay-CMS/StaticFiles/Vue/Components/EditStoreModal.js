@@ -13,11 +13,6 @@ export default {
     },
     methods: {
         Show: function () {
-            if (this.isNew) {
-                this.header = '新增特店資料'
-            } else {
-                this.header = '修改特店資料'
-            }
             this.displayModal = true;
         },
         Close: function () {
@@ -33,6 +28,13 @@ export default {
                 this.storeModel = { ...this.tempStore };
             },
             deep: true
+        },
+        isNew: function (newVal, oldVal) {
+            if (newVal) {
+                this.header = '新增業務資料'
+            } else {
+                this.header = '修改業務資料'
+            }
         }
     },
     template:`

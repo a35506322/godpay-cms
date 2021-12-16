@@ -33,7 +33,7 @@
     </div>
     <div class="p-toolbar p-component w-98 mb-2">
         <div class="p-toolbar-group-left">
-            <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditManagerModal" v-if="this.$common.CheckAuthority(funcs,'PostManager')"></p-button>
+            <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditManagerModal(true)" v-if="this.$common.CheckAuthority(funcs,'PostManager')"></p-button>
         </div>
         <div class="p-toolbar-group-right">
             <span class="p-input-icon-left">
@@ -115,7 +115,7 @@
                     selectedManager: {},
                     managerDetail: {},
                     tempManager: {},
-                    isNew: true,
+                    isNew: null,
                     modelStateError: {},
                     queryModel: {
                         UserId:'',
@@ -226,6 +226,7 @@
                                     break;
                                 case 403:
                                 case 404:
+                                    this.tempManager = {};
                                     this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
