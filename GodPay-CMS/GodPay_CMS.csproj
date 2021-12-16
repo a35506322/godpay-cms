@@ -6,6 +6,11 @@
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\GodPay\godpay-cms\GodPay-CMS\GodPay_CMS.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591;1570;1572;1573</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Views\AuthorityManagement\**" />
     <Compile Remove="Views\BusinessManagement\**" />
