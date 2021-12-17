@@ -1,4 +1,4 @@
-﻿import axios from '/StaticFiles/Vue/Services/Axios.js'
+﻿import axios from './Axios.js'
 
 // SigninApiController
 export const PostSignin = data => axios.post('/SigninApi/SignIn', data).then(respone => { console.log(' PostSignin'); return respone; }).catch(error => error);

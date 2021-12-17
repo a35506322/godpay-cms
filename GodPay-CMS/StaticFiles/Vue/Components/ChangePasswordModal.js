@@ -1,4 +1,4 @@
-﻿import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
+﻿import serverErrorMessage from './ServerErrorMessage.js'
 export default {
     props: ['modelError'],
     components: {

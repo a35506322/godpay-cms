@@ -76,7 +76,7 @@
 
         // 全域註冊vue method
         const emitter = mitt();
-        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode, CheckAuthority } from '/StaticFiles/Vue/Methods/Common.js';
+        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode, CheckAuthority } from '@settings.Value.BaseUrl/StaticFiles/Vue/Methods/Common.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
@@ -100,12 +100,12 @@
         });
         import {
             VerifyAccount, VerifyEnClass, VerifyChClass
-        } from '/StaticFiles/Vue/Methods/Validates.js';
+        } from '@settings.Value.BaseUrl/StaticFiles/Vue/Methods/Validates.js';
         VeeValidate.defineRule('account', VerifyAccount);
         VeeValidate.defineRule('enClass', VerifyEnClass);
         VeeValidate.defineRule('chClass', VerifyChClass);
         // 多國語系
-        VeeValidateI18n.loadLocaleFromURL('/lib/vee-validate/i18n/dist/locale/zh_TW.json');
+        VeeValidateI18n.loadLocaleFromURL('@settings.Value.BaseUrl/lib/vee-validate/i18n/dist/locale/zh_TW.json');
         // 配置
         VeeValidate.configure({
             generateMessage: VeeValidateI18n.localize('zh_TW'),

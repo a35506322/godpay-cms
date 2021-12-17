@@ -75,12 +75,12 @@
 <script type="text/javascript">
     @section Vue
     {
-    import editUserModal from '/StaticFiles/Vue/Components/EditUserModal.js'
-    import changePasswordModal from '/StaticFiles/Vue/Components/ChangePasswordModal.js'
+    import editUserModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditUserModal.js'
+    import changePasswordModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ChangePasswordModal.js'
     import {
         GetUserById, EditUser, EditKey,
         GetListOfFunctionFilter
-    } from '/StaticFiles/Vue/Services/IpassService.js'
+    } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
 
     const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
     const app = Vue.createApp({

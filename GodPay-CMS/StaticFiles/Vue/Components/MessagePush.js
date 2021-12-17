@@ -1,4 +1,4 @@
-﻿import globalMessage from '/StaticFiles/Vue/Components/GlobalMessage.js'
+﻿import globalMessage from './GlobalMessage.js'
 export default {
     components: {
         globalMessage
