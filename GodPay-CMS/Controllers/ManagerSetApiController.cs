@@ -10,7 +10,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 業務管理Api
     /// </summary>
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     [Authorize(Roles = "Admin")]
     public class ManagerSetApiController : Controller
     {
@@ -24,7 +24,7 @@ namespace GodPay_CMS.Controllers
         /// 取得所有業務
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetManagerAll()
         {
             var response = await _serviceWrapper.managerService.GetManagerAll();
@@ -36,7 +36,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetManagerDeatil([FromQuery] int uid)
         {
             var response = await _serviceWrapper.managerService.GetManagerDeatil(uid);
@@ -48,7 +48,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="postUserAndInsiderViewModal"></param>
         /// <returns></returns>
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> PostManager([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
         {
             var response = await _serviceWrapper.managerService.PostManagerAndInsider(postUserAndInsiderViewModal);
@@ -60,7 +60,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetManager([FromQuery] string userId)
         {
             var response = await _serviceWrapper.managerService.GetManagerAndInsiderByUserId(userId);
@@ -72,7 +72,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="updateUserAndInsiderViewModal"></param>
         /// <returns></returns>
-        [HttpPut("[action]")]
+        [HttpPut]
         public async Task<IActionResult> UpdateManager([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
         {
             var response = await _serviceWrapper.managerService.UpdateManagerAndInsider(updateUserAndInsiderViewModal);
@@ -84,7 +84,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="userParams"></param>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetManagerFilter([FromQuery] UserParams userParams)
         {
             var response = await _serviceWrapper.managerService.GetManagerFilter(userParams);
@@ -95,7 +95,7 @@ namespace GodPay_CMS.Controllers
         /// 取得業務角色權限
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetManagerAuthority([FromQuery] string userId)
         {
             var response = await _serviceWrapper.managerService.GetManagerAuthority(userId);
@@ -106,7 +106,7 @@ namespace GodPay_CMS.Controllers
         /// 修改業務角色權限
         /// </summary>
         /// <returns></returns>
-        [HttpPut("[action]")]
+        [HttpPut]
         public async Task<IActionResult> UpdateManagerAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
         {
             var response = await _serviceWrapper.managerService.UpdateManagerAuthority(updateUserAuthorityViewModel);

@@ -9,7 +9,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 使用者管理Api
     /// </summary>
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     [Authorize]
     public class ProfileApiController : Controller
     {
@@ -36,7 +36,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="editUserViewModel"></param>
         /// <returns></returns>
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> Edit([FromBody] EditUserViewModel editUserViewModel)
         {
             var result = await _serviceWrapper.userService.UpdateUser(editUserViewModel);
@@ -48,7 +48,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="editKeyViewModel"></param>
         /// <returns></returns>
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> EditKey([FromBody] EditKeyViewModel editKeyViewModel)
         {
             var result = await _serviceWrapper.userService.UpdateKey(editKeyViewModel);

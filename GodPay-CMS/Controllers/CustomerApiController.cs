@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GodPay_CMS.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class CustomerApiController : Controller
     {
         private readonly IMapper _mapper;

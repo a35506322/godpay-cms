@@ -12,7 +12,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 權限管理伺服器
     /// </summary>
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class AuthoritySetApiController : Controller
     {
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace GodPay_CMS.Controllers
         /// 取得所有功能權限
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetListOfFunction()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFunctions();
@@ -39,7 +39,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="functionParams"></param>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetListOfFunctionFilter([FromQuery] FunctionParams functionParams)
         {
             var response = await _serviceWrapper.authorityService.GetListOfFunctionsFilter(functionParams);
@@ -51,7 +51,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="functionParams"></param>
         /// <returns></returns>
-        [HttpPut("[action]")]
+        [HttpPut]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateAuthorityClassViewModel> updateAuthorityClassViewModels)
         {
@@ -63,7 +63,7 @@ namespace GodPay_CMS.Controllers
         /// 取得所有功能類別
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetListOfFuncClass()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFuncClass();
@@ -73,7 +73,7 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增功能類別
         /// </summary>
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassViewModel);
@@ -85,14 +85,14 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="funcCode"></param>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetFuncClassDetailById([FromQuery] string funcCode)
         {
             var reponse = await _serviceWrapper.authorityService.GetFuncClassDetailById(funcCode);
             return Ok(reponse);
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<IActionResult> UpdateFuncClass([FromBody] UpdateFuncClassViewModel updateFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);

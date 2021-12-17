@@ -7,7 +7,7 @@ namespace GodPay_CMS.Controllers
     /// <summary>
     /// 轉換Enum
     /// </summary>
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     [Authorize]
     public class EnumApiController : Controller
     {
@@ -21,14 +21,14 @@ namespace GodPay_CMS.Controllers
         /// 取得角色
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public IActionResult GetRoleEnum() => Ok(_serviceWrapper.enumService.GetRoleEnum());
 
         /// <summary>
         /// 取得帳號狀態
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
+        [HttpGet]
         public IActionResult GetAccountStatusEnum() => Ok(_serviceWrapper.enumService.GetAccountStatusEnum());
     }
 }
