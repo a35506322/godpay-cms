@@ -1,5 +1,4 @@
 ﻿import serverErrorMessage from '/StaticFiles/Vue/Components/ServerErrorMessage.js'
-import {  } from '/StaticFiles/Vue/Services/IpassService.js'
 export default {
     props: ['isNew', 'tempManager', 'modelStateError','tempAccountStatus'],
     components: {
