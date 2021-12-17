@@ -1,48 +1,52 @@
 ﻿@{
     ViewData["Title"] = "業務管理";
 }
+
 <div class="row p-3 justify-content-center">
-    <div class="p-toolbar p-component w-98 mb-2">
-        <div class="col-12 mb-3">
-            <div class="row">
-                <div class="col-6 col-lg-4 g-3">
-                    <div class="row">
-                        <div class="p-inputgroup">
-                            <span class="p-inputgroup-addon">帳號</span>
-                            <input type="text" class="p-inputtext p-component form-control" id="qUserId"
-                                   v-model.trim="queryModel.UserId" name="qUserId" placeholder="" />
+    <div class="px-3">
+        <div class="p-toolbar p-component w-100 mb-2">
+            <div class="col-12 mb-3">
+                <div class="row">
+                    <div class="col-6 col-lg-4 g-3">
+                        <div class="row">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon">帳號</span>
+                                <input type="text" class="p-inputtext p-component form-control" id="qUserId"
+                                       v-model.trim="queryModel.UserId" name="qUserId" placeholder="" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-4 g-3">
-                    <div class="row">
-                        <div class="p-inputgroup input-group">
-                            <span class="p-inputgroup-addon">帳號狀態</span>
-                            <select id="qStatus" class="form-select rounded-1" v-model.trim="queryModel.Status" name="qStatus">
-                                <option selected value="">全部</option>
-                                <option v-for="(status,index) in AccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
-                            </select>
+                    <div class="col-6 col-lg-4 g-3">
+                        <div class="row">
+                            <div class="p-inputgroup input-group">
+                                <span class="p-inputgroup-addon">帳號狀態</span>
+                                <select id="qStatus" class="form-select rounded-1" v-model.trim="queryModel.Status" name="qStatus">
+                                    <option selected value="">全部</option>
+                                    <option v-for="(status,index) in AccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-12 text-end">
+                <p-button label="查詢" icon="pi pi-search" class="p-button-success" v-on:click="GetManagerFilter"></p-button>
+            </div>
         </div>
-        <div class="col-12 text-end">
-            <p-button label="查詢" icon="pi pi-search" class="p-button-success" v-on:click="GetManagerFilter"></p-button>
+        <div class="p-toolbar p-component w-100 mb-2">
+            <div class="p-toolbar-group-left">
+                <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditManagerModal(true)" v-if="this.$common.CheckAuthority(funcs,'PostManager')"></p-button>
+            </div>
+            <div class="p-toolbar-group-right">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" class="p-inputtext p-component p-filled"
+                           v-model="filtersManager['global'].value" placeholder="搜尋" />
+                </span>
+            </div>
         </div>
     </div>
-    <div class="p-toolbar p-component w-98 mb-2">
-        <div class="p-toolbar-group-left">
-            <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditManagerModal(true)" v-if="this.$common.CheckAuthority(funcs,'PostManager')"></p-button>
-        </div>
-        <div class="p-toolbar-group-right">
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input type="text" class="p-inputtext p-component p-filled"
-                       v-model="filtersManager['global'].value" placeholder="搜尋" />
-            </span>
-        </div>
-    </div>
+
     <p-datatable v-bind:value="managers" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
                  paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
@@ -102,7 +106,6 @@
             components: {
                 "p-datatable": primevue.datatable,
                 "p-column": primevue.column,
-                "p-button": primevue.button,
                 "p-toolbar": primevue.toolbar,
                 ManagerDetailModal,
                 EditManagerModal,
