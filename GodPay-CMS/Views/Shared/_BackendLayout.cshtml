@@ -58,12 +58,8 @@
 
     <script type="text/javascript">
         // 設定 axios 基礎設定
-        let baseURL = '';
+        let baseURL = '@settings.Value.BaseUrl';
         let layout = 'backend-laoout';
-        @if (env.IsDevelopment())
-        {
-           @:baseURL = '@settings.Value.BaseUrl'
-        }
         window.layout = layout;
         window.baseURL = baseURL;
     </script>

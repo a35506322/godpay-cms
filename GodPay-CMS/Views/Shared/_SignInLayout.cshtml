@@ -56,12 +56,8 @@
 
     <script type="text/javascript">
         // 設定 axios 基礎設定
-        let baseURL = '';
+        let baseURL = '@settings.Value.BaseUrl';
         let layout = 'signin-laoout';
-        @if (env.IsDevelopment())
-        {
-           @:baseURL = '@settings.Value.BaseUrl'
-        }
         window.layout = layout;
         window.baseURL = baseURL;
     </script>
@@ -78,7 +74,8 @@
 
         // 全域註冊vue method
         const emitter = mitt();
-        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '/StaticFiles/Vue/Methods/Common.js';
+        /* import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '/StaticFiles/Vue/Methods/Common.js';*/
+        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '../../StaticFiles/Vue/Methods/Common.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
