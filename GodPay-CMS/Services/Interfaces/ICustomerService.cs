@@ -25,5 +25,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="customerId"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> Get(Guid customerId);
+
+        /// <summary>
+        /// 新增公司
+        /// </summary>
+        /// <param name="customerName">公司名稱</param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> Add(string customerName);
     }
 }

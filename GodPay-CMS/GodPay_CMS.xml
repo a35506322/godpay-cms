@@ -50,6 +50,9 @@
         <member name="F:GodPay_CMS.Common.Enums.ReturnCodeEnum.SameKeyFail">
             <summary>新密碼不可與舊密碼相同</summary>
         </member>
+        <member name="F:GodPay_CMS.Common.Enums.ReturnCodeEnum.SameNameFail">
+            <summary>已存在相同名稱</summary>
+        </member>
         <member name="T:GodPay_CMS.Common.Enums.RoleEnum">
             <summary>角色資訊</summary>
         </member>
@@ -174,6 +177,13 @@
             </summary>
             <param name="seqNo">流水號</param>
             <param name="customerId">CustomerId</param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Post(System.String)">
+            <summary>
+            新增公司
+            </summary>
+            <param name="customerName">公司名稱</param>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.EnumApiController">
@@ -1925,6 +1935,13 @@
             以customerId取得公司
             </summary>
             <param name="customerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Add(System.String)">
+            <summary>
+            新增公司
+            </summary>
+            <param name="customerName">公司名稱</param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.IEnumService.GetRoleEnum">

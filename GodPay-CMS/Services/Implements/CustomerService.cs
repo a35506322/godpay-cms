@@ -2,6 +2,7 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
+using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using System;
 using System.Linq;
@@ -48,6 +49,22 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
 
             return new ResponseViewModel() { RtnData = customer };
+        }
+
+        public async Task<ResponseViewModel> Add(string customerName)
+        {
+            var customer = await _repostioryWrapper.customerRepository.Get(customerName);
+            if(customer!=null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage = "公司名稱重覆" };
+
+            CustomerReq customerReq = new CustomerReq() { CustomerName = customerName };
+
+            var count = await _repostioryWrapper.customerRepository.AddCustomer(customerReq);
+
+            if (count == 0)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
+
+            return new ResponseViewModel();
         }
     }
 }

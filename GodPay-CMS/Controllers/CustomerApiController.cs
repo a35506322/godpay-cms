@@ -45,11 +45,22 @@ namespace GodPay_CMS.Controllers
             if (seqNo!=null)
                 response = await _serviceWrapper.customerService.Get((int)seqNo);
 
-            if(customerId!=null)
+            else if(customerId!=null)
                 response = await _serviceWrapper.customerService.Get((Guid)customerId);
 
             return Ok(response);
         }
 
+        /// <summary>
+        /// 新增公司
+        /// </summary>
+        /// <param name="customerName">公司名稱</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Post(string customerName)
+        {
+            var response = await _serviceWrapper.customerService.Add(customerName);
+
+            return Ok(response);
+        }
     }
 }

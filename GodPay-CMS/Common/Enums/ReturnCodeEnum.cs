@@ -38,5 +38,9 @@ namespace GodPay_CMS.Common.Enums
         /// <summary>新密碼不可與舊密碼相同</summary>
         [Description("新密碼不可與舊密碼相同")]
         SameKeyFail = 423,
+
+        /// <summary>已存在相同名稱</summary>
+        [Description("已存在相同名稱")]
+        SameNameFail = 424,
     }
 }
