@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "公司管理";
+}
+
+@section Style
+{
+    <style>
+        .p-column-header-content {
+            justify-content: center;
+        }
+    </style>
+}
+
+<div class="row p-3 justify-content-center">
+    <div class="px-3">
+        <div class="p-toolbar p-component w-100 mb-2">         
+            <div class="p-toolbar-group-left">
+                <v-form v-slot="{values, errors}" v-on:submit="PostCutsomterSave">
+                    <div class="d-flex">
+                        <div class="col me-1">
+                            <v-field type="text" class="p-inputtext p-component" name="customerName" autocomplete="off" placeholder="請輸入公司名稱即可新增" v-model.trim="customerName"
+                                     rules="required" v-bind:class="[{'is-invalid':errors['customerName']}]"></v-field>
+                            <error-message name="customerName" class="invalid-feedback"></error-message>
+                        </div>
+                        <div class="col">
+                            <p-button label="新增" icon="pi pi-plus" class="p-button-success p-mr-1" type="submit"></p-button>
+                        </div>
+                    </div>
+                </v-form>
+            </div>                       
+            <div class="p-toolbar-group-right">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" class="p-inputtext p-component p-filled"
+                           placeholder="搜尋" />
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-datatable v-bind:value="customers" edit-mode="row" data-key="CustomerId"
+                 show-gridlines striped-rows responsive-layout="scroll"
+                 v-bind:paginator="true" v-bind:rows="10" paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
+                 v-model:editing-rows="editingRows" v-on:row-edit-save="RowEditSave">
+        <p-column field="CustomerName" header="公司名稱" body-style="text-align:center">
+            <template #editor="{ data, field }">
+                <input type="text" class="p-inputtext p-component form-control" v-model="data[field]" autofocus />
+            </template>
+        </p-column>
+        <p-column v-bind:row-editor="true" style="width:10%; min-width:8rem" body-style="text-align:center"></p-column>
+        <template #empty>
+            查無相關公司資訊
+        </template>
+        <template #paginatorstart>
+            <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
+        </template>
+        <template #paginatorend>
+            <p-button type="button" icon="pi pi-cloud" class="p-button-text"></p-button>
+        </template>
+    </p-datatable>
+</div>
+
+<script type="text/javascript">
+@section Vue
+{
+    import { GetCustomers} from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    const app = Vue.createApp({
+        components: {
+            "p-datatable": primevue.datatable,
+            "p-column": primevue.column,
+            "p-toolbar": primevue.toolbar
+        },
+        data: function () {
+            return {
+                customers:[],
+                editingRows: [],
+                customerName:''
+            }
+        },
+        created: function () {
+            // 起始GET this.customers
+            this.GetCustomers();
+        },
+        methods: {
+            RowEditSave: function (event) {
+                console.log(event);
+                let { newData, index } = event;
+                this.customers[index] = newData;
+
+                // 呼叫Edit
+
+                // 重整
+
+                // 吐司成功
+            },
+            PostCutsomterSave: function () {
+                // 呼叫post
+
+                // 重整
+
+                // 吐司成功
+            },
+            GetCustomers: async function () {
+                const response = await GetCustomers().then(response => response);
+                const status = response.status;
+                if (status === 200) {
+                    const data = response.data;
+                    const code = data.RtnCode;
+                    switch (code) {
+                        case 200:
+                            if (data.RtnData.length > 0) {
+                                this.customers = data.RtnData;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    })
+
+}
+</script>

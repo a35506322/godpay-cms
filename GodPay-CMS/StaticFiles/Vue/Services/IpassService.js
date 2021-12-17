@@ -37,3 +37,6 @@ export const GetListOfFuncClass = () => axios.get('/AuthoritySetApi/GetListOfFun
 export const PostFuncClass = data => axios.post('/AuthoritySetApi/PostFuncClass', data).then(respone => { console.log('PostFuncClass'); return respone; }).catch(error => error);
 export const GetFuncClassDetailById = data => axios.get(`/AuthoritySetApi/GetFuncClassDetailById`, data).then(respone => { console.log('GetFuncClassDetailById'); return respone; }).catch(error => error);
 export const UpdateFuncClass = data => axios.post('/AuthoritySetApi/UpdateFuncClass', data).then(respone => { console.log('UpdateFuncClass'); return respone; }).catch(error => error);
+
+// CustomerApi
+export const GetCustomers = () => axios.get('/CustomerApi/GetAll').then(respone => { console.log('GetCustomers'); return respone; }).catch(error => error);
