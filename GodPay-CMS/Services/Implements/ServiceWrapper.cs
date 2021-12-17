@@ -1,8 +1,4 @@
 ﻿using GodPay_CMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
 {
@@ -14,12 +10,15 @@ namespace GodPay_CMS.Services.Implements
         private readonly IManagerService _managerService;
         private readonly IStoreService _storeService;
         private readonly IEnumService _enumService;
+        private readonly ICustomerService _customerService;
+
         public ServiceWrapper(ISigninService signinService,
                               IAuthorityService authorityService,
                               IUserService userService,
                               IManagerService managerService,
                               IStoreService storeService,
-                              IEnumService enumService)
+                              IEnumService enumService,
+                              ICustomerService customerService)
         {
             _signinService = signinService;
             _authorityService = authorityService;
@@ -27,6 +26,7 @@ namespace GodPay_CMS.Services.Implements
             _managerService = managerService;
             _storeService = storeService;
             _enumService = enumService;
+            _customerService = customerService;
         }
         public ISigninService signinService => _signinService;
 
@@ -39,5 +39,7 @@ namespace GodPay_CMS.Services.Implements
         public IStoreService storeService => _storeService;
 
         public IEnumService enumService => _enumService;
+
+        public ICustomerService customerService => _customerService;
     }
 }

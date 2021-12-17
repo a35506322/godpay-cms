@@ -48,7 +48,7 @@ namespace GodPay_CMS
 
             // HttpContext
             services.AddHttpContextAccessor();
-           
+
             // Repository
             services.AddScoped<IRepostioryWrapper, RepostioryWrapper>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -56,6 +56,7 @@ namespace GodPay_CMS
             services.AddScoped<IFuncRepository, FuncRepository>();
             services.AddScoped<IInsiderRepository, InsiderRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             // Service
             services.AddScoped<IServiceWrapper, ServiceWrapper>();
@@ -65,6 +66,7 @@ namespace GodPay_CMS
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IEnumService, EnumService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             //Helper
             services.AddSingleton<IDecipherHelper, DecipherHelper>();

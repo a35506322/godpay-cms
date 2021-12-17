@@ -162,6 +162,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Controllers.CustomerApiController.GetAll">
+            <summary>
+            取得所有公司
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Get(System.Nullable{System.Int32},System.Nullable{System.Guid})">
+            <summary>
+            取得公司
+            </summary>
+            <param name="seqNo">流水號</param>
+            <param name="customerId">CustomerId</param>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Controllers.EnumApiController">
             <summary>
             轉換Enum
@@ -682,6 +696,22 @@
             權限總數
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer.SeqNo">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer.CustomerName">
+            <summary>
+            公司名稱
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:GodPay_CMS.Repositories.Entity.Customer.SecretKey" -->
         <member name="T:GodPay_CMS.Repositories.Entity.Func">
             <summary>
             功能
@@ -1875,6 +1905,26 @@
             編輯功能類別
             </summary>
             <param name="updateFuncClassViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.GetAll">
+            <summary>
+             取得所有公司
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Get(System.Int32)">
+            <summary>
+            以流水號取得公司
+            </summary>
+            <param name="seqNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Get(System.Guid)">
+            <summary>
+            以customerId取得公司
+            </summary>
+            <param name="customerId"></param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.IEnumService.GetRoleEnum">
