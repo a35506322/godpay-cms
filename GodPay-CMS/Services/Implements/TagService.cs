@@ -16,6 +16,8 @@ namespace GodPay_CMS.Services.Implements
             iconDic.Add("storeset", "bi bi-house");
             iconDic.Add("authorityset", "bi bi-gear");
             iconDic.Add("managerset", "bi bi-clipboard");
+            iconDic.Add("customer", "bi bi-building");
+            
         }
         public string GetIcon(string icon)
         {
