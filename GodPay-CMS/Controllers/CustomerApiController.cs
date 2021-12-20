@@ -44,6 +44,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="addCustomerViewModel">公司名稱</param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<IActionResult> Post(AddCustomerViewModel addCustomerViewModel)
         {
             var response = await _serviceWrapper.customerService.Add(addCustomerViewModel);
