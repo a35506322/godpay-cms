@@ -56,5 +56,24 @@ namespace GodPay_CMS.Services.Implements
 
             return new ResponseViewModel();
         }
+
+        public async Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel)
+        {
+            var customerParams = _mapper.Map<CustomerParams>(editCustomerViewModel);
+
+            var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
+
+            if (customer == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
+
+            var customerReq = _mapper.Map<CustomerReq>(editCustomerViewModel);
+
+            var count = await _repostioryWrapper.customerRepository.EditCustomer(customerReq);
+
+            if (count == 0)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "編輯公司失敗" };
+
+            return new ResponseViewModel();
+        }
     }
 }

@@ -25,5 +25,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="addCustomerViewModel">公司名稱</param>
         /// <returns></returns>
         public Task<ResponseViewModel> Add(AddCustomerViewModel addCustomerViewModel);
+
+        /// <summary>
+        /// 編輯公司
+        /// </summary>
+        /// <param name="editCustomerViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel);
     }
 }

@@ -12,5 +12,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         public Task<Customer> Get(CustomerParams customerParams);
         public Task<Customer> Get(string customerName);
         public Task<int> AddCustomer(CustomerReq customerReq);
+        public Task<int> EditCustomer(CustomerReq customerReq);
     }
 }

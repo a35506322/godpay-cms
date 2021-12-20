@@ -79,5 +79,17 @@ namespace GodPay_CMS.Repositories.Implements
                 return count;
             }
         }
+
+        public async Task<int> EditCustomer(CustomerReq customerReq)
+        {
+            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                string sql = @"UPDATE [dbo].[Customer]
+                                SET CustomerName = @CustomerName
+                                WHERE SeqNo = @SeqNo";
+                var count = await _connection.ExecuteAsync(sql, customerReq);
+                return count;
+            }
+        }
     }
 }

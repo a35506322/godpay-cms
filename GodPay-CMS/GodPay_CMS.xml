@@ -183,6 +183,15 @@
             新增公司
             </summary>
             <param name="addCustomerViewModel">公司名稱</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Edit(GodPay_CMS.Controllers.ViewModels.EditCustomerViewModel)">
+            <summary>
+            編輯公司
+            </summary>
+            <param name="editCustomerViewModel">EditCustomerViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.EnumApiController">
@@ -451,6 +460,16 @@
             <returns></returns>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel.customerName">
+            <summary>
+            公司名稱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditCustomerViewModel.SeqNo">
+            <summary>
+            流水號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditCustomerViewModel.CustomerName">
             <summary>
             公司名稱
             </summary>
@@ -1954,6 +1973,13 @@
             新增公司
             </summary>
             <param name="addCustomerViewModel">公司名稱</param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Edit(GodPay_CMS.Controllers.ViewModels.EditCustomerViewModel)">
+            <summary>
+            編輯公司
+            </summary>
+            <param name="editCustomerViewModel"></param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.IEnumService.GetRoleEnum">
