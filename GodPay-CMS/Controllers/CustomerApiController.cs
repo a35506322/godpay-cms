@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using GodPay_CMS.Controllers.ViewModels;
+﻿using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
@@ -10,11 +8,9 @@ namespace GodPay_CMS.Controllers
     [Route("[controller]/[action]")]
     public class CustomerApiController : Controller
     {
-        private readonly IMapper _mapper;
         private readonly IServiceWrapper _serviceWrapper;
-        public CustomerApiController(IMapper mapper, IServiceWrapper serviceWrapper)
+        public CustomerApiController(IServiceWrapper serviceWrapper)
         {
-            _mapper = mapper;
             _serviceWrapper = serviceWrapper;
         }
 
@@ -30,23 +26,14 @@ namespace GodPay_CMS.Controllers
         }
 
         /// <summary>
-        /// 取得公司
+        /// 以流水號或CustomerId取得公司
         /// </summary>
-        /// <param name="seqNo">流水號</param>
-        /// <param name="customerId">CustomerId</param>
+        /// <param name="customerParams">流水號或CustomerId</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get(int? seqNo, Guid? customerId)
+        public async Task<IActionResult> Get([FromQuery] CustomerParams customerParams)
         {
-            if (seqNo == null && customerId == null)
-                return BadRequest();
-
-            var response = new ResponseViewModel();
-            if (seqNo!=null)
-                response = await _serviceWrapper.customerService.Get((int)seqNo);
-
-            else if(customerId!=null)
-                response = await _serviceWrapper.customerService.Get((Guid)customerId);
+            var response = await _serviceWrapper.customerService.Get(customerParams);
 
             return Ok(response);
         }

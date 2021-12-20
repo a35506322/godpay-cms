@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using GodPay_CMS.Common.Helpers.Decipher;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
@@ -36,22 +37,22 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<Customer> Get(int seqNo)
+        public async Task<Customer> Get(CustomerParams customerParams)
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                string sql = @"SELECT * FROM [dbo].[Customer] WHERE SeqNo = @seqNo";
-                var entity = await _connection.QuerySingleAsync<Customer>(sql, new { seqNo = seqNo });
-                return entity;
-            }
-        }
+                string sql = @"SELECT * FROM [dbo].[Customer] WHERE 1=1";
 
-        public async Task<Customer> Get(Guid customerId)
-        {
-            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
-            {
-                string sql = @"SELECT * FROM [dbo].[Customer] WHERE CustomerId = @customerId";
-                var entity = await _connection.QuerySingleAsync<Customer>(sql, new { customerId = customerId });
+                if (customerParams.SeqNo != null)
+                    sql += "And SeqNo = @SeqNo ";
+
+                if (customerParams.CustomerId != null)
+                    sql += "And CustomerId = @CustomerId ";
+
+                sql = sql.TrimEnd(' ');
+                sql += ";";
+
+                var entity = await _connection.QueryFirstOrDefaultAsync<Customer>(sql, customerParams);
                 return entity;
             }
         }

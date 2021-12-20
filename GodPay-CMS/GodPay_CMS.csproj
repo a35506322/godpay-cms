@@ -41,7 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Parameters\" />
     <Folder Include="logs\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>

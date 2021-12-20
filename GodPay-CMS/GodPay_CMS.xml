@@ -171,12 +171,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Get(System.Nullable{System.Int32},System.Nullable{System.Guid})">
+        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Get(GodPay_CMS.Controllers.Parameters.CustomerParams)">
             <summary>
-            取得公司
+            以流水號或CustomerId取得公司
             </summary>
-            <param name="seqNo">流水號</param>
-            <param name="customerId">CustomerId</param>
+            <param name="customerParams">流水號或CustomerId</param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.CustomerApiController.Post(System.String)">
@@ -277,6 +276,21 @@
             業務管理首頁
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:GodPay_CMS.Controllers.Parameters.CustomerParams">
+            <summary>
+            Customer Query
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.Parameters.CustomerParams.SeqNo">
+            <summary>
+            流水號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.Parameters.CustomerParams.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
         </member>
         <member name="T:GodPay_CMS.Controllers.Parameters.FunctionParams">
             <summary>
@@ -1923,18 +1937,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Get(System.Int32)">
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Get(GodPay_CMS.Controllers.Parameters.CustomerParams)">
             <summary>
-            以流水號取得公司
+            以流水號或CustomerId取得公司
             </summary>
-            <param name="seqNo"></param>
-            <returns></returns>
-        </member>
-        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Get(System.Guid)">
-            <summary>
-            以customerId取得公司
-            </summary>
-            <param name="customerId"></param>
+            <param name="customerParams">流水號或CustomerId</param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Add(System.String)">

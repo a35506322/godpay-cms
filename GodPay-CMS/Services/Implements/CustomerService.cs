@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,19 +31,9 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = customers };
         }
 
-        public async Task<ResponseViewModel> Get(int seqNo)
+        public async Task<ResponseViewModel> Get(CustomerParams customerParams )
         {
-            var customer = await _repostioryWrapper.customerRepository.Get(seqNo);
-
-            if (customer == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
-
-            return new ResponseViewModel() { RtnData = customer };
-        }
-
-        public async Task<ResponseViewModel> Get(Guid customerId)
-        {
-            var customer = await _repostioryWrapper.customerRepository.Get(customerId);
+            var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
 
             if (customer == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };

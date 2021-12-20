@@ -1,5 +1,5 @@
-﻿using GodPay_CMS.Controllers.ViewModels;
-using System;
+﻿using GodPay_CMS.Controllers.Parameters;
+using GodPay_CMS.Controllers.ViewModels;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -13,18 +13,11 @@ namespace GodPay_CMS.Services.Interfaces
         public Task<ResponseViewModel> GetAll();
 
         /// <summary>
-        /// 以流水號取得公司
+        /// 以流水號或CustomerId取得公司
         /// </summary>
-        /// <param name="seqNo"></param>
+        /// <param name="customerParams">流水號或CustomerId</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> Get(int seqNo);
-
-        /// <summary>
-        /// 以customerId取得公司
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        public Task<ResponseViewModel> Get(Guid customerId);
+        public Task<ResponseViewModel> Get(CustomerParams customerParams );
 
         /// <summary>
         /// 新增公司
