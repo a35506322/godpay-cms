@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Common.Tags
 {
+    [HtmlTargetElement("i",Attributes ="icon")]
     public class ITagHelper:TagHelper
     {
         public string Icon { get; set; }
