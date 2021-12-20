@@ -41,4 +41,5 @@ export const UpdateFuncClass = data => axios.post('/AuthoritySetApi/UpdateFuncCl
 // CustomerApi
 export const GetCustomers = () => axios.get('/CustomerApi/GetAll').then(respone => { console.log('GetCustomers'); return respone; }).catch(error => error);
 export const PostCustomer = data => axios.post('/CustomerApi/Post', data).then(respone => { console.log('PostCustomer'); return respone; }).catch(error => error);
+export const UpdateCustomer = data => axios.put('/CustomerApi/Edit', data).then(respone => { console.log('UpdateCustomer'); return respone; }).catch(error => error);
 
