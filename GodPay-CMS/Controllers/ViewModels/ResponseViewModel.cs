@@ -1,8 +1,4 @@
 ﻿using GodPay_CMS.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -15,10 +11,12 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// 回傳狀態碼
         /// </summary>
         public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Ok;
+
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>
         public string RtnMessage { get; set; } = "";
+
         /// <summary>
         /// 回傳狀態資料
         /// </summary>
@@ -32,10 +30,12 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// 回傳狀態碼
         /// </summary>
         public ReturnCodeEnum RtnCode { get; set; } = ReturnCodeEnum.Ok;
+
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>
         public string RtnMessage { get; set; } = "";
+
         /// <summary>
         /// 回傳狀態資料
         /// </summary>

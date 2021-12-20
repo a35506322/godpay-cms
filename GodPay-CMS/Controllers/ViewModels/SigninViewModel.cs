@@ -16,6 +16,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// </summary>
         [Required]
         public string UserId { get; set; }
+
         /// <summary>
         /// 密碼
         /// </summary>

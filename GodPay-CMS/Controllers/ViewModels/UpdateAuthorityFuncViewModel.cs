@@ -16,21 +16,25 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// </summary>
         [Required]
         public int Fid { get; set; }
+
         /// <summary>
         /// 英文名子(action)
         /// </summary>
         [Required]
         public string FuncEnName { get; set; }
+
         /// <summary>
         /// 中文名子(action)
         /// </summary>
         [Required]
         public string FuncChName { get; set; }
+
         /// <summary>
         /// 功能代碼
         /// </summary>
         [Required]
         public long FuncCode { get; set; }
+
         /// <summary>
         /// Role Value 陣列
         /// </summary>

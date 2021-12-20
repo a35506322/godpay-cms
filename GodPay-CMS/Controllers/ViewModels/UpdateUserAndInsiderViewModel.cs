@@ -1,10 +1,4 @@
-﻿using GodPay_CMS.Common.Attributes;
-using GodPay_CMS.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -18,11 +12,13 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// </summary>
         [Required]
         public int Uid { get; set; }
+
         /// <summary>
         /// 帳號
         /// </summary>
         [Required]
         public string UserId { get; set; }
+
         /// <summary>
         /// Email
         /// </summary>
@@ -37,7 +33,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         public string Status { get; set; }
 
         /// <summary>
-        /// 名子
+        /// 名字
         /// </summary>
         [Required]
         public string Name { get; set; }
