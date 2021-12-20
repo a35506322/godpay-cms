@@ -25,7 +25,7 @@
                     }
                     <li class="nav-item">
                         <a class="nav-link has-arrow @active" asp-controller="@funcClass.FuncClassEnName" asp-action="@funcClass.Functions.SingleOrDefault().FuncEnName">
-                            <i data-feather="home" class="nav-icon icon-xs me-2"></i> @funcClass.Functions.SingleOrDefault().FuncChName
+                            <i icon="@funcClass.FuncClassEnName"></i> @funcClass.Functions.SingleOrDefault().FuncChName
                         </a>
                     </li>
                 }
@@ -43,7 +43,7 @@
                     }
                     <li class="nav-item">
                         <a class="nav-link has-arrow @collapsed" href="#!" data-bs-toggle="collapse" data-bs-target="#@funcClass.FuncClassEnName" aria-expanded="false" aria-controls="@funcClass.FuncClassEnName">
-                            <i data-feather="layers"
+                            <i icon="@funcClass.FuncClassEnName"
                                class="nav-icon icon-xs me-2">
                             </i> @funcClass.FuncClassChName
                         </a>

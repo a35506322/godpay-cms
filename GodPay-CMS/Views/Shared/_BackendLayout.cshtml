@@ -18,6 +18,7 @@
             <main id="app">
                 @RenderBody()
                 <p-toast group="backend-laoout"></p-toast>
+                <p-confirmdialog class="p-modal-sm p-modal-md p-modal-lg"></p-confirmdialog>
             </main>
         </div>
     </div>
@@ -45,6 +46,8 @@
     <script src="~/lib/primevue/toastservice/toastservice.min.js"></script>
     <script src="~/lib/primevue/tooltip/tooltip.min.js"></script>
     <script src="~/lib/primevue/card/card.min.js"></script>
+    <script src="~/lib/primevue/confirmdialog/confirmdialog.min.js"></script>
+    <script src="~/lib/primevue/confirmationservice/confirmationservice.min.js"></script>
     <!--bootstrap-->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
     <!--axios-->
@@ -89,6 +92,7 @@
         app.component('pInputText', primevue.inputtext);
         app.component('pToast', primevue.toast);
         app.component('pButton', primevue.button);
+        app.component('pConfirmdialog', primevue.confirmdialog);
         app.component('vForm', VeeValidate.Form);
         app.component('vField', VeeValidate.Field);
         app.component('errorMessage', VeeValidate.ErrorMessage);
@@ -113,7 +117,8 @@
             validateOnInput: true, // 調整為輸入字元立即進行驗證
         });
         app.use(primevue.config.default);
-        app.use(primevue.toastservice);
+        app.use(primevue.confirmationservice);
+        app.use(primevue.toastservice);     
         const tooltip = primevue.tooltip;
         app.directive("tooltip", tooltip);
         app.mount('#app');
