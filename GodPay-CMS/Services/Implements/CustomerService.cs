@@ -31,7 +31,7 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = customers };
         }
 
-        public async Task<ResponseViewModel> Get(CustomerParams customerParams )
+        public async Task<ResponseViewModel> Get(CustomerParams customerParams)
         {
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
 
@@ -41,13 +41,13 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = customer };
         }
 
-        public async Task<ResponseViewModel> Add(string customerName)
+        public async Task<ResponseViewModel> Add(AddCustomerViewModel addCustomerViewModel)
         {
-            var customer = await _repostioryWrapper.customerRepository.Get(customerName);
-            if(customer!=null)
+            var customer = await _repostioryWrapper.customerRepository.Get(addCustomerViewModel.customerName);
+            if (customer != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage = "公司名稱重覆" };
 
-            CustomerReq customerReq = new CustomerReq() { CustomerName = customerName };
+            CustomerReq customerReq = _mapper.Map<CustomerReq>(addCustomerViewModel);
 
             var count = await _repostioryWrapper.customerRepository.AddCustomer(customerReq);
 

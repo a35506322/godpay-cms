@@ -17,13 +17,13 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="customerParams">流水號或CustomerId</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> Get(CustomerParams customerParams );
+        public Task<ResponseViewModel> Get(CustomerParams customerParams);
 
         /// <summary>
         /// 新增公司
         /// </summary>
-        /// <param name="customerName">公司名稱</param>
+        /// <param name="addCustomerViewModel">公司名稱</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> Add(string customerName);
+        public Task<ResponseViewModel> Add(AddCustomerViewModel addCustomerViewModel);
     }
 }

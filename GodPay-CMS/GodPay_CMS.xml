@@ -178,11 +178,11 @@
             <param name="customerParams">流水號或CustomerId</param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Post(System.String)">
+        <member name="M:GodPay_CMS.Controllers.CustomerApiController.Post(GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel)">
             <summary>
             新增公司
             </summary>
-            <param name="customerName">公司名稱</param>
+            <param name="addCustomerViewModel">公司名稱</param>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.EnumApiController">
@@ -449,6 +449,11 @@
             特店首頁
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel.customerName">
+            <summary>
+            公司名稱
+            </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncClassViewModel.FuncClassEnName">
             <summary>
@@ -1944,11 +1949,11 @@
             <param name="customerParams">流水號或CustomerId</param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Add(System.String)">
+        <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.Add(GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel)">
             <summary>
             新增公司
             </summary>
-            <param name="customerName">公司名稱</param>
+            <param name="addCustomerViewModel">公司名稱</param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.IEnumService.GetRoleEnum">

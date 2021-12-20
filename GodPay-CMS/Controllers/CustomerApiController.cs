@@ -1,4 +1,5 @@
 ﻿using GodPay_CMS.Controllers.Parameters;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -41,11 +42,11 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增公司
         /// </summary>
-        /// <param name="customerName">公司名稱</param>
+        /// <param name="addCustomerViewModel">公司名稱</param>
         /// <returns></returns>
-        public async Task<IActionResult> Post(string customerName)
+        public async Task<IActionResult> Post(AddCustomerViewModel addCustomerViewModel)
         {
-            var response = await _serviceWrapper.customerService.Add(customerName);
+            var response = await _serviceWrapper.customerService.Add(addCustomerViewModel);
 
             return Ok(response);
         }
