@@ -54,7 +54,7 @@ namespace GodPay_CMS.Services.Implements
             if (count == 0)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
 
-            return new ResponseViewModel();
+            return new ResponseViewModel() {  RtnMessage ="新增公司成功"} ;
         }
 
         public async Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel)

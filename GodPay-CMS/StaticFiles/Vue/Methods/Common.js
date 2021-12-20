@@ -25,7 +25,9 @@ export function ChangeReturnCode(returnCode) {
         401: 'error',
         402: 'error',
         404: 'warn',
-        405: 'error'
+        405: 'error',
+        417: 'warn',
+        424: 'error'
     })
 
     if (returnCode === null) {

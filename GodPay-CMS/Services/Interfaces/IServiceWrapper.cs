@@ -11,5 +11,6 @@ namespace GodPay_CMS.Services.Interfaces
         public IStoreService storeService { get; }
         public IEnumService enumService { get; }
         public ICustomerService customerService { get; }
+        public ITagService itagService { get; }
     }
 }

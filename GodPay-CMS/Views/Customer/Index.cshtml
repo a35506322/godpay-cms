@@ -18,9 +18,10 @@
                 <v-form v-slot="{values, errors}" v-on:submit="PostCutsomterSave">
                     <div class="d-flex">
                         <div class="col me-1">
-                            <v-field type="text" class="p-inputtext p-component" name="customerName" autocomplete="off" placeholder="請輸入公司名稱即可新增" v-model.trim="customerName"
-                                     rules="required" v-bind:class="[{'is-invalid':errors['customerName']}]"></v-field>
+                            <v-field type="text" class="p-inputtext p-component" name="customerName" autocomplete="off" placeholder="請輸入公司名稱即可新增" 
+                                      v-model.trim="addCustomerViewModel.customerName" rules="required" v-bind:class="[{'is-invalid':errors['customerName']||modelStateError['customerName']}]"></v-field>
                             <error-message name="customerName" class="invalid-feedback"></error-message>
+                            <server-error-message v-bind:attr="'customerName'"></server-error-message>
                         </div>
                         <div class="col">
                             <p-button label="新增" icon="pi pi-plus" class="p-button-success p-mr-1" type="submit"></p-button>
@@ -63,22 +64,28 @@
 <script type="text/javascript">
 @section Vue
 {
-    import { GetCustomers} from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import {
+        GetCustomers, PostCustomer
+    } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import serverErrorMessage from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ServerErrorMessage.js'
     const app = Vue.createApp({
         components: {
             "p-datatable": primevue.datatable,
             "p-column": primevue.column,
-            "p-toolbar": primevue.toolbar
+            "p-toolbar": primevue.toolbar,
+            serverErrorMessage
         },
         data: function () {
             return {
                 customers:[],
                 editingRows: [],
-                customerName:''
+                addCustomerViewModel: {
+                    customerName: ''
+                },
+                modelStateError: {}
             }
         },
         created: function () {
-            // 起始GET this.customers
             this.GetCustomers();
         },
         methods: {
@@ -94,27 +101,76 @@
                 // 吐司成功
             },
             PostCutsomterSave: function () {
-                // 呼叫post
+                try {
+                    this.$confirm.require({
+                        message: '請問確定要新增此類別嗎?',
+                        header: '新類類別',
+                        icon: 'pi pi-info-circle',
+                        position: 'top',
+                        accept: async () => {
+                            const response = await PostCustomer(this.addCustomerViewModel).then(response => response);
+                            const status = response.status;
+                            if (status === 200) {
+                                const responseData = response.data;
+                                const code = responseData.RtnCode;
+                                const status = this.$common.ChangeReturnCode(code);
+                                switch (code) {
+                                    case 200:
+                                        this.customerName = {};
+                                        this.modelStateError = {};
+                                        this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                        this.GetCustomers();
+                                        break;
+                                    case 401:
+                                        if (typeof (responseData.RtnData) === 'string') {
+                                            this.modelStateError = JSON.parse(responseData.RtnData);
+                                        }
+                                        this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                        break;
+                                    case 417:
+                                    case 424:
+                                        this.modelStateError = {};
+                                        this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        },
+                        reject: () => {
 
-                // 重整
-
-                // 吐司成功
+                        }
+                    });
+                }
+                catch (exception) {
+                    // 存入log
+                    // 導去錯誤頁面
+                    console.log(exception);
+                }
+                
             },
             GetCustomers: async function () {
-                const response = await GetCustomers().then(response => response);
-                const status = response.status;
-                if (status === 200) {
-                    const data = response.data;
-                    const code = data.RtnCode;
-                    switch (code) {
-                        case 200:
-                            if (data.RtnData.length > 0) {
-                                this.customers = data.RtnData;
-                            }
-                            break;
-                        default:
-                            break;
+                try {
+                    const response = await GetCustomers().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.RtnCode;
+                        switch (code) {
+                            case 200:
+                                if (data.RtnData.length > 0) {
+                                    this.customers = data.RtnData;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                }
+                catch (exception) {
+                    // 存入log
+                    // 導去錯誤頁面
+                    console.log(exception);
                 }
             }
         }

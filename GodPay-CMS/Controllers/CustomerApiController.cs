@@ -37,7 +37,6 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> Get([FromQuery] CustomerParams customerParams)
         {
             var response = await _serviceWrapper.customerService.Get(customerParams);
-
             return Ok(response);
         }
 
@@ -52,7 +51,6 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> Post([FromBody] AddCustomerViewModel addCustomerViewModel)
         {
             var response = await _serviceWrapper.customerService.Add(addCustomerViewModel);
-
             return Ok(response);
         }
 
