@@ -114,6 +114,6 @@ export default {
                     <p-button label="取消" icon="pi pi-times" v-on:click="Close()" class="p-button-text"></p-button>
                     <p-button label="儲存" icon="pi pi-check" autofocus type="submit"></p-button>
                 </div>
-                <v-form>          
+                </v-form>          
         </p-dialog>`
 }

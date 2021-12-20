@@ -23,7 +23,7 @@
         }
     },
     template: `
-    <p-dialog header="特店詳細資料" v-model:visible="displayModal" v-bind:style="{width:'50vw'}" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="特店詳細資料" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
          <div class="modal-body">
             <div class="container-fluid">
               <div class="p-datatable p-component p-datatable-responsive-scroll">

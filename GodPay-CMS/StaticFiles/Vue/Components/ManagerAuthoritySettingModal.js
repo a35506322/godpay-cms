@@ -46,7 +46,7 @@
         }
     },
     template: `
-    <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
         <v-form v-slot="{values, errors}" v-on:submit ="SaveAuthority">
          <div class="modal-body" style="background-color: var(--surface-b);">
             <div class="container-fluid">
