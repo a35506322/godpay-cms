@@ -73,6 +73,26 @@
                                 <tr>
                                     <td>
                                         <div class="row">
+                                            <label class="col-sm-2 col-form-label">風險等級</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Risk">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">限制額度</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.TransLimit">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
                                             <label class="col-sm-2 col-form-label">負責人Email</label>
                                             <div class="col-sm-10">
                                                 <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.OwnerEmail">

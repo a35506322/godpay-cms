@@ -31,6 +31,16 @@
         public string Address { get; set; }
 
         /// <summary>
+        /// 風險等級
+        /// </summary>
+        public string Risk { get; set; }
+
+        /// <summary>
+        /// 限制額度
+        /// </summary>
+        public decimal? TransLimit { get; set; }
+
+        /// <summary>
         ///  負責人電子信箱
         /// </summary>
         public string OwnerEmail { get; set; }

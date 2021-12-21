@@ -965,6 +965,16 @@
              負責人電子信箱
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.Risk">
+            <summary>
+            風險等級
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.TransLimit">
+            <summary>
+            限制額度
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Store.CustomerName">
             <summary>
             公司名稱
@@ -1551,6 +1561,16 @@
         <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.Address">
             <summary>
              公司地址
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.Risk">
+            <summary>
+            風險等級
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.TransLimit">
+            <summary>
+            限制額度
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.OwnerEmail">

@@ -48,6 +48,16 @@ namespace GodPay_CMS.Repositories.Entity
         public string OwnerEmail { get; set; }
 
         /// <summary>
+        /// 風險等級
+        /// </summary>
+        public string Risk { get; set; }
+
+        /// <summary>
+        /// 限制額度
+        /// </summary>
+        public decimal? TransLimit { get; set; }
+
+        /// <summary>
         /// 公司名稱
         /// </summary>
         public string CustomerName { get; set; }
