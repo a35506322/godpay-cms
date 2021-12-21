@@ -73,7 +73,7 @@ namespace GodPay_CMS.Services.Implements
             if (count == 0)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "編輯公司失敗" };
 
-            return new ResponseViewModel();
+            return new ResponseViewModel() { RtnMessage = "修改公司成功" };
         }
     }
 }
