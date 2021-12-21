@@ -118,7 +118,7 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得個別功能資料
         /// </summary>
-        /// <param name="fid"></param>
+        /// <param name="fid">流水號</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetFuncDetailById([FromQuery]string fid)

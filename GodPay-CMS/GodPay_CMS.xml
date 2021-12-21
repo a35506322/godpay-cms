@@ -155,6 +155,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetFuncDetailById(System.String)">
+            <summary>
+            取得個別功能資料
+            </summary>
+            <param name="fid">流水號</param>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Controllers.AuthoritySetController">
             <summary>
             權限管理頁面
@@ -1972,6 +1979,16 @@
             最後登入日期
             </summary>
         </member>
+        <member name="M:GodPay_CMS.Services.Implements.TagService.#ctor">
+            <summary>
+            左側導覽列 icon 管理
+            </summary>
+        </member>
+        <member name="M:GodPay_CMS.Services.Implements.TagService.GetIcon(System.String)">
+            <summary>
+            icon 的預設樣式
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Services.Interfaces.IAuthorityService">
             <summary>
             權限伺服器
@@ -2027,6 +2044,13 @@
             <summary>
             取得功能總表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.GetFuncDetailById(System.String)">
+            <summary>
+            取得個別功能資料
+            </summary>
+            <param name="fid"></param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.GetAll">
