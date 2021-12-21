@@ -40,13 +40,40 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Func>> GetAll()
+        public async Task<IEnumerable<Func>> GetAll()
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT * 
+                         FROM [dbo].[Func]";
+            using(IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                try
+                {
+                    var func = await connection.QueryAsync<Func>(sql);
+                    return func.ToList();
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception(ex.Message.ToString());
+                }
+            }
         }
-        public Task<Func> GetById(int id)
+        public async Task<Func> GetById(int fid)
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT * 
+                        FROM [dbo].[Func]
+                        WHERE Fid=@Fid";
+            using (IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                try
+                {
+                    var func = await connection.QueryFirstOrDefaultAsync<Func>(sql, new { Fid = fid });
+                    return func;
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception(ex.Message.ToString());
+                }
+            }
         }
 
         public Task<bool> Update(Func mdoel)

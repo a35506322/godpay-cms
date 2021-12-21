@@ -35,7 +35,7 @@ namespace GodPay_CMS.Controllers
         }
 
         /// <summary>
-        /// 取得塞選功能權限
+        /// 取得篩選功能權限
         /// </summary>
         /// <param name="functionParams"></param>
         /// <returns></returns>
@@ -92,10 +92,38 @@ namespace GodPay_CMS.Controllers
             return Ok(reponse);
         }
 
+        /// <summary>
+        /// 編輯功能類別
+        /// </summary>
+        /// <param name="updateFuncClassViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> UpdateFuncClass([FromBody] UpdateFuncClassViewModel updateFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 取得所有功能
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetListOfFunc()
+        {
+            var response = await _serviceWrapper.authorityService.GetListOfFunc();
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 取得個別功能資料
+        /// </summary>
+        /// <param name="fid"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetFuncDetailById([FromQuery]string fid)
+        {
+            var response = await _serviceWrapper.authorityService.GetFuncDetailById(fid);
             return Ok(response);
         }
     }

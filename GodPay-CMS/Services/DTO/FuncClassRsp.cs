@@ -14,14 +14,17 @@ namespace GodPay_CMS.Services.DTO
         /// 功能類別代碼Code(PK)
         /// </summary>
         public string FuncClassCode { get; set; }
+
         /// <summary>
         /// 英文名子(controller)
         /// </summary>
         public string FuncClassEnName { get; set; }
+
         /// <summary>
         /// 中文名子(controller)
         /// </summary>
         public string FuncClassChName { get; set; }
+
         /// <summary>
         /// 功能(多筆)
         /// </summary>

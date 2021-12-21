@@ -55,5 +55,18 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="updateFuncClassViewModel"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> UpdateFuncClass(UpdateFuncClassViewModel updateFuncClassViewModel);
+
+        /// <summary>
+        /// 取得功能總表
+        /// </summary>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetListOfFunc();
+
+        /// <summary>
+        /// 取得個別功能資料
+        /// </summary>
+        /// <param name="fid"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetFuncDetailById(string fid);
     }
 }

@@ -119,5 +119,24 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "執行失敗" };
         }
 
+        public async Task<ResponseViewModel> GetListOfFunc()
+        {
+            var allFunc = await _repostioryWrapper.funcRepository.GetAll();
+            if (allFunc == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "查無資料" };
+            var allFuncRsp = _mapper.Map<IEnumerable<FuncRsp>>(allFunc);
+            return new ResponseViewModel() { RtnData = allFuncRsp };
+        }
+
+        public async Task<ResponseViewModel> GetFuncDetailById(string fid)
+        {
+            var intFid = Int32.Parse(fid);
+            var response = await _repostioryWrapper.funcRepository.GetById(intFid);
+            if (response == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnData = "查無資料" };
+            var funcRsp = _mapper.Map<FuncRsp>(response);
+            return new ResponseViewModel() { RtnData = response };
+        }
+
     }
 }

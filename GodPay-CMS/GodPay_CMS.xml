@@ -112,7 +112,7 @@
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFunctionFilter(GodPay_CMS.Controllers.Parameters.FunctionParams)">
             <summary>
-            取得塞選功能權限
+            取得篩選功能權限
             </summary>
             <param name="functionParams"></param>
             <returns></returns>
@@ -140,6 +140,19 @@
             取得特定功能類別
             </summary>
             <param name="funcCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.UpdateFuncClass(GodPay_CMS.Controllers.ViewModels.UpdateFuncClassViewModel)">
+            <summary>
+            編輯功能類別
+            </summary>
+            <param name="updateFuncClassViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFunc">
+            <summary>
+            取得所有功能
+            </summary>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.AuthoritySetController">
@@ -1338,6 +1351,11 @@
             角色
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncRsp.IsWebSite">
+            <summary>
+            是否出現在網站
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncRsp.FuncClassRsp">
             <summary>
             功能類別(單筆)
@@ -2003,6 +2021,12 @@
             編輯功能類別
             </summary>
             <param name="updateFuncClassViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.GetListOfFunc">
+            <summary>
+            取得功能總表
+            </summary>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.GetAll">
