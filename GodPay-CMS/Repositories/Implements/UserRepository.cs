@@ -266,7 +266,6 @@ namespace GodPay_CMS.Repositories.Implements
             postUserAndStoreReq.Func = 0;
             postUserAndStoreReq.Status = AccountStatusEnum.Activate;
             postUserAndStoreReq.CreateDate = DateTime.Now;
-            postUserAndStoreReq.CustomerId = Guid.NewGuid();
             postUserAndStoreReq.StoreId = Guid.NewGuid();
 
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))

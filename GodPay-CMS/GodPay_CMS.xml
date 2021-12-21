@@ -474,6 +474,41 @@
             公司名稱
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditKeyViewModel.UserId">
+            <summary>
+            使用者ID
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditKeyViewModel.OldKey">
+            <summary>
+            舊密碼
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditKeyViewModel.NewKey">
+            <summary>
+            新密碼
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditKeyViewModel.NewKey2">
+            <summary>
+            確認密碼
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditUserViewModel.ModifierId">
+            <summary>
+            修改人ID
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditUserViewModel.UserId">
+            <summary>
+            使用者ID
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.EditUserViewModel.Email">
+            <summary>
+            電子信箱
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncClassViewModel.FuncClassEnName">
             <summary>
             英文名字(action)
@@ -522,6 +557,11 @@
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostUserAndStoreViewModel.Email">
             <summary>
             Email
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostUserAndStoreViewModel.CustomerId">
+            <summary>
+            CustomerId
             </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostUserAndStoreViewModel.StoreName">
@@ -694,7 +734,7 @@
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel.Name">
             <summary>
-            名子
+            名字
             </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel.Department">
@@ -875,6 +915,11 @@
             User PK(FK)
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Store.StoreName">
             <summary>
             特店名稱
@@ -898,6 +943,11 @@
         <member name="P:GodPay_CMS.Repositories.Entity.Store.OwnerEmail">
             <summary>
              負責人電子信箱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.CustomerName">
+            <summary>
+            公司名稱
             </summary>
         </member>
         <member name="T:GodPay_CMS.Repositories.Entity.User">

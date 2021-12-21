@@ -1,4 +1,6 @@
-﻿namespace GodPay_CMS.Repositories.Entity
+﻿using System;
+
+namespace GodPay_CMS.Repositories.Entity
 {
     /// <summary>
     /// 特店詳細資訊
@@ -14,6 +16,11 @@
         /// User PK(FK)
         /// </summary>
         public int Uid { get; set; }
+
+        /// <summary>
+        /// CustomerId
+        /// </summary>
+        public Guid CustomerId { get; set; }
 
         /// <summary>
         /// 特店名稱
@@ -39,5 +46,10 @@
         ///  負責人電子信箱
         /// </summary>
         public string OwnerEmail { get; set; }
+
+        /// <summary>
+        /// 公司名稱
+        /// </summary>
+        public string CustomerName { get; set; }
     }
 }

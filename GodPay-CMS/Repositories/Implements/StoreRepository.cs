@@ -43,9 +43,11 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                string sqlString = @"Select *
-                                    From[dbo].[Customer_Store] A
-                                    Where A.Uid = @id";
+                string sqlString = @"Select S.*, C.CustomerName 
+                                    From [dbo].[Customer_Store] S
+                                    Join [dbo].[Customer] C
+                                    On S.CustomerId = C.CustomerId
+                                    Where S.Uid = @id";
                 var store = await connection.QuerySingleOrDefaultAsync<Store>(sqlString, new { id = id });
                 return store;
             }

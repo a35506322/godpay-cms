@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -11,7 +12,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// 帳號
         /// </summary>
         [Required]
-        [RegularExpression(@"^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$", ErrorMessage = "請至少輸入大小寫英文1位、1位數字1位及6-20位帳號")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$", ErrorMessage = "請至少輸入大小寫英文1位、數字1位及6-20位帳號")]
         public string UserId { get; set; }
 
         /// <summary>
@@ -20,6 +21,12 @@ namespace GodPay_CMS.Controllers.ViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        /// <summary>
+        /// CustomerId
+        /// </summary>
+        [Required]
+        public Guid CustomerId { get; set; }
 
         /// <summary>
         /// 特店名稱
