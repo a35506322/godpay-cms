@@ -6,39 +6,32 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
-    /// <summary>
-    /// 修改功能 View Model
-    /// </summary>
-    public class UpdateAuthorityFuncViewModel
+    public class PostFuncViewModel
     {
         /// <summary>
-        /// 流水號(PK)
+        /// 功能類別代碼(FK)
         /// </summary>
         [Required]
-        public int Fid { get; set; }
+        public string FuncClassCode { get; set; }
 
         /// <summary>
         /// 英文名字(action)
         /// </summary>
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "只能輸入英文與數字")]
         [Required]
         public string FuncEnName { get; set; }
 
         /// <summary>
         /// 中文名字(action)
         /// </summary>
+        [RegularExpression(@"^[\u4e00-\u9fa5]*$", ErrorMessage = "只能輸入中文")]
         [Required]
         public string FuncChName { get; set; }
 
         /// <summary>
-        /// 功能代碼
+        /// 是否出現在網站
         /// </summary>
         [Required]
-        public long FuncCode { get; set; }
-
-        /// <summary>
-        /// Role Value 陣列
-        /// </summary>
-        [Required]
-        public int[] RoleFlag { get; set; }
+        public bool IsWebSite { get; set; }
     }
 }

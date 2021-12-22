@@ -1,9 +1,11 @@
-﻿namespace GodPay_CMS.Services.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GodPay_CMS.Services.DTO
 {
-    /// <summary>
-    /// 功能
-    /// </summary>
-    public class FuncRsp
+    public class FuncAndFuncClassRsp
     {
         /// <summary>
         /// 流水號(PK)
@@ -14,6 +16,11 @@
         /// 功能類別代碼(FK)
         /// </summary>
         public string FuncClassCode { get; set; }
+
+        /// <summary>
+        /// 功能類別中文名字
+        /// </summary>
+        public string FuncClassChName { get; set; }
 
         /// <summary>
         /// 功能代碼
@@ -31,18 +38,8 @@
         public string FuncChName { get; set; }
 
         /// <summary>
-        /// 角色
-        /// </summary>
-        public int Role { get; set; }
-
-        /// <summary>
         /// 是否出現在網站
         /// </summary>
         public bool IsWebSite { get; set; }
-
-        /// <summary>
-        /// 功能類別(單筆)
-        /// </summary>
-        public FuncClassRsp FuncClassRsp { get; set; }
     }
 }

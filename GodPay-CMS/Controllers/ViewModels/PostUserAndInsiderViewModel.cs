@@ -28,7 +28,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         public string Email { get; set; }
 
         /// <summary>
-        /// 名子
+        /// 名字
         /// </summary>
         [Required]
         public string Name { get; set; }

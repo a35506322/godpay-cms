@@ -14,6 +14,7 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <returns></returns>
         public Task<IEnumerable<Func>> GetByFuncClassAndFunc();
+
         /// <summary>
         /// 批次修改RoleFlag
         /// </summary>

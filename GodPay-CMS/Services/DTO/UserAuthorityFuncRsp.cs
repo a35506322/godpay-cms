@@ -16,11 +16,11 @@ namespace GodPay_CMS.Services.DTO
         /// </summary>
         public long FuncCode { get; set; }
         /// <summary>
-        /// 英文名子(action)
+        /// 英文名字(action)
         /// </summary>
         public string FuncEnName { get; set; }
         /// <summary>
-        /// 中文名子(action)
+        /// 中文名字(action)
         /// </summary>
         public string FuncChName { get; set; }
         /// <summary>

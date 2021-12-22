@@ -188,7 +188,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(exception.Message.ToString());
+                        throw exception;
                     }
                     return result;
                 }
@@ -252,7 +252,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(exception.Message.ToString());
+                        throw exception;
                     }
                 }
                 return result;
@@ -308,7 +308,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(exception.Message.ToString());
+                        throw exception;
                     }
                     return result;
                 }
@@ -411,7 +411,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception(ex.Message.ToString());
+                        throw ex;
                     }
                     return result;
                 }
@@ -449,7 +449,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception(ex.Message.ToString());
+                        throw ex;
                     }
                 }
                 return result;

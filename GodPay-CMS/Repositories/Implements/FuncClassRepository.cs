@@ -47,7 +47,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception(ex.Message.ToString());
+                        throw ex;
                     }
                     return result;
                 }
@@ -63,17 +63,10 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                try
-                {
-                    string sql = @"SELECT *
+                string sql = @"SELECT *
                               FROM [IPASS].[dbo].[FuncClass]";
-                    var funcClass = await connection.QueryAsync<FuncClass>(sql);
-                    return funcClass.ToList();
-                }
-                catch(Exception ex)
-                {
-                    throw new Exception(ex.Message.ToString());
-                }
+                var funcClass = await connection.QueryAsync<FuncClass>(sql);
+                return funcClass.ToList();
             }             
         }
 
@@ -81,17 +74,11 @@ namespace GodPay_CMS.Repositories.Implements
         {
             string sql = @"SELECT * FROM [IPASS].[dbo].[FuncClass]
                          WHERE FuncClassCode=@funcClassCode";
-            using (IDbConnection connection =new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                try
-                {
-                    var funcClass = await connection.QuerySingleOrDefaultAsync<FuncClass>(sql,new { FuncClassCode = funcClassCode });
-                    return funcClass;
-                }
-                catch(Exception ex)
-                {
-                    throw new Exception(ex.Message.ToString());
-                }
+
+                var funcClass = await connection.QuerySingleOrDefaultAsync<FuncClass>(sql, new { FuncClassCode = funcClassCode });
+                return funcClass;
             }
         }
 
@@ -105,18 +92,18 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 connection.Open();
-                using(var tran = connection.BeginTransaction())
+                using (var tran = connection.BeginTransaction())
                 {
                     try
                     {
-                        var rowCounts = await connection.ExecuteAsync(sql, funcClass, transaction: tran);
-                        if (rowCounts > 0) { result = true; }
-                        tran.Commit();
+                    var rowCounts = await connection.ExecuteAsync(sql, funcClass, transaction: tran);
+                    if (rowCounts > 0) { result = true; }
+                    tran.Commit();
                     }
                     catch(Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception(ex.Message.ToString());
+                        throw ex;
                     }
                 }
                 return result;

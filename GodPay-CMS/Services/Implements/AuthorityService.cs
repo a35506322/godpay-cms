@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
@@ -121,22 +122,46 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> GetListOfFunc()
         {
-            var allFunc = await _repostioryWrapper.funcRepository.GetAll();
+            var allFunc = await _repostioryWrapper.funcRepository.GetByFuncClassAndFunc();
             if (allFunc == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnData = "查無資料" };
-            var allFuncRsp = _mapper.Map<IEnumerable<FuncRsp>>(allFunc);
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnData = "查無資料" };
+            var allFuncRsp = _mapper.Map<IEnumerable<FuncAndFuncClassRsp>>(allFunc);
             return new ResponseViewModel() { RtnData = allFuncRsp };
         }
 
-        public async Task<ResponseViewModel> GetFuncDetailById(string fid)
+        public async Task<ResponseViewModel> GetFuncDetailById(int fid)
         {
-            var intFid = Int32.Parse(fid);
-            var response = await _repostioryWrapper.funcRepository.GetById(intFid);
+            var response = await _repostioryWrapper.funcRepository.GetById(fid);
             if (response == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnData = "查無資料" };
             var funcRsp = _mapper.Map<FuncRsp>(response);
             return new ResponseViewModel() { RtnData = response };
         }
 
+        public async Task<ResponseViewModel> UpdateFunc(UpdateFuncViewModel updateFuncViewModel)
+        {
+            var isExsit = _repostioryWrapper.funcClassRepository.GetById(updateFuncViewModel.FuncClassCode);
+            if (isExsit == null)
+                return new ResponseViewModel { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "此代碼並不存在" };
+            updateFuncViewModel.FuncEnName = updateFuncViewModel.FuncEnName.ToUpperForFirst();           
+            var func = _mapper.Map<Func>(updateFuncViewModel);
+            var response = await _repostioryWrapper.funcRepository.Update(func);
+            if(response)
+                return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "修改成功" };
+            return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "執行失敗" };
+        }
+
+        public async Task<ResponseViewModel> PostFunc(PostFuncViewModel postFuncViewModel)
+        {
+            var isExsit = _repostioryWrapper.funcClassRepository.GetById(postFuncViewModel.FuncClassCode);
+            if(isExsit==null)
+                return new ResponseViewModel { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "此代碼並不存在" };
+            postFuncViewModel.FuncEnName = postFuncViewModel.FuncEnName.ToUpperForFirst();
+            var func = _mapper.Map<Func>(postFuncViewModel);
+            var response = await _repostioryWrapper.funcRepository.Add(func);
+            if (response)
+                return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "新增成功" };
+            return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "執行失敗" };
+        }
     }
 }

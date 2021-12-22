@@ -19,7 +19,7 @@ namespace GodPay_CMS.Repositories.Entity
         /// </summary>
         public int Uid { get; set; }
         /// <summary>
-        /// 名子
+        /// 名字
         /// </summary>
         public string Name { get; set; }
         /// <summary>

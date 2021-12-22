@@ -15,7 +15,7 @@ namespace GodPay_CMS.Common.Profiles
         public FuncProfile()
         {
             CreateMap<Func, FuncRsp>()
-                // 名子不同記得轉換
+                // 名字不同記得轉換
                 .ForMember(n => n.FuncClassRsp, o => o.MapFrom(o => o.FuncClass));
             CreateMap<Func, AuthorityFuncRsp>()
                 .ForMember(n => n.RoleFlag, o => o.MapFrom(o => Enum.GetValues(typeof(RoleEnum))
@@ -25,6 +25,11 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<UpdateAuthorityFuncViewModel, UpdateRoleAuthorityReq>()
                 .ForMember(n => n.RoleFlag, o => o.MapFrom(o => o.RoleFlag.Sum()));
             CreateMap<Func, UpdateRoleAuthorityReq>();
+            CreateMap<UpdateFuncViewModel, Func>();
+            CreateMap<PostFuncViewModel, Func>()
+                .ForMember(n=>n.RoleFlag,o=>o.MapFrom(o=>0));
+            CreateMap<Func, FuncAndFuncClassRsp>()
+                .ForMember(n => n.FuncClassChName, o => o.MapFrom(o => o.FuncClass.FuncClassChName));
         }
     }
 }

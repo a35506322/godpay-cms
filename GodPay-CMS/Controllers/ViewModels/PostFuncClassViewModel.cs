@@ -14,6 +14,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 中文名字(action)
         /// </summary>
+        [RegularExpression(@"^[\u4e00-\u9fa5]*$", ErrorMessage = "只能輸入中文")]
         [Required]
         public string FuncClassChName { get; set; }
     }

@@ -67,6 +67,21 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <param name="fid"></param>
         /// <returns></returns>
-        public Task<ResponseViewModel> GetFuncDetailById(string fid);
+        public Task<ResponseViewModel> GetFuncDetailById(int fid);
+
+        /// <summary>
+        /// 修改功能
+        /// </summary>
+        /// <param name="updateFuncViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> UpdateFunc(UpdateFuncViewModel updateFuncViewModel);
+
+        /// <summary>
+        /// 新增功能
+        /// </summary>
+        /// <param name="postFuncViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> PostFunc(PostFuncViewModel postFuncViewModel);
+
     }
 }

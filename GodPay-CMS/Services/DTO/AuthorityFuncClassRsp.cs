@@ -11,11 +11,11 @@ namespace GodPay_CMS.Services.DTO
     public class AuthorityFuncClassRsp
     {
         /// <summary>
-        /// 英文名子(controller)
+        /// 英文名字(controller)
         /// </summary>
         public string FuncClassEnName { get; set; }
         /// <summary>
-        /// 中文名子(controller)
+        /// 中文名字(controller)
         /// </summary>
         public string FuncClassChName { get; set; }
         /// <summary>

@@ -11,7 +11,7 @@ namespace GodPay_CMS.Controllers.Parameters
     public class FunctionParams
     {
         /// <summary>
-        /// 英文名子(controller)
+        /// 英文名字(controller)
         /// </summary>
         public string FuncClassEnName { get; set; }
         /// <summary>

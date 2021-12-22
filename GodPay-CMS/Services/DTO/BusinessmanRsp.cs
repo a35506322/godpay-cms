@@ -28,7 +28,7 @@ namespace GodPay_CMS.Services.DTO
         /// </summary>
         public AccountStatusEnum Status { get; set; }
         /// <summary>
-        /// 名子
+        /// 名字
         /// </summary>
         public string Name { get; set; }
         /// <summary>

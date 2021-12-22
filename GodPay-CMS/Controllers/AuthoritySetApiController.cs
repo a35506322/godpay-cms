@@ -97,7 +97,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <param name="updateFuncClassViewModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> UpdateFuncClass([FromBody] UpdateFuncClassViewModel updateFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);
@@ -121,10 +121,35 @@ namespace GodPay_CMS.Controllers
         /// <param name="fid">流水號</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetFuncDetailById([FromQuery]string fid)
+        public async Task<IActionResult> GetFuncDetailById([FromQuery]int fid)
         {
             var response = await _serviceWrapper.authorityService.GetFuncDetailById(fid);
             return Ok(response);
         }
+
+        /// <summary>
+        /// 修改功能
+        /// </summary>
+        /// <param name="updateFuncViewModel"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> UpdateFunc([FromBody] UpdateFuncViewModel updateFuncViewModel)
+        {
+            var response = await _serviceWrapper.authorityService.UpdateFunc(updateFuncViewModel);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 新增功能
+        /// </summary>
+        /// <param name="postFuncViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> PostFunc([FromBody]PostFuncViewModel postFuncViewModel)
+        {
+            var response = await _serviceWrapper.authorityService.PostFunc(postFuncViewModel);
+            return Ok(response);
+        }
+
     }
 }

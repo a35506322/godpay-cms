@@ -79,7 +79,7 @@ export default {
                                 <h5 class="w-98 fs-4 fw-bold border-bottom border-2 border-gray py-1">詳細資料</h5>
                             </div>
                             <div class="col-md-6">
-                                <label for="Name" class="form-label">名子</label>
+                                <label for="Name" class="form-label">名字</label>
                                 <v-field type="text" class="p-inputtext p-component form-control" id="Name" v-model="tempModel.Name"
                                 rules="required" name="Name" v-bind:class="[{'is-invalid':errors['Name']||modelStateError['Name']}]"></v-field>
                                 <error-message name="Name" class="invalid-feedback"></error-message>

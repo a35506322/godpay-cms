@@ -155,11 +155,25 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetFuncDetailById(System.String)">
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetFuncDetailById(System.Int32)">
             <summary>
             取得個別功能資料
             </summary>
             <param name="fid">流水號</param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.UpdateFunc(GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel)">
+            <summary>
+            修改功能
+            </summary>
+            <param name="updateFuncViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.PostFunc(GodPay_CMS.Controllers.ViewModels.PostFuncViewModel)">
+            <summary>
+            新增功能
+            </summary>
+            <param name="postFuncViewModel"></param>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.AuthoritySetController">
@@ -328,7 +342,7 @@
         </member>
         <member name="P:GodPay_CMS.Controllers.Parameters.FunctionParams.FuncClassEnName">
             <summary>
-            英文名子(controller)
+            英文名字(controller)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.Parameters.FunctionParams.IsWebSite">
@@ -539,6 +553,26 @@
             中文名字(action)
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncViewModel.FuncClassCode">
+            <summary>
+            功能類別代碼(FK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncViewModel.FuncEnName">
+            <summary>
+            英文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncViewModel.FuncChName">
+            <summary>
+            中文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncViewModel.IsWebSite">
+            <summary>
+            是否出現在網站
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel">
             <summary>
             User And Insider ViewModal
@@ -556,7 +590,7 @@
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel.Name">
             <summary>
-            名子
+            名字
             </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel.Department">
@@ -694,12 +728,12 @@
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateAuthorityFuncViewModel.FuncEnName">
             <summary>
-            英文名子(action)
+            英文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateAuthorityFuncViewModel.FuncChName">
             <summary>
-            中文名子(action)
+            中文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateAuthorityFuncViewModel.FuncCode">
@@ -725,6 +759,31 @@
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncClassViewModel.FuncClassChName">
             <summary>
             中文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.Fid">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.FuncClassCode">
+            <summary>
+            功能類別代碼(FK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.FuncEnName">
+            <summary>
+            英文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.FuncChName">
+            <summary>
+            中文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.IsWebSite">
+            <summary>
+            是否出現在網站
             </summary>
         </member>
         <member name="T:GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel">
@@ -842,12 +901,12 @@
         </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Func.FuncEnName">
             <summary>
-            英文名子(action)
+            英文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Func.FuncChName">
             <summary>
-            中文名子(action)
+            中文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Func.RoleFlag">
@@ -907,7 +966,7 @@
         </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Insider.Name">
             <summary>
-            名子
+            名字
             </summary>
         </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Insider.Department">
@@ -1230,12 +1289,12 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncClassRsp.FuncClassEnName">
             <summary>
-            英文名子(controller)
+            英文名字(controller)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncClassRsp.FuncClassChName">
             <summary>
-            中文名子(controller)
+            中文名字(controller)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncClassRsp.Functions">
@@ -1255,12 +1314,12 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncRsp.FuncEnName">
             <summary>
-            英文名子(action)
+            英文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncRsp.FuncChName">
             <summary>
-            中文名子(action)
+            中文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncRsp.FuncCode">
@@ -1300,12 +1359,47 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Name">
             <summary>
-            名子
+            名字
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Department">
             <summary>
             部門
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.Fid">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.FuncClassCode">
+            <summary>
+            功能類別代碼(FK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.FuncClassChName">
+            <summary>
+            功能類別中文名字
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.FuncCode">
+            <summary>
+            功能代碼
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.FuncEnName">
+            <summary>
+            英文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.FuncChName">
+            <summary>
+            中文名字(action)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.IsWebSite">
+            <summary>
+            是否出現在網站
             </summary>
         </member>
         <member name="T:GodPay_CMS.Services.DTO.FuncClassRsp">
@@ -1320,12 +1414,12 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncClassRsp.FuncClassEnName">
             <summary>
-            英文名子(controller)
+            英文名字(controller)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncClassRsp.FuncClassChName">
             <summary>
-            中文名子(controller)
+            中文名字(controller)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncClassRsp.FuncRsps">
@@ -1355,12 +1449,12 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncRsp.FuncEnName">
             <summary>
-            英文名子(action)
+            英文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncRsp.FuncChName">
             <summary>
-            中文名子(action)
+            中文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncRsp.Role">
@@ -1395,7 +1489,7 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.GetFuncFilterReq.FuncClassEnName">
             <summary>
-            英文名子(controller)
+            英文名字(controller)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.GetRoleAuthorityReq.Role">
@@ -1450,7 +1544,7 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.PostUserAndInsiderReq.Name">
             <summary>
-            名子
+            名字
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.PostUserAndInsiderReq.Department">
@@ -1675,7 +1769,7 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UpdateUserAndInsiderReq.Name">
             <summary>
-            名子
+            名字
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UpdateUserAndInsiderReq.Department">
@@ -1806,12 +1900,12 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UserAuthorityFuncRsp.FuncEnName">
             <summary>
-            英文名子(action)
+            英文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UserAuthorityFuncRsp.FuncChName">
             <summary>
-            中文名子(action)
+            中文名字(action)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UserAuthorityFuncRsp.IsAuthority">
@@ -2066,11 +2160,25 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.GetFuncDetailById(System.String)">
+        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.GetFuncDetailById(System.Int32)">
             <summary>
             取得個別功能資料
             </summary>
             <param name="fid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.UpdateFunc(GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel)">
+            <summary>
+            修改功能
+            </summary>
+            <param name="updateFuncViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.PostFunc(GodPay_CMS.Controllers.ViewModels.PostFuncViewModel)">
+            <summary>
+            新增功能
+            </summary>
+            <param name="postFuncViewModel"></param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.ICustomerService.GetAll">

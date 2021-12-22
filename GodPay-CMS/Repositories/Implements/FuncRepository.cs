@@ -30,9 +30,30 @@ namespace GodPay_CMS.Repositories.Implements
             _settings = settings;
         }
 
-        public Task<bool> Add(Func model)
+        public async Task<bool> Add(Func model)
         {
-            throw new NotImplementedException();
+            bool result=false;
+            string sql = @"INSERT INTO [dbo].[Func](FuncClassCode,FuncEnName,FuncChName,RoleFlag,IsWebSite)
+                         VALUES(@FuncClassCode,@FuncEnName,@FuncChName,@RoleFlag,@IsWebSite)";
+            using(IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                connection.Open();
+                using(var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var response = await connection.ExecuteAsync(sql, model, transaction: tran);
+                        if (response > 0) { result = true; }
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message.ToString());
+                    }
+                    return result;                
+                }
+            }
         }
 
         public Task<bool> Delete(int id)
@@ -44,60 +65,67 @@ namespace GodPay_CMS.Repositories.Implements
         {
             string sql = @"SELECT * 
                          FROM [dbo].[Func]";
-            using(IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                try
-                {
-                    var func = await connection.QueryAsync<Func>(sql);
-                    return func.ToList();
-                }
-                catch(Exception ex)
-                {
-                    throw new Exception(ex.Message.ToString());
-                }
+                var func = await connection.QueryAsync<Func>(sql);
+                return func.ToList();
             }
         }
+
         public async Task<Func> GetById(int fid)
         {
             string sql = @"SELECT * 
                         FROM [dbo].[Func]
                         WHERE Fid=@Fid";
-            using (IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                try
-                {
-                    var func = await connection.QueryFirstOrDefaultAsync<Func>(sql, new { Fid = fid });
-                    return func;
-                }
-                catch(Exception ex)
-                {
-                    throw new Exception(ex.Message.ToString());
-                }
+                var func = await connection.QueryFirstOrDefaultAsync<Func>(sql, new { Fid = fid });
+                return func;
             }
         }
 
-        public Task<bool> Update(Func mdoel)
+        public async Task<bool> Update(Func func)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            string sql = @"UPDATE [dbo].[Func]
+                           SET FuncClassCode=@FuncClassCode,
+                               FuncEnName=@FuncEnName,
+                               FuncChName=@FuncChName,
+                               IsWebSite=@IsWebSite
+                           WHERE Fid=@Fid";
+            using(IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var rowCount = await connection.ExecuteAsync(sql, func, transaction: tran);
+                        if (rowCount > 0) { result = true; }
+                        tran.Commit();
+                    }
+                    catch(Exception ex)
+                    {
+                        tran.Rollback();
+                            throw ex;
+                    }
+                }
+                return result;
+            }
         }
 
         public async Task<IEnumerable<Func>> GetByFuncClassAndFunc()
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                var Role = (RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
-
                 string sqlString = @"Select * 
                                     From [dbo].[Func] A
-                                    Join [dbo].[FuncClass]	B on A.FuncClassCode = B.FuncClassCode
-                                    Where A.Role = @Role ";
-
+                                    Join [dbo].[FuncClass]	B on A.FuncClassCode = B.FuncClassCode";
                 var funcs = await _connection.QueryAsync<Func, FuncClass, Func>(sqlString, (func, funcClass) =>
                 {
                     func.FuncClass = funcClass;
                     return func;
-                }, new { Role = Role }, splitOn: "FuncClassCode");
-
+                }, splitOn: "FuncClassCode");
                 return funcs;
             }
         }
