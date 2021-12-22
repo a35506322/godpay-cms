@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -22,6 +23,12 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// </summary>
         [Required]
         public string Status { get; set; }
+
+        /// <summary>
+        /// CustomerId
+        /// </summary>
+        [Required]
+        public string CustomerId { get; set; }
 
         /// <summary>
         /// 特店名稱

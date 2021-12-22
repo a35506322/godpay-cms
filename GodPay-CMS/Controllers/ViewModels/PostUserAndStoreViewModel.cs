@@ -26,7 +26,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// CustomerId
         /// </summary>
         [Required]
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         /// <summary>
         /// 特店名稱
