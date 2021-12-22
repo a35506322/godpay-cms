@@ -11,10 +11,19 @@ namespace GodPay_CMS.Controllers
     public class ProfileController : Controller
     {
         /// <summary>
-        /// 單筆首頁
+        /// 帳號
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 特店資訊
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Store()
         {
             return View();
         }

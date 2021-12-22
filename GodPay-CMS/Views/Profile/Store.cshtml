@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "特店資訊";
+}
+<div class="row p-3">
+    <div class="col-12">
+        <div class="card vh-90">
+            <div class="card-body">
+                <div class="col-12 mb-5">
+                    <div class="d-flex justify-content-end">
+                        <p-button type="button" icon="pi pi-user-edit" class="me-1 px-2" v-tooltip.top="'編輯特店資訊'"></p-button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <table class="table table-responsive table-hover">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">公司名稱</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control-plaintext outline-none">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">特店名稱</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control-plaintext outline-none">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">統一編號</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control-plaintext outline-none">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">負責人</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control-plaintext outline-none">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">負責人地址</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control-plaintext outline-none">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">負責人Email</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" readonly class="form-control-plaintext outline-none">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @section Vue
+    {
+
+        import {} from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+        const app = Vue.createApp({
+            components: {
+            },
+            data: function () {
+                return {
+                
+                }
+            },
+            created: function () {
+
+            },
+            methods: {
+
+            }
+        })
+    }
+</script>
