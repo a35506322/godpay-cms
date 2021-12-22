@@ -18,14 +18,14 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="signinReq"></param>
         /// <returns></returns>
-        public Task<User> GetByUserIdAndUserKey(SigninReq signinReq);
+        public Task<User> GetByUserIdAndUserKey(User user);
 
         /// <summary>
         /// 紀錄登入時間
         /// </summary>
         /// <param name="signinReq"></param>
         /// <returns></returns>
-        public Task<int> UpdateLoginTime(SigninReq signinReq);
+        public Task<int> UpdateLoginTime(User userReq);
 
         /// <summary>
         /// 以帳號取得使用者資訊
@@ -107,6 +107,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="updateUserAuthorityReq"></param>
         /// <returns></returns>
-        public Task<bool> UpdateUserAuthority(UpdateUserAuthorityReq updateUserAuthorityReq);
+        public Task<bool> UpdateUserAuthority(User updateUserAuthorityReq);
     }
 }

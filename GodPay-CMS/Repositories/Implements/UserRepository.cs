@@ -57,16 +57,16 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetByUserIdAndUserKey(SigninReq signinReq)
+        public async Task<User> GetByUserIdAndUserKey(User userReq)
         {
-            signinReq.UserKey = RNGCrypto.HMACSHA256(signinReq.UserKey, signinReq.UserId);
+            userReq.UserKey = RNGCrypto.HMACSHA256(userReq.UserKey, userReq.UserId);
 
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"SELECT * FROM [dbo].[User] 
                                WHERE UserId = @UserId 
                                AND UserKey  = @UserKey";
-                var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, signinReq);
+                var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, userReq);
 
                 if (entity == null)
                     return null;
@@ -75,7 +75,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<int> UpdateLoginTime(SigninReq signinReq)
+        public async Task<int> UpdateLoginTime(User userReq)
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -83,7 +83,7 @@ namespace GodPay_CMS.Repositories.Implements
                                 SET LastLoginDate = GETDATE()
                                 WHERE UserId = @UserId";
 
-                var entity = await _connection.ExecuteAsync(sql, signinReq);
+                var entity = await _connection.ExecuteAsync(sql, userReq);
                 return entity;
             }
         }
@@ -261,13 +261,6 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq)
         {
-            postUserAndStoreReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndStoreReq.UserId);
-            postUserAndStoreReq.Role = RoleEnum.Store;
-            postUserAndStoreReq.Func = 0;
-            postUserAndStoreReq.Status = AccountStatusEnum.Activate;
-            postUserAndStoreReq.CreateDate = DateTime.Now;
-            postUserAndStoreReq.StoreId = Guid.NewGuid();
-
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 // 新增User主表
@@ -276,24 +269,9 @@ namespace GodPay_CMS.Repositories.Implements
 
                 // 新增特店詳細資料子表
                 sqlString += @"Insert Into [dbo].[Customer_Store] (Uid,CustomerId,StoreId,StoreName,TaxId,Owner,Address,Risk,TransLimit,OwnerEmail)
-                                Select A.Uid,@CustomerId,@StoreId,'','','','','B',500000.0000,''
+                                Select A.Uid,@CustomerId,@StoreId,@StoreName,@TaxId,@Owner,@Address,'B',500000.0000,@OwnerEmail
                                 From [dbo].[User] A
                                 Where A.UserId = @UserId;";
-
-                sqlString += @"Update T
-                                Set T.StoreName = @StoreName,
-	                                T.TaxId = @TaxId,
-	                                T.Owner = @Owner,
-	                                T.Address = @Address,
-	                                T.OwnerEmail = @OwnerEmail
-                                From
-                                (
-	                                Select *
-	                                From [dbo].[Customer_Store] A
-	                                Where A.Uid = (Select A.Uid
-					                                From [dbo].[User] A
-					                                Where A.UserId = @UserId)
-                                )T;";
 
                 connection.Open();
                 bool result = false;
@@ -361,16 +339,13 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     user.Store = store;
                     return user;
-                }, new { userId = userId }, splitOn: "Uid");
+                }, new { userId = userId }, splitOn: "SeqNo");
                 return users;
             }
         }
 
         public async Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq)
         {
-            updateUserAndStoreReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            updateUserAndStoreReq.LastModifyDate = DateTime.Now;
-
             string sql = @"Update T
                                     SET T.Status = @Status,
 	                                    T.Email = @Email,
@@ -388,10 +363,11 @@ namespace GodPay_CMS.Repositories.Implements
 	                                    T2.TaxId = @TaxId,
                                         T2.Owner = @Owner,
                                         T2.Address = @Address,
-                                        T2.OwnerEmail = @OwnerEmail
+                                        T2.OwnerEmail = @OwnerEmail,
+                                        T2.CustomerId = @CustomerId
                                     From
                                     (
-                                        Select S.StoreName, S.TaxId, S.Owner, S.Address, S.OwnerEmail
+                                        Select S.StoreName, S.TaxId, S.Owner, S.Address, S.OwnerEmail,S.CustomerId
                                         From [dbo].[Customer_Store] S
                                         Where S.Uid = @Uid
                                     )T2;";
@@ -418,11 +394,8 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> UpdateUserAuthority(UpdateUserAuthorityReq updateUserAuthorityReq)
+        public async Task<bool> UpdateUserAuthority(User updateUserAuthorityReq)
         {
-            updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            updateUserAuthorityReq.LastModifyDate = DateTime.Now;
-
             string sqlString = @"Update T
                                 Set	T.Func = @Func,
                                         T.LastModifier = @LastModifier,
