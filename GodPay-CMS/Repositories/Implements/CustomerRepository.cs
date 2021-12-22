@@ -67,29 +67,43 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<int> AddCustomer(CustomerReq customerReq)
+        public async Task<bool> Add(Customer model)
         {
-            customerReq.CustomerId = Guid.NewGuid();
-            customerReq.SecretKey = _decipherHelper.SHA256(customerReq.CustomerId.ToString() + DateTime.Now);
+            bool result = false;
+            model.CustomerId = Guid.NewGuid();
+            model.SecretKey = _decipherHelper.SHA256(model.CustomerId.ToString() + DateTime.Now);
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"Insert Into [dbo].[Customer] (CustomerId,CustomerName,SecretKey)
                                     Values (@CustomerId,@CustomerName,@SecretKey)";
-                var count = await _connection.ExecuteAsync(sql, customerReq);
-                return count;
+                var count = await _connection.ExecuteAsync(sql, model);
+                if (count > 0) { result = true; }
+                return result;
             }
         }
 
-        public async Task<int> EditCustomer(CustomerReq customerReq)
+        public async Task<bool> Update(Customer mdoel)
         {
+            bool result = false;
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"UPDATE [dbo].[Customer]
                                 SET CustomerName = @CustomerName
                                 WHERE SeqNo = @SeqNo";
-                var count = await _connection.ExecuteAsync(sql, customerReq);
-                return count;
+                var count = await _connection.ExecuteAsync(sql, mdoel);
+                if (count > 0) { result = true; }
+                return result;
             }
+        }
+
+        public Task<Customer> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

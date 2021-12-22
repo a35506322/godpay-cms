@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Interfaces
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IGenericRepository<Customer>, IGenericRepositoryById<Customer, int>
     {
-        public Task<IEnumerable<Customer>> GetAll();
         public Task<Customer> Get(CustomerParams customerParams);
         public Task<Customer> Get(string customerName);
-        public Task<int> AddCustomer(CustomerReq customerReq);
-        public Task<int> EditCustomer(CustomerReq customerReq);
     }
 }
