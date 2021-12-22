@@ -9,7 +9,7 @@ namespace GodPay_CMS.Services.DTO
     /// <summary>
     /// 業務篩選資料
     /// </summary>
-    public class BusinessmanRsp
+    public class ManagerRsp
     {
         /// <summary>
         /// 流水號(PK)
@@ -28,7 +28,7 @@ namespace GodPay_CMS.Services.DTO
         /// </summary>
         public AccountStatusEnum Status { get; set; }
         /// <summary>
-        /// 名字
+        /// 名子
         /// </summary>
         public string Name { get; set; }
         /// <summary>

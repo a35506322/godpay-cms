@@ -43,8 +43,14 @@ namespace GodPay_CMS.Services.DTO
         /// </summary>
         public DateTime CreateDate { get; set; }
 
+        /// <summary>
+        /// 公司Id
+        /// </summary>
         public Guid CustomerId { get; set; }
 
+        /// <summary>
+        /// 特店Id
+        /// </summary>
         public Guid StoreId { get; set; }
 
         /// <summary>

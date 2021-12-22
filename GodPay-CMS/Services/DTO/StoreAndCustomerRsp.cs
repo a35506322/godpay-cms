@@ -1,38 +1,26 @@
-﻿using GodPay_CMS.Common.Enums;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {
-    public class StoreParticularsRsp
+    public class StoreAndCustomerRsp
     {
         /// <summary>
-        /// 流水號
+        /// 流水號(PK)
         /// </summary>
         public int SeqNo { get; set; }
 
         /// <summary>
-        /// 特約商店代表ID
+        /// User PK(FK)
         /// </summary>
         public int Uid { get; set; }
 
         /// <summary>
-        /// 特約商店代表Eamil
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        /// 目前狀態
-        /// </summary>
-        public AccountStatusEnum Status { get; set; }
-        /// <summary>
-        /// 公司名稱
+        /// CustomerId
         /// </summary>
         public Guid CustomerId { get; set; }
-
-        /// <summary>
-        /// StoreId
-        /// </summary>
-        public Guid StoreId { get; set; }
 
         /// <summary>
         /// 特店名稱
@@ -45,18 +33,33 @@ namespace GodPay_CMS.Services.DTO
         public string TaxId { get; set; }
 
         /// <summary>
-        /// 負責人
+        ///  負責人
         /// </summary>
         public string Owner { get; set; }
 
         /// <summary>
-        /// 公司地址
+        ///  公司地址
         /// </summary>
         public string Address { get; set; }
 
         /// <summary>
-        /// 負責人電子信箱
+        ///  負責人電子信箱
         /// </summary>
         public string OwnerEmail { get; set; }
+
+        /// <summary>
+        /// 風險等級
+        /// </summary>
+        public string Risk { get; set; }
+
+        /// <summary>
+        /// 限制額度
+        /// </summary>
+        public decimal? TransLimit { get; set; }
+
+        /// <summary>
+        /// 公司名稱
+        /// </summary>
+        public string CustomerName { get; set; }
     }
 }
