@@ -1,4 +1,5 @@
 ﻿using GodPay_CMS.Common.Enums;
+using System;
 
 namespace GodPay_CMS.Services.DTO
 {
@@ -23,6 +24,16 @@ namespace GodPay_CMS.Services.DTO
         /// 目前狀態
         /// </summary>
         public AccountStatusEnum Status { get; set; }
+
+        /// <summary>
+        /// CustomerId
+        /// </summary>
+        public Guid CustomerId { get; set; }
+
+        /// <summary>
+        /// StoreId
+        /// </summary>
+        public Guid StoreId { get; set; }
 
         /// <summary>
         /// 特店名稱

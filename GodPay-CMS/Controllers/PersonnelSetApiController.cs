@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,5 +18,15 @@ namespace GodPay_CMS.Controllers
             _serviceWrapper = serviceWrapper;
         }
 
+        /// <summary>
+        /// 取得特店的特店人員
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetStorePersonnels()
+        {
+            var response = await _serviceWrapper.personnelService.GetAllPersonnelByStore();
+            return Ok(response);
+        }
     }
 }

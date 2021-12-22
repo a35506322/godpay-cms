@@ -10,20 +10,23 @@ namespace GodPay_CMS.Repositories.Implements
         private readonly IInsiderRepository _insiderRepository;
         private readonly IStoreRepository _storeRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IPersonnelRepository _personnelRepository;
 
         public RepostioryWrapper(IUserRepository userRepository,
-                                IFuncRepository funcRepository, 
-                                IFuncClassRepository funcClassRepository, 
+                                IFuncRepository funcRepository,
+                                IFuncClassRepository funcClassRepository,
                                 IInsiderRepository insiderRepository,
                                 IStoreRepository storeRepository,
-                                ICustomerRepository customerRepository)
+                                ICustomerRepository customerRepository,
+                                IPersonnelRepository personnelRepository)
         {
-            _userRepository         = userRepository;
-            _funcRepository         = funcRepository;
-            _funcClassRepository    = funcClassRepository;
-            _insiderRepository      = insiderRepository;
-            _storeRepository        = storeRepository;
+            _userRepository = userRepository;
+            _funcRepository = funcRepository;
+            _funcClassRepository = funcClassRepository;
+            _insiderRepository = insiderRepository;
+            _storeRepository = storeRepository;
             _customerRepository = customerRepository;
+            _personnelRepository = personnelRepository;
         }
 
         public IUserRepository userRepository => _userRepository;
@@ -37,5 +40,7 @@ namespace GodPay_CMS.Repositories.Implements
         public IStoreRepository storeRepository => _storeRepository;
 
         public ICustomerRepository customerRepository => _customerRepository;
+
+        public IPersonnelRepository personnelRepository => _personnelRepository;
     }
 }

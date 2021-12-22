@@ -57,6 +57,7 @@ namespace GodPay_CMS
             services.AddScoped<IInsiderRepository, InsiderRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IPersonnelRepository, PersonnelRepository>();
 
             // Service
             services.AddScoped<IServiceWrapper, ServiceWrapper>();
@@ -68,6 +69,7 @@ namespace GodPay_CMS
             services.AddScoped<IEnumService, EnumService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IPersonnelService, PersonnelService>();
 
             //Helper
             services.AddSingleton<IDecipherHelper, DecipherHelper>();

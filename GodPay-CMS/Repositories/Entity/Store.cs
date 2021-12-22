@@ -23,6 +23,11 @@ namespace GodPay_CMS.Repositories.Entity
         public Guid CustomerId { get; set; }
 
         /// <summary>
+        /// StoreId
+        /// </summary>
+        public Guid StoreId { get; set; }
+
+        /// <summary>
         /// 特店名稱
         /// </summary>
         public string StoreName { get; set; }

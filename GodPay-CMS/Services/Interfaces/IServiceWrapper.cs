@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace GodPay_CMS.Services.Interfaces
+﻿namespace GodPay_CMS.Services.Interfaces
 {
     public interface IServiceWrapper
     {
@@ -12,5 +10,6 @@ namespace GodPay_CMS.Services.Interfaces
         public IEnumService enumService { get; }
         public ICustomerService customerService { get; }
         public ITagService itagService { get; }
+        public IPersonnelService personnelService { get; }
     }
 }

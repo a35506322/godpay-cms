@@ -370,6 +370,28 @@
             目前狀態
             </summary>
         </member>
+        <member name="T:GodPay_CMS.Controllers.PersonnelSetApiController">
+            <summary>
+            特店人員管理API
+            </summary>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.PersonnelSetApiController.GetStorePersonnels">
+            <summary>
+            取得特店的特店人員
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GodPay_CMS.Controllers.PersonnelSetController">
+            <summary>
+            特店人員管理頁面
+            </summary>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.PersonnelSetController.Index">
+            <summary>
+            特店人員首頁
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Controllers.ProfileApiController">
             <summary>
             使用者管理Api
@@ -997,6 +1019,11 @@
         <member name="P:GodPay_CMS.Repositories.Entity.Store.CustomerId">
             <summary>
             CustomerId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.StoreId">
+            <summary>
+            StoreId
             </summary>
         </member>
         <member name="P:GodPay_CMS.Repositories.Entity.Store.StoreName">
@@ -1690,6 +1717,16 @@
         <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.Status">
             <summary>
             目前狀態
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.StoreId">
+            <summary>
+            StoreId
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.StoreName">

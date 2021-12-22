@@ -12,6 +12,7 @@ namespace GodPay_CMS.Services.Implements
         private readonly IEnumService _enumService;
         private readonly ICustomerService _customerService;
         private readonly ITagService _itagService;
+        private readonly IPersonnelService _personnelService;
 
         public ServiceWrapper(ISigninService signinService,
                               IAuthorityService authorityService,
@@ -20,7 +21,8 @@ namespace GodPay_CMS.Services.Implements
                               IStoreService storeService,
                               IEnumService enumService,
                               ICustomerService customerService,
-                              ITagService tagService)
+                              ITagService tagService,
+                              IPersonnelService personnelService)
         {
             _signinService = signinService;
             _authorityService = authorityService;
@@ -30,6 +32,7 @@ namespace GodPay_CMS.Services.Implements
             _enumService = enumService;
             _customerService = customerService;
             _itagService = tagService;
+            _personnelService = personnelService;
         }
         public ISigninService signinService => _signinService;
 
@@ -46,5 +49,7 @@ namespace GodPay_CMS.Services.Implements
         public ICustomerService customerService => _customerService;
 
         public ITagService itagService => _itagService;
+
+        public IPersonnelService personnelService => _personnelService;
     }
 }
