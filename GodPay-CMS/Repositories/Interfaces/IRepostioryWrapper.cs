@@ -8,5 +8,6 @@
         public IInsiderRepository insiderRepository { get; }
         public IStoreRepository storeRepository { get; }
         public ICustomerRepository customerRepository { get; }
+        public IPersonnelRepository personnelRepository { get; }
     }
 }
