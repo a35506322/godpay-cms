@@ -63,8 +63,8 @@ namespace GodPay_CMS.Repositories.Entity
         public decimal? TransLimit { get; set; }
 
         /// <summary>
-        /// 公司名稱
+        /// 公司
         /// </summary>
-        public string CustomerName { get; set; }
+        public Customer Customer { get; set; }
     }
 }

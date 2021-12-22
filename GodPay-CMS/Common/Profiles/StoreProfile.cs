@@ -12,7 +12,8 @@ namespace GodPay_CMS.Common.Profiles
     {   
         public StoreProfile()
         {
-            CreateMap<Store, StoreFilterRsp>();
+            CreateMap<Store, StoreFilterRsp>()
+                .ForMember(n =>n.CustomerName,o=>o.MapFrom(o=>o.Customer.CustomerName));
         }
     }
 }

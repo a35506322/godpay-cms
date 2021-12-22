@@ -9,6 +9,10 @@
         /// User PK(FK)
         /// </summary>
         public int Uid { get; set; }
+        /// <summary>
+        /// 公司名稱
+        /// </summary>
+        public string CustomerName { get; set; }
 
         /// <summary>
         /// 特店名稱

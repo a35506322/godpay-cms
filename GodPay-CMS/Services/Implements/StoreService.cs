@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
@@ -15,23 +19,24 @@ namespace GodPay_CMS.Services.Implements
     {
         private readonly IRepostioryWrapper _repostioryWrapper;
         private readonly IMapper _mapper;
-
-        public StoreService(IRepostioryWrapper repostioryWrapper, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public StoreService(IRepostioryWrapper repostioryWrapper, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _repostioryWrapper = repostioryWrapper;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ResponseViewModel> GetStoreDeatil(int uid)
         {
             var store = await _repostioryWrapper.storeRepository.GetById(uid);
 
+            var storeRsp = _mapper.Map<StoreFilterRsp>(store);
+
             if (store == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無特店詳細資料" };
 
-            var storerRsp = _mapper.Map<StoreFilterRsp>(store);
-
-            return new ResponseViewModel() { RtnData = storerRsp };
+            return new ResponseViewModel() { RtnData = storeRsp };
         }
 
         public async Task<ResponseViewModel> GetStores()
@@ -50,6 +55,13 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗", RtnData = "已有重複帳號" };
 
             var storeReq = _mapper.Map<PostUserAndStoreReq>(postUserAndStoreViewModel);
+
+            storeReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", storeReq.UserId);
+            storeReq.Role = RoleEnum.Store;
+            storeReq.Func = 0;
+            storeReq.Status = AccountStatusEnum.Activate;
+            storeReq.CreateDate = DateTime.Now;
+            storeReq.StoreId = Guid.NewGuid();
 
             var result = await _repostioryWrapper.userRepository.PostUserAndStore(storeReq);
 
@@ -82,6 +94,8 @@ namespace GodPay_CMS.Services.Implements
         public async Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
         {
             var updateUserAndStoreReq = _mapper.Map<UpdateUserAndStoreReq>(updateUserAndStoreViewModel);
+            updateUserAndStoreReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateUserAndStoreReq.LastModifyDate = DateTime.Now;
 
             var result = await _repostioryWrapper.userRepository.UpateUserAndStore(updateUserAndStoreReq);
             if (result)

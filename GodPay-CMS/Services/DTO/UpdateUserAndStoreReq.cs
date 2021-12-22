@@ -36,6 +36,11 @@ namespace GodPay_CMS.Services.DTO
         public DateTime? LastModifyDate { get; set; }
 
         /// <summary>
+        /// CustomerId
+        /// </summary>
+        public Guid CustomerId { get; set; }
+
+        /// <summary>
         /// 特店名稱
         /// </summary>
         public string StoreName { get; set; }

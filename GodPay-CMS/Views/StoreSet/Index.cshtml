@@ -46,7 +46,8 @@
 
 <store-detail-modal ref="storeDetail" v-bind:pdetail="storeDetail"></store-detail-modal>
 <edit-store-modal ref="editStore" v-bind:temp-store="tempStore" v-bind:is-new="isNew"
-                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores" v-bind:temp-account-status="AccountStatus"></edit-store-modal>
+                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores" v-bind:temp-account-status="AccountStatus"
+                  v-bind:temp-customers="Customers"></edit-store-modal>
 
 <script type="text/javascript">
     @section Vue
@@ -55,7 +56,7 @@
         import {
         GetStores, GetStoreDetail, PostStore,
         GetAccountStatusEnum, GetStore, UpdateStore,
-        GetListOfFunctionFilter
+        GetListOfFunctionFilter, GetCustomers
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import StoreDetailModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/StoreDetailModal.js'
         import EditStoreModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditStoreModal.js'
@@ -78,7 +79,8 @@
                     modelStateError: {},
                     AccountStatus: [],
                     filtersStores: null,
-                    funcs:[]
+                    funcs: [],
+                    Customers: []
                 }
             },
             created: function () {
@@ -96,6 +98,7 @@
                 this.GetAccountStatusEnum();
                 this.InitFilters();
                 this.GetListOfFunctionFilter();
+                this.GetCustomers();
             },
             methods: {
                GetListOfFunctionFilter: async function () {
@@ -282,6 +285,27 @@
                     this.filtersStores = {
                         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                     }
+                },
+                GetCustomers: async function () {
+                    const response = await GetCustomers().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.RtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.Customers = data.RtnData;
+                                break;
+                            case 404:
+                                this.Customers = [];
+                                this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                break
+                            default:
+                                break;
+                        }
+                    }
+
                 }
 
             }

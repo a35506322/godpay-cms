@@ -1,6 +1,6 @@
 ﻿import serverErrorMessage from './ServerErrorMessage.js'
 export default {
-    props: ['isNew', 'tempStore', 'modelStateError', 'tempAccountStatus'],
+    props: ['isNew', 'tempStore', 'modelStateError', 'tempAccountStatus',"tempCustomers"],
     components: {
         serverErrorMessage
     },
@@ -31,9 +31,9 @@ export default {
         },
         isNew: function (newVal, oldVal) {
             if (newVal) {
-                this.header = '新增業務資料'
+                this.header = '新增特店資料'
             } else {
-                this.header = '修改業務資料'
+                this.header = '修改特店資料'
             }
         }
     },
@@ -76,6 +76,14 @@ export default {
                         <div class="row g-3 mb-5">
                             <div class="d-flex justify-content-center p-0">
                                 <h5 class="w-98 fs-4 fw-bold border-bottom border-2 border-gray py-1">詳細資料</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="CustomerName" class="form-label">公司名稱</label>
+                                <v-field id="CustomerName" class="form-select rounded-1" v-model="storeModel.CustomerId" as="select" name="CustomerName" rules="required" v-bind:class="[{'is-invalid':errors['CustomerName']||modelStateError['CustomerId']}]" >
+                                        <option v-for="(customer,index) in tempCustomers" v-bind:key="customer.CustomerId" v-bind:value="customer.CustomerId">{{customer.CustomerName}}</option>
+                                 </v-field>
+                                <error-message name="CustomerName" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'CustomerId'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="Name" class="form-label">特店名稱</label>

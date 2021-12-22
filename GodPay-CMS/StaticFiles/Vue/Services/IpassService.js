@@ -22,7 +22,7 @@ export const UpdateManagerAuthority = data => axios.put('/ManagerSetApi/UpdateMa
 export const GetStores = () => axios.get('/StoreSetApi/GetStores').then(respone => { console.log(' StoreSetApi'); return respone; }).catch(error => error);
 export const GetStoreDetail = (query) => axios.get('/StoreSetApi/GetStoreDeatil', query).then(respone => { console.log('GetStoreDeatil'); return respone; }).catch(error => error);
 export const PostStore = data => axios.post('/StoreSetApi/PostStore', data).then(respone => { console.log('PostStore'); return respone; }).catch(error => error);
-export const GetStore = (query) => axios.get('/StoreSetApi/GetStore', query).then(respone => { console.log('PostStore'); return respone; }).catch(error => error);
+export const GetStore = (query) => axios.get('/StoreSetApi/GetStore', query).then(respone => { console.log('GetStore'); return respone; }).catch(error => error);
 export const UpdateStore = data => axios.post('/StoreSetApi/UpdateStore', data).then(respone => { console.log('UpdateStore'); return respone; }).catch(error => error);
 
 // EnumApi

@@ -46,6 +46,7 @@
   
   <ItemGroup>
     <_CustomFiles Include="$(MSBuildProjectDirectory)\StaticFiles\**\**\*.*" />
+    <Compile Remove="Common\Profiles\SigninProfile.cs" />
     <DotNetPublishFiles Include="@(_CustomFiles)">
       <DestinationRelativePath>StaticFiles/%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
     </DotNetPublishFiles>

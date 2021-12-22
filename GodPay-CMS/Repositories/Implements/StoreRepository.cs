@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
+using GodPay_CMS.Services.DTO;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -43,12 +44,17 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                string sqlString = @"Select S.*, C.CustomerName 
+                string sqlString = @"Select * 
                                     From [dbo].[Customer_Store] S
                                     Join [dbo].[Customer] C
                                     On S.CustomerId = C.CustomerId
                                     Where S.Uid = @id";
-                var store = await connection.QuerySingleOrDefaultAsync<Store>(sqlString, new { id = id });
+                var stores = await connection.QueryAsync<Store, Customer, Store>(sqlString, (store, customer) =>
+                {
+                    store.Customer = customer;
+                    return store;
+                }, new { id = id }, splitOn: "CustomerId");
+                var store = stores.AsList().FindLast(p=>p.Uid == id);
                 return store;
             }
         }
