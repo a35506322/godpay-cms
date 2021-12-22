@@ -2,10 +2,12 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -83,7 +85,7 @@ namespace GodPay_CMS.Services.Implements
             if (users.Count() > 1)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "資料有誤" };
 
-            var businessmanRsp = _mapper.Map<BusinessmanRsp>(users.ToList().SingleOrDefault());
+            var businessmanRsp = _mapper.Map<ManagerRsp>(users.ToList().SingleOrDefault());
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = businessmanRsp };
 
         }
@@ -115,7 +117,10 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> UpdateManagerAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
         {
-            var updateUserAuthorityReq = _mapper.Map<UpdateUserAuthorityReq>(updateUserAuthorityViewModel);
+            var updateUserAuthorityReq = _mapper.Map<User>(updateUserAuthorityViewModel);
+            updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateUserAuthorityReq.LastModifyDate = DateTime.Now;
+
             var result = await _repostioryWrapper.userRepository.UpdateUserAuthority(updateUserAuthorityReq);
             if (result)
                 return new ResponseViewModel() { RtnMessage = "修改業務權限成功", RtnData = result };

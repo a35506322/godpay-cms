@@ -2,6 +2,7 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
@@ -54,12 +55,12 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> UpdateKey(EditKeyViewModel editKeyViewModel)
         {
-            var signinReq = new SigninReq
+            var userReq = new User
             {
                 UserId = editKeyViewModel.UserId,
                 UserKey = editKeyViewModel.OldKey
             };
-            var user = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(signinReq);
+            var user = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(userReq);
 
             var userRsp = _mapper.Map<UserRsp>(user);
 

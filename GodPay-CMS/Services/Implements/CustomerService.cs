@@ -2,6 +2,7 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
@@ -47,14 +48,14 @@ namespace GodPay_CMS.Services.Implements
             if (customer != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage = "公司名稱重覆" };
 
-            CustomerReq customerReq = _mapper.Map<CustomerReq>(addCustomerViewModel);
+            Customer customerReq = _mapper.Map<Customer>(addCustomerViewModel);
 
-            var count = await _repostioryWrapper.customerRepository.AddCustomer(customerReq);
+            var result = await _repostioryWrapper.customerRepository.Add(customerReq);
 
-            if (count == 0)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
+            if (result  == false)
+                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
 
-            return new ResponseViewModel() {  RtnMessage ="新增公司成功"} ;
+            return new ResponseViewModel() { RtnMessage = "新增公司成功" };
         }
 
         public async Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel)
@@ -66,11 +67,11 @@ namespace GodPay_CMS.Services.Implements
             if (customer == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
 
-            var customerReq = _mapper.Map<CustomerReq>(editCustomerViewModel);
+            var customerReq = _mapper.Map<Customer>(editCustomerViewModel);
 
-            var count = await _repostioryWrapper.customerRepository.EditCustomer(customerReq);
+            var result = await _repostioryWrapper.customerRepository.Update(customerReq);
 
-            if (count == 0)
+            if (result == false)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "編輯公司失敗" };
 
             return new ResponseViewModel() { RtnMessage = "修改公司成功" };

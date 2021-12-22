@@ -13,21 +13,25 @@ namespace GodPay_CMS.Common.Profiles
     {
         public UserProfile()
         {
+            CreateMap<SigninViewModel, User>();
+
+            CreateMap<EditUserViewModel, UpdateUserReq>();
+
             CreateMap<User, UserRsp>();
+
+            CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>();
 
             CreateMap<User, UserFilterRsp>()
                     .ForMember(n => n.Role, o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
                     .ForMember(n => n.Status, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
-
-            CreateMap<EditUserViewModel, UpdateUserReq>();
-
+          
             CreateMap<PostUserAndInsiderViewModel, PostUserAndInsiderReq>()
                        .ForMember(n => n.UserKey, o => o.MapFrom(o => RNGCrypto.HMACSHA256("p@ssw0rd", o.UserId)))
                        .ForMember(n => n.Role, o => o.MapFrom(t => RoleEnum.Manager))
                        .ForMember(n => n.CreateDate, o => o.MapFrom(t => DateTime.Now))
                        .ForMember(n => n.Func, o => o.MapFrom(t => 0));
 
-            CreateMap<User, BusinessmanRsp>()
+            CreateMap<User, ManagerRsp>()
                     .ForMember(n => n.Name, o => o.MapFrom(o => o.Insider.Name))
                     .ForMember(n => n.Department, o => o.MapFrom(o => o.Insider.Department));
 
@@ -35,8 +39,6 @@ namespace GodPay_CMS.Common.Profiles
                     .ForMember(n => n.LastModifyDate, o => o.MapFrom(t => DateTime.Now));
 
             CreateMap<UpdateUserAndStoreViewModel, UpdateUserAndStoreReq>();
-
-            CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>();
 
             CreateMap<User, StoreParticularsRsp>()
                        .ForMember(n => n.StoreName, o => o.MapFrom(o => o.Store.StoreName))
@@ -47,7 +49,7 @@ namespace GodPay_CMS.Common.Profiles
                        .ForMember(n => n.Address, o => o.MapFrom(o => o.Store.Address))
                        .ForMember(n => n.OwnerEmail, o => o.MapFrom(o => o.Store.OwnerEmail));
 
-            CreateMap<UpdateUserAuthorityViewModel, UpdateUserAuthorityReq>();
+            CreateMap<UpdateUserAuthorityViewModel, User>();
         }
     }
 }
