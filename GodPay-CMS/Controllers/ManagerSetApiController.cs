@@ -49,7 +49,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="postUserAndInsiderViewModal"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostManager([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
+        public async Task<IActionResult> PostManagerAndInsider([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
         {
             var response = await _serviceWrapper.managerService.PostManagerAndInsider(postUserAndInsiderViewModal);
             return Ok(response);
@@ -73,7 +73,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="updateUserAndInsiderViewModal"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateManager([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
+        public async Task<IActionResult> UpdateManagerAndInsider([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
         {
             var response = await _serviceWrapper.managerService.UpdateManagerAndInsider(updateUserAndInsiderViewModal);
             return Ok(response);
