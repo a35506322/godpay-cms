@@ -79,12 +79,12 @@ namespace GodPay_CMS
             {
                 pipeline.AddCssBundle(
                      "/site-css/bundle.css",
-                     "/lib/dash-ui/css/theme.css",
-                     "/site-css/bootstrap-custom.css",
+                     "/lib/dash-ui/css/theme.css",                  
                      "/lib/bootstrap-icons/font/bootstrap-icons.css",
                      "/lib/primevue/resources/themes/saga-green/theme.css",
                      "/lib/primevue/resources/primevue.min.css",
                      "/lib/primeicons/primeicons.css",
+                     "/site-css/bootstrap-custom.css",
                      "/site-css/site.css"
                 );
 

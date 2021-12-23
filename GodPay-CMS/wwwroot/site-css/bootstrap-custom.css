@@ -122,3 +122,15 @@
     background-color: #d4ecd5
 }
 
+.bg-success {
+    background-color: #4CAF50 !important
+}
+
+.bg-danger {
+    background-color: #D32F2F !important
+}
+
+.bg-warning {
+    background-color: #FFECB3 !important
+}
+
