@@ -11,8 +11,8 @@ export const EditKey = data => axios.post('/ProfileApi/EditKey', data).then(resp
 // ManagerSetApiController
 export const GetManagerAll = () => axios.get('/ManagerSetApi/GetManagerAll').then(respone => { console.log(' GetManagerAll'); return respone; }).catch(error => error);
 export const GetManagerDeatil = query => axios.get('/ManagerSetApi/GetManagerDeatil', query).then(respone => { console.log('GetManagerDeatil'); return respone; }).catch(error => error);
-export const PostManager = data => axios.post('/ManagerSetApi/PostManager', data).then(respone => { console.log('PostManager'); return respone; }).catch(error => error);
-export const UpdateManager = data => axios.put('/ManagerSetApi/UpdateManager', data).then(respone => { console.log('UpdateManager'); return respone; }).catch(error => error);
+export const PostManagerAndInsider = data => axios.post('/ManagerSetApi/PostManagerAndInsider', data).then(respone => { console.log('PostManagerAndInsider'); return respone; }).catch(error => error);
+export const UpdateManagerAndInsider = data => axios.put('/ManagerSetApi/UpdateManagerAndInsider', data).then(respone => { console.log('UpdateManagerAndInsider'); return respone; }).catch(error => error);
 export const GetManager = query => axios.get('/ManagerSetApi/GetManager', query).then(respone => { console.log('GetManager'); return respone; }).catch(error => error);
 export const GetManagerFilter = query => axios.get('/ManagerSetApi/GetManagerFilter', query).then(respone => { console.log('GetManagerFilter'); return respone; }).catch(error => error);
 export const GetManagerAuthority = query => axios.get('/ManagerSetApi/GetManagerAuthority', query).then(respone => { console.log('GetManagerAuthority'); return respone; }).catch(error => error);
@@ -21,9 +21,9 @@ export const UpdateManagerAuthority = data => axios.put('/ManagerSetApi/UpdateMa
 // StoreSetApi
 export const GetStores = () => axios.get('/StoreSetApi/GetStores').then(respone => { console.log(' StoreSetApi'); return respone; }).catch(error => error);
 export const GetStoreDetail = (query) => axios.get('/StoreSetApi/GetStoreDeatil', query).then(respone => { console.log('GetStoreDeatil'); return respone; }).catch(error => error);
-export const PostStore = data => axios.post('/StoreSetApi/PostStore', data).then(respone => { console.log('PostStore'); return respone; }).catch(error => error);
+export const PostUserAndStore = data => axios.post('/StoreSetApi/PostUserAndStore', data).then(respone => { console.log('PostUserAndStore'); return respone; }).catch(error => error);
 export const GetStore = (query) => axios.get('/StoreSetApi/GetStore', query).then(respone => { console.log('GetStore'); return respone; }).catch(error => error);
-export const UpdateStore = data => axios.post('/StoreSetApi/UpdateStore', data).then(respone => { console.log('UpdateStore'); return respone; }).catch(error => error);
+export const UpateUserAndStore = data => axios.post('/StoreSetApi/UpateUserAndStore', data).then(respone => { console.log('UpateUserAndStore'); return respone; }).catch(error => error);
 
 // EnumApi
 export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone => { console.log('GetRoleEnum'); return respone; }).catch(error => error);

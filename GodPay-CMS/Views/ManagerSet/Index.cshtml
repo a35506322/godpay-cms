@@ -94,7 +94,7 @@
         const { FilterMatchMode} = primevue.api;
         import {
             GetManagerAll, GetManagerDeatil, GetManagerFilter,
-            PostManager, GetManager, UpdateManager,
+            PostManagerAndInsider, GetManager, UpdateManagerAndInsider,
             GetAccountStatusEnum, GetListOfFunctionFilter,
             GetManagerAuthority, UpdateManagerAuthority
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
@@ -298,9 +298,9 @@
                 SaveManager: async function (value) {
                     let response = null;
                     if (this.isNew) {
-                        response = await PostManager(value).then(response => response);
+                        response = await PostManagerAndInsider(value).then(response => response);
                     } else {
-                        response = await UpdateManager(value).then(response => response);
+                        response = await UpdateManagerAndInsider(value).then(response => response);
                     }
                     const status = response.status;
                     if (status === 200) {

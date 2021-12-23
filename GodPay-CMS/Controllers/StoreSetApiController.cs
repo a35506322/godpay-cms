@@ -41,12 +41,12 @@ namespace GodPay_CMS.Controllers
             return Ok(response);
         }
         /// <summary>
-        /// 新增特店
+        /// 新增使用者及特店
         /// </summary>
         /// <param name="postUserAndStoreViewModal"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostStore([FromBody] PostUserAndStoreViewModel postUserAndStoreViewModal)
+        public async Task<IActionResult> PostUserAndStore([FromBody] PostUserAndStoreViewModel postUserAndStoreViewModal)
         {
             var response = await _serviceWrapper.storeService.PostUserAndStore(postUserAndStoreViewModal);
             return Ok(response);
@@ -74,12 +74,12 @@ namespace GodPay_CMS.Controllers
             return Ok(response);
         }
         /// <summary>
-        /// 更新特店
+        /// 更新使用者及特店
         /// </summary>
         /// <param name="updateUserAndStoreViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> UpdateStore([FromBody] UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
+        public async Task<IActionResult> UpateUserAndStore([FromBody] UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
         {
             var reponse = await _serviceWrapper.storeService.UpateUserAndStore(updateUserAndStoreViewModel);
             return Ok(reponse);

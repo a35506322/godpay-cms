@@ -54,8 +54,8 @@
     {
         const { FilterMatchMode } = primevue.api;
         import {
-        GetStores, GetStoreDetail, PostStore,
-        GetAccountStatusEnum, GetStore, UpdateStore,
+        GetStores, GetStoreDetail, PostUserAndStore,
+        GetAccountStatusEnum, GetStore, UpateUserAndStore,
         GetListOfFunctionFilter, GetCustomers
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import StoreDetailModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/StoreDetailModal.js'
@@ -226,9 +226,9 @@
                 SaveStores: async function (value) {
                     let response = null;
                     if (this.isNew) {
-                        response = await PostStore(value).then(response => response);
+                        response = await PostUserAndStore(value).then(response => response);
                     } else {
-                        response = await UpdateStore(value).then(response => response);
+                        response = await UpateUserAndStore(value).then(response => response);
                     }
                     const status = response.status;
                     if (status === 200) {
