@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
-using GodPay_CMS.Services.DTO;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -59,9 +58,43 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public Task<bool> Update(Store mdoel)
+        public async Task<bool> Update(Store model)
         {
-            throw new NotImplementedException();
-        }        
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                bool result = false;
+                string sqlString = @"Update T
+                                    Set T.StoreName = @StoreName,
+	                                    T.TaxId     = @TaxId,
+	                                    T.Owner     = @Owner,
+	                                    T.Address   = @Address,
+	                                    T.OwnerEmail = @OwnerEmail 
+                                    From
+                                    (
+	                                    Select *
+	                                    From [dbo].[Customer_Store]A
+	                                    Where A.Uid = @Uid
+                                    )T";
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var rowCount = await connection.ExecuteAsync(sqlString, model, transaction: tran);
+                        tran.Commit();
+                        if (rowCount > 0) { result = true; }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message.ToString());
+                    }
+
+                    return result;
+                }
+            }
+        }
+           
     }
 }

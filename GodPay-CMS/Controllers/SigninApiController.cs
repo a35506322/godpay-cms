@@ -48,11 +48,9 @@ namespace GodPay_CMS.Controllers
                 {
                     new Claim(ClaimTypes.Name,data.UserId),
                     new Claim(ClaimTypes.Role,data.Role.ToString()),
-                    new Claim("FuncFlag",data.Func.ToString())
+                    new Claim("FuncFlag",data.Func.ToString()),
+                    new Claim("Uid",data.Uid.ToString())
                 };
-
-                var store = await _serviceWrapper.storeService.GetUserAndStoreByUserId(data.UserId);
-                var storeDate = (StoreParticularsRsp)store.RtnData;
 
                 if (data.Role == RoleEnum.Store)
                     claims.Add(new Claim("StoreId", ((StoreParticularsRsp)(await _serviceWrapper.storeService.GetUserAndStoreByUserId(data.UserId)).RtnData).StoreId.ToString()));

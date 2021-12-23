@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Services.DTO;
 using System;
@@ -14,6 +15,8 @@ namespace GodPay_CMS.Common.Profiles
         {
             CreateMap<Store, StoreFilterRsp>()
                 .ForMember(n =>n.CustomerName,o=>o.MapFrom(o=>o.Customer.CustomerName));
+
+            CreateMap<UpdateStoreViewModel, Store>();
         }
     }
 }

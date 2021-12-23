@@ -54,5 +54,33 @@ namespace GodPay_CMS.Controllers
             var result = await _serviceWrapper.userService.UpdateKey(editKeyViewModel);
             return Ok(result);
         }
+
+        /// <summary>
+        /// 取得特店詳細資料
+        /// </summary>
+        /// <param name="uid">PK</param>
+        /// <response code="200">連線成功</response>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(ResponseViewModel), 200)]
+        [HttpGet]
+        public async Task<IActionResult> GetStoreDeatil([FromQuery] int uid)
+        {
+            var response = await _serviceWrapper.storeService.GetStoreDeatil(uid);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 更新特店詳細資料
+        /// </summary>
+        /// <param name="updateStoreViewModel">更新特店資訊</param>
+        /// <response code="200">連線成功</response>
+        /// <returns></returns>
+        [HttpPut]
+        [ProducesResponseType(typeof(ResponseViewModel), 200)]
+        public async Task<IActionResult> UpdateStoreDeatil([FromBody] UpdateStoreViewModel updateStoreViewModel)
+        {
+            var response = await _serviceWrapper.storeService.UpateStore(updateStoreViewModel);
+            return Ok(response);
+        }
     }
 }

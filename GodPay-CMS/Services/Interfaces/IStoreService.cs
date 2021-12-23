@@ -45,5 +45,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="updateUserAndStoreViewModel"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel);
+        /// <summary>
+        /// 更新特店
+        /// </summary>
+        /// <param name="updateStoreViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> UpateStore(UpdateStoreViewModel updateStoreViewModel);
+
     }
 }

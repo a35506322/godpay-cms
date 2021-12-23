@@ -23,7 +23,7 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="mdoel"></param>
         /// <returns></returns>
-        public Task<bool> Update(T mdoel);
+        public Task<bool> Update(T model);
 
     }
 }

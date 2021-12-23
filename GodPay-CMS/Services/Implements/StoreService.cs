@@ -3,6 +3,7 @@ using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
@@ -100,6 +101,19 @@ namespace GodPay_CMS.Services.Implements
             var result = await _repostioryWrapper.userRepository.UpateUserAndStore(updateUserAndStoreReq);
             if (result)
                 return new ResponseViewModel() { RtnMessage = "修改成功" };
+
+            return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改失敗" };
+        }
+
+        public async Task<ResponseViewModel> UpateStore(UpdateStoreViewModel updateStoreViewModel)
+        {
+            var storeDeatail = await _repostioryWrapper.storeRepository.GetById(updateStoreViewModel.Uid);
+            if (storeDeatail == null) { return new ResponseViewModel() { RtnCode=ReturnCodeEnum.NotFound,  RtnMessage = "查無此詳細資料" }; }
+
+            var updateStoreReq = _mapper.Map<Store>(updateStoreViewModel);
+            var result = await _repostioryWrapper.storeRepository.Update(updateStoreReq);
+
+            if (result) { return new ResponseViewModel() { RtnMessage = "修改成功" }; }
 
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改失敗" };
         }
