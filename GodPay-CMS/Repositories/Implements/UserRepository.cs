@@ -151,6 +151,12 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq)
         {
+            userAndInsiderReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", userAndInsiderReq.UserId);
+            userAndInsiderReq.Role = RoleEnum.Manager;
+            userAndInsiderReq.Func = 1795;
+            userAndInsiderReq.Status = AccountStatusEnum.Activate;
+            userAndInsiderReq.CreateDate = DateTime.Now;
+
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 // 新增User主表
@@ -261,6 +267,13 @@ namespace GodPay_CMS.Repositories.Implements
 
         public async Task<bool> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq)
         {
+            postUserAndStoreReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndStoreReq.UserId);
+            postUserAndStoreReq.Role = RoleEnum.Store;
+            postUserAndStoreReq.Func = 14339;
+            postUserAndStoreReq.Status = AccountStatusEnum.Activate;
+            postUserAndStoreReq.CreateDate = DateTime.Now;
+            postUserAndStoreReq.StoreId = Guid.NewGuid();
+
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 // 新增User主表

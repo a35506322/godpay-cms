@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
-using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
@@ -57,13 +56,6 @@ namespace GodPay_CMS.Services.Implements
 
             var storeReq = _mapper.Map<PostUserAndStoreReq>(postUserAndStoreViewModel);
 
-            storeReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", storeReq.UserId);
-            storeReq.Role = RoleEnum.Store;
-            storeReq.Func = 0;
-            storeReq.Status = AccountStatusEnum.Activate;
-            storeReq.CreateDate = DateTime.Now;
-            storeReq.StoreId = Guid.NewGuid();
-
             var result = await _repostioryWrapper.userRepository.PostUserAndStore(storeReq);
 
             if (result)
@@ -108,7 +100,7 @@ namespace GodPay_CMS.Services.Implements
         public async Task<ResponseViewModel> UpateStore(UpdateStoreViewModel updateStoreViewModel)
         {
             var storeDeatail = await _repostioryWrapper.storeRepository.GetById(updateStoreViewModel.Uid);
-            if (storeDeatail == null) { return new ResponseViewModel() { RtnCode=ReturnCodeEnum.NotFound,  RtnMessage = "查無此詳細資料" }; }
+            if (storeDeatail == null) { return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無此詳細資料" }; }
 
             var updateStoreReq = _mapper.Map<Store>(updateStoreViewModel);
             var result = await _repostioryWrapper.storeRepository.Update(updateStoreReq);

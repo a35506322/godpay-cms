@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Common.Helpers;
-using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Services.DTO;
@@ -24,12 +23,8 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<User, UserFilterRsp>()
                     .ForMember(n => n.Role, o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
                     .ForMember(n => n.Status, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
-          
-            CreateMap<PostUserAndInsiderViewModel, PostUserAndInsiderReq>()
-                       .ForMember(n => n.UserKey, o => o.MapFrom(o => RNGCrypto.HMACSHA256("p@ssw0rd", o.UserId)))
-                       .ForMember(n => n.Role, o => o.MapFrom(t => RoleEnum.Manager))
-                       .ForMember(n => n.CreateDate, o => o.MapFrom(t => DateTime.Now))
-                       .ForMember(n => n.Func, o => o.MapFrom(t => 0));
+
+            CreateMap<PostUserAndInsiderViewModel, PostUserAndInsiderReq>();
 
             CreateMap<User, ManagerRsp>()
                     .ForMember(n => n.Name, o => o.MapFrom(o => o.Insider.Name))
