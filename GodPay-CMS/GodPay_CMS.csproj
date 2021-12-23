@@ -48,6 +48,7 @@
     <_CustomFiles Include="$(MSBuildProjectDirectory)\StaticFiles\**\**\*.*" />
     <Compile Remove="Common\Profiles\SigninProfile.cs" />
     <_CustomFiles Remove="StaticFiles\Vue\Components\EditStoreDetail.js" />
+    <_CustomFiles Remove="StaticFiles\Vue\Components\EditPersonnelModal.js" />
     <DotNetPublishFiles Include="@(_CustomFiles)">
       <DestinationRelativePath>StaticFiles/%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
     </DotNetPublishFiles>

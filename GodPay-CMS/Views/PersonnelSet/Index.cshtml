@@ -6,7 +6,7 @@
     <div class="px-3">
         <div class="p-toolbar p-component w-100 mb-2">
             <div class="p-toolbar-group-left">
-                <p-button label="新增特店人員" icon="pi pi-plus" class="p-button-success p-mr-2" v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')"></p-button>
+                <p-button label="新增特店人員" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditStoreModal(true)" v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')"></p-button>
             </div>
             <div class="p-toolbar-group-right">
                 <span class="p-input-icon-left">
@@ -57,7 +57,7 @@
         GetListOfFunctionFilter
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import StoreDetailModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/StoreDetailModal.js'
-        import EditStoreModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditStoreModal.js'
+        import EditStoreModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditPersonnelModal.js'
         const app = Vue.createApp({
             components: {
                 "p-datatable": primevue.datatable,

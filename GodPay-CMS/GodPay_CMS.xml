@@ -418,6 +418,22 @@
             <param name="editKeyViewModel"></param>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Controllers.ProfileApiController.GetStoreDeatil(System.Int32)">
+            <summary>
+            取得特店詳細資料
+            </summary>
+            <param name="uid">PK</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.ProfileApiController.UpdateStoreDeatil(GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel)">
+            <summary>
+            更新特店詳細資料
+            </summary>
+            <param name="updateStoreViewModel">更新特店資訊</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Controllers.ProfileController">
             <summary>
             使用者管理頁面
@@ -812,6 +828,32 @@
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.IsWebSite">
             <summary>
             是否出現在網站
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.Uid" -->
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.StoreName">
+            <summary>
+            特店名稱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.TaxId">
+            <summary>
+            統一編號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.Owner">
+            <summary>
+            負責人
+            </summary>        
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.Address">
+            <summary>
+            公司地址
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.OwnerEmail">
+            <summary>
+             負責人電子信箱
             </summary>
         </member>
         <member name="T:GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel">
@@ -2378,6 +2420,13 @@
             更新特店及詳細資料
             </summary>
             <param name="updateUserAndStoreViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IStoreService.UpateStore(GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel)">
+            <summary>
+            更新特店
+            </summary>
+            <param name="updateStoreViewModel"></param>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Services.Interfaces.IUserService">
