@@ -28,8 +28,10 @@
         <p-column style="min-width:8rem" class="text-center">
             <template #body="slotProps">
                 <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'特店詳細資訊'" v-on:click="OpenStoreDetailModal(slotProps.data.Uid)"></p-button>
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯特店資訊'" v-on:click="OpenEditStoreModal(false,slotProps.data.UserId)" v-if="this.$common.CheckAuthority(funcs,'OperateStore')"></p-button>
-                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'"></p-button>
+                <template v-if="this.$common.CheckAuthority(funcs,'OperateStore')">
+                    <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯特店資訊'" v-on:click="OpenEditStoreModal(false,slotProps.data.UserId)"></p-button>
+                    <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'"></p-button>
+                </template>
             </template>
         </p-column>
         <template #empty>
