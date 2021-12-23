@@ -56,6 +56,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         ///  負責人電子信箱
         /// </summary>
+        [Required]
         [EmailAddress]
         public string OwnerEmail { get; set; }
     }
