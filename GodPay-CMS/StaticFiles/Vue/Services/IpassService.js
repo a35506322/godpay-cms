@@ -43,3 +43,5 @@ export const GetCustomers = () => axios.get('/CustomerApi/GetAll').then(respone 
 export const PostCustomer = data => axios.post('/CustomerApi/Post', data).then(respone => { console.log('PostCustomer'); return respone; }).catch(error => error);
 export const UpdateCustomer = data => axios.put('/CustomerApi/Edit', data).then(respone => { console.log('UpdateCustomer'); return respone; }).catch(error => error);
 
+//PersonnelSetApi
+export const GetStorePersonnels = () => axios.get('/PersonnelSetApi/GetStorePersonnels').then(respone => { console.log('GetStorePersonnels'); return respone; }).catch(error => error);

@@ -25,16 +25,13 @@ namespace GodPay_CMS.Repositories.Implements
             _settings = settings;
         }
 
-        public async Task<IEnumerable<User>> GetAllPersonnelByStore()
+        public async Task<IEnumerable<PersonnelByStore>> GetAllPersonnelByStore()
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                string sql = @"select U.* 
-                                from (select * from [dbo].[User] where Role=8) U
-                                join [dbo].[Customer_Personnel] P
-                                on U.Uid=P.Uid
-                                where P.StoreId=@StoreId";
-                var entity = await _connection.QueryAsync<User>(sql, new { StoreId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "StoreId").Value });
+                string sql = @"SELECT * FROM [dbo].[PersonnelByStore]
+                                WHERE StoreId=@StoreId";
+                var entity = await _connection.QueryAsync<PersonnelByStore>(sql, new { StoreId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "StoreId").Value });
 
                 if (entity.Count() == 0)
                     return null;

@@ -2,8 +2,10 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Interfaces;
+using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
@@ -31,7 +33,8 @@ namespace GodPay_CMS.Services.Implements
             if (user == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
 
-            return new ResponseViewModel() { RtnData = user };
+            var userRsp = _mapper.Map<IEnumerable<PersonnelRsp>>(user);
+            return new ResponseViewModel() { RtnData = userRsp };
         }
     }
 }

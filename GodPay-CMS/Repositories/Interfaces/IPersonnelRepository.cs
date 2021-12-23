@@ -6,6 +6,6 @@ namespace GodPay_CMS.Repositories.Interfaces
 {
     public interface IPersonnelRepository
     {
-        public Task<IEnumerable<User>> GetAllPersonnelByStore();
+        public Task<IEnumerable<PersonnelByStore>> GetAllPersonnelByStore();
     }
 }

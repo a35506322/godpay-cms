@@ -63,5 +63,6 @@ namespace GodPay_CMS.Repositories.Entity
         /// 特約商店詳細資料
         /// </summary>
         public Store Store { get; set; }
+        public Personnel Personnel { get; set; }
     }
 }

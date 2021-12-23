@@ -269,7 +269,7 @@
             <param name="uid"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.PostManager(GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel)">
+        <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.PostManagerAndInsider(GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel)">
             <summary>
             新增業務
             </summary>
@@ -283,7 +283,7 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.UpdateManager(GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel)">
+        <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.UpdateManagerAndInsider(GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel)">
             <summary>
             更新業務
             </summary>
@@ -425,7 +425,13 @@
         </member>
         <member name="M:GodPay_CMS.Controllers.ProfileController.Index">
             <summary>
-            單筆首頁
+            帳號
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.ProfileController.Store">
+            <summary>
+            特店資訊
             </summary>
             <returns></returns>
         </member>
@@ -476,9 +482,9 @@
             <param name="uid">PK</param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.PostStore(GodPay_CMS.Controllers.ViewModels.PostUserAndStoreViewModel)">
+        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.PostUserAndStore(GodPay_CMS.Controllers.ViewModels.PostUserAndStoreViewModel)">
             <summary>
-            新增特店
+            新增使用者及特店
             </summary>
             <param name="postUserAndStoreViewModal"></param>
             <returns></returns>
@@ -497,9 +503,9 @@
             <param name="userParams"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.UpdateStore(GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel)">
+        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.UpateUserAndStore(GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel)">
             <summary>
-            更新特店
+            更新使用者及特店
             </summary>
             <param name="updateUserAndStoreViewModel"></param>
             <returns></returns>
@@ -854,6 +860,11 @@
             目前狀態
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel.StoreName">
             <summary>
             特店名稱
@@ -1061,9 +1072,9 @@
             限制額度
             </summary>
         </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.CustomerName">
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.Customer">
             <summary>
-            公司名稱
+            公司
             </summary>
         </member>
         <member name="T:GodPay_CMS.Repositories.Entity.User">
@@ -1211,14 +1222,14 @@
             User存儲庫
             </summary>
         </member>
-        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.GetByUserIdAndUserKey(GodPay_CMS.Services.DTO.SigninReq)">
+        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.GetByUserIdAndUserKey(GodPay_CMS.Repositories.Entity.User)">
             <summary>
             查詢使用者帳號密碼
             </summary>
             <param name="signinReq"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.UpdateLoginTime(GodPay_CMS.Services.DTO.SigninReq)">
+        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.UpdateLoginTime(GodPay_CMS.Repositories.Entity.User)">
             <summary>
             紀錄登入時間
             </summary>
@@ -1302,7 +1313,7 @@
             <param name="updateUserAndStoreReq"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.UpdateUserAuthority(GodPay_CMS.Services.DTO.UpdateUserAuthorityReq)">
+        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.UpdateUserAuthority(GodPay_CMS.Repositories.Entity.User)">
             <summary>
             修改使用者權限
             </summary>
@@ -1357,41 +1368,6 @@
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncRsp.RoleFlag">
             <summary>
             Role Value 陣列
-            </summary>
-        </member>
-        <member name="T:GodPay_CMS.Services.DTO.BusinessmanRsp">
-            <summary>
-            業務篩選資料
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Uid">
-            <summary>
-            流水號(PK)
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.UserId">
-            <summary>
-            帳號
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Email">
-            <summary>
-            Email
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Status">
-            <summary>
-            目前狀態
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Name">
-            <summary>
-            名字
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.BusinessmanRsp.Department">
-            <summary>
-            部門
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.FuncAndFuncClassRsp.Fid">
@@ -1529,6 +1505,41 @@
             功能Flag
             </summary>
         </member>
+        <member name="T:GodPay_CMS.Services.DTO.ManagerRsp">
+            <summary>
+            業務篩選資料
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.ManagerRsp.Uid">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.ManagerRsp.UserId">
+            <summary>
+            帳號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.ManagerRsp.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.ManagerRsp.Status">
+            <summary>
+            目前狀態
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.ManagerRsp.Name">
+            <summary>
+            名子
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.ManagerRsp.Department">
+            <summary>
+            部門
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Services.DTO.PostUserAndInsiderReq">
             <summary>
             User And Insider Request
@@ -1619,6 +1630,16 @@
             創造時間
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Services.DTO.PostUserAndStoreReq.CustomerId">
+            <summary>
+            公司Id
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.PostUserAndStoreReq.StoreId">
+            <summary>
+            特店Id
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Services.DTO.PostUserAndStoreReq.StoreName">
             <summary>
             特店名稱
@@ -1654,6 +1675,61 @@
             密碼
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.SeqNo">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.Uid">
+            <summary>
+            User PK(FK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.StoreName">
+            <summary>
+            特店名稱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.TaxId">
+            <summary>
+            統一編號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.Owner">
+            <summary>
+             負責人
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.Address">
+            <summary>
+             公司地址
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.OwnerEmail">
+            <summary>
+             負責人電子信箱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.Risk">
+            <summary>
+            風險等級
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.TransLimit">
+            <summary>
+            限制額度
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreAndCustomerRsp.CustomerName">
+            <summary>
+            公司名稱
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Services.DTO.StoreFilterRsp">
             <summary>
             特店詳細資料(篩選)
@@ -1662,6 +1738,11 @@
         <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.Uid">
             <summary>
             User PK(FK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.CustomerName">
+            <summary>
+            公司名稱
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.StoreFilterRsp.StoreName">
@@ -1721,7 +1802,7 @@
         </member>
         <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.CustomerId">
             <summary>
-            CustomerId
+            公司名稱
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.StoreId">
@@ -1844,6 +1925,11 @@
             最後更改資訊日期
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Services.DTO.UpdateUserAndStoreReq.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Services.DTO.UpdateUserAndStoreReq.StoreName">
             <summary>
             特店名稱
@@ -1867,22 +1953,6 @@
         <member name="P:GodPay_CMS.Services.DTO.UpdateUserAndStoreReq.OwnerEmail">
             <summary>
              負責人電子信箱
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "P:GodPay_CMS.Services.DTO.UpdateUserAuthorityReq.Uid" -->
-        <member name="P:GodPay_CMS.Services.DTO.UpdateUserAuthorityReq.Func">
-            <summary>
-            權限總數
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UpdateUserAuthorityReq.LastModifier">
-            <summary>
-            最後更改使用者
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UpdateUserAuthorityReq.LastModifyDate">
-            <summary>
-            最後更改資訊日期
             </summary>
         </member>
         <member name="T:GodPay_CMS.Services.DTO.UpdateUserReq">
@@ -2001,66 +2071,6 @@
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UserFilterRsp.LastLoginDate">
-            <summary>
-            最後登入日期
-            </summary>
-        </member>
-        <member name="T:GodPay_CMS.Services.DTO.UserReq">
-            <summary>
-            使用者(Request)
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.Uid">
-            <summary>
-            流水號(PK)
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.UserId">
-            <summary>
-            帳號
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.UserKey">
-            <summary>
-            密碼
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.Role">
-            <summary>
-            角色
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.Func">
-            <summary>
-            權限總數
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.Status">
-            <summary>
-            目前狀態
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.CreateDate">
-            <summary>
-            創造時間
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.LastModifier">
-            <summary>
-            最後更改使用者
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.LastModifyDate">
-            <summary>
-            最後更改資訊日期
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.LastChangePwdDate">
-            <summary>
-            最後更改密碼日期
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Services.DTO.UserReq.LastLoginDate">
             <summary>
             最後登入日期
             </summary>

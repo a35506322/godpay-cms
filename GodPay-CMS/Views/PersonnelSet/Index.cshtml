@@ -1,0 +1,252 @@
+﻿@{
+    ViewData["Title"] = "特店人員列表";
+}
+
+<div class="row p-3 justify-content-center">
+    <div class="px-3">
+        <div class="p-toolbar p-component w-100 mb-2">
+            <div class="p-toolbar-group-left">
+                <p-button label="新增特店人員" icon="pi pi-plus" class="p-button-success p-mr-2" v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')"></p-button>
+            </div>
+            <div class="p-toolbar-group-right">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" class="p-inputtext p-component p-filled"
+                           v-model="filtersPersonnels['global'].value" placeholder="搜尋" />
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-datatable v-bind:value="personnels" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
+                 paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
+                 v-model:selection="selectedStore" selection-mode="single" data-key="UserId"
+                 v-bind:resizable-columns="true" column-resize-mode="fit"
+                 v-bind:global-filter-fields="['UserId','Email','Status']"
+                 v-model:filters="filtersPersonnels" filter-display="menu">
+        <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header"></p-column>
+        <p-column style="min-width:8rem" class="text-center"  v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')">
+            <template #body="slotProps">
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯特店人員資訊'" v-on:click="OpenEditStoreModal(false,slotProps.data.UserId)"></p-button>
+                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'"></p-button>
+            </template>
+        </p-column>
+        <template #empty>
+            查無相關特店人員資訊
+        </template>
+        <template #paginatorstart>
+            <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
+        </template>
+        <template #paginatorend>
+            <p-button type="button" icon="pi pi-cloud" class="p-button-text"></p-button>
+        </template>
+    </p-datatable>
+</div>
+
+<store-detail-modal ref="storeDetail" v-bind:pdetail="storeDetail"></store-detail-modal>
+<edit-store-modal ref="editStore" v-bind:temp-store="tempStore" v-bind:is-new="isNew"
+                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores" v-bind:temp-account-status="AccountStatus"></edit-store-modal>
+
+<script type="text/javascript">
+    @section Vue
+    {
+        const { FilterMatchMode } = primevue.api;
+        import {
+        GetStorePersonnels,  
+        GetAccountStatusEnum, GetStore,
+        GetListOfFunctionFilter
+        } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+        import StoreDetailModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/StoreDetailModal.js'
+        import EditStoreModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditStoreModal.js'
+        const app = Vue.createApp({
+            components: {
+                "p-datatable": primevue.datatable,
+                "p-column": primevue.column,
+                "p-toolbar": primevue.toolbar,
+                EditStoreModal
+            },
+            data: function () {
+                return {
+                    columnsDefs: [],
+                    personnels: [],
+                    tempStore: {},
+                    selectedStore: {},
+                    storeDetail: {},
+                    isNew: null,
+                    modelStateError: {},
+                    AccountStatus: [],
+                    filtersPersonnels: null,
+                    funcs:[]
+                }
+            },
+            created: function () {
+                this.GetStorePersonnels();
+                this.columnsDefs = [
+                    { field: 'UserId', header: '帳號' },
+                    { field: 'PersonnelName', header: '名稱' },
+                    { field: 'Email', header: '電子信箱' },
+                    { field: 'Role', header: '角色' },
+                    { field: 'Status', header: '帳號狀態' },
+                    { field: 'LastModifier', header: '最後修改使用者' },
+                    { field: 'LastModifyDate', header: '最後修改時間' },
+                    { field: 'LastLoginDate', header: '最後登入時間' },
+                    { field: 'LastChangePwdDate', header: '最後更改密碼時間' }
+                ];
+                this.GetAccountStatusEnum();
+                this.InitFilters();
+                this.GetListOfFunctionFilter();
+            },
+            methods: {
+               GetListOfFunctionFilter: async function () {
+                    try {
+                        const query = {
+                            params: {
+                                IsWebSite: 'false',
+                                FuncClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                            }
+                        };
+                        const response = await GetListOfFunctionFilter(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (data.RtnData.length > 0) {
+                                        this.funcs = data.RtnData[0].Functions;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+                },
+                GetStorePersonnels: async function () {
+                    try {
+                        const response = await GetStorePersonnels().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.personnels = data.RtnData;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+                },
+                GetStore: async function (userId) {
+                    console.log(userId);
+                    try {
+                        let query = {
+                            params: {
+                                userId: userId
+                            }
+                        };
+                        const response = await GetStore(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.tempStore = data.RtnData;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+                },
+                OpenEditStoreModal: async function (isNew = true, userId = '') {
+                    this.isNew = isNew;
+                    this.modelStateError = {};
+                    if (isNew) {
+                        this.tempStore = {};
+                    }
+                    else {
+                        await this.GetStore(userId);
+                    }
+                    this.$refs.editStore.Show();
+                },
+                SaveStores: async function (value) {
+                    let response = null;
+                    if (this.isNew) {
+                        response = await PostStore(value).then(response => response);
+                    } else {
+                        response = await UpdateStore(value).then(response => response);
+                    }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.RtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.$refs.editStore.Close();
+                                this.tempStore = {};
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                this.GetStores();
+                                break;
+                            case 401:
+                                if (typeof (responseData.RtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            case 405:
+                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                },
+                GetAccountStatusEnum: async function () {
+                    try {
+                        const response = await GetAccountStatusEnum().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.RtnCode;
+                            switch (code) {
+                                case 200:
+                                    if (typeof data.RtnData === 'string') {
+                                        this.AccountStatus = JSON.parse(data.RtnData);
+                                    } else {
+                                        this.AccountStatus = data.RtnData;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+                },
+                InitFilters: function () {
+                    this.filtersPersonnels = {
+                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+                    }
+                }
+
+            }
+         })
+    }
+</script>
