@@ -9,6 +9,5 @@ namespace GodPay_CMS.Repositories.Interfaces
     public interface ICustomerRepository : IGenericRepository<Customer>, IGenericRepositoryById<Customer, int>
     {
         public Task<Customer> Get(CustomerParams customerParams);
-        public Task<Customer> Get(string customerName);
     }
 }

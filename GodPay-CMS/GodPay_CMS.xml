@@ -335,6 +335,11 @@
             CustomerId
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Controllers.Parameters.CustomerParams.CustomerName">
+            <summary>
+            公司名稱
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Controllers.Parameters.FunctionParams">
             <summary>
             Function Parms

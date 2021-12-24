@@ -18,13 +18,17 @@ namespace GodPay_CMS.Controllers.Parameters
         /// <summary>
         /// CustomerId
         /// </summary>
-
         public Guid? CustomerId { get; set; }
+
+        /// <summary>
+        /// 公司名稱
+        /// </summary>
+        public string CustomerName { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (this.SeqNo == null && this.CustomerId == null)
-                yield return new ValidationResult("流水號和CustomerId不可皆為空值",
+            if (this.SeqNo == null && this.CustomerId == null && string.IsNullOrEmpty(this.CustomerName))
+                yield return new ValidationResult("流水號、CustomerId和公司名稱不可皆為空值",
                                                   new[] { "驗證錯誤" });
         }
     }

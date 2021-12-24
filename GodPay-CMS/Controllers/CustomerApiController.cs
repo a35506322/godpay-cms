@@ -30,9 +30,9 @@ namespace GodPay_CMS.Controllers
         }
 
         /// <summary>
-        /// 以流水號或CustomerId取得公司
+        /// 以流水號或CustomerId或公司名稱取得公司
         /// </summary>
-        /// <param name="customerParams">流水號或CustomerId</param>
+        /// <param name="customerParams">流水號或CustomerId或公司名稱</param>
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(ResponseViewModel), 200)]

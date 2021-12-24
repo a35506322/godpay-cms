@@ -44,7 +44,8 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> Add(AddCustomerViewModel addCustomerViewModel)
         {
-            var customer = await _repostioryWrapper.customerRepository.Get(addCustomerViewModel.customerName);
+            var customerParams = _mapper.Map<CustomerParams>(addCustomerViewModel);
+            var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
             if (customer != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage = "公司名稱重覆" };
 
@@ -52,8 +53,8 @@ namespace GodPay_CMS.Services.Implements
 
             var result = await _repostioryWrapper.customerRepository.Add(customerReq);
 
-            if (result  == false)
-                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
+            if (result == false)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
 
             return new ResponseViewModel() { RtnMessage = "新增公司成功" };
         }

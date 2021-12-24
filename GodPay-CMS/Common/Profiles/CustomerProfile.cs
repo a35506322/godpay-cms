@@ -13,6 +13,7 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<EditCustomerViewModel, CustomerParams>();
             CreateMap<AddCustomerViewModel, Customer>();
             CreateMap<EditCustomerViewModel, Customer>();
+            CreateMap<AddCustomerViewModel, CustomerParams>();
         }
     }
 }

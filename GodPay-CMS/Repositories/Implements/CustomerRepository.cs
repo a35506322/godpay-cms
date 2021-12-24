@@ -49,20 +49,13 @@ namespace GodPay_CMS.Repositories.Implements
                 if (customerParams.CustomerId != null)
                     sql += "And CustomerId = @CustomerId ";
 
+                if (customerParams.CustomerName != null)
+                    sql += "And CustomerName = @CustomerName ";
+
                 sql = sql.TrimEnd(' ');
                 sql += ";";
 
                 var entity = await _connection.QueryFirstOrDefaultAsync<Customer>(sql, customerParams);
-                return entity;
-            }
-        }
-
-        public async Task<Customer> Get(string customerName)
-        {
-            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
-            {
-                string sql = @"SELECT * FROM [dbo].[Customer] WHERE CustomerName = @customerName";
-                var entity = await _connection.QueryFirstOrDefaultAsync<Customer>(sql, new { customerName = customerName });
                 return entity;
             }
         }
