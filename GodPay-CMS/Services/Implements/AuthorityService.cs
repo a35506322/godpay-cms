@@ -140,7 +140,7 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> UpdateFunc(UpdateFuncViewModel updateFuncViewModel)
         {
-            var isExsit = _repostioryWrapper.funcClassRepository.GetById(updateFuncViewModel.FuncClassCode);
+            var isExsit = await _repostioryWrapper.funcClassRepository.GetById(updateFuncViewModel.FuncClassCode);
             if (isExsit == null)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "此代碼並不存在" };
             updateFuncViewModel.FuncEnName = updateFuncViewModel.FuncEnName.ToUpperForFirst();           
@@ -153,7 +153,7 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> PostFunc(PostFuncViewModel postFuncViewModel)
         {
-            var isExsit = _repostioryWrapper.funcClassRepository.GetById(postFuncViewModel.FuncClassCode);
+            var isExsit = await _repostioryWrapper.funcClassRepository.GetById(postFuncViewModel.FuncClassCode);
             if(isExsit==null)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "此代碼並不存在" };
             postFuncViewModel.FuncEnName = postFuncViewModel.FuncEnName.ToUpperForFirst();

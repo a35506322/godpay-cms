@@ -89,12 +89,14 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         public Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId);
+
         /// <summary>
         /// 修改特約商店詳細資料
         /// </summary>
         /// <param name="updateUserAndStoreReq"></param>
         /// <returns></returns>
         public Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq);
+
         /// <summary>
         /// 修改使用者權限
         /// </summary>
