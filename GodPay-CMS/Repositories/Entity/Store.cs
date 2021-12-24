@@ -66,5 +66,10 @@ namespace GodPay_CMS.Repositories.Entity
         /// 公司
         /// </summary>
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// 帳號
+        /// </summary>
+        public User User { get; set; }
     }
 }

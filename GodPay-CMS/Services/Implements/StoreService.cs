@@ -103,6 +103,8 @@ namespace GodPay_CMS.Services.Implements
             if (storeDeatail == null) { return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無此詳細資料" }; }
 
             var updateStoreReq = _mapper.Map<Store>(updateStoreViewModel);
+            updateStoreReq.User.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateStoreReq.User.LastModifyDate = DateTime.Now;
             var result = await _repostioryWrapper.storeRepository.Update(updateStoreReq);
 
             if (result) { return new ResponseViewModel() { RtnMessage = "修改成功" }; }

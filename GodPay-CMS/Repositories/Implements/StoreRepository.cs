@@ -63,7 +63,19 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 bool result = false;
-                string sqlString = @"Update T
+                string sqlString = string.Empty;
+                var parameters = new 
+                { 
+                    StoreName = model.StoreName,
+                    TaxId = model.TaxId,
+                    Owner=model.Owner,
+                    Address = model.Address,
+                    OwnerEmail = model.OwnerEmail,
+                    Uid = model.Uid,
+                    LastModifier = model.User.LastModifier,
+                    LastModifyDate = model.User.LastModifyDate
+                };
+                sqlString += @"Update T
                                     Set T.StoreName = @StoreName,
 	                                    T.TaxId     = @TaxId,
 	                                    T.Owner     = @Owner,
@@ -74,13 +86,23 @@ namespace GodPay_CMS.Repositories.Implements
 	                                    Select *
 	                                    From [dbo].[Customer_Store]A
 	                                    Where A.Uid = @Uid
-                                    )T";
+                                    )T;";
+                sqlString += @"Update T2
+                                Set T2.LastModifier = @LastModifier,
+	                                T2.LastModifyDate = @LastModifyDate
+                                From
+                                (
+	                                Select *
+	                                From [dbo].[User]A
+	                                Where A.Uid = @Uid
+                                )T2";
+
                 connection.Open();
                 using (var tran = connection.BeginTransaction())
                 {
                     try
                     {
-                        var rowCount = await connection.ExecuteAsync(sqlString, model, transaction: tran);
+                        var rowCount = await connection.ExecuteAsync(sqlString, parameters, transaction: tran);
                         tran.Commit();
                         if (rowCount > 0) { result = true; }
 

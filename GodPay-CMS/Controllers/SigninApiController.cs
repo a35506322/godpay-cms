@@ -59,7 +59,7 @@ namespace GodPay_CMS.Controllers
                 AuthenticationProperties authProperties = new AuthenticationProperties
                 {
                     ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
-                    IsPersistent = true,
+                    IsPersistent = true                   
                 };
                 await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
             }
