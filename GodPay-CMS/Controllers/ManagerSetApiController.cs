@@ -80,7 +80,7 @@ namespace GodPay_CMS.Controllers
         }
 
         /// <summary>
-        /// 取得單筆業務(塞選)
+        /// 取得單筆業務(篩選)
         /// </summary>
         /// <param name="userParams"></param>
         /// <returns></returns>

@@ -292,7 +292,7 @@
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.GetManagerFilter(GodPay_CMS.Controllers.Parameters.UserParams)">
             <summary>
-            取得單筆業務(塞選)
+            取得單筆業務(篩選)
             </summary>
             <param name="userParams"></param>
             <returns></returns>
@@ -1117,6 +1117,11 @@
         <member name="P:GodPay_CMS.Repositories.Entity.Store.Customer">
             <summary>
             公司
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Store.User">
+            <summary>
+            帳號
             </summary>
         </member>
         <member name="T:GodPay_CMS.Repositories.Entity.User">
