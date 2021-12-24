@@ -35,13 +35,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         public Task<User> GetByUserId(string userId);
 
         /// <summary>
-        /// 以角色取得使用者資訊列表
-        /// </summary>
-        /// <param name="role">角色</param>
-        /// <returns></returns>
-        public Task<IEnumerable<User>> GetByRole(RoleEnum role);
-
-        /// <summary>
         /// 變更使用者資訊
         /// </summary>
         /// <param name="updateUserReq"></param>

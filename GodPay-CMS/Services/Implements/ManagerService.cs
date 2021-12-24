@@ -29,7 +29,8 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> GetManagerAll()
         {
-            var users = await _repostioryWrapper.userRepository.GetByRole(RoleEnum.Manager);
+            UserParams userParams = new UserParams() { Role = (int)RoleEnum.Manager };
+            var users = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
 
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
 
@@ -91,7 +92,7 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> GetManagerFilter(UserParams userParams)
         {
-            userParams.Role = ((int)RoleEnum.Manager).ToString();
+            userParams.Role = ((int)RoleEnum.Manager);
             var users = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
 
             var userRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);

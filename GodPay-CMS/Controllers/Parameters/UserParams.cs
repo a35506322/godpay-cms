@@ -18,7 +18,7 @@ namespace GodPay_CMS.Controllers.Parameters
         /// <summary>
         /// 角色
         /// </summary>
-        public string Role { get; set; }
+        public int Role { get; set; }
         /// <summary>
         /// 目前狀態
         /// </summary>

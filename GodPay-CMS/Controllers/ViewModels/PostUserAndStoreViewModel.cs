@@ -31,11 +31,13 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 特店名稱
         /// </summary>
+        [Required]
         public string StoreName { get; set; }
 
         /// <summary>
         /// 統一編號
         /// </summary>
+        [Required]
         [StringLength(8)]
         public string TaxId { get; set; }
 
@@ -52,6 +54,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         ///  負責人電子信箱
         /// </summary>
+        [Required]
         [EmailAddress]
         public string OwnerEmail { get; set; }
     }

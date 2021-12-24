@@ -41,8 +41,9 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> GetStores()
         {
-            var stores = await _repostioryWrapper.userRepository.GetByRole(RoleEnum.Store);
+            UserParams userParams = new UserParams(){ Role = (int)RoleEnum.Store};
 
+            var stores = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
             var storesRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(stores);
 
             return new ResponseViewModel() { RtnData = storesRsp };
@@ -75,13 +76,6 @@ namespace GodPay_CMS.Services.Implements
 
             var storeRsp = _mapper.Map<StoreParticularsRsp>(users.ToList().SingleOrDefault());
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = storeRsp };
-        }
-
-        public async Task<ResponseViewModel> GetStoreFilter(UserParams userParams)
-        {
-            var users = await _repostioryWrapper.userRepository.GetUsersFilter(userParams);
-            var storeRsp = _mapper.Map<IEnumerable<UserFilterRsp>>(users);
-            return new ResponseViewModel() { RtnData = storeRsp };
         }
 
         public async Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel)

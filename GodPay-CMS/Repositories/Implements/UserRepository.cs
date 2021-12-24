@@ -103,21 +103,6 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<User>> GetByRole(RoleEnum role)
-        {
-            using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
-            {
-                string sqlString = @"SELECT * FROM [dbo].[User]
-                                     WHERE Role = @Role";
-                var users = await _connection.QueryAsync<User>(sqlString, new { Role = role });
-
-                if (users == null)
-                    return null;
-
-                return users;
-            }
-        }
-
         public async Task<int> UpdateUser(UpdateUserReq updateUserReq)
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
@@ -325,7 +310,7 @@ namespace GodPay_CMS.Repositories.Implements
                     sqlString += "And A.Status = @Status ";
                 }
 
-                if (!String.IsNullOrEmpty(userParams.Role))
+                if (userParams.Role != 0)
                 {
                     sqlString += "And A.Role = @Role ";
                 }

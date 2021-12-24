@@ -15,36 +15,35 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="role">角色</param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetStores();
+
         /// <summary>
         /// 取得特店詳細資料
         /// </summary>
         /// <param name="sid">PK</param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetStoreDeatil(int uid);
+
         /// <summary>
         /// 新增特店及詳細資料
         /// </summary>
         /// <param name="postUserAndStoreViewModel"></param>
         /// <returns></returns>
         Task<ResponseViewModel> PostUserAndStore(PostUserAndStoreViewModel postUserAndStoreViewModel);
+
         /// <summary>
         /// 取得特店及詳細資料
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> GetUserAndStoreByUserId(string userId);
-        /// <summary>
-        /// 取得篩選特約商店的詳細資料
-        /// </summary>
-        /// <param name="userParams"></param>
-        /// <returns></returns>
-        public Task<ResponseViewModel> GetStoreFilter(UserParams userParams);
+
         /// <summary>
         /// 更新特店及詳細資料
         /// </summary>
         /// <param name="updateUserAndStoreViewModel"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel);
+
         /// <summary>
         /// 更新特店
         /// </summary>

@@ -512,13 +512,6 @@
             <param name="userId">帳號</param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreFilter(GodPay_CMS.Controllers.Parameters.UserParams)">
-            <summary>
-            取得特店資訊](篩選)
-            </summary>
-            <param name="userParams"></param>
-            <returns></returns>
-        </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.UpateUserAndStore(GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel)">
             <summary>
             更新使用者及特店
@@ -1288,13 +1281,6 @@
             以帳號取得使用者資訊
             </summary>
             <param name="userId">帳號</param>
-            <returns></returns>
-        </member>
-        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.GetByRole(GodPay_CMS.Common.Enums.RoleEnum)">
-            <summary>
-            以角色取得使用者資訊列表
-            </summary>
-            <param name="role">角色</param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.UpdateUser(GodPay_CMS.Services.DTO.UpdateUserReq)">
@@ -2411,13 +2397,6 @@
             取得特店及詳細資料
             </summary>
             <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:GodPay_CMS.Services.Interfaces.IStoreService.GetStoreFilter(GodPay_CMS.Controllers.Parameters.UserParams)">
-            <summary>
-            取得篩選特約商店的詳細資料
-            </summary>
-            <param name="userParams"></param>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Services.Interfaces.IStoreService.UpateUserAndStore(GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel)">

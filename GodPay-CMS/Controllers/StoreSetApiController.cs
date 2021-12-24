@@ -51,6 +51,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.storeService.PostUserAndStore(postUserAndStoreViewModal);
             return Ok(response);
         }
+
         /// <summary>
         /// 取得單筆特店
         /// </summary>
@@ -62,17 +63,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.storeService.GetUserAndStoreByUserId(userId);
             return Ok(response);
         }
-        /// <summary>
-        /// 取得特店資訊](篩選)
-        /// </summary>
-        /// <param name="userParams"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetStoreFilter([FromQuery] UserParams userParams)
-        {
-            var response = await _serviceWrapper.storeService.GetStoreFilter(userParams);
-            return Ok(response);
-        }
+
         /// <summary>
         /// 更新使用者及特店
         /// </summary>
