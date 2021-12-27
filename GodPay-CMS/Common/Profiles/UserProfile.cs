@@ -21,8 +21,8 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>();
 
             CreateMap<User, UserFilterRsp>()
-                    .ForMember(n => n.Role, o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
-                    .ForMember(n => n.Status, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
+                    .ForMember(n => n.RoleChName,o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
+                    .ForMember(n => n.StatusChName, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
 
             CreateMap<PostUserAndInsiderViewModel, PostUserAndInsiderReq>();
 

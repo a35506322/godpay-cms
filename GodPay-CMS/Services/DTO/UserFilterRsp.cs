@@ -28,6 +28,11 @@ namespace GodPay_CMS.Services.DTO
         public string Role { get; set; }
 
         /// <summary>
+        /// 角色(中文名稱)
+        /// </summary>
+        public string RoleChName { get; set; }
+
+        /// <summary>
         /// 權限旗標
         /// </summary>
         public long Func { get; set; }
@@ -36,6 +41,11 @@ namespace GodPay_CMS.Services.DTO
         /// 目前狀態
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// 目前狀態(中文名稱)
+        /// </summary>
+        public string StatusChName { get; set; }
 
         /// <summary>
         /// 最後更改使用者
