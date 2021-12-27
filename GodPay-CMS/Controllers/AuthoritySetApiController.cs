@@ -14,6 +14,7 @@ namespace GodPay_CMS.Controllers
     /// </summary>
     [Route("[controller]/[action]")]
     public class AuthoritySetApiController : Controller
+
     {
         private readonly IMapper _mapper;
         private readonly IServiceWrapper _serviceWrapper;

@@ -1,1 +1,209 @@
-﻿
+﻿@{
+    ViewData["Title"] = "功能編輯";
+}
+<div class="row p-3 justify-content-center">
+    <div class="px-3">
+        <div class="p-toolbar p-component w-100 mb-2">
+            <div class="p-toolbar-group-left">
+                <p-button label="新增功能" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditFuncModal(true)"></p-button>
+            </div>
+            <div class="p-toolbar-group-right">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" class="p-inputtext p-component p-filled"
+                           v-model="filtersFuncClass['global'].value" placeholder="搜索" />
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-datatable v-bind:value="funcList" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
+                 paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                 v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
+                 v-model:selection="selectedFunc" selection-mode="single" data-key="Fid"
+                 v-bind:resizable-columns="true" column-resize-mode="fit"
+                 v-bind:scrollable="true" scroll-height="58vh"
+                 v-bind:global-filter-fields="['funcClassChName','funcChName']"
+                 v-model:filters="filtersFuncClass" filter-display="menu">
+        <p-column field="funcClassChName" header="類別"></p-column>
+        <p-column field="funcCode" header="權限代碼"></p-column>
+        <p-column field="funcChName" header="功能(中文)"></p-column>
+        <p-column field="funcEnName" header="功能(英文)"></p-column>
+        <p-column field="IsWebSite" header="是否顯示在網頁上">
+            <template #body="slotProps">
+                <label v-if="slotProps.data.isWebSite===false">否</label>
+                <label v-if="slotProps.data.isWebSite===true">是</label>
+            </template>
+        </p-column>
+        <p-column style="min-width:8rem" class="d-flex justify-content-center">
+            <template #body="slotProps">
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯功能'" v-on:click="OpenEditFuncModal(false,slotProps.data.fid)"></p-button>
+            </template>
+        </p-column>
+        <template #empty>
+            查無相關類別資訊
+        </template>
+        <template #paginatorstart>
+            <p-button type="button" icon="pi pi-refresh" class="p-button-text"></p-button>
+        </template>
+        <template #paginatorend>
+            <p-button type="button" icon="pi pi-cloud" class="p-button-text"></p-button>
+        </template>
+    </p-datatable>
+</div>
+<edit-func-modal ref="editFunc" v-bind:func="func" v-bind:is-new="isNew"
+                 v-on:save="SaveFunc" v-bind:model-state-error="modelStateError"
+                 v-bind:func-class-list="funcClassList"></edit-func-modal>
+
+<script type="text/javascript">
+    @section Vue
+    {
+        const { FilterMatchMode } = primevue.api;
+        import {
+        GetListOfFunc, GetFuncDetailById, UpdateFunc,
+        PostFunc
+        } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+        import EditFuncModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditFuncModal.js'
+        const app = Vue.createApp({
+            components: {
+                "p-datatable": primevue.datatable,
+                "p-column": primevue.column,
+                "p-toolbar": primevue.toolbar,
+                EditFuncModal
+            },
+            data: function () {
+                return {
+                    funcList: [],
+                    filtersFuncClass: null,
+                    isNew: true,
+                    modelStateError: {},
+                    func: {},
+                    selectedFunc: {},
+                    funcClassList: [],
+                }
+            },
+            created: function () {
+                this.GetListOfFunc();
+                this.InitFilters();
+            },
+            methods: {
+                InitFilters: function () {
+                    this.filtersFuncClass = {
+                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+                    }
+                },
+                GetListOfFunc: async function () {
+                    try {
+                        const response = await GetListOfFunc().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.rtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.funcList = data.rtnData.sort(function (s, t) {
+                                        if (s.FuncClassCode < t.FuncClassCode) return -1;
+                                        if (s.FuncClassCode > t.FuncClassCode) return 1;
+                                        return 0;
+                                    });
+                                    this.ClassList();
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+                },
+                OpenEditFuncModal: function (isNew, fid = '') {
+                    this.isNew = isNew;
+                    this.modelStateError = {};
+                    if (isNew) {
+                        this.func = {};
+                    }
+                    else {
+                        this.GetFuncCode(fid);
+                    }
+                    this.$refs.editFunc.Show(isNew);
+                },
+                GetFuncCode: async function (fid) {
+                    try {
+                        let query = {
+                            params: {
+                                fid: fid
+                            }
+                        };
+                        const response = await GetFuncDetailById(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.rtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.func = data.rtnData;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
+                },
+                ClassList: function () {
+                    var obj = {
+                        length: 0,
+                        addElem: function addElem(elem) {
+                            [].push.call(this, elem);
+                        }
+                    };
+                    let isStr = "";
+                    this.funcList.filter(function (item, index, array) {
+                        if (isStr != item.funcClassCode) {
+                            isStr = item.funcClassCode
+                            obj.addElem({ funcClassChName: item.funcClassChName, funcClassCode: item.funcClassCode });
+                        }
+                    });
+                    this.funcClassList = obj;
+                },
+                SaveFunc: async function (value) {
+                    let response = null;
+                    if (this.isNew) {
+                        response = await PostFunc(value).then(response => response);
+                    } else {
+                        response = await UpdateFunc(value).then(response => response);
+                    }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.$refs.editFunc.Close();
+                                this.func = {};
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                this.GetListOfFunc();
+                                break;
+                            case 401:
+                                if (typeof (responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            case 405:
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                },
+
+            }
+         })
+    }
+</script>

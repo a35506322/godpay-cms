@@ -38,6 +38,11 @@ export const GetListOfFuncClass = () => axios.get('/AuthoritySetApi/GetListOfFun
 export const PostFuncClass = data => axios.post('/AuthoritySetApi/PostFuncClass', data).then(respone => { console.log('PostFuncClass'); return respone; }).catch(error => error);
 export const GetFuncClassDetailById = data => axios.get(`/AuthoritySetApi/GetFuncClassDetailById`, data).then(respone => { console.log('GetFuncClassDetailById'); return respone; }).catch(error => error);
 export const UpdateFuncClass = data => axios.put('/AuthoritySetApi/UpdateFuncClass', data).then(respone => { console.log('UpdateFuncClass'); return respone; }).catch(error => error);
+export const GetListOfFunc = () => axios.get('/AuthoritySetApi/GetListOfFunc').then(respone => { console.log('GetListOfFunc'); return respone; }).catch(error => error);
+export const GetFuncDetailById = query => axios.get('/AuthoritySetApi/GetFuncDetailById', query).then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);
+export const UpdateFunc = data => axios.put('/AuthoritySetApi/UpdateFunc', data).then(respone => { console.log('UpdateFunc'); return respone; }).catch(error => error);
+export const PostFunc = data => axios.post('/AuthoritySetApi/PostFunc', data).then(respone => { console.log('UpdateFunc'); return respone; }).catch(error => error);
+
 
 // CustomerApi
 export const GetCustomers = () => axios.get('/CustomerApi/GetAll').then(respone => { console.log('GetCustomers'); return respone; }).catch(error => error);
