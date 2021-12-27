@@ -75,6 +75,9 @@ namespace GodPay_CMS.Services.Implements
                 newAuthority.AddRange(_mapper.Map<IEnumerable<UpdateRoleAuthorityReq>>(funClass.UpdateFuncViewModel));
             }
             var updateRoleAuthorityReqs = newAuthority.Where(c => !oldAuthority.Any(n => n.Fid == c.Fid && n.FuncCode == c.FuncCode && n.RoleFlag == c.RoleFlag));
+            
+            if (updateRoleAuthorityReqs.Count() == 0)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnData = "與原權限相同，不做修改" };
 
             var result =  await _repostioryWrapper.funcRepository.BatchUpdateRoleFlag(updateRoleAuthorityReqs);
             if (result)
