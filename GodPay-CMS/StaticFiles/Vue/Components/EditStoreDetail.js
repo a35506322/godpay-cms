@@ -24,39 +24,39 @@ export default {
         }
     },
     template: `
-        <p-dialog v-bind:header="'編輯特店資訊'" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+        <p-dialog v-bind:header="'編輯特店資訊'" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
             <v-form v-slot="{values, errors}" v-on:submit="SaveStore">
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row g-3 mb-5">
                             <div class="col-md-6">
-                                <label for="StoreName" class="form-label">特店名稱</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="StoreName" v-model="storeModel.StoreName"
-                                    name="StoreName" rules="required" v-bind:class="[{'is-invalid':errors['StoreName']||modelStateError['StoreName']}]" ></v-field>
-                                <error-message name="StoreName" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'StoreName'"></server-error-message>
+                                <label for="storeName" class="form-label">特店名稱</label>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="storeName" v-model="storeModel.storeName"
+                                    name="特店名稱" rules="required" v-bind:class="[{'is-invalid':errors['特店名稱']||modelStateError['storeName']}]" ></v-field>
+                                <error-message name="特店名稱" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'storeName'"></server-error-message>
                             </div>
                             <div class="col-md-6">
-                                <label for="TaxId" class="form-label">統一編號</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="TaxId" v-model="storeModel.TaxId"
-                                    name="TaxId" rules="required" v-bind:class="[{'is-invalid':errors['TaxId']||modelStateError['TaxId']}]" ></v-field>
-                                <error-message name="TaxId" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'TaxId'"></server-error-message>
+                                <label for="taxId" class="form-label">統一編號</label>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="taxId" v-model="storeModel.taxId"
+                                    name="統一編號" rules="required" v-bind:class="[{'is-invalid':errors['統一編號']||modelStateError['taxId']}]" ></v-field>
+                                <error-message name="統一編號" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'taxId'"></server-error-message>
                             </div>
                             <div class="col-md-6">
-                                <label for="Owner" class="form-label">負責人</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="Owner" v-model="storeModel.Owner" name="Owner"></v-field>
+                                <label for="owner" class="form-label">負責人</label>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="owner" v-model="storeModel.owner" name="負責人"></v-field>
                             </div>
                             <div class="col-md-6">
-                                <label for="Address" class="form-label">公司地址</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="Address" v-model="storeModel.Address" name="Address"></v-field>
+                                <label for="address" class="form-label">公司地址</label>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="address" v-model="storeModel.address" name="公司地址"></v-field>
                             </div>
                             <div class="col-md-6">
-                                <label for="OwnerEmail" class="form-label">負責人Email</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="OwnerEmail" v-model="storeModel.OwnerEmail"
-                                    name="OwnerEmail" rules="required|email" v-bind:class="[{'is-invalid':errors['OwnerEmail']||modelStateError['OwnerEmail']}]"></v-field>
-                                <error-message name="OwnerEmail" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'OwnerEmail'"></server-error-message>
+                                <label for="ownerEmail" class="form-label">負責人Email</label>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="ownerEmail" v-model="storeModel.ownerEmail"
+                                    name="負責人Email" rules="required|email" v-bind:class="[{'is-invalid':errors['負責人Email']||modelStateError['ownerEmail']}]"></v-field>
+                                <error-message name="負責人Email" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'ownerEmail'"></server-error-message>
                             </div>
                         </div>
                     </div>

@@ -17,9 +17,9 @@
                             <tr>
                                 <td>
                                     <div class="mb-3 row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">帳號</label>
+                                        <label for="account" class="col-sm-2 col-form-label">帳號</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" id="staticEmail" v-bind:value="user.UserId">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" id="account" v-bind:value="user.userId">
                                         </div>
                                     </div>
                                 </td>
@@ -27,9 +27,9 @@
                             <tr>
                                 <td>
                                     <div class="mb-3 row">
-                                        <label class="col-sm-2 col-form-label">Email</label>
+                                        <label for="email" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="user.Email">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" id="email" v-bind:value="user.email">
                                         </div>
                                     </div>
                                 </td>
@@ -37,9 +37,9 @@
                             <tr>
                                 <td>
                                     <div class="mb-3 row">
-                                        <label class="col-sm-2 col-form-label">權限</label>
+                                        <label for="role" class="col-sm-2 col-form-label">權限</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="user.Role" autocomplete="off">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" id="role" v-bind:value="user.roleChName">
                                         </div>
                                     </div>
                                 </td>
@@ -49,9 +49,9 @@
                                     <div class="mb-3 row">
                                         <label class="col-sm-2 col-form-label">狀態</label>
                                         <div class="col-sm-10">
-                                            <span v-if="user.Status=='帳號啟用中'" class="badge bg-success fs-5">{{user.Status}}</span>
-                                            <span v-else-if="user.Status=='帳號尚未開通'" class="badge bg-danger fs-5">{{user.Status}}</span>
-                                            <span v-else class="badge bg-warning text-dark fs-5">{{user.Status}}</span>
+                                            <span v-if="user.statusChName=='帳號啟用中'" class="badge bg-success fs-5">{{user.statusChName}}</span>
+                                            <span v-else-if="user.statusChName=='帳號尚未開通'" class="badge bg-danger fs-5">{{user.statusChName}}</span>
+                                            <span v-else class="badge bg-warning text-dark fs-5">{{user.statusChName}}</span>
                                         </div>
                                     </div>
                                 </td>
@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-<edit-user-modal ref="editUser" v-bind:pemail="user.Email" v-bind:model-error="modelStateError" v-on:save="SaveProfile"></edit-user-modal>
+<edit-user-modal ref="editUser" v-bind:pemail="user.email" v-bind:model-error="modelStateError" v-on:save="SaveProfile"></edit-user-modal>
 <change-password-modal ref="changePassword" v-bind:model-error="modelStateError" v-on:save="SaveKey"></change-password-modal>
 
 <script type="text/javascript">
@@ -87,20 +87,17 @@
                 funcs:[],
                 modelStateError: {},
                 tooltipList: [],
-                user: {
-                    UserId: '',
-                    Email: ''
+                user: {},
+                editViewModel: {
+                    modifierId: Id,
+                    userId: '',
+                    email: ''
                 },
-                EditViewModel: {
-                    ModifierId: Id,
-                    UserId: '',
-                    Email: ''
-                },
-                EditKeyViewModel: {
-                    UserId: Id,
-                    OldKey: '',
-                    NewKey: '',
-                    NewKey2:''
+                editKeyViewModel: {
+                    userId: Id,
+                    oldKey: '',
+                    newKey: '',
+                    newKey2:''
                 }
             }
         },
@@ -119,7 +116,7 @@
             GetUserById: async function () {
                 const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
                 try {
-                    const query = {
+                    let query = {
                         params: {
                             userId: Id
                         }
@@ -128,10 +125,10 @@
                     const status = response.status;
                     if (status === 200) {
                         const data = response.data;
-                        const code = data.RtnCode;
+                        const code = data.rtnCode;
                         switch (code) {
                             case 200:
-                                this.user = data.RtnData;
+                                this.user = data.rtnData;
                                 break;
                             default:
                                 break;
@@ -146,19 +143,19 @@
                 try {
                     const query = {
                         params: {
-                            IsWebSite: 'false',
-                            FuncClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                            isWebSite: 'false',
+                            funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
                         }
                     };
                     const response = await GetListOfFunctionFilter(query).then(response => response);
                     const status = response.status;
                     if (status === 200) {
                         const data = response.data;
-                        const code = data.RtnCode;
+                        const code = data.rtnCode;
                         switch (code) {
                             case 200:
-                                if (data.RtnData.length > 0) {
-                                    this.funcs = data.RtnData[0].Functions;
+                                if (data.rtnData.length > 0) {
+                                    this.funcs = data.rtnData[0].functions;
                                 }
                                 break;
                             default:
@@ -171,25 +168,25 @@
                 }
             },
             SaveProfile: async function (value) {
-                this.EditViewModel.Email = value;
-                this.EditViewModel.UserId = this.user.UserId;
+                this.editViewModel.email = value;
+                this.editViewModel.userId = this.user.userId;
                 try {
-                    const response = await EditUser(this.EditViewModel).then(response => response);
+                    const response = await EditUser(this.editViewModel).then(response => response);
                     const status = response.status;
                     if (status === 200) {
                         const responseData = response.data;
-                        switch (responseData.RtnCode) {
+                        switch (responseData.rtnCode) {
                             case 200:
                                 await this.GetUserById();
                                 this.$refs.editUser.Close();
-                                const status = this.$common.ChangeReturnCode(responseData.RtnCode);
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                const status = this.$common.ChangeReturnCode(responseData.rtnCode);
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                 break;
                             case 401:
                             case 404:
                             case 417:
-                                if (typeof (responseData.RtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                if (typeof (responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
@@ -204,24 +201,28 @@
                 }
             },
             SaveKey: async function (value) {
-                this.EditKeyViewModel = value;
-                this.EditKeyViewModel.UserId = this.user.UserId;
+                this.editKeyViewModel = value;
+                this.editKeyViewModel.userId = this.user.userId;
                 try {
-                    const response = await EditKey(this.EditKeyViewModel).then(response => response);
-                    console.log('SaveKey response');
-                    console.log(response);
+                    const response = await EditKey(this.editKeyViewModel).then(response => response);
                     if (response.status === 200) {
-                        switch (response.data.RtnCode) {
+                        const responseData = response.data;
+                        const code = responseData.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
                             case 200:
                                 this.$refs.changePassword.Close();
                                 break;
                             case 401:
-                            case 417:
-                            case 423:
-                                if (typeof (response.data.RtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(response.data.RtnData);
+                                if (typeof (response.data.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            case 404:
+                            case 417:
+                            case 423:
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             default:
                                 throw new Error('代碼有誤');

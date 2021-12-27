@@ -38,7 +38,7 @@ export default {
         }
     },
     template: `
-        <p-dialog v-bind:header="header" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+        <p-dialog v-bind:header="header" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
             <v-form v-slot="{values, errors}" v-on:submit="SaveStore">
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -48,31 +48,28 @@ export default {
                             </div>
                             <template v-if="isNew">
                                 <div class="col-md-6">
-                                    <label for="UserId" class="form-label">帳號</label>
-                                    <div class="p-inputgroup">
-                                        <span class="p-inputgroup-addon">s22s22</span>
-                                        <v-field type="text" class="p-inputtext p-component form-control" id="UserId"
-                                            v-model="storeModel.UserId" rules="required|account" name="UserId" v-bind:class="[{'is-invalid':errors['UserId']||modelStateError['UserId']}]" ></v-field>
-                                    </div>
-                                    <error-message name="UserId" class="invalid-feedback"></error-message>
-                                    <server-error-message v-bind:attr="'UserId'"></server-error-message>
+                                    <label for="userId" class="form-label">帳號</label>
+                                    <v-field type="text" class="p-inputtext p-component form-control" id="userId"
+                                        v-model="storeModel.userId" rules="required|account" name="帳號" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]" ></v-field>
+                                    <error-message name="帳號" class="invalid-feedback"></error-message>
+                                    <server-error-message v-bind:attr="'userId'"></server-error-message>
                                 </div>
                             </template>
                             <div class="col-md-6">
-                                <label for="Email" class="form-label">Email</label>
-                                <v-field type="email" class="p-inputtext p-component form-control" id="Email" v-model="storeModel.Email"
-                                    name="Email" rules="required|email" v-bind:class="[{'is-invalid':errors['Email']||modelStateError['Email']}]" ></v-field>
-                                <error-message name="Email" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'Email'"></server-error-message>
+                                <label for="email" class="form-label">Email</label>
+                                <v-field type="email" class="p-inputtext p-component form-control" id="email" v-model="storeModel.email"
+                                    name="email" rules="required|email" v-bind:class="[{'is-invalid':errors['email']||modelStateError['email']}]" ></v-field>
+                                <error-message name="email" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'email'"></server-error-message>
                             </div>
                             <template v-if="!isNew">
                                 <div class="col-md-6">
-                                    <label for="Status" class="form-label">帳號狀態</label>
-                                    <v-field id="Status" class="form-select rounded-1" v-model="storeModel.Status" as="select" name="Status" rules="required" v-bind:class="[{'is-invalid':errors['Status']||modelStateError['Status']}]" >
+                                    <label for="status" class="form-label">帳號狀態</label>
+                                    <v-field id="Status" class="form-select rounded-1" v-model="storeModel.status" as="select" name="帳號狀態" rules="required" v-bind:class="[{'is-invalid':errors['帳號狀態']||modelStateError['status']}]" >
                                         <option v-for="(status,index) in tempAccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
                                     </v-field>
-                                    <error-message name="Status" class="invalid-feedback"></error-message>
-                                    <server-error-message v-bind:attr="'Status'"></server-error-message>
+                                    <error-message name="帳號狀態" class="invalid-feedback"></error-message>
+                                    <server-error-message v-bind:attr="'status'"></server-error-message>
                                 </div>
                             </template>
                         </div>

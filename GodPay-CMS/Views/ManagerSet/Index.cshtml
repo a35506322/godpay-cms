@@ -5,35 +5,6 @@
 <div class="row p-3 justify-content-center">
     <div class="px-3">
         <div class="p-toolbar p-component w-100 mb-2">
-            <div class="col-12 mb-3">
-                <div class="row">
-                    <div class="col-6 col-lg-4 g-3">
-                        <div class="row">
-                            <div class="p-inputgroup">
-                                <span class="p-inputgroup-addon">帳號</span>
-                                <input type="text" class="p-inputtext p-component form-control" id="qUserId"
-                                       v-model.trim="queryModel.UserId" name="qUserId" placeholder="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-4 g-3">
-                        <div class="row">
-                            <div class="p-inputgroup input-group">
-                                <span class="p-inputgroup-addon">帳號狀態</span>
-                                <select id="qStatus" class="form-select rounded-1" v-model.trim="queryModel.Status" name="qStatus">
-                                    <option selected value="">全部</option>
-                                    <option v-for="(status,index) in AccountStatus" v-bind:key="status.key" v-bind:value="status.value">{{status.key}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 text-end">
-                <p-button label="查詢" icon="pi pi-search" class="p-button-success" v-on:click="GetManagerFilter"></p-button>
-            </div>
-        </div>
-        <div class="p-toolbar p-component w-100 mb-2">
             <div class="p-toolbar-group-left">
                 <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditManagerModal(true)" v-if="this.$common.CheckAuthority(funcs,'OperateManager')"></p-button>
             </div>
@@ -46,27 +17,26 @@
             </div>
         </div>
     </div>
-
     <p-datatable v-bind:value="managers" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
                  paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
-                 v-model:selection="selectedManager" selection-mode="single" data-key="UserId"
+                 v-model:selection="selectedManager" selection-mode="single" data-key="userId"
                  v-bind:resizable-columns="true" column-resize-mode="fit"
-                 v-bind:global-filter-fields="['UserId','Email','Status']"
+                 v-bind:global-filter-fields="['userId','email','status']"
                  v-model:filters="filtersManager" filter-display="menu">
-        <p-column field="UserId" header="帳號"></p-column>
-        <p-column field="Email" header="電子信箱"></p-column>
-        <p-column field="Role" header="角色"></p-column>
-        <p-column field="Status" header="帳號狀態"></p-column>
-        <p-column field="LastModifier" header="最後修改使用者"></p-column>
-        <p-column field="LastModifyDate" header="最後修改時間"></p-column>
-        <p-column field="LastLoginDate" header="最後登入時間"></p-column>
-        <p-column field="LastChangePwdDate" header="最後更改密碼時間"></p-column>
+        <p-column field="userId" header="帳號"></p-column>
+        <p-column field="email" header="電子信箱"></p-column>
+        <p-column field="roleChName" header="角色"></p-column>
+        <p-column field="statusChName" header="帳號狀態"></p-column>
+        <p-column field="lastModifier" header="最後修改使用者"></p-column>
+        <p-column field="lastModifyDate" header="最後修改時間"></p-column>
+        <p-column field="lastLoginDate" header="最後登入時間"></p-column>
+        <p-column field="lastChangePwdDate" header="最後更改密碼時間"></p-column>
         <p-column style="min-width:8rem" class="text-center">
             <template #body="slotProps">
-                <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenManagerDetailModal(slotProps.data.Uid)"></p-button>           
+                <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenManagerDetailModal(slotProps.data.uid)"></p-button>           
                 <template v-if="this.$common.CheckAuthority(funcs,'OperateManager')">
-                    <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditManagerModal(false,slotProps.data.UserId)"></p-button>
+                    <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditManagerModal(false,slotProps.data.userId)"></p-button>
                     <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="OpenManagerAuthoritySettingModal(slotProps.data)"></p-button>
                 </template>
             </template>
@@ -85,7 +55,7 @@
 
 <manager-detail-modal ref="managerDetail" v-bind:pdetail="managerDetail"></manager-detail-modal>
 <edit-manager-modal ref="editManager" v-bind:temp-manager="tempManager" v-bind:is-new="isNew"
-                    v-bind:model-state-error="modelStateError" v-on:save="SaveManager" v-bind:temp-account-status="AccountStatus"></edit-manager-modal>
+                    v-bind:model-state-error="modelStateError" v-on:save="SaveManager" v-bind:temp-account-status="accountStatus"></edit-manager-modal>
 <manager-authority-setting-modal ref="managerAuthoritySetting" v-bind:manager-authority="managerAuthority" v-bind:temp-uid="tempUid" v-on:save="SaveAuthority"></manager-authority-setting-modal>
 
 
@@ -94,23 +64,23 @@
     {
         const { FilterMatchMode} = primevue.api;
         import {
-            GetManagerAll, GetManagerDeatil, GetManagerFilter,
+            GetManagerAll, GetManagerDeatil,
             PostManagerAndInsider, GetManager, UpdateManagerAndInsider,
             GetAccountStatusEnum, GetListOfFunctionFilter,
             GetManagerAuthority, UpdateManagerAuthority
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-        import ManagerDetailModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ManagerDetailModal.js'
-        import EditManagerModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditManagerModal.js'
-        import ManagerAuthoritySettingModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ManagerAuthoritySettingModal.js'
+        import managerDetailModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ManagerDetailModal.js'
+        import editManagerModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditManagerModal.js'
+        import managerAuthoritySettingModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ManagerAuthoritySettingModal.js'
 
         const app = Vue.createApp({
             components: {
                 "p-datatable": primevue.datatable,
                 "p-column": primevue.column,
                 "p-toolbar": primevue.toolbar,
-                ManagerDetailModal,
-                EditManagerModal,
-                ManagerAuthoritySettingModal
+                managerDetailModal,
+                editManagerModal,
+                managerAuthoritySettingModal
             },
             data: function () {
                 return {
@@ -121,11 +91,7 @@
                     tempManager: {},
                     isNew: null,
                     modelStateError: {},
-                    queryModel: {
-                        UserId:'',
-                        Status:''
-                    },
-                    AccountStatus: [],
+                    accountStatus: [],
                     filtersManager: null,
                     managerAuthority: {},
                     tempUid: 0,
@@ -143,19 +109,19 @@
                     try {
                         const query = {
                             params: {
-                                IsWebSite: 'false',
-                                FuncClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                                isWebSite: 'false',
+                                funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
                             }
                         };
                         const response = await GetListOfFunctionFilter(query).then(response => response);
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    if (data.RtnData.length > 0) {
-                                        this.funcs = data.RtnData[0].Functions;
+                                    if (data.rtnData.length > 0) {
+                                        this.funcs = data.rtnData[0].functions;
                                     }
                                     break;
                                 default:
@@ -173,10 +139,10 @@
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    this.managers = data.RtnData;
+                                    this.managers = data.rtnData;
                                     break;
                                 default:
                                     break;
@@ -193,13 +159,13 @@
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    if (typeof data.RtnData === 'string') {
-                                        this.AccountStatus = JSON.parse(data.RtnData);
+                                    if (typeof data.rtnData === 'string') {
+                                        this.accountStatus = JSON.parse(data.rtnData);
                                     } else {
-                                        this.AccountStatus = data.RtnData;
+                                        this.accountStatus = data.rtnData;
                                     }
                                     break;
                                 default:
@@ -222,16 +188,16 @@
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             const status = this.$common.ChangeReturnCode(code);
                             switch (code) {
                                 case 200:
-                                    this.tempManager = data.RtnData;
+                                    this.tempManager = data.rtnData;
                                     break;
                                 case 403:
                                 case 404:
                                     this.tempManager = {};
-                                    this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
                                     break;
@@ -255,15 +221,15 @@
                         if (status === 200) {
                             console.log(response)
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             const status = this.$common.ChangeReturnCode(code);
                             switch (code) {
                                 case 200:
-                                    this.managerDetail = data.RtnData;
+                                    this.managerDetail = data.rtnData;
                                     break;
                                 case 404:
                                     this.managerDetail = {};
-                                    this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
                                     break;
@@ -306,41 +272,23 @@
                     const status = response.status;
                     if (status === 200) {
                         const responseData = response.data;
-                        const code = responseData.RtnCode;
+                        const code = responseData.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
                             case 200:
                                 this.$refs.editManager.Close();
                                 this.tempManager = {};
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 this.GetManagerAll();
                                 break;
                             case 401:
-                                if (typeof (responseData.RtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                if (typeof (responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
                             case 405:
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                },
-                GetManagerFilter: async function () {
-                    const query = {
-                        params: this.queryModel
-                    };
-                    const response = await GetManagerFilter(query).then(response => response);
-                    const status = response.status;
-                    if (status === 200) {
-                        const responseData = response.data;
-                        const code = responseData.RtnCode;
-                        switch (code) {
-                            case 200:
-                                this.managers = responseData.RtnData;
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             default:
                                 break;
@@ -364,15 +312,15 @@
                         if (status === 200) {
                             console.log(response)
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             const status = this.$common.ChangeReturnCode(code);
                             switch (code) {
                                 case 200:
-                                    this.managerAuthority = data.RtnData;
+                                    this.managerAuthority = data.rtnData;
                                     break;
                                 case 404:
                                     this.managerAuthority = {};
-                                    this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
                                     break;
@@ -383,10 +331,10 @@
                         console.log(exception)
                     }
                 },
-                OpenManagerAuthoritySettingModal: function ({ UserId, Uid }) {
-                    this.GetManagerAuthority(UserId).then(() => {
+                OpenManagerAuthoritySettingModal: function ({ userId, uid }) {
+                    this.GetManagerAuthority(userId).then(() => {
                         if (Object.keys(this.managerAuthority).length !== 0) {
-                            this.tempUid = Uid;
+                            this.tempUid = uid;
                             this.$refs.managerAuthoritySetting.Show();
                         }
                     });
@@ -398,18 +346,18 @@
                         const status = response.status;
                         if (status === 200) {
                             const responseData = response.data;
-                            switch (responseData.RtnCode) {
+                            switch (responseData.rtnCode) {
                                 case 200:
                                     await this.GetManagerAll();
                                     this.$refs.managerAuthoritySetting.Close();
-                                    const status = this.$common.ChangeReturnCode(responseData.RtnCode);
-                                    this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                    const status = this.$common.ChangeReturnCode(responseData.rtnCode);
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                     break;
                                 case 401:
                                 case 404:
                                 case 417:
-                                    if (typeof (responseData.RtnData) === 'string') {
-                                        this.modelStateError = JSON.parse(responseData.RtnData);
+                                    if (typeof (responseData.rtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.rtnData);
                                     }
                                     this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                     break;

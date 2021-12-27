@@ -16,7 +16,6 @@ export const GetManagerDeatil = query => axios.get('/ManagerSetApi/GetManagerDea
 export const PostManagerAndInsider = data => axios.post('/ManagerSetApi/PostManagerAndInsider', data).then(respone => { console.log('PostManagerAndInsider'); return respone; }).catch(error => error);
 export const UpdateManagerAndInsider = data => axios.put('/ManagerSetApi/UpdateManagerAndInsider', data).then(respone => { console.log('UpdateManagerAndInsider'); return respone; }).catch(error => error);
 export const GetManager = query => axios.get('/ManagerSetApi/GetManager', query).then(respone => { console.log('GetManager'); return respone; }).catch(error => error);
-export const GetManagerFilter = query => axios.get('/ManagerSetApi/GetManagerFilter', query).then(respone => { console.log('GetManagerFilter'); return respone; }).catch(error => error);
 export const GetManagerAuthority = query => axios.get('/ManagerSetApi/GetManagerAuthority', query).then(respone => { console.log('GetManagerAuthority'); return respone; }).catch(error => error);
 export const UpdateManagerAuthority = data => axios.put('/ManagerSetApi/UpdateManagerAuthority', data).then(respone => { console.log('UpdateManagerAuthority'); return respone; }).catch(error => error);
 

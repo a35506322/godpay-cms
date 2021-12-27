@@ -19,16 +19,16 @@
     <p-datatable v-bind:value="funcClasss" show-gridlines striped-rows responsive-layout="scroll" v-bind:paginator="true" v-bind:rows="10"
                  paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
-                 v-model:selection="selectedFuncClass" selection-mode="single" data-key="FuncClassCode"
+                 v-model:selection="selectedFuncClass" selection-mode="single" data-key="funcClassCode"
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:scrollable="true" scroll-height="58vh"
-                 v-bind:global-filter-fields="['FuncClassEnName','FuncClassChName']"
+                 v-bind:global-filter-fields="['funcClassEnName','funcClassChName']"
                  v-model:filters="filtersFuncClass" filter-display="menu">
-        <p-column field="FuncClassEnName" header="英文名稱"></p-column>
-        <p-column field="FuncClassChName" header="中文名稱"></p-column>
+        <p-column field="funcClassEnName" header="英文名稱"></p-column>
+        <p-column field="funcClassChName" header="中文名稱"></p-column>
         <p-column style="min-width:8rem" class="d-flex justify-content-center">
             <template #body="slotProps">
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯類別'" v-on:click="OpenEditFuncClassModal(false,slotProps.data.FuncClassCode)"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯類別'" v-on:click="OpenEditFuncClassModal(false,slotProps.data.funcClassCode)"></p-button>
             </template>
         </p-column>
         <template #empty>
@@ -53,13 +53,13 @@
         GetListOfFuncClass, PostFuncClass, GetFuncClassDetailById,
         UpdateFuncClass
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-        import EditFuncClassModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditFuncClassModal.js'
+        import editFuncClassModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditFuncClassModal.js'
         const app = Vue.createApp({
             components: {
                 "p-datatable": primevue.datatable,
                 "p-column": primevue.column,
                 "p-toolbar": primevue.toolbar,
-                EditFuncClassModal
+                editFuncClassModal
             },
             data: function () {
                 return {
@@ -93,10 +93,10 @@
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    this.funcClasss = data.RtnData;
+                                    this.funcClasss = data.rtnData;
                                     break;
                                 default:
                                     break;
@@ -113,37 +113,42 @@
                     }
                 },
                 SaveClass: async function (value) {
-                    let response = null;
-                    if (this.isNew) {
-                        response = await PostFuncClass(value).then(response => response);
-                    } else {
-                        response = await UpdateFuncClass(value).then(response => response);
-                    }
-                    const status = response.status;
-                    if (status === 200) {
-                        const responseData = response.data;
-                        const code = responseData.RtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
-                        switch (code) {
-                            case 200:
-                                this.$refs.editFuncClass.Close();
-                                this.funcClass = {};
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetListOfFunction();
-                                break;
-                            case 401:
-                                if (typeof (responseData.RtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.RtnData);
-                                }
-                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
-                                break;
-                            case 405:
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
-                                break;
-                            default:
-                                break;
+                    try {
+                        let response = null;
+                        if (this.isNew) {
+                            response = await PostFuncClass(value).then(response => response);
+                        } else {
+                            response = await UpdateFuncClass(value).then(response => response);
+                        }
+                        const status = response.status;
+                        if (status === 200) {
+                            const responseData = response.data;
+                            const code = responseData.rtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.$refs.editFuncClass.Close();
+                                    this.funcClass = {};
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    this.GetListOfFunction();
+                                    break;
+                                case 401:
+                                    if (typeof (responseData.rtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.rtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    break;
+                                case 405:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responserata.RtnData, life: 5000, group: 'backend-laoout' });
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
+                    catch (exception) {
+                        console.log(exception);
+                    }                    
                 },
                 GetFuncCode: async function (funcCode) {
                     try {
@@ -156,10 +161,10 @@
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    this.funcClass = data.RtnData;
+                                    this.funcClass = data.rtnData;
                                     break;
                                 default:
                                     break;

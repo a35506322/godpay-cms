@@ -18,7 +18,7 @@
                                     <div class="mb-1 row">
                                         <label class="col-sm-2 col-form-label">公司名稱</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.CustomerName">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.customerName">
                                         </div>
                                     </div>
                                 </td>
@@ -28,7 +28,7 @@
                                     <div class="mb-1 row">
                                         <label class="col-sm-2 col-form-label">特店名稱</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.StoreName">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.storeName">
                                         </div>
                                     </div>
                                 </td>
@@ -38,7 +38,7 @@
                                     <div class="mb-1 row">
                                         <label class="col-sm-2 col-form-label">統一編號</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.TaxId">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.taxId">
                                         </div>
                                     </div>
                                 </td>
@@ -48,7 +48,7 @@
                                     <div class="mb-1 row">
                                         <label class="col-sm-2 col-form-label">負責人</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.Owner">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.owner">
                                         </div>
                                     </div>
                                 </td>
@@ -58,7 +58,7 @@
                                     <div class="mb-1 row">
                                         <label class="col-sm-2 col-form-label">負責人地址</label>
                                         <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.Address">
+                                            <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.address">
                                         </div>
                                     </div>
                                 </td>
@@ -68,7 +68,7 @@
                                     <div class="mb-1 row">
                                         <label class="col-sm-2 col-form-label">負責人Email</label>
                                         <div class="col-sm-10">
-                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.OwnerEmail">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.ownerEmail">
                                         </div>
                                     </div>
                                 </td>
@@ -113,15 +113,15 @@
                     const status = response.status;
                     if (status === 200) {
                         const data = response.data;
-                        const code = data.RtnCode;
+                        const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
                             case 200:
-                                this.storeDetail = data.RtnData;
+                                this.storeDetail = data.rtnData;
                                 break;
                             case 404:
                                 this.storeDetail = {};
-                                this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 break
                             default:
                                 break;
@@ -142,21 +142,21 @@
                     const status = response.status;
                     if (status === 200) {
                         const responseData = response.data;
-                        switch (responseData.RtnCode) {
+                        switch (responseData.rtnCode) {
                             case 200:
                                 await this.GetStoreDetail(uid);
                                 this.$refs.editStoreDetail.Close();
-                                const status = this.$common.ChangeReturnCode(responseData.RtnCode);
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                const status = this.$common.ChangeReturnCode(responseData.rtnCode);
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                 break;
                             case 401:
-                                if (typeof (responseData.RtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                if (typeof (responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
                             case 404:
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                 break;
                             default:
                                 throw new Error('代碼有誤');

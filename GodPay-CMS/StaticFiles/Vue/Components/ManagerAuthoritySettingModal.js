@@ -24,15 +24,15 @@
         SaveAuthority: function () {
             var total = 0;
             this.tempModel.forEach(element => {
-                element.UserAuthorityFuncRsps.forEach(elem => {
-                    if (elem.IsAuthority == true) {
-                        total += elem.FuncCode;
+                element.userAuthorityFuncRsps.forEach(elem => {
+                    if (elem.isAuthority === true) {
+                        total += elem.funcCode;
                     }
                 });
             });
             this.updateUserAuthorityViewModel = {
-                Uid: this.tempUid,
-                Func: total,
+                uid: this.tempUid,
+                func: total,
             }
             this.$emit('save', this.updateUserAuthorityViewModel)
         }
@@ -46,24 +46,24 @@
         }
     },
     template: `
-    <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
         <v-form v-slot="{values, errors}" v-on:submit ="SaveAuthority">
          <div class="modal-body" style="background-color: var(--surface-b);">
             <div class="container-fluid">
                 <div class="row gy-5">
-                <template v-for="(authority,index) in managerAuthority"  v-bind:key="authority.FuncClassCode">
+                <template v-for="(authority,index) in tempModel"  v-bind:key="authority.funcClassCode">
                     <div class="col-12 col-lg-6">
                         <p-card style="width: 25em" class="m-auto">
                             <template #title>
-                                {{authority.FuncClassChName}}
+                                {{authority.funcClassChName}}
                             </template>
                             <template #content>
-                            <template v-for="(func,index) in authority.UserAuthorityFuncRsps" v-bind:key="func.FuncCode">
+                            <template v-for="(func,index) in authority.userAuthorityFuncRsps" v-bind:key="func.funcCode">
                                 <div class="row mb-3">
-                                    <label class="col-sm-8 col-form-label pt-0">{{func.FuncChName}}</label>
+                                    <label class="col-sm-8 col-form-label pt-0">{{func.funcChName}}</label>
                                     <div class="col-sm-4">
                                         <div class="form-check">
-                                            <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" style="margin-top:2px" v-model="func.IsAuthority">
+                                            <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" style="margin-top:2px" v-model="func.isAuthority">
                                         </div> 
                                     </div>
                                 </div>

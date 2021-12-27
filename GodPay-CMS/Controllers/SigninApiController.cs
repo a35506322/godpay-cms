@@ -74,7 +74,7 @@ namespace GodPay_CMS.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return Redirect("/Signin");
+            return Redirect("/signin");
         }
     }
 }

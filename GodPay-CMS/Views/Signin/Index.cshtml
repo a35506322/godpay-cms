@@ -18,18 +18,18 @@
                         <!-- Username  -->
                         <div class="mb-3">
                             <label for="account" class="form-label">Account</label>
-                            <v-field type="text" id="account" class="p-inputtext p-component form-control" name="account" placeholder="請輸入帳號"
-                                     v-model.trim="SigninViewModel.UserId" rules="required" v-bind:class="[{'is-invalid':errors['account']||modelStateError['UserId']}]"></v-field>
-                            <error-message name="account" class="invalid-feedback"></error-message>
-                            <server-error-message v-bind:attr="'UserId'"></server-error-message>
+                            <v-field type="text" id="account" class="p-inputtext p-component form-control" name="帳號" placeholder="請輸入帳號"
+                                     v-model.trim="signinViewModel.userId" rules="required" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]"></v-field>
+                            <error-message name="帳號" class="invalid-feedback"></error-message>
+                            <server-error-message v-bind:attr="'userId'"></server-error-message>
                         </div>
                         <!-- Password -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <v-field type="password" id="password" class="p-inputtext p-component form-control" name="password" placeholder="請輸入密碼"
-                                     v-model.trim="SigninViewModel.UserKey" rules="required" v-bind:class="[{'is-invalid':errors['password']||modelStateError['UserKey']}]"></v-field>
-                            <error-message name="password" class="invalid-feedback"></error-message>
-                            <server-error-message v-bind:attr="'UserKey'"></server-error-message>
+                            <v-field type="password" id="password" class="p-inputtext p-component form-control" name="密碼" placeholder="請輸入密碼"
+                                     v-model.trim="signinViewModel.userKey" rules="required" v-bind:class="[{'is-invalid':errors['密碼']||modelStateError['userKey']}]"></v-field>
+                            <error-message name="密碼" class="invalid-feedback"></error-message>
+                            <server-error-message v-bind:attr="'userKey'"></server-error-message>
                         </div>
                         <!-- Checkbox -->
                         <div class="d-lg-flex justify-content-between align-items-center mb-4">
@@ -65,33 +65,30 @@
         data: function () {
             return {
                 modelStateError: {},
-                SigninViewModel: {
-                    UserId: '',
-                    UserKey:''
-                }
+                signinViewModel: {}
             }
         },
         methods: {
             SignIn: async function () {
                 try {
-                    const response = await PostSignin(this.SigninViewModel).then(response => response);
+                    const response = await PostSignin(this.signinViewModel).then(response => response);
                     const status = response.status;
                     if (status === 200) {
                         const responseData = response.data;
-                        switch (responseData.RtnCode) {
+                        switch (responseData.rtnCode) {
                             case 200:
                                 let baseURL = window.baseURL;
                                 window.location.href = `${baseURL}`;
                                 break;
                             case 401:
-                                if (typeof(responseData.RtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.RtnData);
+                                if (typeof(responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
                             case 402:
-                                const status = this.$common.ChangeReturnCode(responseData.RtnCode);
-                                this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'signin-laoout' });
+                                const status = this.$common.ChangeReturnCode(responseData.rtnCode);
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'signin-laoout' });
                                 break;
                             default:
                                 throw new Error('代碼有誤');

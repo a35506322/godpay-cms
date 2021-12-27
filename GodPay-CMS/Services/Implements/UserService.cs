@@ -65,7 +65,7 @@ namespace GodPay_CMS.Services.Implements
             var userRsp = _mapper.Map<UserRsp>(user);
 
             if (userRsp == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationFail, RtnMessage = "驗證失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "驗證失敗", };
 
             var newKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
 

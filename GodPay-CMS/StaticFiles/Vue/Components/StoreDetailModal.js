@@ -23,7 +23,7 @@
         }
     },
     template: `
-    <p-dialog header="特店詳細資料" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="特店詳細資料" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
          <div class="modal-body">
             <div class="container-fluid">
               <div class="p-datatable p-component p-datatable-responsive-scroll">
@@ -35,7 +35,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">公司名稱</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.CustomerName">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.customerName">
                                             </div>
                                         </div>
                                     </td>
@@ -45,7 +45,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">特店名稱</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.StoreName">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.storeName">
                                             </div>
                                         </div>
                                     </td>
@@ -55,7 +55,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">統一編號</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.TaxId">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.taxId">
                                             </div>
                                         </div>
                                     </td>
@@ -65,7 +65,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">負責人</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Owner">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.owner">
                                             </div>
                                         </div>
                                     </td>
@@ -75,7 +75,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">公司地址</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Address">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.address">
                                             </div>
                                         </div>
                                     </td>
@@ -85,7 +85,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">風險等級</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Risk">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.risk">
                                             </div>
                                         </div>
                                     </td>
@@ -95,7 +95,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">限制額度</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.TransLimit">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.transLimit">
                                             </div>
                                         </div>
                                     </td>
@@ -105,7 +105,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">負責人Email</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.OwnerEmail">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.ownerEmail">
                                             </div>
                                         </div>
                                     </td>

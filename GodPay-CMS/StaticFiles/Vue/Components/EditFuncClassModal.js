@@ -36,26 +36,26 @@ export default {
         }
     },
     template:`
-        <p-dialog v-bind:header="header" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+        <p-dialog v-bind:header="header" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
             <v-form v-slot="{values, errors}" v-on:submit="SaveClass">
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row g-3 mb-5">
                             <div class="col-md-6">
-                                <label for="Email" class="form-label">類別英文名稱</label>
-                                <v-field class="p-inputtext p-component form-control"
-                                    v-model="classModel.FuncClassEnName" name="FuncClassEnName" rules="required|enClass" v-bind:class="[{'is-invalid':errors['FuncClassEnName']||modelStateError['FuncClassEnName']}]"
+                                <label for="funcClassEnName" class="form-label">類別英文名稱</label>
+                                <v-field class="p-inputtext p-component form-control" id="funcClassEnName"
+                                    v-model="classModel.funcClassEnName" name="類別英文名稱" rules="required|enClass" v-bind:class="[{'is-invalid':errors['類別英文名稱']||modelStateError['funcClassEnName']}]"
                                 />
-                                <error-message name="FuncClassEnName" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'FuncClassEnName'"></server-error-message>
+                                <error-message name="類別英文名稱" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'funcClassEnName'"></server-error-message>
                             </div>
                             <div class="col-md-6">
-                                <label for="Status" class="form-label">類別中文名稱</label>
-                                <v-field class="p-inputtext p-component form-control"
-                                    v-model="classModel.FuncClassChName" name="FuncClassChName" rules="required|chClass" v-bind:class="[{'is-invalid':errors['FuncClassChName']||modelStateError['FuncClassChName']}]"
+                                <label for="funcClassChName" class="form-label">類別中文名稱</label>
+                                <v-field class="p-inputtext p-component form-control" id="funcClassChName"
+                                    v-model="classModel.funcClassChName" name="類別中文名稱" rules="required|chClass" v-bind:class="[{'is-invalid':errors['類別中文名稱']||modelStateError['funcClassChName']}]"
                                 />
-                                <error-message name="FuncClassChName" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'FuncClassChName'"></server-error-message>
+                                <error-message name="類別中文名稱" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'funcClassChName'"></server-error-message>
                             </div>
                         </div>
                     </div>

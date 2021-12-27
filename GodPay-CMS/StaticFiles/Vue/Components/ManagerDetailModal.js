@@ -23,7 +23,7 @@
         }
     },
     template: `
-    <p-dialog header="業務詳細資料" v-model:visible="displayModal" class="p-modal-sm p-modal-md p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="業務詳細資料" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
          <div class="modal-body">
             <div class="container-fluid">
               <div class="p-datatable p-component p-datatable-responsive-scroll">
@@ -35,7 +35,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">姓名</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Name">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.name">
                                             </div>
                                         </div>
                                     </td>
@@ -45,7 +45,7 @@
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">部門</label>
                                             <div class="col-sm-10">
-                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.Department">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.department">
                                             </div>
                                         </div>
                                     </td>

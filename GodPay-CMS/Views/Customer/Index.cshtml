@@ -15,19 +15,15 @@
     <div class="px-3">
         <div class="p-toolbar p-component w-100 mb-2">         
             <div class="p-toolbar-group-left">
-                <v-form v-slot="{values, errors}" v-on:submit="PostCutsomterSave">
                     <div class="d-flex">
                         <div class="col me-1">
-                            <v-field type="text" class="p-inputtext p-component" name="customerName" autocomplete="off" placeholder="請輸入公司名稱即可新增" 
-                                      v-model.trim="addCustomerViewModel.customerName" rules="required" v-bind:class="[{'is-invalid':errors['customerName']||modelStateError['customerName']}]"></v-field>
-                            <error-message name="customerName" class="invalid-feedback"></error-message>
-                            <server-error-message v-bind:attr="'customerName'"></server-error-message>
+                            <input type="text" class="p-inputtext p-component" name="customerName" autocomplete="off" placeholder="請輸入公司名稱即可新增" 
+                                      v-model.trim="addCustomerViewModel.customerName" />
                         </div>
                         <div class="col">
-                            <p-button label="新增" icon="pi pi-plus" class="p-button-success p-mr-1" type="submit"></p-button>
+                            <p-button label="新增" icon="pi pi-plus" class="p-button-success p-mr-1" v-on:click="PostCutsomterSave"></p-button>
                         </div>
                     </div>
-                </v-form>
             </div>                       
             <div class="p-toolbar-group-right">
                 <span class="p-input-icon-left">
@@ -38,14 +34,14 @@
             </div>
         </div>
     </div>
-    <p-datatable v-bind:value="customers" edit-mode="row" data-key="CustomerId"
+    <p-datatable v-bind:value="customers" edit-mode="row" data-key="customerId"
                  show-gridlines striped-rows responsive-layout="scroll"
                  v-bind:paginator="true" v-bind:rows="10" paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                  v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
                  v-model:editing-rows="editingRows" v-on:row-edit-save="RowEditSave"
-                 v-bind:global-filter-fields="['CustomerName']"
+                 v-bind:global-filter-fields="['customerName']"
                  v-model:filters="filtersCompany" filter-display="menu">
-        <p-column field="CustomerName" header="公司名稱" body-style="text-align:center">
+        <p-column field="customerName" header="公司名稱" body-style="text-align:center">
             <template #editor="{ data, field }">
                 <input type="text" class="p-inputtext p-component form-control" v-model="data[field]" autofocus />
             </template>
@@ -69,7 +65,6 @@
     const { FilterMatchMode } = primevue.api;
     import {
         GetCustomers, PostCustomer, UpdateCustomer
-
     } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     import serverErrorMessage from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/ServerErrorMessage.js'
     const app = Vue.createApp({
@@ -97,7 +92,7 @@
         methods: {
             RowEditSave: function (event) {
                 let { newData } = event;           
-                if (newData.CustomerName === '') {
+                if (newData.customerName === '') {
                     this.$toast.add({ severity: 'error', summary: '驗證失敗', detail: '公司名稱為必輸', life: 5000, group: 'backend-laoout' });
                     return;
                 }
@@ -112,17 +107,17 @@
                             const status = response.status;
                             if (status === 200) {
                                 const responseData = response.data;
-                                const code = responseData.RtnCode;
+                                const code = responseData.rtnCode;
                                 const status = this.$common.ChangeReturnCode(code);
                                 switch (code) {
                                     case 200:
                                         this.modelStateError = {};
-                                        this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                        this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                         this.GetCustomers();
                                         break;
                                     case 401:
-                                        if (typeof (responseData.RtnData) === 'string') {
-                                            this.modelStateError = JSON.parse(responseData.RtnData);
+                                        if (typeof (responseData.rtnData) === 'string') {
+                                            this.modelStateError = JSON.parse(responseData.rtnData);
                                         }
                                         let errorMessage = '';
                                         for (let key in this.modelStateError) {
@@ -132,7 +127,7 @@
                                         break;
                                     case 417:
                                     case 424:
-                                        this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                        this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                         break;
                                     default:
                                         break;
@@ -152,6 +147,10 @@
             },
             PostCutsomterSave: function () {
                 try {
+                    if (this.addCustomerViewModel.customerName === '') {
+                        this.$toast.add({ severity: 'error', summary: '驗證失敗', detail: '公司名稱為必輸', life: 5000, group: 'backend-laoout' });
+                        return;
+                    }
                     this.$confirm.require({
                         message: '請問確定要新增此公司嗎?',
                         header: '新增公司 ',
@@ -162,7 +161,7 @@
                             const status = response.status;
                             if (status === 200) {
                                 const responseData = response.data;
-                                const code = responseData.RtnCode;
+                                const code = responseData.rtnCode;
                                 const status = this.$common.ChangeReturnCode(code);
                                 switch (code) {
                                     case 200:
@@ -170,19 +169,23 @@
                                             customerName: ''
                                         };
                                         this.modelStateError = {};
-                                        this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                        this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                         this.GetCustomers();
                                         break;
                                     case 401:
-                                        if (typeof (responseData.RtnData) === 'string') {
-                                            this.modelStateError = JSON.parse(responseData.RtnData);
+                                        if (typeof (responseData.rtnData) === 'string') {
+                                            this.modelStateError = JSON.parse(responseData.rtnData);
                                         }
-                                        this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                        let errorMessage = '';
+                                        for (let key in this.modelStateError) {
+                                            errorMessage += this.modelStateError[key].join('\n');
+                                        }
+                                        this.$toast.add({ severity: status, summary: '驗證失敗', detail: errorMessage, life: 5000, group: 'backend-laoout' });
                                         break;
                                     case 417:
                                     case 424:
                                         this.modelStateError = {};
-                                        this.$toast.add({ severity: status, summary: responseData.RtnMessage, detail: responseData.RtnData, life: 5000, group: 'backend-laoout' });
+                                        this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                         break;
                                     default:
                                         break;
@@ -207,11 +210,11 @@
                     const status = response.status;
                     if (status === 200) {
                         const data = response.data;
-                        const code = data.RtnCode;
+                        const code = data.rtnCode;
                         switch (code) {
                             case 200:
-                                if (data.RtnData.length > 0) {
-                                    this.customers = data.RtnData;
+                                if (data.rtnData.length > 0) {
+                                    this.customers = data.rtnData;
                                 }
                                 break;
                             default:

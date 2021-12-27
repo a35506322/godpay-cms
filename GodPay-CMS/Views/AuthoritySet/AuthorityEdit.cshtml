@@ -53,26 +53,26 @@
                     </tr>
                 </thead>
                 <tbody class="p-datatable-tbody">
-                    <template v-for="(funcclass,index) in authoritys" v-bind:key="funcclass.FuncClassEnName">
+                    <template v-for="(funcclass,index) in authoritys" v-bind:key="funcclass.funcClassEnName">
                         <tr>
                             <td colspan="5" class="bg-green-100 justify-content-center">
-                                <span>{{funcclass.FuncClassChName}}</span>
+                                <span>{{funcclass.funcClassChName}}</span>
                             </td>
                         </tr>
-                        <template v-for="(func,index) in funcclass.Functions" v-bind:key="func.FuncEnName">
+                        <template v-for="(func,index) in funcclass.functions" v-bind:key="func.funcEnName">
                             <tr>
-                                <td>{{func.FuncChName}}</td>
+                                <td>{{func.funcChName}}</td>
                                 <td class="justify-content-center">
-                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="1" v-model.number="func.RoleFlag" v-bind:disabled="!isEdit">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="1" v-model.number="func.roleFlag" v-bind:disabled="!isEdit">
                                 </td>
                                 <td class="justify-content-center">
-                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="2" v-model.number="func.RoleFlag" v-bind:disabled="!isEdit">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="2" v-model.number="func.roleFlag" v-bind:disabled="!isEdit">
                                 </td>
                                 <td class="justify-content-center">
-                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="4" v-model.number="func.RoleFlag" v-bind:disabled="!isEdit">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="4" v-model.number="func.roleFlag" v-bind:disabled="!isEdit">
                                 </td>
                                 <td class="justify-content-center">
-                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="8" v-model.number="func.RoleFlag" v-bind:disabled="!isEdit">
+                                    <input type="checkbox" class="p-checkbox p-component p-checkbox-checked form-check-input" value="8" v-model.number="func.roleFlag" v-bind:disabled="!isEdit">
                                 </td>
                             </tr>
                         </template>
@@ -104,19 +104,19 @@
                     try {
                         const query = {
                             params: {
-                                IsWebSite: 'false',
-                                FuncClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                                isWebSite: 'false',
+                                funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
                             }
                         };
                         const response = await GetListOfFunctionFilter(query).then(response => response);
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    if (data.RtnData.length > 0) {
-                                        this.funcs = data.RtnData[0].Functions;
+                                    if (data.rtnData.length > 0) {
+                                        this.funcs = data.rtnData[0].functions;
                                     }
                                     break;
                                 default:
@@ -134,11 +134,11 @@
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
-                            const code = data.RtnCode;
+                            const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    if (data.RtnData.length > 0) {
-                                        this.authoritys = data.RtnData;
+                                    if (data.rtnData.length > 0) {
+                                        this.authoritys = data.rtnData;
                                     }
                                     break;
                                 default:
@@ -159,21 +159,17 @@
                     const status = response.status;
                     if (status === 200) {
                         const data = response.data;
-                        const code = data.RtnCode;
+                        const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
                             case 200:
-                                this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
+                            case 405:
+                            case 417:
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             case 401:
                                 console.log(response);
                                 break
-                            case 405:
-                                this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
-                                break
-                            case 417:
-                                this.$toast.add({ severity: status, summary: data.RtnMessage, detail: data.RtnData, life: 5000, group: 'backend-laoout' });
-                                break;
                             default:
                                 break;
                         }
