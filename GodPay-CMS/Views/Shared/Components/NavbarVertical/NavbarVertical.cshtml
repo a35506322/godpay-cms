@@ -24,7 +24,7 @@
                         active = "active";
                     }
                     <li class="nav-item">
-                        <a class="nav-link has-arrow @active" asp-controller="@funcClass.FuncClassEnName" asp-action="@funcClass.Functions.SingleOrDefault().FuncEnName">
+                        <a class="nav-link has-arrow @active" asp-controller="@funcClass.FuncClassEnName.ToLower()" asp-action="@funcClass.Functions.SingleOrDefault().FuncEnName.ToLower()">
                             <i icon="@funcClass.FuncClassEnName"></i> @funcClass.Functions.SingleOrDefault().FuncChName
                         </a>
                     </li>
@@ -57,7 +57,7 @@
                                         active = "active";
                                     }
                                     <li class="nav-item">
-                                        <a class="nav-link @active" asp-controller="@funcClass.FuncClassEnName" asp-action="@func.FuncEnName">
+                                        <a class="nav-link @active" asp-controller="@funcClass.FuncClassEnName.ToLower()" asp-action="@func.FuncEnName.ToLower()">
                                             @func.FuncChName
                                         </a>
                                     </li>

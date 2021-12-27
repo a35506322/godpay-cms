@@ -14,11 +14,11 @@ namespace GodPay_CMS.Services.Implements
         public TagService()
         {
             iconDic = new Dictionary<string, string>();
-            iconDic.Add("profile", "bi bi-person-fill");
-            iconDic.Add("storeset", "bi bi-shop");
-            iconDic.Add("authorityset", "bi bi-gear");
-            iconDic.Add("managerset", "bi bi-person-video2");
-            iconDic.Add("customer", "bi bi-collection-fill");
+            iconDic.Add("Profile", "bi bi-person-fill");
+            iconDic.Add("StoreSet", "bi bi-shop");
+            iconDic.Add("AuthoritySet", "bi bi-gear");
+            iconDic.Add("ManagerSet", "bi bi-person-video2");
+            iconDic.Add("Customer", "bi bi-collection-fill");
 
         }
 
@@ -28,7 +28,7 @@ namespace GodPay_CMS.Services.Implements
         public string GetIcon(string icon)
         {
             string result = string.Empty;
-            result += iconDic.SingleOrDefault(p => p.Key == icon).Value ?? "bi bi-layers";
+            result += iconDic.SingleOrDefault(p => p.Key.ToLower() == icon.ToLower()).Value ?? "bi bi-layers";
             return result;
         }
 
