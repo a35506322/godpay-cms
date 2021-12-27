@@ -27,6 +27,7 @@ export function ChangeReturnCode(returnCode) {
         404: 'warn',
         405: 'error',
         417: 'warn',
+        423: 'warn',
         424: 'error'
     })
 
@@ -35,10 +36,14 @@ export function ChangeReturnCode(returnCode) {
     }
     return statusEnum[returnCode]
 }
-
+/**
+ * 權限驗證
+ * @param {any} array 篩選過的權限陣列
+ * @param {any} action 想篩選哪個action
+ */
 export function CheckAuthority(array, action) {
     for (let i = 0; i < array.length; i++) {
-        if (array[i]['FuncEnName'] === action) {
+        if (array[i]['funcEnName'] === action) {
             return true;
         }
     }
