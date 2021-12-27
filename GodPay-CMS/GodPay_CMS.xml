@@ -290,13 +290,6 @@
             <param name="updateUserAndInsiderViewModal"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.GetManagerFilter(GodPay_CMS.Controllers.Parameters.UserParams)">
-            <summary>
-            取得單筆業務(篩選)
-            </summary>
-            <param name="userParams"></param>
-            <returns></returns>
-        </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.GetManagerAuthority(System.String)">
             <summary>
             取得業務角色權限
@@ -2083,6 +2076,11 @@
             角色
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Services.DTO.UserFilterRsp.RoleChName">
+            <summary>
+            角色(中文名稱)
+            </summary>
+        </member>
         <member name="P:GodPay_CMS.Services.DTO.UserFilterRsp.Func">
             <summary>
             權限旗標
@@ -2091,6 +2089,11 @@
         <member name="P:GodPay_CMS.Services.DTO.UserFilterRsp.Status">
             <summary>
             目前狀態
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.UserFilterRsp.StatusChName">
+            <summary>
+            目前狀態(中文名稱)
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UserFilterRsp.LastModifier">
