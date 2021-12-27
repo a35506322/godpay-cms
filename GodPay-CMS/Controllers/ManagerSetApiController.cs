@@ -80,18 +80,6 @@ namespace GodPay_CMS.Controllers
         }
 
         /// <summary>
-        /// 取得單筆業務(篩選)
-        /// </summary>
-        /// <param name="userParams"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetManagerFilter([FromQuery] UserParams userParams)
-        {
-            var response = await _serviceWrapper.managerService.GetManagerFilter(userParams);
-            return Ok(response);
-        }
-
-        /// <summary>
         /// 取得業務角色權限
         /// </summary>
         /// <returns></returns>
