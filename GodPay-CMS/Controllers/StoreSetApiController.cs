@@ -75,5 +75,28 @@ namespace GodPay_CMS.Controllers
             var reponse = await _serviceWrapper.storeService.UpateUserAndStore(updateUserAndStoreViewModel);
             return Ok(reponse);
         }
+
+        /// <summary>
+        /// 取得特店角色權限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetStoreAuthority([FromQuery] string userId)
+        {
+            var response = await _serviceWrapper.storeService.GetStoreAuthority(userId);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 修改特店角色權限
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> UpdateStoreAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        {
+            var response = await _serviceWrapper.storeService.UpdateStoreAuthority(updateUserAuthorityViewModel);
+            return Ok(response);
+        }
     }
 }

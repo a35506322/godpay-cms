@@ -517,6 +517,19 @@
             <param name="updateUserAndStoreViewModel"></param>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreAuthority(System.String)">
+            <summary>
+            取得特店角色權限
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.UpdateStoreAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
+            <summary>
+            修改特店角色權限
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Controllers.StoreSetController">
             <summary>
             特店管理頁面
@@ -2419,6 +2432,13 @@
             更新特店
             </summary>
             <param name="updateStoreViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IStoreService.GetStoreAuthority(System.String)">
+            <summary>
+            取得特店角色權限
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Services.Interfaces.IUserService">

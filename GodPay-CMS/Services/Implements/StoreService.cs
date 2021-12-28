@@ -105,5 +105,33 @@ namespace GodPay_CMS.Services.Implements
 
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改失敗" };
         }
+
+        public async Task<ResponseViewModel> GetStoreAuthority(string userId)
+        {
+            var user = await _repostioryWrapper.userRepository.GetByUserId(userId);
+            if (user == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+
+            GetRoleAuthorityReq getRoleAuthorityReq = new GetRoleAuthorityReq()
+            {
+                Role = (int)RoleEnum.Store,
+                FuncFlag = user.Func
+            };
+            var storeAuthority = await _repostioryWrapper.funcClassRepository.GetRoleAuthority(getRoleAuthorityReq);
+            return new ResponseViewModel() { RtnData = storeAuthority };
+        }
+
+        public async Task<ResponseViewModel> UpdateStoreAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        {
+            var updateUserAuthorityReq = _mapper.Map<User>(updateUserAuthorityViewModel);
+            updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateUserAuthorityReq.LastModifyDate = DateTime.Now;
+
+            var result = await _repostioryWrapper.userRepository.UpdateUserAuthority(updateUserAuthorityReq);
+            if (result)
+                return new ResponseViewModel() { RtnMessage = "修改特店權限成功", RtnData = result };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改特店權限失敗" };
+        }
     }
 }
