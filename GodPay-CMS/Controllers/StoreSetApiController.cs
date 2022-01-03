@@ -19,6 +19,7 @@ namespace GodPay_CMS.Controllers
         {
             _serviceWrapper = serviceWrapper;
         }
+
         /// <summary>
         /// 取得所有特店
         /// </summary>
@@ -29,6 +30,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.storeService.GetStores();
             return Ok(response);
         }
+
         /// <summary>
         /// 取得特店詳細資料
         /// </summary>
@@ -40,6 +42,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.storeService.GetStoreDeatil(uid);
             return Ok(response);
         }
+
         /// <summary>
         /// 新增使用者及特店
         /// </summary>

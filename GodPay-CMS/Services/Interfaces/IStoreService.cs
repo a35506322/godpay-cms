@@ -58,7 +58,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <returns></returns>
         public Task<ResponseViewModel> GetStoreAuthority(string userId);
 
-
+        /// <summary>
+        /// 修改特店角色權限
+        /// </summary>
+        /// <param name="updateUserAuthorityViewModel"></param>
+        /// <returns></returns>
         public Task<ResponseViewModel> UpdateStoreAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
 
     }

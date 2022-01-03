@@ -2441,6 +2441,13 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IStoreService.UpdateStoreAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
+            <summary>
+            修改特店角色權限
+            </summary>
+            <param name="updateUserAuthorityViewModel"></param>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Services.Interfaces.IUserService">
             <summary>
             使用者伺服器
