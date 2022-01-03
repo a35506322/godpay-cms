@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Repositories.Entity
+﻿namespace GodPay_CMS.Repositories.Entity
 {
     /// <summary>
     /// 內部人員詳細資料

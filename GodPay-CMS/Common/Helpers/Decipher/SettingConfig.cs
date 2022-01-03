@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Common.Helpers.Decipher
+﻿namespace GodPay_CMS.Common.Helpers.Decipher
 {
     public class SettingConfig
     {

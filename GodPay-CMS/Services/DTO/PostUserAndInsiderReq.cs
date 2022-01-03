@@ -1,8 +1,5 @@
 ﻿using GodPay_CMS.Common.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.DTO
 {

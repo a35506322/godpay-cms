@@ -1,5 +1,4 @@
-﻿using GodPay_CMS.Controllers.Parameters;
-using GodPay_CMS.Controllers.ViewModels;
+﻿using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

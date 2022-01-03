@@ -1,8 +1,4 @@
-﻿using GodPay_CMS.Controllers.Parameters;
-using GodPay_CMS.Controllers.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GodPay_CMS.Controllers.ViewModels;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces

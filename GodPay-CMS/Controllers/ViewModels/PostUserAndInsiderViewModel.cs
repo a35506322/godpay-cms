@@ -1,10 +1,4 @@
-﻿using GodPay_CMS.Common.Attributes;
-using GodPay_CMS.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {

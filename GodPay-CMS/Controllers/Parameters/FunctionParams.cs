@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GodPay_CMS.Controllers.Parameters
+﻿namespace GodPay_CMS.Controllers.Parameters
 {
     /// <summary>
     /// Function Parms

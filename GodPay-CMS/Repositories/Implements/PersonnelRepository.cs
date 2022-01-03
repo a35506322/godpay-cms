@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Repositories.Implements

@@ -1,8 +1,4 @@
-﻿using GodPay_CMS.Services.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GodPay_CMS.Repositories.Entity
 {

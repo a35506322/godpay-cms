@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using GodPay_CMS.Repositories.Interfaces;
+﻿using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -9,9 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System.Security.Claims;
-using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;

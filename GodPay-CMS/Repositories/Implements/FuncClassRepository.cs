@@ -1,13 +1,9 @@
-﻿using GodPay_CMS.Common.Enums;
-using GodPay_CMS.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+﻿using GodPay_CMS.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Repositories.Entity;
