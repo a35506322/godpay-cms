@@ -22,7 +22,7 @@ namespace GodPay_CMS.Common.Helpers
             result += "{";
             foreach (var kvp in errors)
             {
-                result += $"\"{kvp.Key}\":[{String.Join(',', kvp.Value.Select(v => string.Format("\"{0}\"", v)))}],";
+                result += $"\"{kvp.Key.ToLowerForFirst()}\":[{String.Join(',', kvp.Value.Select(v => string.Format("\"{0}\"", v)))}],";
             }
             result = result.TrimEnd(',');
             result += "}";
