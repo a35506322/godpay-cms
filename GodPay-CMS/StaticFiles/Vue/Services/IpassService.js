@@ -25,6 +25,9 @@ export const GetStoreDetail = (query) => axios.get('/StoreSetApi/GetStoreDeatil'
 export const PostUserAndStore = data => axios.post('/StoreSetApi/PostUserAndStore', data).then(respone => { console.log('PostUserAndStore'); return respone; }).catch(error => error);
 export const GetStore = (query) => axios.get('/StoreSetApi/GetStore', query).then(respone => { console.log('GetStore'); return respone; }).catch(error => error);
 export const UpateUserAndStore = data => axios.post('/StoreSetApi/UpateUserAndStore', data).then(respone => { console.log('UpateUserAndStore'); return respone; }).catch(error => error);
+export const GetStoreAuthority = query => axios.get('/StoreSetApi/GetStoreAuthority', query).then(respone => { console.log('GetStoreAuthority'); return respone; }).catch(error => error);
+export const UpdateStoreAuthority = data => axios.put('/StoreSetApi/UpdateStoreAuthority', data).then(respone => { console.log('UpdateStoreAuthority'); return respone; }).catch(error => error);
+
 
 // EnumApi
 export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone => { console.log('GetRoleEnum'); return respone; }).catch(error => error);
