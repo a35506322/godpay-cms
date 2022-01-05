@@ -1,11 +1,16 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
@@ -35,6 +40,28 @@ namespace GodPay_CMS.Services.Implements
 
             var userRsp = _mapper.Map<IEnumerable<PersonnelRsp>>(user);
             return new ResponseViewModel() { RtnData = userRsp };
+        }
+
+        public async Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelViewModel postStorePersonnelViewModel)
+        {
+            string loginId = $"{_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value}_";
+            string postId = $"{loginId}{postStorePersonnelViewModel.UserId.Trim()}";
+
+            var user = await _repostioryWrapper.userRepository.GetByUserId(postId);
+            if (user != null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "此帳號已重複" };
+
+            var postUserReq = _mapper.Map<User>(postStorePersonnelViewModel);
+            postUserReq.UserId = postId;
+            postUserReq.UserKey = RNGCrypto.HMACSHA256(postId, "p@ssw0rd");
+            postUserReq.Personnel = new Personnel();
+            postUserReq.Personnel.StoreId = Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "StoreId").Value);
+
+            var isSuccess = await _repostioryWrapper.userRepository.PostStorePersonnel(postUserReq);
+            if(isSuccess)
+                return new ResponseViewModel() { RtnMessage = "新增特店人員成功" };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增特店人員失敗" };
         }
     }
 }

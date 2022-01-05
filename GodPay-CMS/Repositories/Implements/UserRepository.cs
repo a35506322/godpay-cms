@@ -14,6 +14,7 @@ using GodPay_CMS.Common.Util;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -30,9 +31,25 @@ namespace GodPay_CMS.Repositories.Implements
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<bool> Add(User model)
+        public async Task<bool> Add(User model)
         {
-            throw new NotImplementedException();
+            string sqlString = @"Insert into [dbo].[User] (UserId,UserKey,Email,Role,Func,Status,CreateDate)
+                                Values(@UserId,@UserKey,@Email,@Role,@Func,@Status,@CreateDate)";
+
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                bool result = false;
+                try
+                {
+                    var rowCount = await connection.ExecuteAsync(sqlString, model);
+                    result = rowCount > 0 ? true : false;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                return result;
+            }
         }
 
         public Task<bool> Delete(int id)
@@ -423,6 +440,39 @@ namespace GodPay_CMS.Repositories.Implements
                 }
                 return result;
             }
+        }
+
+        public async Task<bool> PostStorePersonnel(User user)
+        {
+            string insertUser = @"Insert into [dbo].[User] (UserId,UserKey,Email,Role,Func,Status,CreateDate)
+                                    Values(@UserId,@UserKey,@Email,@Role,@Func,@Status,@CreateDate)";
+            insertUser += "Select CAST(SCOPE_IDENTITY() as int)";
+
+            string insertPersonnel = @"Insert into [dbo].[Customer_Personnel](Uid,StoreId)
+                                        Values(@Uid,@StoreId)";
+
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                bool result = false;
+                connection.Open();
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var userId = await connection.QueryAsync<int>(insertUser, user, transaction:tran);
+                        var rowCount = await connection.ExecuteAsync(insertPersonnel, new { Uid = userId.FirstOrDefault() , StoreId = user.Personnel.StoreId }, transaction: tran);
+                        result = rowCount > 0 ? true : false;
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw ex;
+                    }
+                    return result;
+                }
+            }
+
         }
     }
 }

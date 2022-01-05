@@ -43,41 +43,42 @@
     </p-datatable>
 </div>
 
-<edit-store-modal ref="editStore" v-bind:temp-store="tempStore" v-bind:is-new="isNew"
-                  v-bind:model-state-error="modelStateError" v-on:save="SaveStores" v-bind:temp-account-status="accountStatus"></edit-store-modal>
+<edit-store-personnel-modal ref="editStorePersonnel" v-bind:temp-store-personnel="tempStorePersonnel" v-bind:is-new="isNew" v-bind:temp-login-id="loginId"
+                  v-bind:model-state-error="modelStateError" v-on:save="SaveStorePersonnel" v-bind:temp-account-status="accountStatus"></edit-store-personnel-modal>
 
 <script type="text/javascript">
     @section Vue
     {
         const { FilterMatchMode } = primevue.api;
         import {
-        GetStorePersonnels,  
+        GetStorePersonnels,
         GetAccountStatusEnum, GetUserById,
-        GetListOfFunctionFilter
+        GetListOfFunctionFilter, PostStorePersonnel
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-        import editStoreModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditPersonnelModal.js'
+        import editStorePersonnelModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditPersonnelModal.js'
         const app = Vue.createApp({
             components: {
                 "p-datatable": primevue.datatable,
                 "p-column": primevue.column,
                 "p-toolbar": primevue.toolbar,
-                editStoreModal
+                editStorePersonnelModal
             },
             data: function () {
                 return {
                     columnsDefs: [],
                     personnels: [],
-                    tempStore: {},
+                    tempStorePersonnel: {},
                     selectedStore: {},
                     storeDetail: {},
                     isNew: null,
                     modelStateError: {},
                     accountStatus: [],
                     filtersPersonnels: null,
-                    funcs:[]
+                    funcs: [],
+                    loginId :'@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c=>c.Type == ClaimTypes.Name).Value'+'_'
                 }
             },
-            created: function () {               
+            created: function () {
                 this.columnsDefs = [
                     { field: 'userId', header: '帳號' },
                     { field: 'personnelName', header: '名稱' },
@@ -157,7 +158,7 @@
                             const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    this.tempStore = data.rtnData;
+                                    this.tempStorePersonnel = data.rtnData;
                                     break;
                                 default:
                                     break;
@@ -172,17 +173,18 @@
                     this.isNew = isNew;
                     this.modelStateError = {};
                     if (isNew) {
-                        this.tempStore = {};
+                        this.tempStorePersonnel = {};
                     }
                     else {
                         await this.GetUserById(userId);
                     }
-                    this.$refs.editStore.Show();
+                    this.$refs.editStorePersonnel.Show();
                 },
-                SaveStores: async function (value) {
+                SaveStorePersonnel: async function (value) {
+                    console.log(value);
                     let response = null;
                     if (this.isNew) {
-                        response = await PostStore(value).then(response => response);
+                        response = await PostStorePersonnel(value).then(response => response);
                     } else {
                         response = await UpdateStore(value).then(response => response);
                     }
@@ -193,10 +195,10 @@
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
                             case 200:
-                                this.$refs.editStore.Close();
-                                this.tempStore = {};
+                                this.$refs.editStorePersonnel.Close();
+                                this.tempStorePersonnel = {};
                                 this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetStores();
+                                this.GetStorePersonnels();
                                 break;
                             case 401:
                                 if (typeof (responseData.rtnData) === 'string') {
@@ -205,6 +207,7 @@
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
                             case 405:
+                            case 417:
                                 this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             default:

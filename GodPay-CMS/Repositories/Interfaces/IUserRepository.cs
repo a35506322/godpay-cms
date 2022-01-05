@@ -102,5 +102,12 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// <param name="updateUserAuthorityReq"></param>
         /// <returns></returns>
         public Task<bool> UpdateUserAuthority(User updateUserAuthorityReq);
+
+        /// <summary>
+        /// 新增特店人員
+        /// </summary>
+        /// <param name="updateUserAuthorityReq"></param>
+        /// <returns></returns>
+        public Task<bool> PostStorePersonnel(User user);
     }
 }

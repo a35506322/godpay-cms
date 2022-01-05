@@ -6,5 +6,6 @@ namespace GodPay_CMS.Services.Interfaces
     public interface IPersonnelService
     {
         public Task<ResponseViewModel> GetAllPersonnelByStore();
+        public Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelViewModel postStorePersonnelViewModel);
     }
 }
