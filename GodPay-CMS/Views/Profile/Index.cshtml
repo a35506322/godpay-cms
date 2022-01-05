@@ -63,8 +63,8 @@
         </div>
     </div>
 </div>
-<edit-user-modal ref="editUser" v-bind:pemail="user.email" v-bind:model-error="modelStateError" v-on:save="SaveProfile"></edit-user-modal>
-<change-password-modal ref="changePassword" v-bind:model-error="modelStateError" v-on:save="SaveKey"></change-password-modal>
+<edit-user-modal ref="editUser" v-bind:pemail="user.email" v-bind:model-error="modelStateError" v-on:save="SaveProfile" v-bind:temp-loading ="loading"></edit-user-modal>
+<change-password-modal ref="changePassword" v-bind:model-error="modelStateError" v-on:save="SaveKey" v-bind:temp-loading ="loading"></change-password-modal>
 
 <script type="text/javascript">
     @section Vue
@@ -98,7 +98,8 @@
                     oldKey: '',
                     newKey: '',
                     newKey2:''
-                }
+                },
+                loading: false
             }
         },
         created: function () {
@@ -171,6 +172,7 @@
                 this.editViewModel.email = value;
                 this.editViewModel.userId = this.user.userId;
                 try {
+                    this.loading = true;
                     const response = await EditUser(this.editViewModel).then(response => response);
                     const status = response.status;
                     if (status === 200) {
@@ -195,15 +197,18 @@
                                 break;
                         }
                     }
+                    this.loading = false;
                 }
                 catch (exception) {
                     console.log(exception);
+                    this.loading = false;
                 }
             },
             SaveKey: async function (value) {
                 this.editKeyViewModel = value;
                 this.editKeyViewModel.userId = this.user.userId;
                 try {
+                    this.loading = true;
                     const response = await EditKey(this.editKeyViewModel).then(response => response);
                     if (response.status === 200) {
                         const responseData = response.data;
@@ -229,8 +234,10 @@
                                 break;
                         }
                     }
+                    this.loading = false;
                 } catch (exception) {
                     console.log(exception);
+                    this.loading = false;
                 }
             }
         }

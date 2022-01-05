@@ -13,7 +13,7 @@
                     </template>
                     <template v-else>
                         <p-button label="復原" icon="pi pi-refresh" class="p-button-info p-mr-1 me-1" v-on:click="Refresh"></p-button>
-                        <p-button label="儲存" icon="pi pi-save" class="p-button-success p-mr-1" v-on:click=" UpdateRoleMaxAuthority"></p-button>
+                        <p-button label="儲存" icon="pi pi-save" class="p-button-success p-mr-1" v-on:click=" UpdateRoleMaxAuthority" v-bind:loading="loading"></p-button>
                     </template>
                 </div>
             </div>
@@ -92,7 +92,8 @@
             return {
                 funcs: [],
                 authoritys: [],
-                isEdit: false
+                isEdit: false,
+                loading: false
             }
         },
         created: function () {
@@ -155,6 +156,7 @@
             },
             UpdateRoleMaxAuthority: async function () {
                 try {
+                    this.loading = true;
                     const response = await UpdateRoleMaxAuthority(this.authoritys).then(response => response);
                     const status = response.status;
                     if (status === 200) {
@@ -174,6 +176,7 @@
                                 break;
                         }
                     }
+                    this.loading = false;
                 }
                 catch (exception) {
                     console.log(exception)
@@ -184,7 +187,6 @@
                     this.isEdit = false;
                 })
             },
-
         }
     })
 

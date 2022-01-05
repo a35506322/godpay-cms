@@ -47,10 +47,11 @@
 </div>
 
 <store-detail-modal ref="storeDetail" v-bind:pdetail="storeDetail"></store-detail-modal>
-<edit-store-modal ref="editStore" v-bind:temp-store="tempStore" v-bind:is-new="isNew"
+<edit-store-modal ref="editStore" v-bind:temp-store="tempStore" v-bind:is-new="isNew" v-bind:temp-loading ="loading"
                   v-bind:model-state-error="modelStateError" v-on:save="SaveStores" v-bind:temp-account-status="accountStatus"
                   v-bind:temp-customers="customers"></edit-store-modal>
-<store-authority-setting-modal ref="storeAuthoritySetting" v-bind:store-authority="storeAuthority" v-bind:temp-uid="tempUid" v-on:save="SaveAuthority"></store-authority-setting-modal>
+<store-authority-setting-modal ref="storeAuthoritySetting" v-bind:store-authority="storeAuthority" 
+                               v-bind:temp-uid="tempUid" v-on:save="SaveAuthority" v-bind:temp-loading ="loading"></store-authority-setting-modal>
 
 <script type="text/javascript">
     @section Vue
@@ -89,6 +90,7 @@
                     customers: [],
                     storeAuthority: {},
                     tempUid: 0,
+                    loading: false
                 }
             },
             created: function () {
@@ -232,38 +234,45 @@
                     this.$refs.editStore.Show();
                 },
                 SaveStores: async function (value) {
-                    let response = null;
-                    if (this.isNew) {
-                        response = await PostUserAndStore(value).then(response => response);
-                    } else {
-                        response = await UpateUserAndStore(value).then(response => response);
-                    }
-                    const status = response.status;
-                    if (status === 200) {
-                        const responseData = response.data;
-                        const code = responseData.rtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
-                        switch (code) {
-                            case 200:
-                                this.$refs.editStore.Close();
-                                this.tempStore = {};
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetStores();
-                                break;
-                            case 401:
-                                if (typeof (responseData.rtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.rtnData);
-                                }
-                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
-                                break;
-                            case 405:
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                break;
-                            default:
-                                break;
+                    try {
+                        this.loading = true;
+                        let response = null;
+                        if (this.isNew) {
+                            response = await PostUserAndStore(value).then(response => response);
+                        } else {
+                            response = await UpateUserAndStore(value).then(response => response);
                         }
+                        const status = response.status;
+                        if (status === 200) {
+                            const responseData = response.data;
+                            const code = responseData.rtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.$refs.editStore.Close();
+                                    this.tempStore = {};
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    this.GetStores();
+                                    break;
+                                case 401:
+                                    if (typeof (responseData.rtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.rtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    break;
+                                case 405:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        this.loading = false;
                     }
-
+                    catch (ex) {
+                        console.log(ex);
+                        this.loading = false;
+                    }                   
                 },
                 GetAccountStatusEnum: async function () {
                     try {
@@ -356,6 +365,7 @@
                 SaveAuthority: async function (value) {
                     this.updateUserAuthorityViewModel = value;
                     try {
+                        this.loading = true;
                         const response = await UpdateStoreAuthority(this.updateUserAuthorityViewModel).then(response => response);
                         const status = response.status;
                         if (status === 200) {
@@ -380,9 +390,11 @@
                                     break;
                             }
                         }
+                        this.loading = false;
                     }
                     catch (exception) {
                         console.log(exception);
+                        this.loading = false;
                     }
                 }
 

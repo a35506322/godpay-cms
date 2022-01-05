@@ -54,9 +54,10 @@
 </div>
 
 <manager-detail-modal ref="managerDetail" v-bind:pdetail="managerDetail"></manager-detail-modal>
-<edit-manager-modal ref="editManager" v-bind:temp-manager="tempManager" v-bind:is-new="isNew"
+<edit-manager-modal ref="editManager" v-bind:temp-manager="tempManager" v-bind:is-new="isNew" v-bind:temp-loading ="loading"
                     v-bind:model-state-error="modelStateError" v-on:save="SaveManager" v-bind:temp-account-status="accountStatus"></edit-manager-modal>
-<manager-authority-setting-modal ref="managerAuthoritySetting" v-bind:manager-authority="managerAuthority" v-bind:temp-uid="tempUid" v-on:save="SaveAuthority"></manager-authority-setting-modal>
+<manager-authority-setting-modal ref="managerAuthoritySetting" v-bind:manager-authority="managerAuthority"
+                                 v-bind:temp-uid="tempUid" v-bind:temp-loading ="loading" v-on:save="SaveAuthority"></manager-authority-setting-modal>
 
 
 <script type="text/javascript">
@@ -95,7 +96,8 @@
                     filtersManager: null,
                     managerAuthority: {},
                     tempUid: 0,
-                    updateUserAuthorityViewModel: {}
+                    updateUserAuthorityViewModel: {},
+                    loading: false
                 }
             },
             created: function () {
@@ -263,37 +265,46 @@
                     }
                 },
                 SaveManager: async function (value) {
-                    let response = null;
-                    if (this.isNew) {
-                        response = await PostManagerAndInsider(value).then(response => response);
-                    } else {
-                        response = await UpdateManagerAndInsider(value).then(response => response);
-                    }
-                    const status = response.status;
-                    if (status === 200) {
-                        const responseData = response.data;
-                        const code = responseData.rtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
-                        switch (code) {
-                            case 200:
-                                this.$refs.editManager.Close();
-                                this.tempManager = {};
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetManagerAll();
-                                break;
-                            case 401:
-                                if (typeof (responseData.rtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.rtnData);
-                                }
-                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
-                                break;
-                            case 405:
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                break;
-                            default:
-                                break;
+                    try {
+                        let response = null;
+                        this.loading = true;
+                        if (this.isNew) {
+                            response = await PostManagerAndInsider(value).then(response => response);
+                        } else {
+                            response = await UpdateManagerAndInsider(value).then(response => response);
                         }
+                        const status = response.status;
+                        if (status === 200) {
+                            const responseData = response.data;
+                            const code = responseData.rtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.$refs.editManager.Close();
+                                    this.tempManager = {};
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    this.GetManagerAll();
+                                    break;
+                                case 401:
+                                    if (typeof (responseData.rtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.rtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    break;
+                                case 405:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        this.loading = false;
                     }
+                    catch (ex) {
+                        console.log(ex);
+                        this.loading = false;
+                    }
+                    
                 },
                 InitFilters: function () {
                     this.filtersManager = {
@@ -342,6 +353,7 @@
                 SaveAuthority: async function (value) {
                     this.updateUserAuthorityViewModel = value;
                     try {
+                        this.loading = true;
                         const response = await UpdateManagerAuthority(this.updateUserAuthorityViewModel).then(response => response);
                         const status = response.status;
                         if (status === 200) {
@@ -366,9 +378,11 @@
                                     break;
                             }
                         }
+                        this.loading = false;
                     }
                     catch (exception) {
                         console.log(exception);
+                        this.loading = false;
                     }
                 }
             }

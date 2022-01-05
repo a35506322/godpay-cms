@@ -41,8 +41,10 @@
                         <div>
                             <!-- Button -->
                             <div class="d-grid">
-                                <p-button label="Sign in" type="submit"
-                                          v-bind:disabled="Object.keys(errors).length !== 0 || !this.$common.CheckValueOfObjectIsNotEmpty(values)"></p-button>
+                                
+                                <p-button label="Sign in" type="submit" v-bind:loading="loading"
+                                          v-bind:disabled="Object.keys(errors).length !== 0 || !this.$common.CheckValueOfObjectIsNotEmpty(values)">
+                                </p-button>
                             </div>
                         </div>
                     </v-form>
@@ -60,17 +62,19 @@
     const app = Vue.createApp({
         components: {
             serverErrorMessage,
-            'pButton':primevue.button
+            'pButton': primevue.button,
         },
         data: function () {
             return {
                 modelStateError: {},
-                signinViewModel: {}
+                signinViewModel: {},
+                loading: false
             }
         },
         methods: {
             SignIn: async function () {
                 try {
+                    this.loading = true;
                     const response = await PostSignin(this.signinViewModel).then(response => response);
                     const status = response.status;
                     if (status === 200) {
@@ -95,11 +99,13 @@
                                 break;
                         }
                     }
+                    this.loading = false
                 }
                 catch (exception) {
                     // 存入log
                     // 導去錯誤頁面
                     console.log(exception);
+                    this.loading = false
                 }
 
             }

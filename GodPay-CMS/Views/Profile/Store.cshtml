@@ -80,7 +80,8 @@
         </div>
     </div>
 </div>
-<edit-store-detail ref="editStoreDetail" v-bind:temp-store="storeDetail" v-bind:model-state-error="modelStateError" v-on:save="SaveStoreDeatil"></edit-store-detail>
+<edit-store-detail ref="editStoreDetail" v-bind:temp-store="storeDetail" v-bind:model-state-error="modelStateError" 
+                   v-bind:temp-loading ="loading" v-on:save="SaveStoreDeatil"></edit-store-detail>
 
 <script type="text/javascript">
 @section Vue
@@ -95,7 +96,8 @@
         data: function () {
             return {
                 storeDetail: {},
-                modelStateError: {}
+                modelStateError: {},
+                loading: false
             }
         },
         created: function () {
@@ -138,6 +140,7 @@
             },
             SaveStoreDeatil: async function (store) {
                 try {
+                    this.loading = true;
                     const response = await UpateStore(store).then(response => response);
                     const status = response.status;
                     if (status === 200) {
@@ -163,9 +166,11 @@
                                 break;
                         }
                     }
+                    this.loading = false;
                 }
                 catch (exception) {
                     console.log(exception);
+                    this.loading = false;
                 }
             }
 

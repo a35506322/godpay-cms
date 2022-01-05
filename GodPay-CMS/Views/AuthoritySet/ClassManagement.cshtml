@@ -42,7 +42,7 @@
         </template>
     </p-datatable>
 </div>
-<edit-func-class-modal ref="editFuncClass" v-bind:func-class="funcClass" v-bind:is-new="isNew"
+<edit-func-class-modal ref="editFuncClass" v-bind:func-class="funcClass" v-bind:is-new="isNew" v-bind:temp-loading ="loading"
                        v-on:save="SaveClass" v-bind:model-state-error="modelStateError"></edit-func-class-modal>
 
 <script type="text/javascript">
@@ -68,7 +68,8 @@
                     filtersFuncClass: null,
                     funcClass: {},
                     isNew: true,
-                    modelStateError: {}
+                    modelStateError: {},
+                    loading: false
                 }
             },
             created: function () {
@@ -115,6 +116,7 @@
                 SaveClass: async function (value) {
                     try {
                         let response = null;
+                        this.loading = true;
                         if (this.isNew) {
                             response = await PostFuncClass(value).then(response => response);
                         } else {
@@ -145,9 +147,11 @@
                                     break;
                             }
                         }
+                        this.loading = false;
                     }
                     catch (exception) {
                         console.log(exception);
+                        this.loading = false;
                     }                    
                 },
                 GetFuncCode: async function (funcCode) {

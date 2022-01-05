@@ -1,6 +1,6 @@
 ﻿import serverErrorMessage from './ServerErrorMessage.js'
 export default {
-    props: ['isNew', 'func', 'modelStateError', 'funcClassList'],
+    props: ['isNew', 'func', 'modelStateError', 'funcClassList', 'tempLoading'],
     components: {
         serverErrorMessage,
         "p-checkbox": primevue.checkbox
@@ -87,7 +87,7 @@ export default {
                 </div>
                 <div class="p-dialog-footer">
                     <p-button label="取消" icon="pi pi-times" v-on:click="Close()" class="p-button-text"></p-button>
-                    <p-button label="儲存" icon="pi pi-check" autofocus type="submit"></p-button>
+                    <p-button label="儲存" icon="pi pi-check" autofocus type="submit" v-bind:loading="tempLoading"></p-button>
                 </div>
             </v-form>
         </p- dialog > `

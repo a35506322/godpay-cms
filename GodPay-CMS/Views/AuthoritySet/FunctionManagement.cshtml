@@ -52,7 +52,7 @@
 </div>
 <edit-func-modal ref="editFunc" v-bind:func="func" v-bind:is-new="isNew"
                  v-on:save="SaveFunc" v-bind:model-state-error="modelStateError"
-                 v-bind:func-class-list="funcClassList"></edit-func-modal>
+                 v-bind:func-class-list="funcClassList"  v-bind:temp-loading ="loading"></edit-func-modal>
 
 <script type="text/javascript">
     @section Vue
@@ -79,6 +79,7 @@
                     func: {},
                     selectedFunc: {},
                     funcClassList: [],
+                    loading: false
                 }
             },
             created: function () {
@@ -170,6 +171,7 @@
                 },
                 SaveFunc: async function (value) {
                     let response = null;
+                    this.loading = true;
                     if (this.isNew) {
                         response = await PostFunc(value).then(response => response);
                     } else {
@@ -200,7 +202,7 @@
                                 break;
                         }
                     }
-
+                    this.loading = false
                 },
 
             }

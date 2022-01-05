@@ -44,7 +44,8 @@
 </div>
 
 <edit-store-personnel-modal ref="editStorePersonnel" v-bind:temp-store-personnel="tempStorePersonnel" v-bind:is-new="isNew" v-bind:temp-login-id="loginId"
-                  v-bind:model-state-error="modelStateError" v-on:save="SaveStorePersonnel" v-bind:temp-account-status="accountStatus"></edit-store-personnel-modal>
+                  v-bind:model-state-error="modelStateError" v-on:save="SaveStorePersonnel" v-bind:temp-account-status="accountStatus"
+                  v-bind:temp-loading ="loading"></edit-store-personnel-modal>
 
 <script type="text/javascript">
     @section Vue
@@ -76,7 +77,8 @@
                     accountStatus: [],
                     filtersPersonnels: null,
                     funcs: [],
-                    loginId :'@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c=>c.Type == ClaimTypes.Name).Value'+'_'
+                    loginId: '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c=>c.Type == ClaimTypes.Name).Value' + '_',
+                    loading: false
                 }
             },
             created: function () {
@@ -182,38 +184,47 @@
                     this.$refs.editStorePersonnel.Show();
                 },
                 SaveStorePersonnel: async function (value) {
-                    let response = null;
-                    if (this.isNew) {
-                        response = await PostStorePersonnel(value).then(response => response);
-                    } else {
-                        response = await UpdateStorePersonnel(value).then(response => response);
-                    }
-                    const status = response.status;
-                    if (status === 200) {
-                        const responseData = response.data;
-                        const code = responseData.rtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
-                        switch (code) {
-                            case 200:
-                                this.$refs.editStorePersonnel.Close();
-                                this.tempStorePersonnel = {};
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetStorePersonnels();
-                                break;
-                            case 401:
-                                if (typeof (responseData.rtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.rtnData);
-                                }
-                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
-                                break;
-                            case 405:
-                            case 417:
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                break;
-                            default:
-                                break;
+                    try {
+                        let response = null;
+                        this.loading = true;
+                        if (this.isNew) {
+                            response = await PostStorePersonnel(value).then(response => response);
+                        } else {
+                            response = await UpdateStorePersonnel(value).then(response => response);
                         }
+                        const status = response.status;
+                        if (status === 200) {
+                            const responseData = response.data;
+                            const code = responseData.rtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.$refs.editStorePersonnel.Close();
+                                    this.tempStorePersonnel = {};
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    this.GetStorePersonnels();
+                                    break;
+                                case 401:
+                                    if (typeof (responseData.rtnData) === 'string') {
+                                        this.modelStateError = JSON.parse(responseData.rtnData);
+                                    }
+                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    break;
+                                case 405:
+                                case 417:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        this.loading = false;
                     }
+                    catch (ex) {
+                        console.log(ex);
+                        this.loading = false;
+                    }
+                    
                 },
                 GetAccountStatusEnum: async function () {
                     try {
