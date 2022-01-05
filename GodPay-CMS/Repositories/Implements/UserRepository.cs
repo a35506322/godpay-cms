@@ -400,7 +400,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw ex;
+                        throw new Exception (ex.ToString());
                     }
                     return result;
                 }
@@ -435,7 +435,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw ex;
+                        throw new Exception(ex.ToString());
                     }
                 }
                 return result;
@@ -467,12 +467,40 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw ex;
+                        throw new Exception(ex.ToString());
                     }
                     return result;
                 }
             }
 
+        }
+
+        public async Task<bool> UpdateStorePersonnel(User user)
+        {
+            string sqlString = @"Update T
+                                Set	T.Email = @Email,
+	                                T.Status = @Status
+                                From
+                                (
+	                                Select *
+	                                From [dbo].[User] A
+	                                Where A.UserId = @UserId
+                                )T";
+
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                bool result = false;
+                try
+                {
+                    var rowCount = await connection.ExecuteAsync(sqlString, user);
+                    result = rowCount > 0 ? true : false;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.ToString());
+                }
+                return result;
+            }
         }
     }
 }

@@ -53,7 +53,8 @@
         import {
         GetStorePersonnels,
         GetAccountStatusEnum, GetUserById,
-        GetListOfFunctionFilter, PostStorePersonnel
+        GetListOfFunctionFilter, PostStorePersonnel,
+        UpdateStorePersonnel
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import editStorePersonnelModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditPersonnelModal.js'
         const app = Vue.createApp({
@@ -181,12 +182,11 @@
                     this.$refs.editStorePersonnel.Show();
                 },
                 SaveStorePersonnel: async function (value) {
-                    console.log(value);
                     let response = null;
                     if (this.isNew) {
                         response = await PostStorePersonnel(value).then(response => response);
                     } else {
-                        response = await UpdateStore(value).then(response => response);
+                        response = await UpdateStorePersonnel(value).then(response => response);
                     }
                     const status = response.status;
                     if (status === 200) {
@@ -214,7 +214,6 @@
                                 break;
                         }
                     }
-
                 },
                 GetAccountStatusEnum: async function () {
                     try {

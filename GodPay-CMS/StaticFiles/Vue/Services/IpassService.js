@@ -55,3 +55,4 @@ export const UpdateCustomer = data => axios.put('/CustomerApi/Edit', data).then(
 //PersonnelSetApi
 export const GetStorePersonnels = () => axios.get('/PersonnelSetApi/GetStorePersonnels').then(respone => { console.log('GetStorePersonnels'); return respone; }).catch(error => error);
 export const PostStorePersonnel = data => axios.post('/PersonnelSetApi/PostStorePersonnel', data).then(respone => { console.log('PostStorePersonnel'); return respone; }).catch(error => error);
+export const UpdateStorePersonnel = data => axios.put('/PersonnelSetApi/UpdateStorePersonnel', data).then(respone => { console.log('UpdateStorePersonnel'); return respone; }).catch(error => error);

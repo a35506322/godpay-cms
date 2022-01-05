@@ -51,6 +51,8 @@ namespace GodPay_CMS.Common.Profiles
                         .ForMember(n => n.Status, o => o.MapFrom(t => AccountStatusEnum.ToBeOpened))
                         .ForMember(n => n.Func, o => o.MapFrom(t => 3))
                         .ForMember(n=>n.CreateDate,o => o.MapFrom(t => DateTime.Now));
+
+            CreateMap<UpdateStorePersonnelViewModel, User>();
         }
     }
 }

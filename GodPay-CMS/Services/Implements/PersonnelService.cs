@@ -63,5 +63,21 @@ namespace GodPay_CMS.Services.Implements
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增特店人員失敗" };
         }
+
+        public async Task<ResponseViewModel> UpdateStorePersonnel(UpdateStorePersonnelViewModel updateStorePersonnelViewModel)
+        {
+            var user = await _repostioryWrapper.userRepository.GetByUserId(updateStorePersonnelViewModel.UserId);
+            if (user == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "此帳號不存在" };
+
+            var updateUserReq = _mapper.Map<User>(updateStorePersonnelViewModel);
+
+            var isSuccess = await _repostioryWrapper.userRepository.UpdateStorePersonnel(updateUserReq);
+            if (isSuccess)
+                return new ResponseViewModel() { RtnMessage = "修改特店人員成功" };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改特店人員失敗" };
+
+        }
     }
 }
