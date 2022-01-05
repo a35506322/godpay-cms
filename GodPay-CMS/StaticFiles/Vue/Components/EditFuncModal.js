@@ -3,8 +3,7 @@ export default {
     props: ['isNew', 'func', 'modelStateError', 'funcClassList'],
     components: {
         serverErrorMessage,
-        "p-checkbox": primevue.checkbox,
-        "p-dropdown": primevue.dropdown
+        "p-checkbox": primevue.checkbox
     },
     data: function () {
         return {
@@ -54,16 +53,16 @@ export default {
                         <div class="row g-3 mb-5">
                             <div class="col-md-6">
                                 <label for="Email" class="form-label">功能類別</label>
-                                <p-dropdown v-model="funcModel.funcClassCode" v-bind:options="funcList" optionLabel="funcClassChName" option-value="funcClassCode" placeholder="選擇類別" />
-                                <v-field class="form-control disabled" style="display:none;"
-                                    v-model="funcModel.funcClassCode" name="功能類別" rules="required" v-bind:class="[{'is-invalid':errors['功能類別']||modelStateError['funcClassCode']}]"
-                                />
+                                <v-field id="funcClassCode" class="form-select rounded-1" v-model="funcModel.funcClassCode" as="select" name="功能類別" rules="required"
+                                        v-bind:class="[{'is-invalid':errors['功能類別']||modelStateError['funcClassCode']}]" >
+                                        <option v-for="(func,index) in funcList" v-bind:key="func.funcClassCode" v-bind:value="func.funcClassCode">{{func.funcClassChName}}</option>
+                                </v-field>
                                 <error-message name="功能類別" class="invalid-feedback"></error-message>
-                                <server-error-message v-bind:attr="'funcClassCode'"></server-error-message>
+                                <server-error-message v-bind:attr="'funcClassCode'"></server-error-message>      
                             </div>
                             <div class="col-md-6">
-                                <label for="Status" class="form-label">網頁是否顯示</label>
-                                <p-checkbox class="" v-model="funcModel.isWebSite" v-bind:binary="true" />
+                                <label for="isWebSite" class="form-label">網頁是否顯示</label>
+                                <p-checkbox class="d-block" v-model="funcModel.isWebSite" v-bind:binary="true" />
                             </div>
                         </div>
                         <div class="row g-3 mb-5">
