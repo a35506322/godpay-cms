@@ -108,13 +108,36 @@
 }
 
 .p-modal {
-    width: 80vw;
+    width: 90vw;
 }
 
+.p-card-width {
+    width:25rem
+}
 
 @media (min-width: 992px) {
     .p-modal-lg {
+        width: 80vw;
+    }
+
+    .p-card-width-lg {
+        width: 20rem
+    }
+}
+
+@media (min-width: 1200px) {
+    .p-modal-x1 {
+        width: 70vw;
+    }
+}
+
+@media (min-width: 1400px) {
+    .p-modal-xx1 {
         width: 60vw;
+    }
+
+    .p-card-width-xxl {
+        width: 25rem
     }
 }
 

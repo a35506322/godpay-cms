@@ -46,14 +46,14 @@
         }
     },
     template: `
-    <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="業務權限設定" v-model:visible="displayModal" class="p-modal p-modal-lg p-modal-x1 p-modal-xx1" v-bind:position="'top'" v-bind:modal="true">
         <v-form v-slot="{values, errors}" v-on:submit ="SaveAuthority">
          <div class="modal-body" style="background-color: var(--surface-b);">
             <div class="container-fluid">
                 <div class="row gy-5">
                 <template v-for="(authority,index) in tempModel"  v-bind:key="authority.funcClassCode">
                     <div class="col-12 col-lg-6">
-                        <p-card style="width: 25em" class="m-auto">
+                        <p-card class="m-auto p-card-width p-card-width-lg p-card-width-xxl">
                             <template #title>
                                 {{authority.funcClassChName}}
                             </template>

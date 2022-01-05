@@ -24,7 +24,7 @@ export default {
     },
     template: `
 
-    <p-dialog header="編輯使用者" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="編輯使用者" v-model:visible="displayModal" class="p-modal p-modal-lg p-modal-x1 p-modal-xx1" v-bind:position="'top'" v-bind:modal="true">
         <v-form v-slot="{values, errors}" v-on:submit ="SaveProfile">
              <div class="modal-body">
                 <div class="container-fluid">                

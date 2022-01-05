@@ -23,7 +23,7 @@
         }
     },
     template: `
-    <p-dialog header="業務詳細資料" v-model:visible="displayModal" class="p-modal p-modal-lg" v-bind:position="'top'" v-bind:modal="true">
+    <p-dialog header="業務詳細資料" v-model:visible="displayModal" class="p-modal p-modal-lg p-modal-x1 p-modal-xx1" v-bind:position="'top'" v-bind:modal="true">
          <div class="modal-body">
             <div class="container-fluid">
               <div class="p-datatable p-component p-datatable-responsive-scroll">
