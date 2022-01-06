@@ -82,11 +82,15 @@
         // 全域註冊vue method
         const emitter = mitt();
         import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode, CheckAuthority } from '@settings.Value.BaseUrl/StaticFiles/Vue/Methods/Common.js';
+        import { FormatTWDate } from '@settings.Value.BaseUrl/StaticFiles/Vue/Methods/Format.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
             ChangeReturnCode,
             CheckAuthority
+        }
+        app.config.globalProperties.$format = {
+            FormatTWDate
         }
         // 全域註冊Component
         app.component('pDialog', primevue.dialog);
@@ -119,7 +123,7 @@
         });
         app.use(primevue.config.default);
         app.use(primevue.confirmationservice);
-        app.use(primevue.toastservice);     
+        app.use(primevue.toastservice);
         const tooltip = primevue.tooltip;
         app.directive("tooltip", tooltip);
         app.mount('#app');

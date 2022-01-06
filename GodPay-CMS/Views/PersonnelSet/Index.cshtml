@@ -24,7 +24,11 @@
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:global-filter-fields="['userId','email','status']"
                  v-model:filters="filtersPersonnels" filter-display="menu">
-        <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header"></p-column>
+        <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header">
+            <template #body="slotProps" v-if="col.format =='date'">
+                {{$format.FormatTWDate(slotProps.data[col.field])}}
+            </template>
+        </p-column>
         <p-column style="min-width:8rem" class="text-center"  v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')">
             <template #body="slotProps" v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')">
                 <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯特店人員資訊'" v-on:click="OpenEditStoreModal(false,slotProps.data.userId)"></p-button>
@@ -95,9 +99,9 @@
                     { field: 'role', header: '角色' },
                     { field: 'status', header: '帳號狀態' },
                     { field: 'lastModifier', header: '最後修改使用者' },
-                    { field: 'lastModifyDate', header: '最後修改時間' },
-                    { field: 'lastLoginDate', header: '最後登入時間' },
-                    { field: 'lastChangePwdDate', header: '最後更改密碼時間' }
+                    { field: 'lastModifyDate', header: '最後修改時間', format: 'date' },
+                    { field: 'lastLoginDate', header: '最後登入時間', format: 'date' },
+                    { field: 'lastChangePwdDate', header: '最後更改密碼時間', format: 'date'}
                 ];
                 this.GetStorePersonnels();
                 this.GetAccountStatusEnum();

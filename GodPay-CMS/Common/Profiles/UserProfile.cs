@@ -21,6 +21,9 @@ namespace GodPay_CMS.Common.Profiles
             CreateMap<PostUserAndStoreViewModel, PostUserAndStoreReq>();
 
             CreateMap<User, UserFilterRsp>()
+                    .ForMember(n => n.LastChangePwdDate, o => o.MapFrom(o => o.LastChangePwdDate != null ? o.LastChangePwdDate.Value.ToString("yyyy/MM/dd HH:mm:ss"):null))
+                    .ForMember(n => n.LastModifyDate, o => o.MapFrom(o => o.LastModifyDate != null ? o.LastModifyDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : null))
+                    .ForMember(n => n.LastLoginDate, o => o.MapFrom(o => o.LastLoginDate != null ? o.LastLoginDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : null))
                     .ForMember(n => n.RoleChName,o => o.MapFrom(o => ((RoleEnum)o.Role).GetEnumDescription()))
                     .ForMember(n => n.StatusChName, o => o.MapFrom(o => ((AccountStatusEnum)o.Status).GetEnumDescription()));
 
