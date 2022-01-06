@@ -160,7 +160,6 @@
                     }
                 },
                 GetStore: async function (userId) {
-                    console.log(userId);
                     try {
                         let query = {
                             params: {
@@ -249,10 +248,10 @@
                             const status = this.$common.ChangeReturnCode(code);
                             switch (code) {
                                 case 200:
-                                    this.$refs.editStore.Close();
+                                    await this.GetStores();
                                     this.tempStore = {};
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                    this.GetStores();
+                                    this.$refs.editStore.Close();     
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });                                   
                                     break;
                                 case 401:
                                     if (typeof (responseData.rtnData) === 'string') {
@@ -322,7 +321,6 @@
                                 break;
                         }
                     }
-
                 },
                 OpenStoreAuthoritySettingModal: async function ({ userId, uid }) {
                     this.GetStoreAuthority(userId).then(() => {
@@ -370,20 +368,15 @@
                         const status = response.status;
                         if (status === 200) {
                             const responseData = response.data;
+                            const status = this.$common.ChangeReturnCode(responseData.rtnCode);
                             switch (responseData.rtnCode) {
                                 case 200:
                                     await this.GetStores();
                                     this.$refs.storeAuthoritySetting.Close();
-                                    const status = this.$common.ChangeReturnCode(responseData.rtnCode);
                                     this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                     break;
-                                case 401:
-                                case 404:
                                 case 417:
-                                    if (typeof (responseData.rtnData) === 'string') {
-                                        this.modelStateError = JSON.parse(responseData.rtnData);
-                                    }
-                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                     break;
                                 default:
                                     throw new Error('代碼有誤');
