@@ -42,6 +42,21 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = userRsp };
         }
 
+        public async Task<ResponseViewModel> GetStorePersonnelAuthority(string userId)
+        {
+            var user = await _repostioryWrapper.userRepository.GetByUserId(userId);
+            if (user == null)
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+
+            GetRoleAuthorityReq getRoleAuthorityReq = new GetRoleAuthorityReq()
+            {
+                Role = (int)RoleEnum.Personnel,
+                FuncFlag = user.Func
+            };
+            var managerAuthority = await _repostioryWrapper.funcClassRepository.GetRoleAuthority(getRoleAuthorityReq);
+            return new ResponseViewModel() { RtnData = managerAuthority };
+        }
+
         public async Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelViewModel postStorePersonnelViewModel)
         {
             string loginId = $"{_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value}_";
@@ -53,7 +68,7 @@ namespace GodPay_CMS.Services.Implements
 
             var postUserReq = _mapper.Map<User>(postStorePersonnelViewModel);
             postUserReq.UserId = postId;
-            postUserReq.UserKey = RNGCrypto.HMACSHA256(postId, "p@ssw0rd");
+            postUserReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd",postId);
             postUserReq.Personnel = new Personnel();
             postUserReq.Personnel.StoreId = Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "StoreId").Value);
 
@@ -78,6 +93,19 @@ namespace GodPay_CMS.Services.Implements
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改特店人員失敗" };
 
+        }
+
+        public async Task<ResponseViewModel> UpdateStorePersonnelAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        {
+            var updateUserAuthorityReq = _mapper.Map<User>(updateUserAuthorityViewModel);
+            updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            updateUserAuthorityReq.LastModifyDate = DateTime.Now;
+
+            var result = await _repostioryWrapper.userRepository.UpdateUserAuthority(updateUserAuthorityReq);
+            if (result)
+                return new ResponseViewModel() { RtnMessage = "修改特店人員權限成功", RtnData = result };
+            else
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改特店人員權限失敗" };
         }
     }
 }

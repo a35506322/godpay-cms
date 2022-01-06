@@ -49,6 +49,7 @@
     <Compile Remove="Common\Profiles\SigninProfile.cs" />
     <_CustomFiles Remove="StaticFiles\Vue\Components\EditFuncModal.js" />
     <_CustomFiles Remove="StaticFiles\Vue\Components\StoreAuthoritySettingModal.js" />
+    <_CustomFiles Remove="StaticFiles\Vue\Components\StorePersonnelAuthoritySettingModal.js" />
     <DotNetPublishFiles Include="@(_CustomFiles)">
       <DestinationRelativePath>StaticFiles/%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
     </DotNetPublishFiles>

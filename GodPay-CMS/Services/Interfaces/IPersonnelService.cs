@@ -22,5 +22,17 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="updateStorePersonnelViewModel"></param>
         /// <returns></returns>
         public Task<ResponseViewModel> UpdateStorePersonnel(UpdateStorePersonnelViewModel updateStorePersonnelViewModel);
+        /// <summary>
+        /// 取得單筆特店人員權限
+        /// </summary>
+        /// <param name="userId">帳號</param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetStorePersonnelAuthority(string userId);
+        /// <summary>
+        /// 修改特店人員權限
+        /// </summary>
+        /// <param name="updateUserAuthorityViewModel"></param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> UpdateStorePersonnelAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
     }
 }

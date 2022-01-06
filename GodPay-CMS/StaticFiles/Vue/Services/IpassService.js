@@ -28,7 +28,6 @@ export const UpateUserAndStore = data => axios.post('/StoreSetApi/UpateUserAndSt
 export const GetStoreAuthority = query => axios.get('/StoreSetApi/GetStoreAuthority', query).then(respone => { console.log('GetStoreAuthority'); return respone; }).catch(error => error);
 export const UpdateStoreAuthority = data => axios.put('/StoreSetApi/UpdateStoreAuthority', data).then(respone => { console.log('UpdateStoreAuthority'); return respone; }).catch(error => error);
 
-
 // EnumApi
 export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone => { console.log('GetRoleEnum'); return respone; }).catch(error => error);
 export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEnum').then(respone => { console.log('GetAccountStatusEnum'); return respone; }).catch(error => error);
@@ -46,7 +45,6 @@ export const GetFuncDetailById = query => axios.get('/AuthoritySetApi/GetFuncDet
 export const UpdateFunc = data => axios.put('/AuthoritySetApi/UpdateFunc', data).then(respone => { console.log('UpdateFunc'); return respone; }).catch(error => error);
 export const PostFunc = data => axios.post('/AuthoritySetApi/PostFunc', data).then(respone => { console.log('UpdateFunc'); return respone; }).catch(error => error);
 
-
 // CustomerApi
 export const GetCustomers = () => axios.get('/CustomerApi/GetAll').then(respone => { console.log('GetCustomers'); return respone; }).catch(error => error);
 export const PostCustomer = data => axios.post('/CustomerApi/Post', data).then(respone => { console.log('PostCustomer'); return respone; }).catch(error => error);
@@ -56,3 +54,5 @@ export const UpdateCustomer = data => axios.put('/CustomerApi/Edit', data).then(
 export const GetStorePersonnels = () => axios.get('/PersonnelSetApi/GetStorePersonnels').then(respone => { console.log('GetStorePersonnels'); return respone; }).catch(error => error);
 export const PostStorePersonnel = data => axios.post('/PersonnelSetApi/PostStorePersonnel', data).then(respone => { console.log('PostStorePersonnel'); return respone; }).catch(error => error);
 export const UpdateStorePersonnel = data => axios.put('/PersonnelSetApi/UpdateStorePersonnel', data).then(respone => { console.log('UpdateStorePersonnel'); return respone; }).catch(error => error);
+export const GetStorePersonnelAuthority = query => axios.get('/PersonnelSetApi/GetStorePersonnelAuthority', query).then(respone => { console.log('GetStorePersonnelAuthority'); return respone; }).catch(error => error);
+export const UpdateStorePersonnelAuthority = data => axios.put('/PersonnelSetApi/UpdateStorePersonnelAuthority', data).then(respone => { console.log('UpdateStorePersonnelAuthority'); return respone; }).catch(error => error);

@@ -26,9 +26,9 @@
                  v-model:filters="filtersPersonnels" filter-display="menu">
         <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header"></p-column>
         <p-column style="min-width:8rem" class="text-center"  v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')">
-            <template #body="slotProps">
+            <template #body="slotProps" v-if="this.$common.CheckAuthority(funcs,'OperatePersonnel')">
                 <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯特店人員資訊'" v-on:click="OpenEditStoreModal(false,slotProps.data.userId)"></p-button>
-                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'"></p-button>
+                <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="OpenStorePersonnelSettingModal(slotProps.data)"></p-button>
             </template>
         </p-column>
         <template #empty>
@@ -46,7 +46,8 @@
 <edit-store-personnel-modal ref="editStorePersonnel" v-bind:temp-store-personnel="tempStorePersonnel" v-bind:is-new="isNew" v-bind:temp-login-id="loginId"
                   v-bind:model-state-error="modelStateError" v-on:save="SaveStorePersonnel" v-bind:temp-account-status="accountStatus"
                   v-bind:temp-loading ="loading"></edit-store-personnel-modal>
-
+<store-personnel-authority-setting-modal v-bind:store-personnel-authority="storePersonnelAuthority"  ref="storePersonnelAuthoritySetting"
+                                         v-bind:temp-uid="tempUid" v-bind:temp-loading="loading" v-on:save="SaveAuthority"></store-personnel-authority-setting-modal>
 <script type="text/javascript">
     @section Vue
     {
@@ -55,15 +56,18 @@
         GetStorePersonnels,
         GetAccountStatusEnum, GetUserById,
         GetListOfFunctionFilter, PostStorePersonnel,
-        UpdateStorePersonnel
+        UpdateStorePersonnel, GetStorePersonnelAuthority,
+        UpdateStorePersonnelAuthority
         } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import editStorePersonnelModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditPersonnelModal.js'
+        import storePersonnelAuthoritySettingModal from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/StorePersonnelAuthoritySettingModal.js'
         const app = Vue.createApp({
             components: {
                 "p-datatable": primevue.datatable,
                 "p-column": primevue.column,
                 "p-toolbar": primevue.toolbar,
-                editStorePersonnelModal
+                editStorePersonnelModal,
+                storePersonnelAuthoritySettingModal
             },
             data: function () {
                 return {
@@ -78,7 +82,9 @@
                     filtersPersonnels: null,
                     funcs: [],
                     loginId: '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c=>c.Type == ClaimTypes.Name).Value' + '_',
-                    loading: false
+                    loading: false,
+                    storePersonnelAuthority: {},
+                    tempUid: null
                 }
             },
             created: function () {
@@ -199,10 +205,10 @@
                             const status = this.$common.ChangeReturnCode(code);
                             switch (code) {
                                 case 200:
-                                    this.$refs.editStorePersonnel.Close();
+                                    await this.GetStorePersonnels();
                                     this.tempStorePersonnel = {};
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                    this.GetStorePersonnels();
+                                    this.$refs.editStorePersonnel.Close();
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });   
                                     break;
                                 case 401:
                                     if (typeof (responseData.rtnData) === 'string') {
@@ -224,7 +230,7 @@
                         console.log(ex);
                         this.loading = false;
                     }
-                    
+
                 },
                 GetAccountStatusEnum: async function () {
                     try {
@@ -254,8 +260,74 @@
                     this.filtersPersonnels = {
                         'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                     }
+                },
+                GetStorePersonnelAuthority: async function (userId) {
+                    try {
+                        let query = {
+                            params: {
+                                userId: userId
+                            }
+                        }
+                        const response = await GetStorePersonnelAuthority(query).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.rtnCode;
+                            const status = this.$common.ChangeReturnCode(code);
+                            switch (code) {
+                                case 200:
+                                    this.storePersonnelAuthority = data.rtnData;
+                                    break;
+                                case 404:
+                                    this.storePersonnelAuthority = {};
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                    break
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    catch (exception) {
+                        console.log(exception)
+                    }
+                },
+                OpenStorePersonnelSettingModal: function ({ userId, uid }) {
+                    this.GetStorePersonnelAuthority(userId).then(() => {
+                        if (Object.keys(this.storePersonnelAuthority).length !== 0) {
+                            this.tempUid = uid;
+                            this.$refs.storePersonnelAuthoritySetting.Show();
+                        }
+                    });
+                },
+                SaveAuthority: async function (value) {
+                    try {
+                        this.loading = true;
+                        const response = await UpdateStorePersonnelAuthority(value).then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const responseData = response.data;
+                            const status = this.$common.ChangeReturnCode(responseData.rtnCode);
+                            switch (responseData.rtnCode) {
+                                case 200:
+                                    await this.GetStorePersonnels();
+                                    this.$refs.storePersonnelAuthoritySetting.Close();
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                    break;
+                                case 417:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                    break;
+                                default:
+                                    throw new Error('代碼有誤');
+                                    break;
+                            }
+                        }
+                        this.loading = false;
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                        this.loading = false;
+                    }
                 }
-
             }
          })
     }
