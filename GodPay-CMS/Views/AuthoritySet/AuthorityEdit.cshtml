@@ -2,20 +2,18 @@
     ViewData["Title"] = "權限管理";
 }
 <div class="row p-3 justify-content-center">
-    <div class="px-3">
-        <div class="p-toolbar p-component w-100 mb-3" style="max-height: 10vh">
-            <div class="col-8 justify-content-start">
+    <div class="px-3 mb-3">
+        <div class="p-toolbar p-component p-mb-4">
+            <div class="p-toolbar-group-left">
             </div>
-            <div class="col-4">
-                <div class="d-flex justify-content-end" v-if="this.$common.CheckAuthority(funcs,'UpdateRoleMaxAuthority')">
-                    <template v-if="isEdit===false">
-                        <p-button label="編輯權限" icon="bi bi-gear" class="p-button-warning p-mr-1" v-on:click="ChengeIsEdit(true)"></p-button>
-                    </template>
-                    <template v-else>
-                        <p-button label="復原" icon="pi pi-refresh" class="p-button-info p-mr-1 me-1" v-on:click="Refresh"></p-button>
-                        <p-button label="儲存" icon="pi pi-save" class="p-button-success p-mr-1" v-on:click=" UpdateRoleMaxAuthority" v-bind:loading="loading"></p-button>
-                    </template>
-                </div>
+            <div class="p-toolbar-group-right">
+                <template v-if="isEdit===false">
+                    <p-button label="編輯權限" icon="bi bi-gear" class="p-button-warning p-mr-1" v-on:click="ChengeIsEdit(true)"></p-button>
+                </template>
+                <template v-else>
+                    <p-button label="復原" icon="pi pi-refresh" class="p-button-info p-mr-1 me-1" v-on:click="Refresh"></p-button>
+                    <p-button label="儲存" icon="pi pi-save" class="p-button-success p-mr-1" v-on:click=" UpdateRoleMaxAuthority" v-bind:loading="loading"></p-button>
+                </template>
             </div>
         </div>
     </div>
