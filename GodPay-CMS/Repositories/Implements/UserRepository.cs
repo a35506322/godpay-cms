@@ -15,6 +15,7 @@ using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using GodPay_CMS.Common;
 
 namespace GodPay_CMS.Repositories.Implements
 {

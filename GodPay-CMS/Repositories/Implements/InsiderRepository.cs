@@ -7,6 +7,7 @@ using Dapper;
 using Microsoft.AspNetCore.Http;
 using System.Data;
 using System.Data.SqlClient;
+using GodPay_CMS.Common;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
 

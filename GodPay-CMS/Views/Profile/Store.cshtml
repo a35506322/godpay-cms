@@ -86,8 +86,8 @@
 <script type="text/javascript">
 @section Vue
 {
-    import { GetStoreProfile, UpateStore } from '@settings.Value.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-    import EditStoreDetail from '@settings.Value.BaseUrl/StaticFiles/Vue/Components/EditStoreDetail.js'
+    import { GetStoreProfile, UpateStore } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import EditStoreDetail from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditStoreDetail.js'
     const uid = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "Uid").Value';
     const app = Vue.createApp({
         components: {

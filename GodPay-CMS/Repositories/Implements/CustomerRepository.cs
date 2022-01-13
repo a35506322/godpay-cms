@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using GodPay_CMS.Common;
 using GodPay_CMS.Common.Helpers.Decipher;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;

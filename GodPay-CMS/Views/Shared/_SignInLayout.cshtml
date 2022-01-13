@@ -56,7 +56,7 @@
 
     <script type="text/javascript">
         // 設定 axios 基礎設定
-        let baseURL = '@settings.Value.BaseUrl';
+        let baseURL = '@settings.Value.Urls.BaseUrl';
         let layout = 'signin-laoout';
         window.layout = layout;
         window.baseURL = baseURL;
@@ -74,7 +74,7 @@
 
         // 全域註冊vue method
         const emitter = mitt();
-        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '@settings.Value.BaseUrl/StaticFiles/Vue/Methods/Common.js';
+        import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
@@ -94,7 +94,7 @@
             }
         });
         // 多國語系
-        VeeValidateI18n.loadLocaleFromURL('@settings.Value.BaseUrl/lib/vee-validate/i18n/dist/locale/zh_TW.json');
+        VeeValidateI18n.loadLocaleFromURL('@settings.Value.Urls.BaseUrl/lib/vee-validate/i18n/dist/locale/zh_TW.json');
         // 配置
         VeeValidate.configure({
             generateMessage: VeeValidateI18n.localize('zh_TW'),
