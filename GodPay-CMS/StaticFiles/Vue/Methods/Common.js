@@ -32,7 +32,7 @@ export function ChangeReturnCode(returnCode) {
     })
 
     if (returnCode === null) {
-        return statusEnum[200]
+        return statusEnum['200']
     }
     return statusEnum[returnCode]
 }
