@@ -90,5 +90,5 @@ export default {
                     <p-button label="儲存" icon="pi pi-check" autofocus type="submit" v-bind:loading="tempLoading"></p-button>
                 </div>
             </v-form>
-        </p- dialog > `
+        </p-dialog > `
 }
