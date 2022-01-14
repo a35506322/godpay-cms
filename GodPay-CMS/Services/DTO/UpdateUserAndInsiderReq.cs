@@ -15,11 +15,11 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 帳號
         /// </summary>
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         /// <summary>
         /// Email
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         /// <summary>
         /// 目前狀態
@@ -28,7 +28,7 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 最後更改使用者
         /// </summary>
-        public string LastModifier { get; set; }
+        public string LastModifier { get; set; } = string.Empty;
         /// <summary>
         /// 最後更改資訊日期
         /// </summary>
@@ -37,11 +37,11 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 名字
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// 部門
         /// </summary>
-        public string Department { get; set; }
+        public string Department { get; set; } = string.Empty;
     }
 }

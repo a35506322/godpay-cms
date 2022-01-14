@@ -16,11 +16,11 @@
         /// <summary>
         /// 名字
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 部門
         /// </summary>
-        public string Department { get; set; }
+        public string Department { get; set; } = string.Empty;
         /// <summary>
         /// 使用者
         /// </summary>

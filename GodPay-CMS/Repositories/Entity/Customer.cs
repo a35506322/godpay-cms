@@ -17,11 +17,11 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 公司名稱
         /// </summary>
-        public string CustomerName { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
 
         /// <string>
         /// SecretKey
         /// </summary>
-        public string SecretKey { get; set; }
+        public string SecretKey { get; set; } = string.Empty;
     }
 }

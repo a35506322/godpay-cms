@@ -118,6 +118,7 @@ namespace GodPay_CMS.Repositories.Implements
                 // 偽1對多
                 var funcClass = await _connection.QueryAsync<FuncClass, Func, FuncClass>(sqlString, (funcClass, func) =>
                 {
+                    funcClass.Funcs = new List<Func>();
                     funcClass.Funcs.Add(func);
                     return funcClass;
                 }, splitOn: "Fid");
@@ -161,6 +162,7 @@ namespace GodPay_CMS.Repositories.Implements
                // 偽1對多
                var funcClass = await _connection.QueryAsync<FuncClass, Func, FuncClass>(sqlString, (funcClass, func) =>
                 {
+                    funcClass.Funcs = new List<Func>();
                     funcClass.Funcs.Add(func);
                     return funcClass;
                 }, getFuncFilterReq, splitOn: "Fid");
@@ -193,6 +195,7 @@ namespace GodPay_CMS.Repositories.Implements
                 // 偽1對多
                 var funcClass = await connection.QueryAsync<UserAuthorityFuncClassRsp, UserAuthorityFuncRsp, UserAuthorityFuncClassRsp>(sql, (funcClass, func) =>
                 {
+                    funcClass.UserAuthorityFuncRsps = new List<UserAuthorityFuncRsp>();
                     funcClass.UserAuthorityFuncRsps.Add(func);
                     return funcClass;
                 }, getRoleAuthorityReq, splitOn: "Fid");

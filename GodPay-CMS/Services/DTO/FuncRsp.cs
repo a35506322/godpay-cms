@@ -13,7 +13,7 @@
         /// <summary>
         /// 功能類別代碼(FK)
         /// </summary>
-        public string FuncClassCode { get; set; }
+        public string FuncClassCode { get; set; } = string.Empty;
 
         /// <summary>
         /// 功能代碼
@@ -23,12 +23,12 @@
         /// <summary>
         /// 英文名字(action)
         /// </summary>
-        public string FuncEnName { get; set; }
+        public string FuncEnName { get; set; } = string.Empty;
 
         /// <summary>
         /// 中文名字(action)
         /// </summary>
-        public string FuncChName { get; set; }
+        public string FuncChName { get; set; } = string.Empty;
 
         /// <summary>
         /// 角色

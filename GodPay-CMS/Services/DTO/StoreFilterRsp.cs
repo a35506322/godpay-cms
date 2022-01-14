@@ -12,32 +12,32 @@
         /// <summary>
         /// 公司名稱
         /// </summary>
-        public string CustomerName { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
 
         /// <summary>
         /// 特店名稱
         /// </summary>
-        public string StoreName { get; set; }
+        public string StoreName { get; set; } = string.Empty;
 
         /// <summary>
         /// 統一編號
         /// </summary>
-        public string TaxId { get; set; }
+        public string TaxId { get; set; } = string.Empty;
 
         /// <summary>
         ///  負責人
         /// </summary>
-        public string Owner { get; set; }
+        public string Owner { get; set; } = string.Empty;
 
         /// <summary>
         ///  公司地址
         /// </summary>
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         /// <summary>
         /// 風險等級
         /// </summary>
-        public string Risk { get; set; }
+        public string Risk { get; set; } = string.Empty;
 
         /// <summary>
         /// 限制額度
@@ -47,6 +47,6 @@
         /// <summary>
         ///  負責人電子信箱
         /// </summary>
-        public string OwnerEmail { get; set; }
+        public string OwnerEmail { get; set; } = string.Empty;
     }
 }

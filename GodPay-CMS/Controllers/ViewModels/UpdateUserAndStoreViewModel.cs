@@ -45,12 +45,12 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 負責人
         /// </summary>        
-        public string Owner { get; set; }
+        public string Owner { get; set; } = string.Empty;
 
         /// <summary>
         /// 公司地址
         /// </summary>
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         /// <summary>
         ///  負責人電子信箱

@@ -13,10 +13,10 @@
         /// <summary>
         /// 是否出現在網站
         /// </summary>
-        public string IsWebSite { get; set; }
+        public string IsWebSite { get; set; } = string.Empty;
         /// <summary>
         /// 英文名字(controller)
         /// </summary>
-        public string FuncClassEnName { get; set; }
+        public string FuncClassEnName { get; set; } = string.Empty;
     }
 }

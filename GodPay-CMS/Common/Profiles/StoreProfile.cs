@@ -13,7 +13,7 @@ namespace GodPay_CMS.Common.Profiles
                 .ForMember(n =>n.CustomerName,o=>o.MapFrom(o=>o.Customer.CustomerName));
 
             CreateMap<UpdateStoreViewModel, Store>()
-                .ForMember(n => n.User, o => o.MapFrom(t=> new User())); ;
+                .ForMember(n => n.User, o => o.MapFrom(t => new User()));
         }
     }
 }

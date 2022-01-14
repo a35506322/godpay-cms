@@ -7,19 +7,19 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 功能類別代碼Code(PK)
         /// </summary>
-        public string FuncClassCode { get; set; }
+        public string FuncClassCode { get; set; } = string.Empty;
         /// <summary>
         /// 英文名字(action)
         /// </summary>
-        public string FuncClassEnName { get; set; }
+        public string FuncClassEnName { get; set; } = string.Empty;
         /// <summary>
         /// 中文名字(action)
         /// </summary>
-        public string FuncClassChName { get; set; }
+        public string FuncClassChName { get; set; } = string.Empty;
         /// <summary>
         /// 功能(List)
         /// </summary>
-        public List<UserAuthorityFuncRsp> UserAuthorityFuncRsps { get; set; } = new List<UserAuthorityFuncRsp>();
+        public List<UserAuthorityFuncRsp> UserAuthorityFuncRsps { get; set; }
 
     }
 }

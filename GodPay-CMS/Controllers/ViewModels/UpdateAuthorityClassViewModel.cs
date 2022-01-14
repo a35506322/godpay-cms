@@ -12,6 +12,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 功能類別代碼Code(PK)
         /// </summary>
+        [Required]
         public string FuncClassCode { get; set; }
 
         /// <summary>

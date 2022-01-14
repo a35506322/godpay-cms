@@ -7,6 +7,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 流水號(PK)
         /// </summary>
+        [Required]
         public int Fid { get; set; }
 
         /// <summary>

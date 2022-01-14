@@ -18,7 +18,7 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 特約商店代表Eamil
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         /// <summary>
         /// 目前狀態
@@ -37,26 +37,26 @@ namespace GodPay_CMS.Services.DTO
         /// <summary>
         /// 特店名稱
         /// </summary>
-        public string StoreName { get; set; }
+        public string StoreName { get; set; } = string.Empty;
 
         /// <summary>
         /// 統一編號
         /// </summary>
-        public string TaxId { get; set; }
+        public string TaxId { get; set; } = string.Empty;
 
         /// <summary>
         /// 負責人
         /// </summary>
-        public string Owner { get; set; }
+        public string Owner { get; set; } = string.Empty;
 
         /// <summary>
         /// 公司地址
         /// </summary>
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         /// <summary>
         /// 負責人電子信箱
         /// </summary>
-        public string OwnerEmail { get; set; }
+        public string OwnerEmail { get; set; } = string.Empty;
     }
 }

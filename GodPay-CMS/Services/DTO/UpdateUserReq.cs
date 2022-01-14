@@ -8,14 +8,14 @@
         /// <summary>
         /// 修改者Id
         /// </summary>
-        public string ModifierId { get; set; }
+        public string ModifierId { get; set; } = string.Empty;
         /// <summary>
         /// 使用者Id
         /// </summary>
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         /// <summary>
         /// 電子信箱
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 }

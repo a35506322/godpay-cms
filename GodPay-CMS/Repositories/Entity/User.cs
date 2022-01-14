@@ -14,15 +14,15 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 帳號
         /// </summary>
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         /// <summary>
         /// 密碼
         /// </summary>
-        public string UserKey { get; set; }
+        public string UserKey { get; set; } = string.Empty;
         /// <summary>
         /// Email
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         /// <summary>
         /// 角色
         /// </summary>
@@ -42,7 +42,7 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 最後更改使用者
         /// </summary>
-        public string LastModifier { get; set; }
+        public string LastModifier { get; set; } = string.Empty;
         /// <summary>
         /// 最後更改資訊日期
         /// </summary>
@@ -62,7 +62,7 @@ namespace GodPay_CMS.Repositories.Entity
         /// <summary>
         /// 特約商店詳細資料
         /// </summary>
-        public Store Store { get; set; }
+        public Store Store { get; set; } 
         /// <summary>
         /// 特店人員詳細資料
         /// </summary>
