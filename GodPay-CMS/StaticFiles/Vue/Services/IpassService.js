@@ -56,3 +56,6 @@ export const PostStorePersonnel = data => axios.post('/PersonnelSetApi/PostStore
 export const UpdateStorePersonnel = data => axios.put('/PersonnelSetApi/UpdateStorePersonnel', data).then(respone => { console.log('UpdateStorePersonnel'); return respone; }).catch(error => error);
 export const GetStorePersonnelAuthority = query => axios.get('/PersonnelSetApi/GetStorePersonnelAuthority', query).then(respone => { console.log('GetStorePersonnelAuthority'); return respone; }).catch(error => error);
 export const UpdateStorePersonnelAuthority = data => axios.put('/PersonnelSetApi/UpdateStorePersonnelAuthority', data).then(respone => { console.log('UpdateStorePersonnelAuthority'); return respone; }).catch(error => error);
+
+//TransactionRecordApi
+export const GetOrdersCondition = query => axios.get('/TransactionRecordApi/GetOrdersCondition', query).then(respone => { console.log('GetOrdersCondition'); return respone; }).catch(error => error);

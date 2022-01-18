@@ -61,6 +61,11 @@
       <DestinationRelativePath>GodPay_CMS.xml</DestinationRelativePath>
     </DotNetPublishFiles>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="GodPay.Domain">
+      <HintPath>..\..\godpay-api\GodPay.Domain\bin\Debug\netcoreapp3.1\GodPay.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
  
   <ProjectExtensions><VisualStudio><UserProperties libman_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 

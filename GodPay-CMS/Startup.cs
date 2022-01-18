@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
+using GodPay_CMS.Common;
 using System;
 using System.IO;
 
@@ -70,9 +70,22 @@ namespace GodPay_CMS
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IPersonnelService, PersonnelService>();
+            services.AddScoped<IGLBD_OperationAndTransactionRecordService, GLBD_OperationAndTransactionRecordService>();
 
-            //Helper
+            // Helper
             services.AddSingleton<IDecipherHelper, DecipherHelper>();
+
+            // HttpClient
+
+
+            services.AddHttpClient("godapi", c =>
+            {
+                c.BaseAddress = new Uri(Configuration.GetSection("SettingConfig:Urls:GodApiUrl").Value);
+                //// Github API versioning
+                //c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+                //// Github requires a user-agent
+                //c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            });
 
             // Bundle
             services.AddWebOptimizer(pipeline =>
