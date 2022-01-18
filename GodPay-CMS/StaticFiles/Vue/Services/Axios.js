@@ -19,7 +19,7 @@ const errorHandle = (response, status) => {
             vue.globalProperties.$toast.add({ severity: 'error', summary: '認證失敗', detail: deatil, life: 5000, group: window.layout });
             break;
         case 500:       
-            vue.globalProperties.$toast.add({ severity: 'error', summary: '伺服器內部錯誤', detail: deatil, life: 5000, group: window.layout});
+            vue.globalProperties.$toast.add({ severity: 'error', summary: '伺服器內部錯誤', detail:'請與資訊部聯絡', life: 5000, group: window.layout});
             break;
         default:
             vue.globalProperties.$toast.add({ severity: 'error', summary: '意外狀況', detail: '請與資訊部聯絡', life: 5000, group: window.layout });

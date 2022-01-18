@@ -84,7 +84,7 @@
         // 全域註冊vue method
         const emitter = mitt();
         import { CheckValueOfObjectIsNotEmpty, ChangeReturnCode, CheckAuthority } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js';
-        import { FormatTWDate } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Format.js';
+        import { FormatTWDate, FormatOrderStatus } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Format.js';
         app.config.globalProperties.$emitter = emitter;
         app.config.globalProperties.$common = {
             CheckValueOfObjectIsNotEmpty,
@@ -92,7 +92,8 @@
             CheckAuthority
         }
         app.config.globalProperties.$format = {
-            FormatTWDate
+            FormatTWDate,
+            FormatOrderStatus
         }
         // 全域註冊Component
         app.component('pDialog', primevue.dialog);

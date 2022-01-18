@@ -53,8 +53,12 @@ namespace GodPay_CMS.Controllers
                 };
 
                 if (data.Role == RoleEnum.Store)
-                    claims.Add(new Claim("StoreId", ((StoreParticularsRsp)(await _serviceWrapper.storeService.GetUserAndStoreByUserId(data.UserId)).RtnData).StoreId.ToString()));
-
+                { 
+                    var user = await _serviceWrapper.storeService.GetUserAndStoreByUserId(data.UserId);
+                    claims.Add(new Claim("StoreId", ((StoreParticularsRsp)user.RtnData).StoreId.ToString()));
+                    claims.Add(new Claim("CustomerId", ((StoreParticularsRsp)user.RtnData).CustomerId.ToString()));
+                }
+                    
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 AuthenticationProperties authProperties = new AuthenticationProperties
                 {

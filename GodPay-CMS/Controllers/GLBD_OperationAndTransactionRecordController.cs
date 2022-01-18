@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
-    public class GLBD_RefundAndTransactionRecordController : Controller
+    public class GLBD_OperationAndTransactionRecordController : Controller
     {
         public IActionResult TransactionRecord()
         {
