@@ -49,3 +49,34 @@ export function CheckAuthority(array, action) {
     }
     return false;
 }
+/**
+ * 設定日期
+ * @param {any} status 狀態
+ */
+export function setDate(status) {
+    let dat = new Date();
+    let tempdat = {
+        start: null,
+        end: null
+    }
+    switch (status) {
+        case 'today':
+            tempdat.start = new Date(dat.getFullYear(), dat.getMonth(), dat.getDate(), 0, 0);
+            tempdat.end = new Date(dat.getFullYear(), dat.getMonth(), dat.getDate() + 1, 0, 0);
+            break;
+        case 'yesterday':
+            tempdat.start = new Date(dat.getFullYear(), dat.getMonth(), dat.getDate() - 1, 0, 0);
+            tempdat.end = new Date(dat.getFullYear(), dat.getMonth(), dat.getDate(), 0, 0);
+            break;
+        case 'last-week':
+            tempdat.start = new Date(dat.getFullYear(), dat.getMonth(), dat.getDate() - 7, 0, 0);
+            tempdat.end = new Date(dat.getFullYear(), dat.getMonth(), dat.getDate(), 0, 0);
+            break;
+        case 'last-month':
+            tempdat.start = new Date(dat.getFullYear(), dat.getMonth() - 1, 1, 0, 0);
+            tempdat.end = new Date(dat.getFullYear(), dat.getMonth(), 1, 0, 0);
+            break;
+    }
+
+    return tempdat;
+}
