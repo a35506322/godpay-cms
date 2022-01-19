@@ -28,7 +28,7 @@ namespace GodPay_CMS.Services.Implements
             _mapper = mapper;
         }
 
-        public async Task<ResponseViewModel> GetListOfFunctions()
+        public async Task<ResponseViewModel> GetListOfFunctionsForAuthority()
         {
             var funcCalss = await _repostioryWrapper.funcClassRepository.GetByFuncClassAndFunc();
 

@@ -8,6 +8,10 @@ namespace GodPay_CMS.Services.DTO
     public class AuthorityFuncClassRsp
     {
         /// <summary>
+        /// PK
+        /// </summary>
+        public string FuncClassCode { get; set; } = string.Empty;
+        /// <summary>
         /// 英文名字(controller)
         /// </summary>
         public string FuncClassEnName { get; set; } = string.Empty;

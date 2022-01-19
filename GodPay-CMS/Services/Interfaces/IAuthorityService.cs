@@ -14,7 +14,7 @@ namespace GodPay_CMS.Services.Interfaces
         /// 功能列表(角色塞選)
         /// </summary>
         /// <returns></returns>
-        public Task<ResponseViewModel> GetListOfFunctions();
+        public Task<ResponseViewModel> GetListOfFunctionsForAuthority();
 
         /// <summary>
         /// 功能列表(角色塞選)(進階塞選)
