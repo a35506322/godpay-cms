@@ -60,7 +60,7 @@
         const { FilterMatchMode } = primevue.api;
         import {
         GetListOfFunc, GetFuncDetailById, UpdateFunc,
-        PostFunc
+        PostFunc, GetListOfFuncClass
         } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import EditFuncModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditFuncModal.js'
         const app = Vue.createApp({
@@ -101,12 +101,7 @@
                             const code = data.rtnCode;
                             switch (code) {
                                 case 200:
-                                    this.funcList = data.rtnData.sort(function (s, t) {
-                                        if (s.FuncClassCode < t.FuncClassCode) return -1;
-                                        if (s.FuncClassCode > t.FuncClassCode) return 1;
-                                        return 0;
-                                    });
-                                    this.ClassList();
+                                    this.funcList = data.rtnData
                                     break;
                                 default:
                                     break;
@@ -120,6 +115,7 @@
                 OpenEditFuncModal: function (isNew, fid = '') {
                     this.isNew = isNew;
                     this.modelStateError = {};
+                    this.GetListOfFuncClass();
                     if (isNew) {
                         this.func = {};
                     }
@@ -153,21 +149,25 @@
                         console.log(exception);
                     }
                 },
-                ClassList: function () {
-                    var obj = {
-                        length: 0,
-                        addElem: function addElem(elem) {
-                            [].push.call(this, elem);
+                GetListOfFuncClass: async function () {
+                    try {
+                        const response = await GetListOfFuncClass().then(response => response);
+                        const status = response.status;
+                        if (status === 200) {
+                            const data = response.data;
+                            const code = data.rtnCode;
+                            switch (code) {
+                                case 200:
+                                    this.funcClassList = data.rtnData
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    };
-                    let isStr = "";
-                    this.funcList.filter(function (item, index, array) {
-                        if (isStr != item.funcClassCode) {
-                            isStr = item.funcClassCode
-                            obj.addElem({ funcClassChName: item.funcClassChName, funcClassCode: item.funcClassCode });
-                        }
-                    });
-                    this.funcClassList = obj;
+                    }
+                    catch (exception) {
+                        console.log(exception);
+                    }
                 },
                 SaveFunc: async function (value) {
                     let response = null;

@@ -117,7 +117,8 @@ namespace GodPay_CMS.Repositories.Implements
             {
                 string sqlString = @"Select * 
                                     From [dbo].[Func] A
-                                    Join [dbo].[FuncClass]	B on A.FuncClassCode = B.FuncClassCode";
+                                    Join [dbo].[FuncClass]	B on A.FuncClassCode = B.FuncClassCode
+                                    Order By B.FuncClassCode";
                 var funcs = await _connection.QueryAsync<Func, FuncClass, Func>(sqlString, (func, funcClass) =>
                 {
                     func.FuncClass = funcClass;
