@@ -29,6 +29,7 @@ namespace GodPay_CMS.Controllers
             var response = await _serviceWrapper.glbd_OperationAndTransactionRecordService.GetOrdersCondition(glbdQueryOrdersReq);
             return Ok(response);
         }
+
         /// <summary>
         /// 退貨
         /// </summary>
@@ -39,6 +40,19 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> Refund([FromBody] GLBDRefundReq glbdRefundReq)
         {
             var response = await _serviceWrapper.glbd_OperationAndTransactionRecordService.Refund(glbdRefundReq);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <param name="glbdRefundReq">退貨</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "Store")]
+        public async Task<IActionResult> Void([FromBody] GLBDVoidReq glbdVoidReq)
+        {
+            var response = await _serviceWrapper.glbd_OperationAndTransactionRecordService.Void(glbdVoidReq);
             return Ok(response);
         }
     }

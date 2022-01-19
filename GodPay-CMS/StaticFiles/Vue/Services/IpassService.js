@@ -60,3 +60,4 @@ export const UpdateStorePersonnelAuthority = data => axios.put('/PersonnelSetApi
 // TransactionRecordApi
 export const GetOrdersCondition = query => axios.get('/TransactionRecordApi/GetOrdersCondition', query).then(respone => { console.log('GetOrdersCondition'); return respone; }).catch(error => error);
 export const Refund = data => axios.post('/TransactionRecordApi/Refund', data).then(respone => { console.log('Refund'); return respone; }).catch(error => error);
+export const Void = data => axios.post('/TransactionRecordApi/Void', data).then(respone => { console.log('Void'); return respone; }).catch(error => error);

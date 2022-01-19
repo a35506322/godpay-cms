@@ -74,8 +74,6 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> Refund(GLBDRefundReq glbdRefundReq)
         {
-            var role = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Role).Value;
-
             var url = "/api/glbd/refund";            
             var request = new HttpRequestMessage(HttpMethod.Post, url);
 
@@ -106,6 +104,43 @@ namespace GodPay_CMS.Services.Implements
                 if (result.RtnCode == statusCode.授權失敗.ToEString())
                 {
                     return new ResponseViewModel() { RtnData = result.Info, RtnMessage = result.RtnMsg , RtnCode = ReturnCodeEnum.ExecutionFail};
+                }
+            }
+            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.ExecutionFail, RtnData = "執行失敗" };
+        }
+
+        public async Task<ResponseViewModel> Void(GLBDVoidReq glbdVoidReq)
+        {
+            var url = "/api/glbd/void";
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+
+            string content = JsonConvert.SerializeObject(glbdVoidReq);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+
+            var cutomerId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "CustomerId").Value;
+            var storeId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "StoreId").Value;
+            var apiNonce = "b67a9258df5514758e863eea0fa548e47dde1ac0afdfaf8a33a24feeff6aa93c";
+            var apiMac = "b67a9258df5514758e863eea0fa548e47dde1ac0afdfaf8a33a24feeff6aa93c";
+
+            request.Headers.Add("X-Api-CustomerId", cutomerId);
+            request.Headers.Add("X-Api-StoreId", storeId);
+            request.Headers.Add("X-Api-Nonce", apiNonce);
+            request.Headers.Add("X-Api-Mac", apiMac);
+
+            var client = _clientFactory.CreateClient("godapi");
+
+            var response = await client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<ResultModel>(responseString);
+                if (result.RtnCode == statusCode.成功.ToEString())
+                {
+                    return new ResponseViewModel() { RtnMessage = result.RtnMsg };
+                }
+                if (result.RtnCode == statusCode.授權失敗.ToEString())
+                {
+                    return new ResponseViewModel() { RtnData = result.Info, RtnMessage = result.RtnMsg, RtnCode = ReturnCodeEnum.ExecutionFail };
                 }
             }
             return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.ExecutionFail, RtnData = "執行失敗" };

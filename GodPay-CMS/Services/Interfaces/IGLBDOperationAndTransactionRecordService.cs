@@ -21,5 +21,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="glbdRefundReq"></param>
         /// <returns></returns>
         Task<ResponseViewModel> Refund(GLBDRefundReq glbdRefundReq);
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <param name="glbdVoidReq"></param>
+        /// <returns></returns>
+        Task<ResponseViewModel> Void(GLBDVoidReq glbdVoidReq);
     }
 }
