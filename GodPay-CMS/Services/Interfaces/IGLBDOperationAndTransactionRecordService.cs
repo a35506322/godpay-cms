@@ -15,5 +15,11 @@ namespace GodPay_CMS.Services.Interfaces
         /// <param name="glbdQueryOrdersReq"></param>
         /// <returns></returns>
         Task<ResponseViewModel> GetOrdersCondition(GLBDQueryOrdersReq glbdQueryOrdersReq);
+        /// <summary>
+        /// 退貨
+        /// </summary>
+        /// <param name="glbdRefundReq"></param>
+        /// <returns></returns>
+        Task<ResponseViewModel> Refund(GLBDRefundReq glbdRefundReq);
     }
 }

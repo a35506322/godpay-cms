@@ -19,7 +19,7 @@ namespace GodPay_CMS.Services.Implements
             iconDic.Add("AuthoritySet", "bi bi-gear");
             iconDic.Add("ManagerSet", "bi bi-person-video2");
             iconDic.Add("Customer", "bi bi-collection-fill");
-
+            iconDic.Add("GlbdoperationAndtRansactionrecord", "pi pi-credit-card");
         }
 
         /// <summary>
