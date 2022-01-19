@@ -1,5 +1,6 @@
 ﻿using GodPay.Domain.Dto;
 using GodPay_CMS.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
 {
+    [Authorize(Roles = "Manager,Store")]
     public class TransactionRecordApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;

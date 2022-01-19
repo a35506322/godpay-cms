@@ -130,13 +130,13 @@
                                         <h5 class="transaction-title">訂單描述</h5>
                                         <label for="lastname">{{selectedOrder.description}}</label>
                                     </div>
-                                    <div class="p-field mt-5">
+                                    <div class="p-field mt-5" v-if="this.$common.CheckAuthority(funcs,'TransactionRecordEdit')" >
                                         <div class="row">
-                                            <div class="col-12" v-if="new Date(selectedOrder.createDate).toDateString() === new Date().toDateString()">
+                                            <div class="col-12" v-if="selectedOrder.orderStatus ==='2'">
                                                 <p-button label="取消" icon="pi pi-info-circle" class="p-button-warning p-mr-1"></p-button>
                                             </div>
-                                            <div class="col-12" v-else>
-                                                <p-button label="退貨" icon="pi pi-info-circle" class="p-button-danger p-mr-1"></p-button>
+                                            <div class="col-12" v-if="selectedOrder.orderStatus ==='4'">
+                                                <p-button label="退貨" icon="pi pi-info-circle" class="p-button-danger p-mr-1" v-on:click="onRefund"></p-button>
                                             </div>
                                         </div>
                                     </div>
@@ -156,12 +156,12 @@
 {
     import { GetOrdersCondition } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     import { setDate } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js'
+    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
     const app = Vue.createApp({
+        mixins: [commonMixins],
         components: {
             "p-toolbar": primevue.toolbar,
             "p-calendar": primevue.calendar,
-            "p-datatable": primevue.datatable,
-            "p-column": primevue.column,
             "p-scrollpanel": primevue.scrollpanel,
             "p-card": primevue.card
         },
@@ -199,6 +199,13 @@
                 { field: 'createDate', header: '交易日期', format: 'date' },
                 { field: 'orderStatus', header: '訂單狀態', format:'orderStatus' }
             ];
+            const query = {
+                params: {
+                    isWebSite: 'false',
+                    funcClassEnName: '@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                }
+            };
+            this.GetListOfFunctionFilter(query);
         },
         mounted: function () {
             this.startRows = 10;
@@ -232,7 +239,6 @@
                                     this.lazyParams.totalRecords = data.rtnData.totalSize;
                                 }
                                 this.lazyParams.loading = false;
-
                                 break;
                             default:
                                 break;
@@ -274,6 +280,9 @@
                 let dat = setDate(status);
                 this.common.startDate = dat.start;
                 this.common.endDate = dat.end;
+            },
+            onRefund: function () {
+
             }
         }
     })

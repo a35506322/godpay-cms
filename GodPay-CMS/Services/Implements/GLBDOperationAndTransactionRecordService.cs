@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay.Domain.Dto;
+using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -9,17 +10,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Implements
 {
-    public class GLBD_OperationAndTransactionRecordService : IGLBD_OperationAndTransactionRecordService
+    public class GLBDOperationAndTransactionRecordService : IGLBDOperationAndTransactionRecordService
     {
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _clientFactory;
 
-        public GLBD_OperationAndTransactionRecordService(IMapper mapper, IHttpContextAccessor httpContextAccessor, IHttpClientFactory clientFactory)
+        public GLBDOperationAndTransactionRecordService(IMapper mapper, IHttpContextAccessor httpContextAccessor, IHttpClientFactory clientFactory)
         {
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
@@ -27,14 +29,9 @@ namespace GodPay_CMS.Services.Implements
         }
         public async Task<ResponseViewModel> GetOrdersCondition(GLBDQueryOrdersReq glbdQueryOrdersReq)
         {
-            //var cutomerId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "CustomerId").Value;
-            //var storeId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "StoreId").Value;       
-            //if (String.IsNullOrEmpty(storeId) || String.IsNullOrEmpty(cutomerId))
-            //{
-            //    return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "使用者權限不足" };
-            //}
+            var role = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Role).Value;
 
-            var path = "/api/glbd/getorders";
+            var path = "/api/glbd/queryordersforpagination";
             var queryStrings = new Dictionary<string, string>
             {
                 {"OrderNo", glbdQueryOrdersReq.OrderNo },
@@ -50,8 +47,18 @@ namespace GodPay_CMS.Services.Implements
             var url = QueryHelpers.AddQueryString(path, queryStringsFilter);
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            //request.Headers.Add("X-Api-CustomerId", cutomerId);
-            //request.Headers.Add("X-Api-StoreId", storeId);
+            if (role == RoleEnum.Store.ToString())
+            {
+                var cutomerId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "CustomerId").Value;
+                var storeId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "StoreId").Value;
+                if (String.IsNullOrEmpty(storeId) || String.IsNullOrEmpty(cutomerId))
+                {
+                    return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "使用者權限不足" };
+                }
+                request.Headers.Add("X-Api-CustomerId", cutomerId);
+                request.Headers.Add("X-Api-StoreId", storeId);
+            }
+            
             var client = _clientFactory.CreateClient("godapi");
 
             var response = await client.SendAsync(request);

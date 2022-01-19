@@ -33,7 +33,7 @@ export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(respone 
 export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEnum').then(respone => { console.log('GetAccountStatusEnum'); return respone; }).catch(error => error);
 
 // AuthoritySetApi
-export const GetListOfFunction = () => axios.get('/AuthoritySetApi/GetListOfFunction').then(respone => { console.log('GetListOfFunction'); return respone; }).catch(error => error);
+export const GetListOfFunctionsForAuthority = () => axios.get('/AuthoritySetApi/GetListOfFunctionsForAuthority').then(respone => { console.log('GetListOfFunctionsForAuthority'); return respone; }).catch(error => error);
 export const GetListOfFunctionFilter = query => axios.get('/AuthoritySetApi/GetListOfFunctionFilter', query).then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);
 export const UpdateRoleMaxAuthority = data => axios.put('/AuthoritySetApi/UpdateRoleMaxAuthority', data).then(respone => { console.log('UpdateRoleMaxAuthority'); return respone; }).catch(error => error);
 export const GetListOfFuncClass = () => axios.get('/AuthoritySetApi/GetListOfFuncClass').then(respone => { console.log('GetListOfFuncClass'); return respone; }).catch(error => error);
@@ -41,7 +41,7 @@ export const PostFuncClass = data => axios.post('/AuthoritySetApi/PostFuncClass'
 export const GetFuncClassDetailById = data => axios.get(`/AuthoritySetApi/GetFuncClassDetailById`, data).then(respone => { console.log('GetFuncClassDetailById'); return respone; }).catch(error => error);
 export const UpdateFuncClass = data => axios.put('/AuthoritySetApi/UpdateFuncClass', data).then(respone => { console.log('UpdateFuncClass'); return respone; }).catch(error => error);
 export const GetListOfFunc = () => axios.get('/AuthoritySetApi/GetListOfFunc').then(respone => { console.log('GetListOfFunc'); return respone; }).catch(error => error);
-export const GetFuncDetailById = query => axios.get('/AuthoritySetApi/GetFuncDetailById', query).then(respone => { console.log('GetListOfFunctionFilter'); return respone; }).catch(error => error);
+export const GetFuncDetailById = query => axios.get('/AuthoritySetApi/GetFuncDetailById', query).then(respone => { console.log('GetFuncDetailById'); return respone; }).catch(error => error);
 export const UpdateFunc = data => axios.put('/AuthoritySetApi/UpdateFunc', data).then(respone => { console.log('UpdateFunc'); return respone; }).catch(error => error);
 export const PostFunc = data => axios.post('/AuthoritySetApi/PostFunc', data).then(respone => { console.log('UpdateFunc'); return respone; }).catch(error => error);
 

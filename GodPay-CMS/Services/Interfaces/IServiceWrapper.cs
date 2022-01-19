@@ -11,6 +11,6 @@
         public ICustomerService customerService { get; }
         public ITagService itagService { get; }
         public IPersonnelService personnelService { get; }
-        public IGLBD_OperationAndTransactionRecordService glbd_OperationAndTransactionRecordService { get; }
+        public IGLBDOperationAndTransactionRecordService glbd_OperationAndTransactionRecordService { get; }
     }
 }

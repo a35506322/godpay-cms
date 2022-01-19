@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
 {
-    public interface IGLBD_OperationAndTransactionRecordService
+    public interface IGLBDOperationAndTransactionRecordService
     {
         /// <summary>
         /// 取得分頁訂單資訊

@@ -13,6 +13,7 @@ namespace GodPay_CMS.Controllers
     /// 權限管理伺服器
     /// </summary>
     [Route("[controller]/[action]")]
+    
     public class AuthoritySetApiController : Controller
 
     {
@@ -25,13 +26,13 @@ namespace GodPay_CMS.Controllers
         }
 
         /// <summary>
-        /// 取得所有功能權限
+        /// 取得所有功能權限(權限驗證)
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetListOfFunction()
+        public async Task<IActionResult> GetListOfFunctionsForAuthority()
         {
-            var response = await _serviceWrapper.authorityService.GetListOfFunctions();
+            var response = await _serviceWrapper.authorityService.GetListOfFunctionsForAuthority();
             return Ok(response);
         }
 
@@ -41,6 +42,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="functionParams"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager,Store")]
         public async Task<IActionResult> GetListOfFunctionFilter([FromQuery] FunctionParams functionParams)
         {
             var response = await _serviceWrapper.authorityService.GetListOfFunctionsFilter(functionParams);
@@ -65,6 +67,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetListOfFuncClass()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFuncClass();
@@ -75,6 +78,7 @@ namespace GodPay_CMS.Controllers
         /// 新增功能類別
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassViewModel);
@@ -87,6 +91,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="funcCode"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetFuncClassDetailById([FromQuery] string funcCode)
         {
             var reponse = await _serviceWrapper.authorityService.GetFuncClassDetailById(funcCode);
@@ -99,6 +104,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="updateFuncClassViewModel"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFuncClass([FromBody] UpdateFuncClassViewModel updateFuncClassViewModel)
         {
             var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);
@@ -110,6 +116,7 @@ namespace GodPay_CMS.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetListOfFunc()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFunc();
@@ -122,6 +129,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="fid">流水號</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetFuncDetailById([FromQuery]int fid)
         {
             var response = await _serviceWrapper.authorityService.GetFuncDetailById(fid);
@@ -134,6 +142,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="updateFuncViewModel"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFunc([FromBody] UpdateFuncViewModel updateFuncViewModel)
         {
             var response = await _serviceWrapper.authorityService.UpdateFunc(updateFuncViewModel);
@@ -146,6 +155,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="postFuncViewModel"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PostFunc([FromBody]PostFuncViewModel postFuncViewModel)
         {
             var response = await _serviceWrapper.authorityService.PostFunc(postFuncViewModel);

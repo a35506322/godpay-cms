@@ -70,7 +70,7 @@ namespace GodPay_CMS
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IPersonnelService, PersonnelService>();
-            services.AddScoped<IGLBD_OperationAndTransactionRecordService, GLBD_OperationAndTransactionRecordService>();
+            services.AddScoped<IGLBDOperationAndTransactionRecordService, GLBDOperationAndTransactionRecordService>();
 
             // Helper
             services.AddSingleton<IDecipherHelper, DecipherHelper>();
