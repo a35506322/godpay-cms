@@ -64,16 +64,15 @@
         import {
         GetStores, GetStoreDetail, PostUserAndStore,
         GetAccountStatusEnum, GetStore, UpateUserAndStore,
-        GetListOfFunctionFilter, GetCustomers, GetStoreAuthority,
-        UpdateStoreAuthority
+        GetCustomers, GetStoreAuthority,UpdateStoreAuthority
         } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import storeDetailModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/StoreDetailModal.js'
         import editStoreModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditStoreModal.js'
         import storeAuthoritySettingModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/StoreAuthoritySettingModal.js'
+        import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
         const app = Vue.createApp({
+            mixins: [commonMixins],
             components: {
-                "p-datatable": primevue.datatable,
-                "p-column": primevue.column,
                 "p-toolbar": primevue.toolbar,
                 storeDetailModal,
                 editStoreModal,
@@ -90,7 +89,6 @@
                     modelStateError: {},
                     accountStatus: [],
                     filtersStores: null,
-                    funcs: [],
                     customers: [],
                     storeAuthority: {},
                     tempUid: 0,
@@ -111,38 +109,16 @@
                 ];
                 this.GetAccountStatusEnum();
                 this.InitFilters();
-                this.GetListOfFunctionFilter();
+                const query = {
+                    params: {
+                        isWebSite: 'false',
+                        funcClassEnName: '@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                    }
+                };
+                this.GetListOfFunctionFilter(query);
                 this.GetCustomers();
             },
             methods: {
-               GetListOfFunctionFilter: async function () {
-                    try {
-                        const query = {
-                            params: {
-                                isWebSite: 'false',
-                                funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
-                            }
-                        };
-                        const response = await GetListOfFunctionFilter(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    if (data.rtnData.length > 0) {
-                                        this.funcs = data.rtnData[0].functions;
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception)
-                    }
-                },
                 GetStores: async function () {
                     try {
                         const response = await GetStores().then(response => response);
@@ -254,8 +230,8 @@
                                 case 200:
                                     await this.GetStores();
                                     this.tempStore = {};
-                                    this.$refs.editStore.Close();     
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });                                   
+                                    this.$refs.editStore.Close();
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                     break;
                                 case 401:
                                     if (typeof (responseData.rtnData) === 'string') {
@@ -275,7 +251,7 @@
                     catch (ex) {
                         console.log(ex);
                         this.loading = false;
-                    }                   
+                    }
                 },
                 GetAccountStatusEnum: async function () {
                     try {

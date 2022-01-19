@@ -84,11 +84,12 @@
 <script type="text/javascript">
 @section Vue
 {
-    import { GetListOfFunction, UpdateRoleMaxAuthority, GetListOfFunctionFilter } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import { GetListOfFunctionsForAuthority, UpdateRoleMaxAuthority } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
     const app = Vue.createApp({
+        mixins: [commonMixins],
         data: function () {
             return {
-                funcs: [],
                 authoritys: [],
                 isEdit: false,
                 loading: false
@@ -96,40 +97,18 @@
         },
         created: function () {
             this.GetListOfFunction();
-            this.GetListOfFunctionFilter();
+            const query = {
+                params: {
+                    isWebSite: 'false',
+                    funcClassEnName: '@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                }
+            };
+            this.GetListOfFunctionFilter(query);
         },
         methods: {
-            GetListOfFunctionFilter: async function () {
-                    try {
-                        const query = {
-                            params: {
-                                isWebSite: 'false',
-                                funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
-                            }
-                        };
-                        const response = await GetListOfFunctionFilter(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    if (data.rtnData.length > 0) {
-                                        this.funcs = data.rtnData[0].functions;
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception)
-                    }
-              },
             GetListOfFunction: async function () {
                   try {
-                        const response = await GetListOfFunction().then(response => response);
+                        const response = await GetListOfFunctionsForAuthority().then(response => response);
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;

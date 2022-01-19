@@ -73,323 +73,298 @@
 
 
 <script type="text/javascript">
-    @section Vue
-    {
-        const { FilterMatchMode} = primevue.api;
-        import {
-            GetManagerAll, GetManagerDeatil,
-            PostManagerAndInsider, GetManager, UpdateManagerAndInsider,
-            GetAccountStatusEnum, GetListOfFunctionFilter,
-            GetManagerAuthority, UpdateManagerAuthority
-        } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-        import managerDetailModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ManagerDetailModal.js'
-        import editManagerModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditManagerModal.js'
-        import managerAuthoritySettingModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ManagerAuthoritySettingModal.js'
+@section Vue
+{
+    const { FilterMatchMode} = primevue.api;
+    import {
+        GetManagerAll, GetManagerDeatil,
+        PostManagerAndInsider, GetManager, UpdateManagerAndInsider,
+        GetAccountStatusEnum,GetManagerAuthority, UpdateManagerAuthority
+    } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import managerDetailModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ManagerDetailModal.js'
+    import editManagerModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditManagerModal.js'
+    import managerAuthoritySettingModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ManagerAuthoritySettingModal.js'
+    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
 
-        const app = Vue.createApp({
-            components: {
-                "p-datatable": primevue.datatable,
-                "p-column": primevue.column,
-                "p-toolbar": primevue.toolbar,
-                managerDetailModal,
-                editManagerModal,
-                managerAuthoritySettingModal
-            },
-            data: function () {
-                return {
-                    funcs: [],
-                    managers: [],
-                    selectedManager: {},
-                    managerDetail: {},
-                    tempManager: {},
-                    isNew: null,
-                    modelStateError: {},
-                    accountStatus: [],
-                    filtersManager: null,
-                    managerAuthority: {},
-                    tempUid: 0,
-                    loading: false
+    const app = Vue.createApp({
+        mixins: [commonMixins],
+        components: {
+            managerDetailModal,
+            editManagerModal,
+            managerAuthoritySettingModal
+        },
+        data: function () {
+            return {
+                managers: [],
+                selectedManager: {},
+                managerDetail: {},
+                tempManager: {},
+                isNew: null,
+                modelStateError: {},
+                accountStatus: [],
+                filtersManager: null,
+                managerAuthority: {},
+                tempUid: 0,
+                loading: false
+            }
+        },
+        created: function () {
+            this.GetManagerAll();
+            const query = {
+                params: {
+                    isWebSite: 'false',
+                    funcClassEnName: '@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                }
+            };
+            this.GetListOfFunctionFilter(query);
+            this.GetAccountStatusEnum();
+            this.InitFilters();
+        },
+        methods: {
+            GetManagerAll: async function () {
+                try {
+                    const response = await GetManagerAll().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                this.managers = data.rtnData;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
                 }
             },
-            created: function () {
-                this.GetManagerAll();
-                this.GetListOfFunctionFilter();
-                this.GetAccountStatusEnum();
-                this.InitFilters();
-            },
-            methods: {
-                 GetListOfFunctionFilter: async function () {
-                    try {
-                        const query = {
-                            params: {
-                                isWebSite: 'false',
-                                funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
-                            }
-                        };
-                        const response = await GetListOfFunctionFilter(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    if (data.rtnData.length > 0) {
-                                        this.funcs = data.rtnData[0].functions;
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
+            GetAccountStatusEnum: async function () {
+                try {
+                    const response = await GetAccountStatusEnum().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                if (typeof data.rtnData === 'string') {
+                                    this.accountStatus = JSON.parse(data.rtnData);
+                                } else {
+                                    this.accountStatus = data.rtnData;
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
-                    catch (exception) {
-                        console.log(exception)
-                    }
-                },
-                GetManagerAll: async function () {
-                    try {
-                        const response = await GetManagerAll().then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    this.managers = data.rtnData;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-                },
-                GetAccountStatusEnum: async function () {
-                    try {
-                        const response = await GetAccountStatusEnum().then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    if (typeof data.rtnData === 'string') {
-                                        this.accountStatus = JSON.parse(data.rtnData);
-                                    } else {
-                                        this.accountStatus = data.rtnData;
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception)
-                    }
-                },
-                GetManager: async function (userId) {
-                    try {
-                        let query = {
-                            params: {
-                                userId: userId
-                            }
-                        }
-                        const response = await GetManager(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            const status = this.$common.ChangeReturnCode(code);
-                            switch (code) {
-                                case 200:
-                                    this.tempManager = data.rtnData;
-                                    break;
-                                case 403:
-                                case 404:
-                                    this.tempManager = {};
-                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-
-                },
-                GetManagerDeatil: async function (uid) {
-                    try {
-                        let query = {
-                            params: {
-                                uid: uid
-                            }
-                        }
-                        const response = await GetManagerDeatil(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            const status = this.$common.ChangeReturnCode(code);
-                            switch (code) {
-                                case 200:
-                                    this.managerDetail = data.rtnData;
-                                    break;
-                                case 404:
-                                    this.managerDetail = {};
-                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break
-                                default:
-                                    break;
-                            }
-                        }
-                    }
+                }
                 catch (exception) {
-                        console.log(exception)
+                    console.log(exception)
+                }
+            },
+            GetManager: async function (userId) {
+                try {
+                    let query = {
+                        params: {
+                            userId: userId
+                        }
                     }
-                },
-                OpenManagerDetailModal: function (uid) {
-                    this.GetManagerDeatil(uid).then(() => {
-                        if (Object.keys(this.managerDetail).length !== 0) {
-                            this.$refs.managerDetail.Show();
+                    const response = await GetManager(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.tempManager = data.rtnData;
+                                break;
+                            case 403:
+                            case 404:
+                                this.tempManager = {};
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                break
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+
+            },
+            GetManagerDeatil: async function (uid) {
+                try {
+                    let query = {
+                        params: {
+                            uid: uid
+                        }
+                    }
+                    const response = await GetManagerDeatil(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.managerDetail = data.rtnData;
+                                break;
+                            case 404:
+                                this.managerDetail = {};
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                break
+                            default:
+                                break;
+                        }
+                    }
+                }
+            catch (exception) {
+                    console.log(exception)
+                }
+            },
+            OpenManagerDetailModal: function (uid) {
+                this.GetManagerDeatil(uid).then(() => {
+                    if (Object.keys(this.managerDetail).length !== 0) {
+                        this.$refs.managerDetail.Show();
+                    }
+                });
+            },
+            OpenEditManagerModal: async function (isNew = true,userId='') {
+                this.isNew = isNew;
+                this.modelStateError = {};
+                if (isNew) {
+                    this.tempManager = {};
+                    this.$refs.editManager.Show();
+                }
+                else {
+                    this.GetManager(userId).then(() => {
+                        if (Object.keys(this.tempManager).length !== 0) {
+                            this.$refs.editManager.Show();
                         }
                     });
-                },
-                OpenEditManagerModal: async function (isNew = true,userId='') {
-                    this.isNew = isNew;
-                    this.modelStateError = {};
-                    if (isNew) {
-                        this.tempManager = {};
-                        this.$refs.editManager.Show();
+                }
+            },
+            SaveManager: async function (value) {
+                try {
+                    let response = null;
+                    this.loading = true;
+                    if (this.isNew) {
+                        response = await PostManagerAndInsider(value).then(response => response);
+                    } else {
+                        response = await UpdateManagerAndInsider(value).then(response => response);
                     }
-                    else {
-                        this.GetManager(userId).then(() => {
-                            if (Object.keys(this.tempManager).length !== 0) {
-                                this.$refs.editManager.Show();
-                            }
-                        });
-                    }
-                },
-                SaveManager: async function (value) {
-                    try {
-                        let response = null;
-                        this.loading = true;
-                        if (this.isNew) {
-                            response = await PostManagerAndInsider(value).then(response => response);
-                        } else {
-                            response = await UpdateManagerAndInsider(value).then(response => response);
-                        }
-                        const status = response.status;
-                        if (status === 200) {
-                            const responseData = response.data;
-                            const code = responseData.rtnCode;
-                            const status = this.$common.ChangeReturnCode(code);
-                            switch (code) {
-                                case 200:
-                                    await this.GetManagerAll();
-                                    this.tempManager = {};
-                                    this.$refs.editManager.Close();
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });                                   
-                                    break;
-                                case 401:
-                                    if (typeof (responseData.rtnData) === 'string') {
-                                        this.modelStateError = JSON.parse(responseData.rtnData);
-                                    }
-                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
-                                    break;
-                                case 405:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        this.loading = false;
-                    }
-                    catch (ex) {
-                        console.log(ex);
-                        this.loading = false;
-                    }
-                    
-                },
-                InitFilters: function () {
-                    this.filtersManager = {
-                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-                    }
-                },
-                GetManagerAuthority: async function (userId) {
-                    try {
-                        let query = {
-                            params: {
-                                userId: userId
-                            }
-                        }
-                        const response = await GetManagerAuthority(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            console.log(response)
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            const status = this.$common.ChangeReturnCode(code);
-                            switch (code) {
-                                case 200:
-                                    this.managerAuthority = data.rtnData;
-                                    break;
-                                case 404:
-                                    this.managerAuthority = {};
-                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break
-                                default:
-                                    break;
-                            }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                await this.GetManagerAll();
+                                this.tempManager = {};
+                                this.$refs.editManager.Close();
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            case 401:
+                                if (typeof (responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            case 405:
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                break;
                         }
                     }
-                    catch (exception) {
-                        console.log(exception)
-                    }
-                },
-                OpenManagerAuthoritySettingModal: function ({ userId, uid }) {
-                    this.GetManagerAuthority(userId).then(() => {
-                        if (Object.keys(this.managerAuthority).length !== 0) {
-                            this.tempUid = uid;
-                            this.$refs.managerAuthoritySetting.Show();
+                    this.loading = false;
+                }
+                catch (ex) {
+                    console.log(ex);
+                    this.loading = false;
+                }
+
+            },
+            InitFilters: function () {
+                this.filtersManager = {
+                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+                }
+            },
+            GetManagerAuthority: async function (userId) {
+                try {
+                    let query = {
+                        params: {
+                            userId: userId
                         }
-                    });
-                },
-                SaveAuthority: async function (value) {
-                    try {
-                        this.loading = true;
-                        const response = await UpdateManagerAuthority(value).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const responseData = response.data;
-                            const status = this.$common.ChangeReturnCode(responseData.rtnCode);
-                            switch (responseData.rtnCode) {
-                                case 200:
-                                    await this.GetManagerAll();
-                                    this.$refs.managerAuthoritySetting.Close();
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
-                                    break;
-                                case 417:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
-                                    break;
-                                default:
-                                    throw new Error('代碼有誤');
-                                    break;
-                            }
+                    }
+                    const response = await GetManagerAuthority(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        console.log(response)
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.managerAuthority = data.rtnData;
+                                break;
+                            case 404:
+                                this.managerAuthority = {};
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                break
+                            default:
+                                break;
                         }
-                        this.loading = false;
                     }
-                    catch (exception) {
-                        console.log(exception);
-                        this.loading = false;
+                }
+                catch (exception) {
+                    console.log(exception)
+                }
+            },
+            OpenManagerAuthoritySettingModal: function ({ userId, uid }) {
+                this.GetManagerAuthority(userId).then(() => {
+                    if (Object.keys(this.managerAuthority).length !== 0) {
+                        this.tempUid = uid;
+                        this.$refs.managerAuthoritySetting.Show();
                     }
+                });
+            },
+            SaveAuthority: async function (value) {
+                try {
+                    this.loading = true;
+                    const response = await UpdateManagerAuthority(value).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const status = this.$common.ChangeReturnCode(responseData.rtnCode);
+                        switch (responseData.rtnCode) {
+                            case 200:
+                                await this.GetManagerAll();
+                                this.$refs.managerAuthoritySetting.Close();
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                break;
+                            case 417:
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                break;
+                            default:
+                                throw new Error('代碼有誤');
+                                break;
+                        }
+                    }
+                    this.loading = false;
+                }
+                catch (exception) {
+                    console.log(exception);
+                    this.loading = false;
                 }
             }
-         })
-    }
+        }
+        })
+}
 </script>

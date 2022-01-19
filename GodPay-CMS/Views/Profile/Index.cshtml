@@ -67,24 +67,25 @@
 <change-password-modal ref="changePassword" v-bind:model-error="modelStateError" v-on:save="SaveKey" v-bind:temp-loading ="loading"></change-password-modal>
 
 <script type="text/javascript">
-    @section Vue
-    {
+@section Vue
+{
     import editUserModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditUserModal.js'
     import changePasswordModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ChangePasswordModal.js'
     import {
         GetUserById, EditUser, EditKey,
         GetListOfFunctionFilter
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
 
     const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
     const app = Vue.createApp({
+        mixins: [commonMixins],
         components: {
             editUserModal,
             changePasswordModal
         },
         data: function () {
             return {
-                funcs:[],
                 modelStateError: {},
                 tooltipList: [],
                 user: {},
@@ -104,7 +105,13 @@
         },
         created: function () {
             this.GetUserById();
-            this.GetListOfFunctionFilter();
+            const query = {
+                params: {
+                    isWebSite: 'false',
+                    funcClassEnName: '@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
+                }
+            };
+            this.GetListOfFunctionFilter(query);
         },
         methods: {
             OpenEditUserModal: function () {
@@ -130,34 +137,6 @@
                         switch (code) {
                             case 200:
                                 this.user = data.rtnData;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                catch (exception) {
-                    console.log(exception)
-                }
-            },
-            GetListOfFunctionFilter: async function () {
-                try {
-                    const query = {
-                        params: {
-                            isWebSite: 'false',
-                            funcClassEnName:'@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
-                        }
-                    };
-                    const response = await GetListOfFunctionFilter(query).then(response => response);
-                    const status = response.status;
-                    if (status === 200) {
-                        const data = response.data;
-                        const code = data.rtnCode;
-                        switch (code) {
-                            case 200:
-                                if (data.rtnData.length > 0) {
-                                    this.funcs = data.rtnData[0].functions;
-                                }
                                 break;
                             default:
                                 break;
@@ -242,5 +221,5 @@
             }
         }
     })
-    }
+ }
 </script>
