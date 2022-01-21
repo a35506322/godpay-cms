@@ -61,5 +61,12 @@ namespace GodPay_CMS.Services.Interfaces
         /// <returns></returns>
         public Task<ResponseViewModel> UpdateStoreAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
 
+        /// <summary>
+        /// 取得特店下拉式選單
+        /// </summary>
+        /// <param name="customerId">公司ID</param>
+        /// <returns></returns>
+        public Task<ResponseViewModel> GetStoreForDDL(string customerId);
+
     }
 }

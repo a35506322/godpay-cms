@@ -25,7 +25,7 @@ namespace GodPay_CMS.Repositories.Implements
             _settings = settings;
         }
 
-        public Task<bool> Add(Store model)
+        public Task<bool> Add(Customer_Store model)
         {
             throw new NotImplementedException();
         }
@@ -35,12 +35,12 @@ namespace GodPay_CMS.Repositories.Implements
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Store>> GetAll()
+        public Task<IEnumerable<Customer_Store>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Store> GetById(int id)
+        public async Task<Customer_Store> GetById(int id)
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -49,7 +49,7 @@ namespace GodPay_CMS.Repositories.Implements
                                     Join [dbo].[Customer] C
                                     On S.CustomerId = C.CustomerId
                                     Where S.Uid = @id";
-                var stores = await connection.QueryAsync<Store, Customer, Store>(sqlString, (store, customer) =>
+                var stores = await connection.QueryAsync<Customer_Store, Customer, Customer_Store>(sqlString, (store, customer) =>
                 {
                     store.Customer = customer;
                     return store;
@@ -59,7 +59,30 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> Update(Store model)
+        public async Task<IEnumerable<Customer_Store>> GetStoresCondition(Customer_Store customer_Store)
+        {
+            using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
+            {
+                string sqlString = @"Select *
+                                    From [dbo].[Customer_Store]  A
+                                    Where 1=1";
+
+                if (customer_Store.CustomerId != Guid.Empty)
+                {
+                    sqlString += "and A.CustomerId = @CustomerId ";
+                }
+
+                if (customer_Store.StoreId != Guid.Empty)
+                {
+                    sqlString += "and A.StoreId = @StoreId ";
+                }
+
+                var stores = await connection.QueryAsync<Customer_Store>(sqlString, customer_Store);
+                return stores;
+            }
+        }
+
+        public async Task<bool> Update(Customer_Store model)
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {

@@ -76,15 +76,9 @@ namespace GodPay_CMS
             services.AddSingleton<IDecipherHelper, DecipherHelper>();
 
             // HttpClient
-
-
             services.AddHttpClient("godapi", c =>
             {
                 c.BaseAddress = new Uri(Configuration.GetSection("SettingConfig:Urls:GodApiUrl").Value);
-                //// Github API versioning
-                //c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
-                //// Github requires a user-agent
-                //c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
             });
 
             // Bundle

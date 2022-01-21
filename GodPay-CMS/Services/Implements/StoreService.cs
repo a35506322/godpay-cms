@@ -96,7 +96,7 @@ namespace GodPay_CMS.Services.Implements
             var storeDeatail = await _repostioryWrapper.storeRepository.GetById(updateStoreViewModel.Uid);
             if (storeDeatail == null) { return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無此詳細資料" }; }
 
-            var updateStoreReq = _mapper.Map<Store>(updateStoreViewModel);
+            var updateStoreReq = _mapper.Map<Customer_Store>(updateStoreViewModel);
             updateStoreReq.User.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
             updateStoreReq.User.LastModifyDate = DateTime.Now;
             var result = await _repostioryWrapper.storeRepository.Update(updateStoreReq);
@@ -132,6 +132,16 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnMessage = "修改特店權限成功", RtnData = result };
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改特店權限失敗" };
+        }
+
+        public async Task<ResponseViewModel> GetStoreForDDL(string customerId)
+        {
+            Customer_Store customer_Store = new Customer_Store();
+            customer_Store.CustomerId = Guid.Parse(customerId);
+
+            var stores = await _repostioryWrapper.storeRepository.GetStoresCondition(customer_Store);
+            var result = _mapper.Map<IEnumerable<StoreDDLRsp>>(stores);
+            return new ResponseViewModel() { RtnMessage = "查詢成功", RtnData = result };
         }
     }
 }

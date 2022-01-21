@@ -49,6 +49,8 @@ namespace GodPay_CMS.Services.Implements
             var url = QueryHelpers.AddQueryString(path, queryStringsFilter);
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            // 特店已經在登入Cookie中存取CustomerId及StoreId，可以直接提取
             if (role == RoleEnum.Store.ToString())
             {
                 var cutomerId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(s => s.Type == "CustomerId").Value;
@@ -56,7 +58,19 @@ namespace GodPay_CMS.Services.Implements
                 request.Headers.Add("X-Api-CustomerId", cutomerId);
                 request.Headers.Add("X-Api-StoreId", storeId);
             }
-            
+
+            // 業務至少一定要輸入公司和特店才能查詢
+            if (role == RoleEnum.Manager.ToString())
+            {
+                if (String.IsNullOrEmpty(glbdQueryOrdersReq.CustId) || String.IsNullOrEmpty(glbdQueryOrdersReq.StoreId))
+                {
+                    return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.AuthenticationLogicFail, RtnData= "公司和特店為必輸", RtnMessage= "驗證失敗" };
+                }
+
+                request.Headers.Add("X-Api-CustomerId", glbdQueryOrdersReq.CustId);
+                request.Headers.Add("X-Api-StoreId", glbdQueryOrdersReq.StoreId);
+            }
+
             var client = _clientFactory.CreateClient("godapi");
 
             var response = await client.SendAsync(request);

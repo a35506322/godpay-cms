@@ -60,7 +60,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="userId">帳號</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetStore([FromQuery] string userId)
+        public async Task<IActionResult> GetStoreById([FromQuery] string userId)
         {
             var response = await _serviceWrapper.storeService.GetUserAndStoreByUserId(userId);
             return Ok(response);
@@ -98,6 +98,18 @@ namespace GodPay_CMS.Controllers
         public async Task<IActionResult> UpdateStoreAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
         {
             var response = await _serviceWrapper.storeService.UpdateStoreAuthority(updateUserAuthorityViewModel);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// 取得特店下拉式選單
+        /// </summary>
+        /// <param name="customerId">公司Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetStoreForDDL([FromQuery]string customerId)
+        {
+            var response = await _serviceWrapper.storeService.GetStoreForDDL(customerId);
             return Ok(response);
         }
     }

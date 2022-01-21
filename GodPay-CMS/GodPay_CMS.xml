@@ -503,7 +503,7 @@
             <param name="postUserAndStoreViewModal"></param>
             <returns></returns>
         </member>
-        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStore(System.String)">
+        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreById(System.String)">
             <summary>
             取得單筆特店
             </summary>
