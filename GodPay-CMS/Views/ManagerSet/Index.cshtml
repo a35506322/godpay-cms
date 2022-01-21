@@ -347,10 +347,10 @@
                             case 200:
                                 await this.GetManagerAll();
                                 this.$refs.managerAuthoritySetting.Close();
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             case 417:
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             default:
                                 throw new Error('代碼有誤');

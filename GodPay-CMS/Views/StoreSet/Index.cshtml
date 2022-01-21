@@ -63,7 +63,7 @@
         const { FilterMatchMode } = primevue.api;
         import {
         GetStores, GetStoreDetail, PostUserAndStore,
-        GetAccountStatusEnum, GetStore, UpateUserAndStore,
+        GetAccountStatusEnum, GetStoreById, UpateUserAndStore,
         GetCustomers, GetStoreAuthority,UpdateStoreAuthority
         } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
         import storeDetailModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/StoreDetailModal.js'
@@ -139,14 +139,14 @@
                         console.log(exception);
                     }
                 },
-                GetStore: async function (userId) {
+                GetStoreById: async function (userId) {
                     try {
                         let query = {
                             params: {
                                 userId: userId
                             }
                         };
-                        const response = await GetStore(query).then(response => response);
+                        const response = await GetStoreById(query).then(response => response);
                         const status = response.status;
                         if (status === 200) {
                             const data = response.data;
@@ -208,7 +208,7 @@
                         this.tempStore = {};
                     }
                     else {
-                        await this.GetStore(userId);
+                        await this.GetStoreById(userId);
                     }
                     this.$refs.editStore.Show();
                 },

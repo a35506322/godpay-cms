@@ -53,7 +53,7 @@ namespace GodPay_CMS.Services.Implements
         {
             var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndInsiderViewModal.UserId);
             if (user != null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗", RtnData = "已有重複帳號" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnData = "已有重複帳號", RtnMessage = "驗證失敗" };
 
             var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
 

@@ -64,13 +64,13 @@ namespace GodPay_CMS.Services.Implements
 
             var user = await _repostioryWrapper.userRepository.GetByUserId(postId);
             if (user != null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "此帳號已重複" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage ="驗證失敗", RtnData = "此帳號已重複" };
 
             var postUserReq = _mapper.Map<User>(postStorePersonnelViewModel);
             postUserReq.UserId = postId;
             postUserReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd",postId);
-            postUserReq.Personnel = new Personnel();
-            postUserReq.Personnel.StoreId = Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "StoreId").Value);
+            postUserReq.Customer_Personnel = new Customer_Personnel();
+            postUserReq.Customer_Personnel.StoreId = Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "StoreId").Value);
 
             var isSuccess = await _repostioryWrapper.userRepository.PostStorePersonnel(postUserReq);
             if(isSuccess)
@@ -83,7 +83,7 @@ namespace GodPay_CMS.Services.Implements
         {
             var user = await _repostioryWrapper.userRepository.GetByUserId(updateStorePersonnelViewModel.UserId);
             if (user == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "此帳號不存在" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = "驗證失敗", RtnData = "此帳號不存在"};
 
             var updateUserReq = _mapper.Map<User>(updateStorePersonnelViewModel);
 

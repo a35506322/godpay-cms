@@ -39,7 +39,7 @@ namespace GodPay_CMS.Services.Implements
 
             var modifier = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.ModifierId);
             if (modifier == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationFail, RtnMessage = "驗證錯誤" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationFail, RtnMessage = "驗證失敗" };
 
             var target = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.UserId);
             if (target == null)

@@ -46,7 +46,7 @@ namespace GodPay_CMS.Services.Implements
             var customerParams = _mapper.Map<CustomerParams>(addCustomerViewModel);
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
             if (customer != null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage = "公司名稱重覆" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage="驗證失敗", RtnData = "公司名稱重覆" };
 
             Customer customerReq = _mapper.Map<Customer>(addCustomerViewModel);
 
