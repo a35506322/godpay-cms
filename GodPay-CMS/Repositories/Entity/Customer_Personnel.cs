@@ -2,7 +2,7 @@
 
 namespace GodPay_CMS.Repositories.Entity
 {
-    public class Personnel
+    public class Customer_Personnel
     {
         public int SeqNo { get; set; }
         public int Uid { get; set; }

@@ -5,15 +5,17 @@ using GodPay_CMS.Services.DTO;
 
 namespace GodPay_CMS.Common.Profiles
 {
-    public class StoreProfile:Profile
+    public class Customer_StoreProfile:Profile
     {   
-        public StoreProfile()
+        public Customer_StoreProfile()
         {
-            CreateMap<Store, StoreFilterRsp>()
+            CreateMap<Customer_Store, StoreFilterRsp>()
                 .ForMember(n =>n.CustomerName,o=>o.MapFrom(o=>o.Customer.CustomerName));
 
-            CreateMap<UpdateStoreViewModel, Store>()
+            CreateMap<UpdateStoreViewModel, Customer_Store>()
                 .ForMember(n => n.User, o => o.MapFrom(t => new User()));
+
+            CreateMap<Customer_Store, StoreDDLRsp>();
         }
     }
 }

@@ -349,9 +349,9 @@ namespace GodPay_CMS.Repositories.Implements
                          Where U.UserId=@userId";
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                var users = await connection.QueryAsync<User, Store, User>(sql, (user, store) =>
+                var users = await connection.QueryAsync<User, Customer_Store, User>(sql, (user, store) =>
                 {
-                    user.Store = store;
+                    user.Customer_Store = store;
                     return user;
                 }, new { userId = userId }, splitOn: "SeqNo");
                 return users;
@@ -461,7 +461,7 @@ namespace GodPay_CMS.Repositories.Implements
                     try
                     {
                         var userId = await connection.QueryAsync<int>(insertUser, user, transaction:tran);
-                        var rowCount = await connection.ExecuteAsync(insertPersonnel, new { Uid = userId.FirstOrDefault() , StoreId = user.Personnel.StoreId }, transaction: tran);
+                        var rowCount = await connection.ExecuteAsync(insertPersonnel, new { Uid = userId.FirstOrDefault() , StoreId = user.Customer_Personnel.StoreId }, transaction: tran);
                         result = rowCount > 0 ? true : false;
                         tran.Commit();
                     }

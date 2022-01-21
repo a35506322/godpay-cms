@@ -5,7 +5,7 @@ namespace GodPay_CMS.Repositories.Entity
     /// <summary>
     /// 特店詳細資訊
     /// </summary>
-    public class Store
+    public class Customer_Store
     {
         /// <summary>
         /// 流水號(PK)

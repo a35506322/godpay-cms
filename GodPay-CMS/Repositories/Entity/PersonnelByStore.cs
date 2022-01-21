@@ -2,6 +2,9 @@
 
 namespace GodPay_CMS.Repositories.Entity
 {
+    /// <summary>
+    /// Personnel檢視表
+    /// </summary>
     public class PersonnelByStore
     {
         public int Uid { get; set; }
