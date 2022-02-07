@@ -7,7 +7,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 公司名稱
         /// </summary>
-        [Required]
-        public string customerName { get; set; }
+        [Required(ErrorMessage ="公司名稱為必填")]
+        public string CustomerName { get; set; }
     }
 }

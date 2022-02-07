@@ -7,13 +7,13 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 修改人ID
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "修改者為必填")]
         public string ModifierId { get; set; }
 
         /// <summary>
         /// 使用者ID
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "帳號為必填")]
         public string UserId { get; set; }
 
         /// <summary>

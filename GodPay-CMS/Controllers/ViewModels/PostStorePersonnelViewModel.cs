@@ -11,14 +11,14 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 帳號
         /// </summary>
-        [Required(ErrorMessage ="請輸入帳號")]
+        [Required(ErrorMessage ="帳號為必填")]
         [RegularExpression(@"^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$", ErrorMessage = "請至少輸入大小寫英文1位、1位數字1位及6-20位帳號")]
         public string UserId { get; set; }
 
         /// <summary>
         /// Email
         /// </summary>
-        [Required(ErrorMessage = "請輸入Email")]
+        [Required(ErrorMessage = "Email為必填")]
         [EmailAddress(ErrorMessage = "請輸入正確Email格式")]
         public string Email { get; set; }
     }

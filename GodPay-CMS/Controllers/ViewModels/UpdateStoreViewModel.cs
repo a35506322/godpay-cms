@@ -13,31 +13,31 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 特店名稱
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "特店名稱為必填")]
         public string StoreName { get; set; }
 
         /// <summary>
         /// 統一編號
         /// </summary>
-        [Required]
-        [StringLength(8)]
+        [Required(ErrorMessage = "統一編號為必填")]
+        [StringLength(8, ErrorMessage = "統一編號長度為8碼")]
         public string TaxId { get; set; }
 
         /// <summary>
         /// 負責人
         /// </summary>        
-        public string Owner { get; set; }
+        public string Owner { get; set; } = string.Empty;
 
         /// <summary>
         /// 公司地址
         /// </summary>
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         /// <summary>
         ///  負責人電子信箱
         /// </summary>
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "負責人電子信箱為必填")]
+        [EmailAddress(ErrorMessage = "請輸入正確Email格式")]
         public string OwnerEmail { get; set; }
     }
 }

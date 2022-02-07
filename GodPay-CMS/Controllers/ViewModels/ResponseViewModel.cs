@@ -1,4 +1,5 @@
 ﻿using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 
 namespace GodPay_CMS.Controllers.ViewModels
 {
@@ -15,7 +16,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>
-        public string RtnMessage { get; set; } = "";
+        public string RtnMessage { get; set; } = ReturnCodeEnum.Ok.GetEnumDescription();
 
         /// <summary>
         /// 回傳狀態資料
@@ -34,7 +35,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 回傳狀態訊息
         /// </summary>
-        public string RtnMessage { get; set; } = "";
+        public string RtnMessage { get; set; } = ReturnCodeEnum.Ok.GetEnumDescription();
 
         /// <summary>
         /// 回傳狀態資料

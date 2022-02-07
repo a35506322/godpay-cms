@@ -16,19 +16,19 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 英文名字(action)
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "英文名字(action)為必填")]
         public string FuncEnName { get; set; }
 
         /// <summary>
         /// 中文名字(action)
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "中文名字(action)為必填")]
         public string FuncChName { get; set; }
 
         /// <summary>
         /// 功能代碼
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "功能代碼為必填")]
         public long FuncCode { get; set; }
 
         /// <summary>

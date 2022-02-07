@@ -23,7 +23,7 @@ namespace GodPay_CMS.Controllers.ViewModels
         /// <summary>
         /// 目前狀態
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "目前狀態為必填")]
         public string Status { get; set; }
     }
 }
