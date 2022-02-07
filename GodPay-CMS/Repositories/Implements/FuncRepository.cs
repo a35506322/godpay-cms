@@ -34,22 +34,11 @@ namespace GodPay_CMS.Repositories.Implements
                          VALUES(@FuncClassCode,@FuncEnName,@FuncChName,@RoleFlag,@IsWebSite)";
             using(IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                connection.Open();
-                using(var tran = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        var response = await connection.ExecuteAsync(sql, model, transaction: tran);
-                        if (response > 0) { result = true; }
-                        tran.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tran.Rollback();
-                        throw new Exception(ex.Message.ToString());
-                    }
-                    return result;                
-                }
+                var response = await connection.ExecuteAsync(sql, model);
+
+                if (response > 0) { result = true; }
+
+                return result;
             }
         }
 
@@ -92,21 +81,11 @@ namespace GodPay_CMS.Repositories.Implements
                            WHERE Fid=@Fid";
             using(IDbConnection connection=new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                connection.Open();
-                using (var tran = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        var rowCount = await connection.ExecuteAsync(sql, func, transaction: tran);
-                        if (rowCount > 0) { result = true; }
-                        tran.Commit();
-                    }
-                    catch(Exception ex)
-                    {
-                        tran.Rollback();
-                            throw ex;
-                    }
-                }
+
+                var rowCount = await connection.ExecuteAsync(sql, func);
+
+                if (rowCount > 0) { result = true; }
+
                 return result;
             }
         }
@@ -158,13 +137,19 @@ namespace GodPay_CMS.Repositories.Implements
                     {
                         int rowConunts = await connection.ExecuteAsync(sqlString, updateRoleAuthorityReqs, transaction: tran);
                         if (rowConunts > 0)
+                        {
                             result = true;
-                        tran.Commit();
+                            tran.Commit();
+                        }
+                        else
+                        {
+                            tran.Rollback();
+                        }                    
                     }
                     catch (Exception exception)
                     {
                         tran.Rollback();
-                        throw new Exception(exception.Message.ToString());
+                        throw exception;
                     }
                     return result;
                 }                

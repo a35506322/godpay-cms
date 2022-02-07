@@ -29,25 +29,15 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                string sql = @"INSERT INTO [dbo].[FuncClass](FuncClassEnName,FuncClassChName)
+                string sql = @"INSERT INTO [dbo].[FuncClass](FuncClassEnName,FuncClassChNam)
                                   VALUES (@FuncClassEnName,@FuncClassChName)";
                 bool result = false;
-                connection.Open();
-                using (var tran = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        var response = await connection.ExecuteAsync(sql, model, transaction: tran);
-                        if (response > 0) { result = true; }
-                        tran.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tran.Rollback();
-                        throw ex;
-                    }
-                    return result;
-                }
+
+                var response = await connection.ExecuteAsync(sql, model);
+
+                if (response > 0) { result = true; }
+
+                return result;              
             }
         }
 
@@ -73,7 +63,6 @@ namespace GodPay_CMS.Repositories.Implements
                          WHERE FuncClassCode=@funcClassCode";
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-
                 var funcClass = await connection.QuerySingleOrDefaultAsync<FuncClass>(sql, new { FuncClassCode = funcClassCode });
                 return funcClass;
             }
@@ -88,21 +77,10 @@ namespace GodPay_CMS.Repositories.Implements
                           WHERE FuncClassCode=@FuncClassCode";
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                connection.Open();
-                using (var tran = connection.BeginTransaction())
-                {
-                    try
-                    {
-                    var rowCounts = await connection.ExecuteAsync(sql, funcClass, transaction: tran);
-                    if (rowCounts > 0) { result = true; }
-                    tran.Commit();
-                    }
-                    catch(Exception ex)
-                    {
-                        tran.Rollback();
-                        throw ex;
-                    }
-                }
+                var rowCounts = await connection.ExecuteAsync(sql, funcClass);
+
+                if (rowCounts > 0) { result = true; }
+
                 return result;
             }
         }

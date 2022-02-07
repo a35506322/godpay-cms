@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using GodPay_CMS.Common;
+using Microsoft.Extensions.Logging;
 
 namespace GodPay_CMS.Repositories.Implements
 {
@@ -24,12 +25,14 @@ namespace GodPay_CMS.Repositories.Implements
         private readonly IDecipherHelper _decipherHelper;
         private readonly IOptionsSnapshot<SettingConfig> _settings;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings, IHttpContextAccessor httpContextAccessor)
+        public UserRepository(IDecipherHelper decipherHelper, IOptionsSnapshot<SettingConfig> settings, IHttpContextAccessor httpContextAccessor, ILogger<UserRepository> logger)
         {
             _decipherHelper = decipherHelper;
             _settings = settings;
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
 
         public async Task<bool> Add(User model)
@@ -40,15 +43,11 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 bool result = false;
-                try
-                {
-                    var rowCount = await connection.ExecuteAsync(sqlString, model);
-                    result = rowCount > 0 ? true : false;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+
+                var rowCount = await connection.ExecuteAsync(sqlString, model);
+
+                result = rowCount > 0 ? true : false;
+
                 return result;
             }
         }
@@ -109,7 +108,7 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"SELECT * FROM [dbo].[User]
-                               WHERE UserId = @UserId";
+                        WHERE UserI = @UserId";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, new { UserId = userId });
 
                 if (entity == null)
@@ -130,6 +129,7 @@ namespace GodPay_CMS.Repositories.Implements
                                 WHERE UserId = @UserId";
 
                 var entity = await _connection.ExecuteAsync(sql, updateUserReq);
+
                 return entity;
             }
         }
@@ -146,6 +146,7 @@ namespace GodPay_CMS.Repositories.Implements
                                 WHERE UserId = @UserId";
 
                 var entity = await _connection.ExecuteAsync(sql, editKeyViewModel);
+
                 return entity;
             }
         }
@@ -401,7 +402,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception (ex.ToString());
+                        throw ex;
                     }
                     return result;
                 }
@@ -424,21 +425,11 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 bool result = false;
-                connection.Open();
-                using (var tran = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        var rowCount = await connection.ExecuteAsync(sqlString, updateUserAuthorityReq, transaction: tran);
-                        result = rowCount > 0 ? true : false;
-                        tran.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tran.Rollback();
-                        throw new Exception(ex.ToString());
-                    }
-                }
+
+                var rowCount = await connection.ExecuteAsync(sqlString, updateUserAuthorityReq);
+
+                result = rowCount > 0 ? true : false;
+
                 return result;
             }
         }
@@ -460,15 +451,15 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        var userId = await connection.QueryAsync<int>(insertUser, user, transaction:tran);
-                        var rowCount = await connection.ExecuteAsync(insertPersonnel, new { Uid = userId.FirstOrDefault() , StoreId = user.Customer_Personnel.StoreId }, transaction: tran);
+                        var userId = await connection.QueryAsync<int>(insertUser, user, transaction: tran);
+                        var rowCount = await connection.ExecuteAsync(insertPersonnel, new { Uid = userId.FirstOrDefault(), StoreId = user.Customer_Personnel.StoreId }, transaction: tran);
                         result = rowCount > 0 ? true : false;
                         tran.Commit();
                     }
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception(ex.ToString());
+                        throw ex;
                     }
                     return result;
                 }
@@ -491,15 +482,8 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 bool result = false;
-                try
-                {
-                    var rowCount = await connection.ExecuteAsync(sqlString, user);
-                    result = rowCount > 0 ? true : false;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.ToString());
-                }
+                var rowCount = await connection.ExecuteAsync(sqlString, user);
+                result = rowCount > 0 ? true : false;
                 return result;
             }
         }

@@ -134,7 +134,7 @@ namespace GodPay_CMS.Repositories.Implements
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        throw new Exception(ex.Message.ToString());
+                        throw ex;
                     }
 
                     return result;
