@@ -1,4 +1,5 @@
 ﻿using GodPay.Domain.Dto;
+using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Controllers
-{   
+{
+    [ProducesResponseType(typeof(ResponseViewModel), 200)]
     public class TransactionRecordApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
@@ -21,6 +23,7 @@ namespace GodPay_CMS.Controllers
         /// 取得訂單
         /// </summary>
         /// <param name="glbdQueryOrdersReq">訂單QuerString</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Manager,Store")]
@@ -34,6 +37,7 @@ namespace GodPay_CMS.Controllers
         /// 退貨
         /// </summary>
         /// <param name="glbdRefundReq">退貨</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Store")]
@@ -47,6 +51,7 @@ namespace GodPay_CMS.Controllers
         /// 取消
         /// </summary>
         /// <param name="glbdRefundReq">退貨</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Store")]

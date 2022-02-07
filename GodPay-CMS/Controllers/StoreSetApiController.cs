@@ -11,6 +11,7 @@ namespace GodPay_CMS.Controllers
     /// </summary>
     [Route("[controller]/[action]")]
     [Authorize(Roles = "Admin,Manager")]
+    [ProducesResponseType(typeof(ResponseViewModel), 200)]
     public class StoreSetApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
@@ -22,6 +23,7 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得所有特店
         /// </summary>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetStores()
@@ -34,6 +36,7 @@ namespace GodPay_CMS.Controllers
         /// 取得特店詳細資料
         /// </summary>
         /// <param name="uid">PK</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetStoreDeatil([FromQuery] int uid)
@@ -45,7 +48,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增使用者及特店
         /// </summary>
-        /// <param name="postUserAndStoreViewModal"></param>
+        /// <param name="postUserAndStoreViewModal">postUserAndStoreViewModal</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostUserAndStore([FromBody] PostUserAndStoreViewModel postUserAndStoreViewModal)
@@ -58,6 +62,7 @@ namespace GodPay_CMS.Controllers
         /// 取得單筆特店
         /// </summary>
         /// <param name="userId">帳號</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetStoreById([FromQuery] string userId)
@@ -69,7 +74,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 更新使用者及特店
         /// </summary>
-        /// <param name="updateUserAndStoreViewModel"></param>
+        /// <param name="updateUserAndStoreViewModel">updateUserAndStoreViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> UpateUserAndStore([FromBody] UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
@@ -81,7 +87,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得特店角色權限
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">userId</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetStoreAuthority([FromQuery] string userId)
@@ -93,6 +100,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 修改特店角色權限
         /// </summary>
+        /// <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdateStoreAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
@@ -105,6 +114,7 @@ namespace GodPay_CMS.Controllers
         /// 取得特店下拉式選單
         /// </summary>
         /// <param name="customerId">公司Id</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetStoreForDDL([FromQuery]string customerId)

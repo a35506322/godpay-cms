@@ -11,6 +11,7 @@ namespace GodPay_CMS.Controllers
     /// </summary>
     [Route("[controller]/[action]")]
     [Authorize]
+    [ProducesResponseType(typeof(ResponseViewModel), 200)]
     public class ProfileApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
@@ -24,7 +25,9 @@ namespace GodPay_CMS.Controllers
         /// 取得使用者資訊
         /// </summary>
         /// <param name="userId">使用者帳號</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string userId)
         {
             var result = await _serviceWrapper.userService.GetUserByUserId(userId);
@@ -34,7 +37,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 編輯使用者資訊
         /// </summary>
-        /// <param name="editUserViewModel"></param>
+        /// <param name="editUserViewModel">editUserViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit([FromBody] EditUserViewModel editUserViewModel)
@@ -46,7 +50,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 變更使用者密碼
         /// </summary>
-        /// <param name="editKeyViewModel"></param>
+        /// <param name="editKeyViewModel">editKeyViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> EditKey([FromBody] EditKeyViewModel editKeyViewModel)
@@ -61,8 +66,7 @@ namespace GodPay_CMS.Controllers
         /// <param name="uid">PK</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
-        [ProducesResponseType(typeof(ResponseViewModel), 200)]
-        [HttpGet]
+        [HttpGet]   
         public async Task<IActionResult> GetStoreDeatil([FromQuery] int uid)
         {
             var response = await _serviceWrapper.storeService.GetStoreDeatil(uid);
@@ -76,7 +80,6 @@ namespace GodPay_CMS.Controllers
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        [ProducesResponseType(typeof(ResponseViewModel), 200)]
         public async Task<IActionResult> UpdateStoreDeatil([FromBody] UpdateStoreViewModel updateStoreViewModel)
         {
             var response = await _serviceWrapper.storeService.UpateStore(updateStoreViewModel);

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -24,18 +26,24 @@ namespace GodPay_CMS.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IServiceWrapper _serviceWrapper;
-        public SigninApiController(IMapper mapper, IServiceWrapper serviceWrapper)
+        private readonly ILogger<SigninApiController> _logger;
+
+        public SigninApiController(IMapper mapper, IServiceWrapper serviceWrapper, ILogger<SigninApiController> logger)
         {
             _mapper = mapper;
             _serviceWrapper = serviceWrapper;
+            _logger = logger;
+
         }
 
         /// <summary>
         /// 登入
         /// </summary>
-        /// <param name="signinViewModel"></param>
+        /// <param name="signinViewModel">signinViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(ResponseViewModel), 200)]
         public async Task<IActionResult> SignIn([FromBody] SigninViewModel signinViewModel)
         {
             var result = await _serviceWrapper.signinService.SigninUser(signinViewModel);
@@ -66,6 +74,8 @@ namespace GodPay_CMS.Controllers
                     IsPersistent = true                   
                 };
                 await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                _logger.LogInformation("Account:{Account} Message:{Message}", data.UserId, "登入成功");
             }
             return Ok(result);
         }

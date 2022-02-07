@@ -11,6 +11,7 @@ namespace GodPay_CMS.Controllers
     /// </summary>
     [Route("[controller]/[action]")]
     [Authorize(Roles = "Admin")]
+    [ProducesResponseType(typeof(ResponseViewModel), 200)]
     public class ManagerSetApiController : Controller
     {
         private readonly IServiceWrapper _serviceWrapper;
@@ -22,6 +23,7 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得所有業務
         /// </summary>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetManagerAll()
@@ -33,7 +35,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得單筆業務詳細資料
         /// </summary>
-        /// <param name="uid"></param>
+        /// <param name="uid">uid</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetManagerDeatil([FromQuery] int uid)
@@ -45,7 +48,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增業務
         /// </summary>
-        /// <param name="postUserAndInsiderViewModal"></param>
+        /// <param name="postUserAndInsiderViewModal">postUserAndInsiderViewModal</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostManagerAndInsider([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
@@ -57,7 +61,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得單筆業務
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">userId</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetManager([FromQuery] string userId)
@@ -69,7 +74,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 更新業務
         /// </summary>
-        /// <param name="updateUserAndInsiderViewModal"></param>
+        /// <param name="updateUserAndInsiderViewModal">updateUserAndInsiderViewModal</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdateManagerAndInsider([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
@@ -81,6 +87,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得業務角色權限
         /// </summary>
+        /// <param name="userId">userId</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetManagerAuthority([FromQuery] string userId)
@@ -92,6 +100,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 修改業務角色權限
         /// </summary>
+        /// <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdateManagerAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)

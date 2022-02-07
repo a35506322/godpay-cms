@@ -13,7 +13,7 @@ namespace GodPay_CMS.Controllers
     /// 權限管理伺服器
     /// </summary>
     [Route("[controller]/[action]")]
-    
+    [ProducesResponseType(typeof(ResponseViewModel), 200)]
     public class AuthoritySetApiController : Controller
 
     {
@@ -28,8 +28,10 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得所有功能權限(權限驗證)
         /// </summary>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetListOfFunctionsForAuthority()
         {
             var response = await _serviceWrapper.authorityService.GetListOfFunctionsForAuthority();
@@ -39,7 +41,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得篩選功能權限
         /// </summary>
-        /// <param name="functionParams"></param>
+        /// <param name="functionParams">functionParams</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin,Manager,Store")]
@@ -52,7 +55,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 批次修改最大權限
         /// </summary>
-        /// <param name="functionParams"></param>
+        /// <param name="functionParams">functionParams</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
@@ -65,6 +69,7 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得所有功能類別
         /// </summary>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -77,6 +82,9 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增功能類別
         /// </summary>
+        /// <param name="functionParams">postFuncClassViewModel</param>
+        /// <response code="200">連線成功</response>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
@@ -88,7 +96,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得特定功能類別
         /// </summary>
-        /// <param name="funcCode"></param>
+        /// <param name="funcCode">funcCode</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -101,7 +110,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 編輯功能類別
         /// </summary>
-        /// <param name="updateFuncClassViewModel"></param>
+        /// <param name="updateFuncClassViewModel">updateFuncClassViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
@@ -114,6 +124,7 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 取得所有功能
         /// </summary>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -127,6 +138,7 @@ namespace GodPay_CMS.Controllers
         /// 取得個別功能資料
         /// </summary>
         /// <param name="fid">流水號</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -139,7 +151,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 修改功能
         /// </summary>
-        /// <param name="updateFuncViewModel"></param>
+        /// <param name="updateFuncViewModel">updateFuncViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
@@ -152,7 +165,8 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增功能
         /// </summary>
-        /// <param name="postFuncViewModel"></param>
+        /// <param name="postFuncViewModel">postFuncViewModel</param>
+        /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
