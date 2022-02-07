@@ -15,6 +15,9 @@ using Microsoft.Extensions.Hosting;
 using GodPay_CMS.Common;
 using System;
 using System.IO;
+using GodPay_CMS.Middlewares;
+using Serilog;
+using GodPay_CMS.Common.Helpers;
 
 namespace GodPay_CMS
 {
@@ -123,16 +126,6 @@ namespace GodPay_CMS
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
             app.UseHttpsRedirection();
 
             app.UseOpenApi(config =>
@@ -187,6 +180,10 @@ namespace GodPay_CMS
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseRequestResponseLogging();
+
+            app.UseExceptionHandler(err => err.UseCustomErrors(env));
 
             app.UseEndpoints(endpoints =>
             {

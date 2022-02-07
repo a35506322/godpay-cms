@@ -1,11 +1,17 @@
+using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 using Serilog.Formatting.Json;
+using Serilog.Sinks.MSSqlServer;
 using System;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
+using Serilog.Exceptions;
 
 namespace GodPay_CMS
 {
@@ -22,30 +28,82 @@ namespace GodPay_CMS
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .Build();
 
+            var sinkInfoOpts = new MSSqlServerSinkOptions();
+            // 資料表名稱
+            sinkInfoOpts.TableName = "CMS_InfoLogs";
+            // 每次插入的列數
+            sinkInfoOpts.BatchPostingLimit = 5;
+            // 每過幾秒釋放LOG
+            sinkInfoOpts.BatchPeriod = TimeSpan.FromSeconds(5);
+            // 是否建立資料表
+            sinkInfoOpts.AutoCreateSqlTable = true;
+
+            var sinkErrorOpts = new MSSqlServerSinkOptions();
+            // 資料表名稱
+            sinkErrorOpts.TableName = "CMS_ErrorLogs";
+            // 每次插入的列數
+            sinkErrorOpts.BatchPostingLimit = 5;
+            // 每過幾秒釋放LOG
+            sinkErrorOpts.BatchPeriod = TimeSpan.FromSeconds(5);
+            // 是否建立資料表
+            sinkErrorOpts.AutoCreateSqlTable = true;
+
+
+            var columnOptions = new ColumnOptions();
+            // 刪除標準列
+            columnOptions.Store.Remove(StandardColumn.Id);
+            columnOptions.Store.Remove(StandardColumn.MessageTemplate);
+            columnOptions.Store.Remove(StandardColumn.Message);
+            columnOptions.Store.Remove(StandardColumn.Properties);
+
+            // 排除已經自定義列的資料
+            columnOptions.Properties.ExcludeAdditionalProperties = true;
+            // 新增自定義列，會自行在UseSerilogRequestLogging取得資料
+            columnOptions.AdditionalColumns = new Collection<SqlColumn>
+            {
+                new SqlColumn {  ColumnName = "Account", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "RequestMethod", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "EndpointName", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "RequestPath", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "QueryString", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "RequestHeader", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "Host", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "Protocol", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "Scheme", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "RequestBody", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "ContentType", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "ResponseBody", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "StatusCode", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "Code", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "Message", DataType =SqlDbType.VarChar, },
+                new SqlColumn {  ColumnName = "Data", DataType =SqlDbType.VarChar, },
+            };
+
+            IDecipherHelper decipher = new DecipherHelper();
+
             // 設定SerlLog
-            Log.Logger = new LoggerConfiguration()
-                        // 底下所有設定是可以讀設定檔完成的
-                        .ReadFrom.Configuration(configuration)
-                        // 似乎是會寫出詳細資訊的Deatials https://github.com/RehanSaeed/Serilog.Exceptions
-                        .Enrich.FromLogContext()
-                        // 新增屬性
-                        //.Enrich.WithProperty("Environment", configuration["Z21Url"])
-                        // 最小為Information輸出
-                        .MinimumLevel.Information()
-                        // 處理Text 樣板字面值
-                        // {Properties:j} 自定義屬性
-                        .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy/MM/dd HH:mm:ss} {Level:u3}] {Properties:j} {Message:lj}{NewLine}{Exception}"
-                                        , restrictedToMinimumLevel: LogEventLevel.Information)
-                        // 寫進檔案
-                        .WriteTo.File(
-                            // 設置格式化
-                            new JsonFormatter(renderMessage: true),
-                            // 設置路徑
-                            @"logs\log.txt",
-                            // 設置大小限制
-                            rollOnFileSizeLimit: true,
-                            // 設置檔名有日期
-                            rollingInterval: RollingInterval.Day)
+            Log.Logger = new LoggerConfiguration()                  
+                       .MinimumLevel.Debug()
+                       .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                       .Enrich.FromLogContext()
+                       .Enrich.WithExceptionDetails()
+                       .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy/MM/dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+                        // 按照錯誤級別分資料夾
+                       .WriteTo.Map(
+                        evt => evt.Level, 
+                       (level, wt) => wt.File(
+                           new CompactJsonFormatter(), 
+                           path: @$"logs\{level}\{level}.log", 
+                           restrictedToMinimumLevel: LogEventLevel.Information, 
+                           rollOnFileSizeLimit: true, 
+                           rollingInterval: RollingInterval.Day))
+                       .WriteTo.Map(
+                        evt => evt.Level,
+                       (level, wt) => wt.MSSqlServer(
+                          connectionString: decipher.ConnDecryptorAES(configuration.GetSection("SettingConfig:ConnectionSettings:IPASS").Value),
+                          sinkOptions: level== LogEventLevel.Error ? sinkErrorOpts:sinkInfoOpts,
+                          columnOptions: columnOptions,
+                          restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information))
                         .CreateLogger();
 
             try
@@ -54,7 +112,7 @@ namespace GodPay_CMS
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "主機意外終止");
+                Log.Error(ex, "主機意外終止");
             }
             finally
             {
