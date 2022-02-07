@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
@@ -26,7 +27,7 @@ namespace GodPay_CMS.Services.Implements
             var customers = await _repostioryWrapper.customerRepository.GetAll();
 
             if (customers.Count() == 0)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             return new ResponseViewModel() { RtnData = customers };
         }
@@ -36,7 +37,7 @@ namespace GodPay_CMS.Services.Implements
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
 
             if (customer == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             return new ResponseViewModel() { RtnData = customer };
         }
@@ -46,16 +47,16 @@ namespace GodPay_CMS.Services.Implements
             var customerParams = _mapper.Map<CustomerParams>(addCustomerViewModel);
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
             if (customer != null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage="驗證失敗", RtnData = "公司名稱重覆" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage= ReturnCodeEnum.SameNameFail.GetEnumDescription(), RtnData = "公司名稱重覆" };
 
             Customer customerReq = _mapper.Map<Customer>(addCustomerViewModel);
 
             var result = await _repostioryWrapper.customerRepository.Add(customerReq);
 
             if (result == false)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增公司失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription()};
 
-            return new ResponseViewModel() { RtnMessage = "新增公司成功" };
+            return new ResponseViewModel();
         }
 
         public async Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel)
@@ -65,14 +66,14 @@ namespace GodPay_CMS.Services.Implements
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
 
             if (customer == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無公司資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             var customerReq = _mapper.Map<Customer>(editCustomerViewModel);
 
             var result = await _repostioryWrapper.customerRepository.Update(customerReq);
 
             if (result == false)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "編輯公司失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
 
             return new ResponseViewModel() { RtnMessage = "修改公司成功" };
         }

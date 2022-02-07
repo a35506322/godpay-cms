@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
@@ -29,10 +30,10 @@ namespace GodPay_CMS.Services.Implements
             var userRsp = _mapper.Map<UserRsp>(user);
 
             if (userRsp == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData = "帳號密碼錯誤" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = ReturnCodeEnum.LoginFail.GetEnumDescription(), RtnData = "帳號密碼錯誤" };
 
             if(userRsp.Status==AccountStatusEnum.Deactivate)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = "登入失敗", RtnData = "帳號停用中，請聯絡管理員" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = ReturnCodeEnum.LoginFail.GetEnumDescription(), RtnData = "帳號停用中，請聯絡管理員" };
 
             await _repostioryWrapper.userRepository.UpdateLoginTime(userReq);
 

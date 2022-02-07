@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
@@ -28,7 +29,7 @@ namespace GodPay_CMS.Services.Implements
             var userRsp = _mapper.Map<UserFilterRsp>(user);
 
             if (userRsp == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             return new ResponseViewModel() { RtnData = userRsp };
         }
@@ -39,18 +40,18 @@ namespace GodPay_CMS.Services.Implements
 
             var modifier = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.ModifierId);
             if (modifier == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationFail, RtnMessage = "驗證失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription() };
 
             var target = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.UserId);
             if (target == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             var count = await _repostioryWrapper.userRepository.UpdateUser(updateUserReq);
             if (count == 0)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "變更使用者資料失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
 
             var result = await _repostioryWrapper.userRepository.GetByUserId(updateUserReq.UserId);
-            return new ResponseViewModel() { RtnMessage = "更新成功", RtnData = result };
+            return new ResponseViewModel() {  RtnData = result };
         }
 
         public async Task<ResponseViewModel> UpdateKey(EditKeyViewModel editKeyViewModel)
@@ -65,17 +66,17 @@ namespace GodPay_CMS.Services.Implements
             var userRsp = _mapper.Map<UserRsp>(user);
 
             if (userRsp == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "驗證失敗", };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             var newKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
 
             if (newKey == userRsp.UserKey)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameKeyFail, RtnMessage = "新密碼不可與舊密碼相同" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameKeyFail, RtnMessage = ReturnCodeEnum.SameKeyFail.GetEnumDescription() };
 
             int result = await _repostioryWrapper.userRepository.UpdateKey(editKeyViewModel);
 
             if (result == 0)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "變更密碼失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
 
             return new ResponseViewModel();
         }

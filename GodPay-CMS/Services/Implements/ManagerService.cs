@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
@@ -42,7 +43,7 @@ namespace GodPay_CMS.Services.Implements
             var insider = await _repostioryWrapper.insiderRepository.GetById(uid);
 
             if (insider == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無業務詳細資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             var insiderRsp = _mapper.Map<InsiderFilterRsp>(insider);
 
@@ -53,15 +54,15 @@ namespace GodPay_CMS.Services.Implements
         {
             var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndInsiderViewModal.UserId);
             if (user != null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnData = "已有重複帳號", RtnMessage = "驗證失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnData = "已有重複帳號", RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription() };
 
             var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
 
             var result = await _repostioryWrapper.userRepository.PostUserAndInsider(postUserAndInsiderReq);
             if (result)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "新增成功" };
+                return new ResponseViewModel();
             else
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "新增失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
 
         public async Task<ResponseViewModel> UpdateManagerAndInsider(UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
@@ -70,9 +71,9 @@ namespace GodPay_CMS.Services.Implements
             updateUserAndInsiderReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
             var result = await _repostioryWrapper.userRepository.UpdateUserAndInsider(updateUserAndInsiderReq);
             if (result)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnMessage = "修改成功" };
+                return new ResponseViewModel();
             else
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
 
         public async Task<ResponseViewModel> GetManagerAndInsiderByUserId(string userId)
@@ -80,10 +81,10 @@ namespace GodPay_CMS.Services.Implements
             var users = await _repostioryWrapper.userRepository.GetUserAndInsiderByUserId(userId);
 
             if (users.Count() == 0)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無業務資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             if (users.Count() > 1)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "資料有誤" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = ReturnCodeEnum.GetFail.GetEnumDescription(), RtnData="此業務存在不只一筆" };
 
             var businessmanRsp = _mapper.Map<ManagerRsp>(users.ToList().SingleOrDefault());
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = businessmanRsp };
@@ -104,7 +105,7 @@ namespace GodPay_CMS.Services.Implements
         {
             var user = await _repostioryWrapper.userRepository.GetByUserId(userId);
             if (user == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = "查無使用者資料" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
             GetRoleAuthorityReq getRoleAuthorityReq = new GetRoleAuthorityReq()
             {
@@ -123,9 +124,9 @@ namespace GodPay_CMS.Services.Implements
 
             var result = await _repostioryWrapper.userRepository.UpdateUserAuthority(updateUserAuthorityReq);
             if (result)
-                return new ResponseViewModel() { RtnMessage = "修改業務權限成功", RtnData = result };
+                return new ResponseViewModel() { RtnData = result };
             else
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = "修改業務權限失敗" };
+                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
     }
 }

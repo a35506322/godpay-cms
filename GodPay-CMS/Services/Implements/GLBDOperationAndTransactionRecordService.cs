@@ -2,6 +2,7 @@
 using GodPay.Domain.Dto;
 using GodPay.Domain.Enums;
 using GodPay_CMS.Common.Enums;
+using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -64,7 +65,7 @@ namespace GodPay_CMS.Services.Implements
             {
                 if (String.IsNullOrEmpty(glbdQueryOrdersReq.CustId) || String.IsNullOrEmpty(glbdQueryOrdersReq.StoreId))
                 {
-                    return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.AuthenticationLogicFail, RtnData= "公司和特店為必輸", RtnMessage= "驗證失敗" };
+                    return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.AuthenticationLogicFail, RtnData= "公司和特店為必輸", RtnMessage= Common.Enums.ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription() };
                 }
 
                 request.Headers.Add("X-Api-CustomerId", glbdQueryOrdersReq.CustId);
@@ -83,7 +84,7 @@ namespace GodPay_CMS.Services.Implements
                     return new ResponseViewModel() { RtnData = result.Info };
                 }
             }
-            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.ExecutionFail, RtnData = "查詢失敗" };
+            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.CallApiFail, RtnMessage = Common.Enums.ReturnCodeEnum.CallApiFail.GetEnumDescription()};
         }
 
         public async Task<ResponseViewModel> Refund(GLBDRefundReq glbdRefundReq)
@@ -120,7 +121,7 @@ namespace GodPay_CMS.Services.Implements
                     return new ResponseViewModel() { RtnData = result.Info, RtnMessage = result.RtnMsg , RtnCode = ReturnCodeEnum.ExecutionFail};
                 }
             }
-            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.ExecutionFail, RtnData = "執行失敗" };
+            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.CallApiFail, RtnMessage = Common.Enums.ReturnCodeEnum.CallApiFail.GetEnumDescription() };
         }
 
         public async Task<ResponseViewModel> Void(GLBDVoidReq glbdVoidReq)
@@ -157,7 +158,7 @@ namespace GodPay_CMS.Services.Implements
                     return new ResponseViewModel() { RtnData = result.Info, RtnMessage = result.RtnMsg, RtnCode = ReturnCodeEnum.ExecutionFail };
                 }
             }
-            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.ExecutionFail, RtnData = "執行失敗" };
+            return new ResponseViewModel() { RtnCode = Common.Enums.ReturnCodeEnum.CallApiFail, RtnMessage = Common.Enums.ReturnCodeEnum.CallApiFail.GetEnumDescription() };
         }
     }
 }
