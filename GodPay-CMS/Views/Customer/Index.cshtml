@@ -128,11 +128,8 @@
                                         }
                                         this.$toast.add({ severity: status, summary: '驗證失敗', detail: errorMessage, life: 5000, group: 'backend-laoout' });
                                         break;
-                                    case 417:
-                                    case 424:
-                                        this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                        break;
                                     default:
+                                        this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                         break;
                                 }
                             }
@@ -186,12 +183,9 @@
                                         }
                                         this.$toast.add({ severity: status, summary: '驗證失敗', detail: errorMessage, life: 5000, group: 'backend-laoout' });
                                         break;
-                                    case 417:
-                                    case 424:
+                                    default:
                                         this.modelStateError = {};
                                         this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                        break;
-                                    default:
                                         break;
                                 }
                             }
@@ -206,6 +200,7 @@
                     // 存入log
                     // 導去錯誤頁面
                     console.log(exception);
+                    this.loading = false;
                 }
 
             },

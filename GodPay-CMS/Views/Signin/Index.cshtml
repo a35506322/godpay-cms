@@ -79,6 +79,7 @@
                     const status = response.status;
                     if (status === 200) {
                         const responseData = response.data;
+                        const status = this.$common.ChangeReturnCode(responseData.rtnCode);
                         switch (responseData.rtnCode) {
                             case 200:
                                 let baseURL = window.baseURL;
@@ -90,24 +91,17 @@
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
-                            case 402:
-                                const status = this.$common.ChangeReturnCode(responseData.rtnCode);
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'signin-laoout' });
-                                break;
                             default:
-                                throw new Error('代碼有誤');
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'signin-laoout' });
                                 break;
                         }
                     }
                     this.loading = false
                 }
                 catch (exception) {
-                    // 存入log
-                    // 導去錯誤頁面
                     console.log(exception);
                     this.loading = false
                 }
-
             }
         }
     })

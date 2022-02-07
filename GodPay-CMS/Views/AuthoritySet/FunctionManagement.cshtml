@@ -195,10 +195,8 @@
                                 }
                                 this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                 break;
-                            case 405:
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                break;
                             default:
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                         }
                     }

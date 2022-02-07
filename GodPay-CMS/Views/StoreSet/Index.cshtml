@@ -181,11 +181,9 @@
                                 case 200:
                                     this.storeDetail = data.rtnData;
                                     break;
-                                case 404:
+                                default:
                                     this.storeDetail = {};
                                     this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break
-                                default:
                                     break;
                             }
                         }
@@ -239,10 +237,8 @@
                                     }
                                     this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                     break;
-                                case 405:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break;
                                 default:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                     break;
                             }
                         }
@@ -293,11 +289,9 @@
                             case 200:
                                 this.customers = data.rtnData;
                                 break;
-                            case 404:
+                            default:
                                 this.customers = [];
                                 this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                break
-                            default:
                                 break;
                         }
                     }
@@ -327,11 +321,9 @@
                                 case 200:
                                     this.storeAuthority = data.rtnData;
                                     break;
-                                case 404:
+                                default:
                                     this.storeAuthority = {};
                                     this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break
-                                default:
                                     break;
                             }
                         }
@@ -355,11 +347,8 @@
                                     this.$refs.storeAuthoritySetting.Close();
                                     this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                     break;
-                                case 417:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
-                                    break;
                                 default:
-                                    throw new Error('代碼有誤');
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: '', life: 5000, group: 'backend-laoout' });
                                     break;
                             }
                         }
@@ -370,7 +359,6 @@
                         this.loading = false;
                     }
                 }
-
             }
          })
     }

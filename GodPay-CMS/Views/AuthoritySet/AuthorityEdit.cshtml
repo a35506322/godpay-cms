@@ -141,15 +141,8 @@
                         const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
-                            case 200:
-                            case 405:
-                            case 417:
-                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                break;
-                            case 401:
-                                console.log(response);
-                                break
                             default:
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                         }
                     }
@@ -157,6 +150,7 @@
                 }
                 catch (exception) {
                     console.log(exception)
+                    this.loading = false;
                 }
             },
             Refresh: function () {

@@ -197,11 +197,8 @@
                                     }
                                     this.$emitter.emit('ServerErrorMessages', this.modelStateError);
                                     break;
-                                case 405:
-                                case 417:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                    break;
                                 default:
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                     break;
                             }
                         }
@@ -258,12 +255,10 @@
                             switch (code) {
                                 case 200:
                                     this.storePersonnelAuthority = data.rtnData;
-                                    break;
-                                case 404:
-                                    this.storePersonnelAuthority = {};
-                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                     break
                                 default:
+                                    this.storePersonnelAuthority = {};
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                     break;
                             }
                         }
@@ -294,11 +289,8 @@
                                     this.$refs.storePersonnelAuthoritySetting.Close();
                                     this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: rtnData, life: 5000, group: 'backend-laoout' });
                                     break;
-                                case 417:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: rtnData, life: 5000, group: 'backend-laoout' });
-                                    break;
                                 default:
-                                    throw new Error('代碼有誤');
+                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: rtnData, life: 5000, group: 'backend-laoout' });
                                     break;
                             }
                         }

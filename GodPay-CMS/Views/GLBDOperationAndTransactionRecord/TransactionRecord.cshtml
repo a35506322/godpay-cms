@@ -343,11 +343,9 @@
                                 }
                                 this.lazyParams.loading = false;
                                 break;
-                            case 405:
+                            default:
                                 this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 this.lazyParams.loading = false;
-                                break;
-                            default:
                                 break;
                         }
                     }
@@ -401,9 +399,7 @@
                         const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
-                            case 200:
-                            case 405:
-                            case 417:
+                            default
                                 this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 this.GetOrdersCondition();
                                 break;
@@ -425,9 +421,7 @@
                         const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
-                            case 200:
-                            case 405:
-                            case 417:
+                            default
                                 this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 this.GetOrdersCondition();
                                 break;
