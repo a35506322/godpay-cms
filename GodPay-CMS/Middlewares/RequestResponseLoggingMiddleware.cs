@@ -107,11 +107,12 @@ namespace GodPay_CMS.Middlewares
             cms_Logs.ResponseBody = context.Request.Path.Value.Contains("Files") && responseBodyPayload.Length > 500
                 ? responseBodyPayload.Substring(0, 500) : responseBodyPayload;
             // ContentType = text/html為網頁格式，不需要紀錄
-            if (context.Response.ContentType.Contains("text/html"))
+            var contentType = !String.IsNullOrEmpty(context.Response.ContentType) ? context.Response.ContentType : string.Empty;
+            if (contentType.Contains("text/html"))
             {
                 cms_Logs.ResponseBody = string.Empty;
             }
-            cms_Logs.ContentType = context.Response.ContentType;
+            cms_Logs.ContentType = contentType;
 
             var endpoint = context.GetEndpoint();
             if (endpoint is object) // endpoint != null
