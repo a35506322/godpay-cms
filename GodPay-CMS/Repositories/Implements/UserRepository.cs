@@ -108,7 +108,7 @@ namespace GodPay_CMS.Repositories.Implements
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @"SELECT * FROM [dbo].[User]
-                        WHERE UserI = @UserId";
+                        WHERE UserId = @UserId";
                 var entity = await _connection.QuerySingleOrDefaultAsync<User>(sql, new { UserId = userId });
 
                 if (entity == null)

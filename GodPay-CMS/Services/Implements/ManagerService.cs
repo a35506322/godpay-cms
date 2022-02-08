@@ -124,7 +124,7 @@ namespace GodPay_CMS.Services.Implements
 
             var result = await _repostioryWrapper.userRepository.UpdateUserAuthority(updateUserAuthorityReq);
             if (result)
-                return new ResponseViewModel() { RtnData = result };
+                return new ResponseViewModel();
             else
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }

@@ -29,7 +29,7 @@ namespace GodPay_CMS.Repositories.Implements
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
-                string sql = @"INSERT INTO [dbo].[FuncClass](FuncClassEnName,FuncClassChNam)
+                string sql = @"INSERT INTO [dbo].[FuncClass](FuncClassEnName,FuncClassChName)
                                   VALUES (@FuncClassEnName,@FuncClassChName)";
                 bool result = false;
 
