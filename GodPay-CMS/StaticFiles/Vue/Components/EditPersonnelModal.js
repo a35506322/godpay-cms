@@ -1,9 +1,5 @@
-﻿import serverErrorMessage from './ServerErrorMessage.js'
-export default {
+﻿export default {
     props: ['isNew', 'tempStorePersonnel', 'modelStateError', 'tempAccountStatus', "tempCustomers", "tempLoginId", 'tempLoading'],
-    components: {
-        serverErrorMessage
-    },
     data: function () {
         return {
             displayModal: false,

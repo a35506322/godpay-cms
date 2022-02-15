@@ -67,13 +67,11 @@
     import {
         GetCustomers, PostCustomer, UpdateCustomer
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-    import serverErrorMessage from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ServerErrorMessage.js'
     const app = Vue.createApp({
         components: {
             "p-datatable": primevue.datatable,
             "p-column": primevue.column,
             "p-toolbar": primevue.toolbar,
-            serverErrorMessage
         },
         data: function () {
             return {
@@ -223,8 +221,6 @@
                     }
                 }
                 catch (exception) {
-                    // 存入log
-                    // 導去錯誤頁面
                     console.log(exception);
                 }
             },

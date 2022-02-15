@@ -1,8 +1,6 @@
-﻿import serverErrorMessage from './ServerErrorMessage.js'
-export default {
+﻿export default {
     props: ['isNew', 'func', 'modelStateError', 'funcClassList', 'tempLoading'],
     components: {
-        serverErrorMessage,
         "p-checkbox": primevue.checkbox
     },
     data: function () {

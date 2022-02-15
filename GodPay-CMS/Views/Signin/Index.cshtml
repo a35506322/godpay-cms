@@ -57,11 +57,9 @@
 <script type="text/javascript">
 @section Vue
 {
-    import serverErrorMessage from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ServerErrorMessage.js'
     import { PostSignin } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     const app = Vue.createApp({
         components: {
-            serverErrorMessage,
             'pButton': primevue.button,
         },
         data: function () {
