@@ -29,7 +29,7 @@
                     <div class="col-12">
                         <div class="border-bottom-gray mb-3">常用類型</div>
                     </div>
-                    <div class="col-12 col-xl-4 mb-2 pt-2">
+                    <div class="col-12 col-xl-6 mb-2 pt-2">
                         <div class="p-float-label d-inline-block mb-xl-2">
                             <p-calendar id="startDate" v-bind:show-icon="true" v-model="common.startDate" date-format="yy/mm/dd" v-bind:show-time="true"></p-calendar>
                             <label for="startDate">開始日期</label>
@@ -40,7 +40,7 @@
                             <label for="endDate">結束日期</label>
                         </div>
                     </div>
-                    <div class="col-12 col-xl-4 mb-2 pt-2">
+                    <div class="col-12 col-xl-6 mb-2 pt-2">
                         <span class="p-buttonset">
                             <p-button label="今天" v-on:click="setDate('today')"></p-button>
                             <p-button label="昨天" v-on:click="setDate('yesterday')"></p-button>
@@ -48,7 +48,7 @@
                             <p-button label="上月" v-on:click="setDate('last-month')"></p-button>
                         </span>
                     </div>
-                    <div class="col-6 col-xl-4 mb-2 pt-2">
+                    <div class="col-6 col-xl-6 mb-2 pt-2">
                         <input type="text" class="p-inputtext p-component form-control" placeholder="訂單編號" v-model="common.orderNo" />
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="row justify-content-end">
                     <div class="text-end">
                         <p-button label="清空" icon="pi pi-trash" class="p-button-info p-mr-1 me-2" v-on:click="onClear"></p-button>
-                        <p-button label="查詢" icon="pi pi-search" class="p-button-success p-mr-1" v-on:click="onQuery"></p-button>
+                        <p-button label="查詢" icon="pi pi-search" class="p-mr-1" v-on:click="onQuery"></p-button>
                     </div>
                 </div>
             </div>
@@ -195,7 +195,8 @@
             "p-toolbar": primevue.toolbar,
             "p-calendar": primevue.calendar,
             "p-scrollpanel": primevue.scrollpanel,
-            "p-card": primevue.card
+            "p-card": primevue.card,
+            "p-column": primevue.column
         },
         data: function () {
             return {
@@ -341,17 +342,28 @@
                                     this.selectedOrder = null;
                                     this.lazyParams.totalRecords = data.rtnData.totalSize;
                                 }
-                                this.lazyParams.loading = false;
+                                break;
+                            case 401:
+                                if (typeof (data.rtnData) === 'string') {
+                                    const errorMessages = JSON.parse(data.rtnData);
+                                    let result = '';
+                                    for (let key in errorMessages) {
+                                        const errorMessageArray = errorMessages[key];
+                                        result += errorMessageArray.join('\n');
+                                    }
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: result, life: 5000, group: 'backend-laoout' });
+                                }
                                 break;
                             default:
-                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.lazyParams.loading = false;
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });                                
                                 break;
                         }
                     }
+                    this.lazyParams.loading = false;
                 }
                 catch (exception) {
                     console.log(exception)
+                    this.lazyParams.loading = false;
                 }
             },
             onQuery: function() {
@@ -399,7 +411,7 @@
                         const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
-                            default
+                            default:
                                 this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 this.GetOrdersCondition();
                                 break;
@@ -421,7 +433,7 @@
                         const code = data.rtnCode;
                         const status = this.$common.ChangeReturnCode(code);
                         switch (code) {
-                            default
+                            default:
                                 this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 this.GetOrdersCondition();
                                 break;
