@@ -14,6 +14,7 @@ namespace GodPay_CMS.Services.Implements
         private readonly ITagService _itagService;
         private readonly IPersonnelService _personnelService;
         private readonly IGLBDOperationAndTransactionRecordService _glbd_OperationAndTransactionRecordService;
+        private readonly IMemberTrackService _memberTrackService;
 
         public ServiceWrapper(ISigninService signinService,
                               IAuthorityService authorityService,
@@ -24,7 +25,8 @@ namespace GodPay_CMS.Services.Implements
                               ICustomerService customerService,
                               ITagService tagService,
                               IPersonnelService personnelService,
-                              IGLBDOperationAndTransactionRecordService glbd_OperationAndTransactionRecordService)
+                              IGLBDOperationAndTransactionRecordService glbd_OperationAndTransactionRecordService,
+                              IMemberTrackService memberTrackService)
         {
             _signinService = signinService;
             _authorityService = authorityService;
@@ -36,6 +38,7 @@ namespace GodPay_CMS.Services.Implements
             _itagService = tagService;
             _personnelService = personnelService;
             _glbd_OperationAndTransactionRecordService = glbd_OperationAndTransactionRecordService;
+            _memberTrackService = memberTrackService;
         }
         public ISigninService signinService => _signinService;
 
@@ -56,5 +59,7 @@ namespace GodPay_CMS.Services.Implements
         public IPersonnelService personnelService => _personnelService;
 
         public IGLBDOperationAndTransactionRecordService glbd_OperationAndTransactionRecordService => _glbd_OperationAndTransactionRecordService;
+
+        public IMemberTrackService memberTrackService => _memberTrackService;
     }
 }

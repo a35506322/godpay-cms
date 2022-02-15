@@ -12,5 +12,6 @@
         public ITagService itagService { get; }
         public IPersonnelService personnelService { get; }
         public IGLBDOperationAndTransactionRecordService glbd_OperationAndTransactionRecordService { get; }
+        public IMemberTrackService memberTrackService { get; }
     }
 }

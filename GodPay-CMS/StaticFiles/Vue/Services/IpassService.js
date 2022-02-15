@@ -55,10 +55,13 @@ export const UpdateCustomer = data => axios.put('/CustomerApi/Edit', data).then(
 export const GetStorePersonnels = () => axios.get('/PersonnelSetApi/GetStorePersonnels').then(response => { console.log('GetStorePersonnels'); return response; }).catch(error => error);
 export const PostStorePersonnel = data => axios.post('/PersonnelSetApi/PostStorePersonnel', data).then(response => { console.log('PostStorePersonnel'); return response; }).catch(error => error);
 export const UpdateStorePersonnel = data => axios.put('/PersonnelSetApi/UpdateStorePersonnel', data).then(response => { console.log('UpdateStorePersonnel'); return response; }).catch(error => error);
-export const GetStorePersonnelAuthority = query => axios.get('/PersonnelSetApi/GetStorePersonnelAuthority', query).then(response => { console.log('GetStorePersonnelAuthority'); return response; }).catch(error => error);
-export const UpdateStorePersonnelAuthority = data => axios.put('/PersonnelSetApi/UpdateStorePersonnelAuthority', data).then(response => { console.log('UpdateStorePersonnelAuthority'); return response; }).catch(error => error);
+export const GetStorePersonnelAuthority = query => axios.get('/PersonnelSetApi/GetStorePersonnelAuthority', query).then(response => response).catch(error => error);
+export const UpdateStorePersonnelAuthority = data => axios.put('/PersonnelSetApi/UpdateStorePersonnelAuthority', data).then(response => response).catch(error => error);
 
 // TransactionRecordApi
-export const GetOrdersCondition = query => axios.get('/TransactionRecordApi/GetOrdersCondition', query).then(response => { console.log('GetOrdersCondition'); return response; }).catch(error => error);
-export const Refund = data => axios.post('/TransactionRecordApi/Refund', data).then(response => { console.log('Refund'); return response; }).catch(error => error);
-export const Void = data => axios.post('/TransactionRecordApi/Void', data).then(response => { console.log('Void'); return response; }).catch(error => error);
+export const GetOrdersCondition = query => axios.get('/TransactionRecordApi/GetOrdersCondition', query).then(response => response).catch(error => error);
+export const Refund = data => axios.post('/TransactionRecordApi/Refund', data).then(response => response).catch(error => error);
+export const Void = data => axios.post('/TransactionRecordApi/Void', data).then(response => response).catch(error => error);
+
+// MemberTrackApi
+export const GetMemberTrack = query => axios.get('/MemberTrackApi/GetMemberTrack', query).then(response => response).catch(error => error);

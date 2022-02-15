@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "會員信用額度紀錄";
+}
+
+<div class="row p-3 justify-content-center">
+    <div class="col-12 w-98 mb-2">
+        <div class="p-toolbar p-component p-mb-4 row">
+            <div class="col-12 mb-2">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="border-bottom-gray mb-3">會員類型</div>
+                    </div>
+                    <div class="col-6  col-xl-4 mb-2">
+                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機號碼" v-model="member.phone" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-2">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="border-bottom-gray mb-3">常用類型</div>
+                    </div>
+                    <div class="col-12 col-xl-6 mb-2 pt-2">
+                        <div class="p-float-label d-inline-block mb-xl-2">
+                            <p-calendar id="startDate" v-bind:show-icon="true" v-model="common.startDate" date-format="yy/mm/dd" v-bind:show-time="true"></p-calendar>
+                            <label for="startDate">開始日期</label>
+                        </div>
+                        <span>～</span>
+                        <div class="p-float-label p-mr-2 d-inline-block">
+                            <p-calendar id="endDate" v-bind:show-icon="true" v-model="common.endDate" date-format="yy/mm/dd" v-bind:show-time="true"></p-calendar>
+                            <label for="endDate">結束日期</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6 mb-2 pt-2">
+                        <span class="p-buttonset">
+                            <p-button label="今天" v-on:click="SetDate('today')"></p-button>
+                            <p-button label="昨天" v-on:click="SetDate('yesterday')"></p-button>
+                            <p-button label="上週" v-on:click="SetDate('last-week')"></p-button>
+                            <p-button label="上月" v-on:click="SetDate('last-month')"></p-button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row justify-content-end">
+                    <div class="text-end">
+                        <p-button label="清空" icon="pi pi-trash" class="p-button-info p-mr-1 me-2" v-on:click="OnClear"></p-button>
+                        <p-button label="查詢" icon="pi pi-search" class="p-mr-1" v-on:click="OnQuery" v-bind:loading="queryLoading"></p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="row align-items-stretch">
+            <div class="col-12">
+                <div class="card">
+                    <p-treetable v-bind:value="memberTracks" responsiveLayout="scroll" v-bind:paginator="true" v-bind:rows="10">
+                        <p-column field="actionDate" header="日期" v-bind:expander="true"></p-column>
+                        <p-column field="storeName" header="特店名稱"></p-column>
+                        <p-column field="action" header="動作"></p-column>
+                        <p-column field="amount" header="交易金額"></p-column>
+                        <p-column field="blance" header="會員餘額"></p-column>
+                    </p-treetable>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+@section Vue
+{
+    import {
+        GetMemberTrack
+    } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import { setDate } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js'
+    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
+    const app = Vue.createApp({
+        mixins: [commonMixins],
+        components: {
+            "p-toolbar": primevue.toolbar,
+            "p-treetable": primevue.treetable,
+            "p-card": primevue.card,
+            "p-calendar": primevue.calendar
+        },
+        data: function () {
+            return {
+                common: {
+                    startDate: '',
+                    endDate: '',
+                },
+                member: {
+                    phone: '',
+                },
+                queryLoading: false,
+                memberTracks:[]
+            }
+        },
+        created: function () {
+
+        },
+        mounted: function () {
+
+        },
+        methods: {
+            OnClear: function () {
+                this.common = {
+                    startDate: '',
+                    endDate: '',
+                };
+                this.member = {
+                    phone: '',
+                };
+            },
+            SetDate: function (status) {
+                let dat = setDate(status);
+                this.common.startDate = dat.start;
+                this.common.endDate = dat.end;
+            },
+            OnQuery: async function () {
+                try {
+                    if (this.member.phone === '') {
+                        this.$toast.add({ severity: 'error', summary: '驗證失敗', detail: '會員手機為必填', life: 5000, group: 'backend-laoout' });
+                        return;
+                    }
+
+                    let query = {
+                        params: {
+                            phone: this.member.phone,
+                            startDate: this.common.startDate,
+                            endDate: this.common.endDate
+                        }
+                    };
+
+                    this.queryLoading = true;
+                    const response = await GetMemberTrack(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                if (data.rtnData != null) {
+                                    this.memberTracks = data.rtnData;
+                                }
+                                break;
+                            case 401:
+                                if (typeof (data.rtnData) === 'string') {
+                                    const errorMessages = JSON.parse(data.rtnData);
+                                    let result = '';
+                                    for (let key in errorMessages) {
+                                        const errorMessageArray = errorMessages[key];
+                                        result += errorMessageArray.join('\n');
+                                    }
+                                    this.$toast.add({ severity: status, summary: data.rtnMessage, detail: result, life: 5000, group: 'backend-laoout' });
+                                }
+                                break;
+                            default:
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                        }
+                    }
+                    this.queryLoading = false;
+                }
+                catch (exception) {
+                    console.log(exception)
+                    this.queryLoading = false;
+                }
+            }
+        }
+    })
+}
+</script>

@@ -74,7 +74,8 @@ namespace GodPay_CMS
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IPersonnelService, PersonnelService>();
             services.AddScoped<IGLBDOperationAndTransactionRecordService, GLBDOperationAndTransactionRecordService>();
-
+            services.AddScoped<IMemberTrackService, MemberTrackService>();
+            
             // Helper
             services.AddSingleton<IDecipherHelper, DecipherHelper>();
 

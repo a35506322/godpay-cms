@@ -14,12 +14,13 @@ namespace GodPay_CMS.Services.Implements
         public TagService()
         {
             iconDic = new Dictionary<string, string>();
-            iconDic.Add("Profile", "bi bi-person-fill");
+            iconDic.Add("Profile", "bi bi-person-circle");
             iconDic.Add("StoreSet", "bi bi-shop");
             iconDic.Add("AuthoritySet", "bi bi-gear");
             iconDic.Add("ManagerSet", "bi bi-person-video2");
             iconDic.Add("Customer", "bi bi-collection-fill");
             iconDic.Add("GlbdoperationAndtRansactionrecord", "pi pi-credit-card");
+            iconDic.Add("Member", "pi pi-users");
         }
 
         /// <summary>

@@ -53,6 +53,12 @@
         <member name="F:GodPay_CMS.Common.Enums.ReturnCodeEnum.SameNameFail">
             <summary>已存在相同名稱</summary>
         </member>
+        <member name="F:GodPay_CMS.Common.Enums.ReturnCodeEnum.CallApiFail">
+            <summary>呼叫Api失敗</summary>
+        </member>
+        <member name="F:GodPay_CMS.Common.Enums.ReturnCodeEnum.InternalProgramError">
+            <summary>程式內部錯誤</summary>
+        </member>
         <member name="T:GodPay_CMS.Common.Enums.RoleEnum">
             <summary>角色資訊</summary>
         </member>
@@ -104,55 +110,65 @@
             權限管理伺服器
             </summary>
         </member>
-        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFunction">
+        <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFunctionsForAuthority">
             <summary>
-            取得所有功能權限
+            取得所有功能權限(權限驗證)
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFunctionFilter(GodPay_CMS.Controllers.Parameters.FunctionParams)">
             <summary>
             取得篩選功能權限
             </summary>
-            <param name="functionParams"></param>
+            <param name="functionParams">functionParams</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.UpdateRoleMaxAuthority(System.Collections.Generic.IEnumerable{GodPay_CMS.Controllers.ViewModels.UpdateAuthorityClassViewModel})">
             <summary>
             批次修改最大權限
             </summary>
-            <param name="functionParams"></param>
+            <param name="functionParams">functionParams</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFuncClass">
             <summary>
             取得所有功能類別
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.PostFuncClass(GodPay_CMS.Controllers.ViewModels.PostFuncClassViewModel)">
             <summary>
             新增功能類別
             </summary>
+            <param name="functionParams">postFuncClassViewModel</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetFuncClassDetailById(System.String)">
             <summary>
             取得特定功能類別
             </summary>
-            <param name="funcCode"></param>
+            <param name="funcCode">funcCode</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.UpdateFuncClass(GodPay_CMS.Controllers.ViewModels.UpdateFuncClassViewModel)">
             <summary>
             編輯功能類別
             </summary>
-            <param name="updateFuncClassViewModel"></param>
+            <param name="updateFuncClassViewModel">updateFuncClassViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetListOfFunc">
             <summary>
             取得所有功能
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.GetFuncDetailById(System.Int32)">
@@ -160,20 +176,23 @@
             取得個別功能資料
             </summary>
             <param name="fid">流水號</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.UpdateFunc(GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel)">
             <summary>
             修改功能
             </summary>
-            <param name="updateFuncViewModel"></param>
+            <param name="updateFuncViewModel">updateFuncViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.AuthoritySetApiController.PostFunc(GodPay_CMS.Controllers.ViewModels.PostFuncViewModel)">
             <summary>
             新增功能
             </summary>
-            <param name="postFuncViewModel"></param>
+            <param name="postFuncViewModel">postFuncViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.AuthoritySetController">
@@ -203,20 +222,22 @@
             <summary>
             取得所有公司
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.CustomerApiController.Get(GodPay_CMS.Controllers.Parameters.CustomerParams)">
             <summary>
             以流水號或CustomerId或公司名稱取得公司
             </summary>
-            <param name="customerParams">流水號或CustomerId或公司名稱</param>
+            <param name="customerParams">customerParams</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.CustomerApiController.Post(GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel)">
             <summary>
             新增公司
             </summary>
-            <param name="addCustomerViewModel">公司名稱</param>
+            <param name="addCustomerViewModel">addCustomerViewModel</param>
             <response code="200">連線成功</response>
             <returns></returns>
         </member>
@@ -237,12 +258,14 @@
             <summary>
             取得角色
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.EnumApiController.GetAccountStatusEnum">
             <summary>
             取得帳號狀態
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.HomeController.Index">
@@ -260,46 +283,55 @@
             <summary>
             取得所有業務
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.GetManagerDeatil(System.Int32)">
             <summary>
             取得單筆業務詳細資料
             </summary>
-            <param name="uid"></param>
+            <param name="uid">uid</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.PostManagerAndInsider(GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel)">
             <summary>
             新增業務
             </summary>
-            <param name="postUserAndInsiderViewModal"></param>
+            <param name="postUserAndInsiderViewModal">postUserAndInsiderViewModal</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.GetManager(System.String)">
             <summary>
             取得單筆業務
             </summary>
-            <param name="userId"></param>
+            <param name="userId">userId</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.UpdateManagerAndInsider(GodPay_CMS.Controllers.ViewModels.UpdateUserAndInsiderViewModel)">
             <summary>
             更新業務
             </summary>
-            <param name="updateUserAndInsiderViewModal"></param>
+            <param name="updateUserAndInsiderViewModal">updateUserAndInsiderViewModal</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.GetManagerAuthority(System.String)">
             <summary>
             取得業務角色權限
             </summary>
+            <param name="userId">userId</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ManagerSetApiController.UpdateManagerAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
             <summary>
             修改業務角色權限
             </summary>
+            <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.ManagerSetController">
@@ -312,6 +344,17 @@
             業務管理首頁
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.MemberController.MemberTrack">
+            <summary>
+            會員信額額度軌跡
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:GodPay_CMS.Controllers.MemberTrackApiController">
+            <summary>
+            會員軌跡API
+            </summary>
         </member>
         <member name="T:GodPay_CMS.Controllers.Parameters.CustomerParams">
             <summary>
@@ -377,6 +420,39 @@
             <summary>
             取得特店的特店人員
             </summary>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.PersonnelSetApiController.PostStorePersonnel(GodPay_CMS.Controllers.ViewModels.PostStorePersonnelViewModel)">
+            <summary>
+            新增特店的特店人員
+            </summary>
+            <param name="postStorePersonnelViewModel">postStorePersonnelViewModel</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.PersonnelSetApiController.UpdateStorePersonnel(GodPay_CMS.Controllers.ViewModels.UpdateStorePersonnelViewModel)">
+            <summary>
+            修改特店的特店人員
+            </summary>
+            <param name="updateStorePersonnelViewModel">updateStorePersonnelViewModel</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.PersonnelSetApiController.GetStorePersonnelAuthority(System.String)">
+            <summary>
+            取得特店人員單筆權限
+            </summary>
+            <param name="userId">userId</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.PersonnelSetApiController.UpdateStorePersonnelAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
+            <summary>
+            修改特店人員角色權限
+            </summary>
+            <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.PersonnelSetController">
@@ -400,20 +476,23 @@
             取得使用者資訊
             </summary>
             <param name="userId">使用者帳號</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ProfileApiController.Edit(GodPay_CMS.Controllers.ViewModels.EditUserViewModel)">
             <summary>
             編輯使用者資訊
             </summary>
-            <param name="editUserViewModel"></param>
+            <param name="editUserViewModel">editUserViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ProfileApiController.EditKey(GodPay_CMS.Controllers.ViewModels.EditKeyViewModel)">
             <summary>
             變更使用者密碼
             </summary>
-            <param name="editKeyViewModel"></param>
+            <param name="editKeyViewModel">editKeyViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.ProfileApiController.GetStoreDeatil(System.Int32)">
@@ -458,7 +537,8 @@
             <summary>
             登入
             </summary>
-            <param name="signinViewModel"></param>
+            <param name="signinViewModel">signinViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.SigninApiController.SignOut">
@@ -487,6 +567,7 @@
             <summary>
             取得所有特店
             </summary>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreDeatil(System.Int32)">
@@ -494,13 +575,15 @@
             取得特店詳細資料
             </summary>
             <param name="uid">PK</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.PostUserAndStore(GodPay_CMS.Controllers.ViewModels.PostUserAndStoreViewModel)">
             <summary>
             新增使用者及特店
             </summary>
-            <param name="postUserAndStoreViewModal"></param>
+            <param name="postUserAndStoreViewModal">postUserAndStoreViewModal</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreById(System.String)">
@@ -508,26 +591,39 @@
             取得單筆特店
             </summary>
             <param name="userId">帳號</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.UpateUserAndStore(GodPay_CMS.Controllers.ViewModels.UpdateUserAndStoreViewModel)">
             <summary>
             更新使用者及特店
             </summary>
-            <param name="updateUserAndStoreViewModel"></param>
+            <param name="updateUserAndStoreViewModel">updateUserAndStoreViewModel</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreAuthority(System.String)">
             <summary>
             取得特店角色權限
             </summary>
-            <param name="userId"></param>
+            <param name="userId">userId</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="M:GodPay_CMS.Controllers.StoreSetApiController.UpdateStoreAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
             <summary>
             修改特店角色權限
             </summary>
+            <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.StoreSetApiController.GetStoreForDDL(System.String)">
+            <summary>
+            取得特店下拉式選單
+            </summary>
+            <param name="customerId">公司Id</param>
+            <response code="200">連線成功</response>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Controllers.StoreSetController">
@@ -541,7 +637,31 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel.customerName">
+        <member name="M:GodPay_CMS.Controllers.TransactionRecordApiController.GetOrdersCondition(GodPay.Domain.Dto.GLBDQueryOrdersReq)">
+            <summary>
+            取得訂單
+            </summary>
+            <param name="glbdQueryOrdersReq">訂單QuerString</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.TransactionRecordApiController.Refund(GodPay.Domain.Dto.GLBDRefundReq)">
+            <summary>
+            退貨
+            </summary>
+            <param name="glbdRefundReq">退貨</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Controllers.TransactionRecordApiController.Void(GodPay.Domain.Dto.GLBDVoidReq)">
+            <summary>
+            取消
+            </summary>
+            <param name="glbdRefundReq">退貨</param>
+            <response code="200">連線成功</response>
+            <returns></returns>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.AddCustomerViewModel.CustomerName">
             <summary>
             公司名稱
             </summary>
@@ -619,6 +739,16 @@
         <member name="P:GodPay_CMS.Controllers.ViewModels.PostFuncViewModel.IsWebSite">
             <summary>
             是否出現在網站
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostStorePersonnelViewModel.UserId">
+            <summary>
+            帳號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.PostStorePersonnelViewModel.Email">
+            <summary>
+            Email
             </summary>
         </member>
         <member name="T:GodPay_CMS.Controllers.ViewModels.PostUserAndInsiderViewModel">
@@ -797,7 +927,7 @@
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncClassViewModel.FuncClassCode">
             <summary>
             功能類別代碼Code(PK)
-            </summary>       
+            </summary>
         </member>
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncClassViewModel.FuncClassEnName">
             <summary>
@@ -832,6 +962,21 @@
         <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateFuncViewModel.IsWebSite">
             <summary>
             是否出現在網站
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStorePersonnelViewModel.UserId">
+            <summary>
+            帳號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStorePersonnelViewModel.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Controllers.ViewModels.UpdateStorePersonnelViewModel.Status">
+            <summary>
+            目前狀態
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "P:GodPay_CMS.Controllers.ViewModels.UpdateStoreViewModel.Uid" -->
@@ -958,6 +1103,76 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "P:GodPay_CMS.Repositories.Entity.Customer.SecretKey" -->
+        <member name="T:GodPay_CMS.Repositories.Entity.Customer_Store">
+            <summary>
+            特店詳細資訊
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.SeqNo">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.Uid">
+            <summary>
+            User PK(FK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.CustomerId">
+            <summary>
+            CustomerId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.StoreId">
+            <summary>
+            StoreId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.StoreName">
+            <summary>
+            特店名稱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.TaxId">
+            <summary>
+            統一編號
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.Owner">
+            <summary>
+             負責人
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.Address">
+            <summary>
+             公司地址
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.OwnerEmail">
+            <summary>
+             負責人電子信箱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.Risk">
+            <summary>
+            風險等級
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.TransLimit">
+            <summary>
+            限制額度
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.Customer">
+            <summary>
+            公司
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.Customer_Store.User">
+            <summary>
+            帳號
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Repositories.Entity.Func">
             <summary>
             功能
@@ -1028,6 +1243,36 @@
             功能(多筆)
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.GLBD_Member_Track.Rid">
+            <summary>
+            流水號(PK)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.GLBD_Member_Track.Phone">
+            <summary>
+            會員手機
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.GLBD_Member_Track.ActionDate">
+            <summary>
+            動作時間
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.GLBD_Member_Track.Action">
+            <summary>
+            動作
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.GLBD_Member_Track.Amount">
+            <summary>
+            訂單金額
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.GLBD_Member_Track.Blance">
+            <summary>
+            會員信用額度
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Repositories.Entity.Insider">
             <summary>
             內部人員詳細資料
@@ -1058,74 +1303,9 @@
             使用者
             </summary>
         </member>
-        <member name="T:GodPay_CMS.Repositories.Entity.Store">
+        <member name="T:GodPay_CMS.Repositories.Entity.PersonnelByStore">
             <summary>
-            特店詳細資訊
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.SeqNo">
-            <summary>
-            流水號(PK)
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.Uid">
-            <summary>
-            User PK(FK)
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.CustomerId">
-            <summary>
-            CustomerId
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.StoreId">
-            <summary>
-            StoreId
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.StoreName">
-            <summary>
-            特店名稱
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.TaxId">
-            <summary>
-            統一編號
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.Owner">
-            <summary>
-             負責人
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.Address">
-            <summary>
-             公司地址
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.OwnerEmail">
-            <summary>
-             負責人電子信箱
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.Risk">
-            <summary>
-            風險等級
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.TransLimit">
-            <summary>
-            限制額度
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.Customer">
-            <summary>
-            公司
-            </summary>
-        </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.Store.User">
-            <summary>
-            帳號
+            Personnel檢視表
             </summary>
         </member>
         <member name="T:GodPay_CMS.Repositories.Entity.User">
@@ -1198,9 +1378,14 @@
             業務詳細資料
             </summary>
         </member>
-        <member name="P:GodPay_CMS.Repositories.Entity.User.Store">
+        <member name="P:GodPay_CMS.Repositories.Entity.User.Customer_Store">
             <summary>
             特約商店詳細資料
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Repositories.Entity.User.Customer_Personnel">
+            <summary>
+            特店人員詳細資料
             </summary>
         </member>
         <member name="M:GodPay_CMS.Repositories.Interfaces.IFuncClassRepository.GetByFuncClassAndFunc">
@@ -1364,9 +1549,28 @@
             <param name="updateUserAuthorityReq"></param>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.PostStorePersonnel(GodPay_CMS.Repositories.Entity.User)">
+            <summary>
+            新增特店人員
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Repositories.Interfaces.IUserRepository.UpdateStorePersonnel(GodPay_CMS.Repositories.Entity.User)">
+            <summary>
+            修改特店人員
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Services.DTO.AuthorityFuncClassRsp">
             <summary>
             功能類別(塞選)
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncClassRsp.FuncClassCode">
+            <summary>
+            PK
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.AuthorityFuncClassRsp.FuncClassEnName">
@@ -1774,6 +1978,16 @@
             公司名稱
             </summary>
         </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreDDLRsp.StoreId">
+            <summary>
+            StoreId
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.StoreDDLRsp.StoreName">
+            <summary>
+            特店名稱
+            </summary>
+        </member>
         <member name="T:GodPay_CMS.Services.DTO.StoreFilterRsp">
             <summary>
             特店詳細資料(篩選)
@@ -1877,6 +2091,21 @@
         <member name="P:GodPay_CMS.Services.DTO.StoreParticularsRsp.OwnerEmail">
             <summary>
             負責人電子信箱
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.TreeTableRsp`1.Key">
+            <summary>
+            PK
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.TreeTableRsp`1.Data">
+            <summary>
+            資料
+            </summary>
+        </member>
+        <member name="P:GodPay_CMS.Services.DTO.TreeTableRsp`1.Children">
+            <summary>
+            子資料
             </summary>
         </member>
         <member name="P:GodPay_CMS.Services.DTO.UpdateRoleAuthorityReq.Fid">
@@ -2209,7 +2438,7 @@
             權限伺服器
             </summary>
         </member>
-        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.GetListOfFunctions">
+        <member name="M:GodPay_CMS.Services.Interfaces.IAuthorityService.GetListOfFunctionsForAuthority">
             <summary>
             功能列表(角色塞選)
             </summary>
@@ -2321,6 +2550,27 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IGLBDOperationAndTransactionRecordService.GetOrdersCondition(GodPay.Domain.Dto.GLBDQueryOrdersReq)">
+            <summary>
+            取得分頁訂單資訊
+            </summary>
+            <param name="glbdQueryOrdersReq"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IGLBDOperationAndTransactionRecordService.Refund(GodPay.Domain.Dto.GLBDRefundReq)">
+            <summary>
+            退貨
+            </summary>
+            <param name="glbdRefundReq"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IGLBDOperationAndTransactionRecordService.Void(GodPay.Domain.Dto.GLBDVoidReq)">
+            <summary>
+            取消
+            </summary>
+            <param name="glbdVoidReq"></param>
+            <returns></returns>
+        </member>
         <member name="T:GodPay_CMS.Services.Interfaces.IManagerService">
             <summary>
             業務管理伺服器
@@ -2376,6 +2626,47 @@
         <member name="M:GodPay_CMS.Services.Interfaces.IManagerService.UpdateManagerAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
             <summary>
             修改業務權限
+            </summary>
+            <param name="updateUserAuthorityViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IMemberTrackService.GetMemberTrack(GodPay.Domain.Dto.GLBDQueryMemberTracksReq)">
+            <summary>
+            取得會員軌跡
+            </summary>
+            <param name="gLBDQueryMemberTracksReq">gLBDQueryMemberTracksReq</param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IPersonnelService.GetAllPersonnelByStore">
+            <summary>
+            取得特店人員
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IPersonnelService.PostStorePersonnel(GodPay_CMS.Controllers.ViewModels.PostStorePersonnelViewModel)">
+            <summary>
+            新增特店人員
+            </summary>
+            <param name="postStorePersonnelViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IPersonnelService.UpdateStorePersonnel(GodPay_CMS.Controllers.ViewModels.UpdateStorePersonnelViewModel)">
+            <summary>
+            修改特店人員
+            </summary>
+            <param name="updateStorePersonnelViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IPersonnelService.GetStorePersonnelAuthority(System.String)">
+            <summary>
+            取得單筆特店人員權限
+            </summary>
+            <param name="userId">帳號</param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IPersonnelService.UpdateStorePersonnelAuthority(GodPay_CMS.Controllers.ViewModels.UpdateUserAuthorityViewModel)">
+            <summary>
+            修改特店人員權限
             </summary>
             <param name="updateUserAuthorityViewModel"></param>
             <returns></returns>
@@ -2446,6 +2737,13 @@
             修改特店角色權限
             </summary>
             <param name="updateUserAuthorityViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GodPay_CMS.Services.Interfaces.IStoreService.GetStoreForDDL(System.String)">
+            <summary>
+            取得特店下拉式選單
+            </summary>
+            <param name="customerId">公司ID</param>
             <returns></returns>
         </member>
         <member name="T:GodPay_CMS.Services.Interfaces.IUserService">
