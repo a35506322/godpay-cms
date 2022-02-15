@@ -32,6 +32,7 @@ export const GetStoreForDDL = query => axios.get('/StoreSetApi/GetStoreForDDL', 
 // EnumApi
 export const GetRoleEnum = () => axios.get('/EnumApi/GetRoleEnum').then(response => { console.log('GetRoleEnum'); return response; }).catch(error => error);
 export const GetAccountStatusEnum = () => axios.get('/EnumApi/GetAccountStatusEnum').then(response => { console.log('GetAccountStatusEnum'); return response; }).catch(error => error);
+export const GetGLBDStatusCodeEnum = () => axios.get('/EnumApi/GetGLBDStatusCodeEnum').then(response =>  response ).catch(error => error);
 
 // AuthoritySetApi
 export const GetListOfFunctionsForAuthority = () => axios.get('/AuthoritySetApi/GetListOfFunctionsForAuthority').then(response => { console.log('GetListOfFunctionsForAuthority'); return response; }).catch(error => error);

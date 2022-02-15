@@ -38,6 +38,7 @@ namespace GodPay_CMS.Services.Implements
             var queryStrings = new Dictionary<string, string>
             {
                 {"OrderNo", glbdQueryOrdersReq.OrderNo },
+                {"OrderStatus", glbdQueryOrdersReq.OrderStatus},
                 {"MemberID", glbdQueryOrdersReq.MemberID },
                 {"Phone", glbdQueryOrdersReq.Phone },
                 {"Email", glbdQueryOrdersReq.Email},

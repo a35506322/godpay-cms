@@ -34,5 +34,13 @@ namespace GodPay_CMS.Controllers
         /// <returns></returns>
         [HttpGet]
         public IActionResult GetAccountStatusEnum() => Ok(_serviceWrapper.enumService.GetAccountStatusEnum());
+
+        /// <summary>
+        /// 取得訂單狀態
+        /// </summary>
+        /// <response code="200">連線成功</response>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetGLBDStatusCodeEnum() => Ok(_serviceWrapper.enumService.GetGLBDStatusCodeEnum());
     }
 }

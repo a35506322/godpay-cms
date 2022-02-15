@@ -18,11 +18,11 @@ export function FormatTWDate(value) {
  */
 export function FormatOrderStatus(value) {
     const statusEnum = Object.freeze({
-        1: '授權失敗',
-        2: '授權成功',
-        3: '取消',
-        4: '請款',
-        5: '退貨',
+        1: '訂單失敗',
+        2: '訂單成功',
+        3: '訂單取消',
+        4: '訂單請款',
+        5: '訂單退貨',
         99: '錯誤單號'
     })
 

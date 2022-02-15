@@ -33,12 +33,12 @@ namespace GodPay_CMS.Common.Helpers
         }
 
         /// <summary>
-        /// 通過列舉型別獲取列舉串列;
+        /// 通過列舉型別獲取列舉串列，Key為Description;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string GetEnumList<T>() where T : Enum
+        public static string GetEnumListByDescription<T>() where T : Enum
         {
             List<T> list = Enum.GetValues(typeof(T)).OfType<T>().ToList();
             string result = string.Empty;
@@ -47,6 +47,28 @@ namespace GodPay_CMS.Common.Helpers
             {
                 result += "{";
                 result += $"\"key\":\"{l.GetEnumDescription()}\",\"value\":\"{(int)Enum.Parse(typeof(T), l.ToString())}\"";
+                result += "},";
+            }
+            result = result.TrimEnd(',');
+            result += "]";
+            return result;
+        }
+
+        /// <summary>
+        /// 通過列舉型別獲取列舉串列，Key為Name;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetEnumListByName<T>() where T : Enum
+        {
+            List<T> list = Enum.GetValues(typeof(T)).OfType<T>().ToList();
+            string result = string.Empty;
+            result += "[";
+            foreach (var l in list)
+            {
+                result += "{";
+                result += $"\"key\":\"{l.ToString()}\",\"value\":\"{(int)Enum.Parse(typeof(T), l.ToString())}\"";
                 result += "},";
             }
             result = result.TrimEnd(',');

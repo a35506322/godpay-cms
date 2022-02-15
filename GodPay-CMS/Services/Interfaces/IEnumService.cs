@@ -14,5 +14,10 @@ namespace GodPay_CMS.Services.Interfaces
         /// </summary>
         /// <returns></returns>
         public ResponseViewModel GetAccountStatusEnum();
+        /// <summary>
+        /// 取得訂單狀態
+        /// </summary>
+        /// <returns></returns>
+        public ResponseViewModel GetGLBDStatusCodeEnum();
     }
 }

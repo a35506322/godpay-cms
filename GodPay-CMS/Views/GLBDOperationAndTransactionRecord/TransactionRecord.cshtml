@@ -51,6 +51,12 @@
                     <div class="col-6 col-xl-6 mb-2 pt-2">
                         <input type="text" class="p-inputtext p-component form-control" placeholder="訂單編號" v-model="common.orderNo" />
                     </div>
+                    <div class="col-6  col-xl-4 mb-2 pt-2">
+                        <select class="form-select rounded-1" v-model="common.orderStatus">
+                            <option value="" disabled>請選擇訂單狀態</option>
+                            <option v-for="(orderStatus,index) in orderStatusCodes" v-bind:key="orderStatus.value" v-bind:value="orderStatus.value">{{orderStatus.key}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-12 mb-4">
@@ -185,7 +191,7 @@
 {
     import {
         GetOrdersCondition, Refund, Void,
-        GetCustomers, GetStoreForDDL
+        GetCustomers, GetStoreForDDL, GetGLBDStatusCodeEnum
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     import { setDate } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js'
     import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
@@ -207,7 +213,8 @@
                 common: {
                     startDate: '',
                     endDate: '',
-                    orderNo:''
+                    orderNo: '',
+                    orderStatus:''
                 },
                 member: {
                     memberID: '',
@@ -229,7 +236,8 @@
                 isSearchbarSwitch: false,
                 role: null,
                 customers: [],
-                stores:[]
+                stores: [],
+                orderStatusCodes:[]
 
             }
         },
@@ -249,6 +257,7 @@
             };
             this.GetListOfFunctionFilter(query);
             this.GetCustomers();
+            this.GetGLBDStatusCodeEnum();
             this.startRows = 10;
             this.role = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c=>c.Type == ClaimTypes.Role).Value';
         },
@@ -257,6 +266,28 @@
 
         },
         methods: {
+            GetGLBDStatusCodeEnum: async function () {
+                try {
+                    const response = await GetGLBDStatusCodeEnum().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                if (data.rtnData != null && typeof (data.rtnData) === 'string') {
+                                    this.orderStatusCodes = JSON.parse(data.rtnData);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception)
+                }
+            },
             GetStoreForDDL: async function () {
                 try {
                     let query = {
@@ -309,7 +340,7 @@
             GetOrdersCondition: async function () {
                 try {
                     // 業務需多在判斷公司及特店一定必填
-                    if (this.customer.custId === '' || this.customer.storeId === '') {
+                    if ((this.customer.custId === '' || this.customer.storeId === '') && this.role === 'Manager' ) {
                         this.$toast.add({ severity: 'error', summary: '驗證失敗', detail: '公司及特店為必填', life: 5000, group: 'backend-laoout' });
                         return;
                     }
@@ -319,6 +350,7 @@
                             startDate: this.common.startDate,
                             endDate: this.common.endDate,
                             orderNo: this.common.orderNo,
+                            orderStatus: this.common.orderStatus,
                             memberID: this.member.memberID,
                             phone: this.member.phone,
                             email: this.member.email,
@@ -328,6 +360,7 @@
                             storeId: this.customer.storeId
                         }
                     };
+
                     this.lazyParams.loading = true;
                     const response = await GetOrdersCondition(query).then(response => response);
                     const status = response.status;
@@ -403,21 +436,32 @@
             },
             onRefund: async function () {
                 try {
-                    this.loading = true;
-                    const response = await Refund(this.selectedOrder).then(response => response);
-                    const status = response.status;
-                    if (status === 200) {
-                        const data = response.data;
-                        const code = data.rtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
-                        switch (code) {
-                            default:
-                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetOrdersCondition();
-                                break;
+                    this.$confirm.require({
+                        message: `請問確定要取消此訂單編號『${this.selectedOrder.orderNo}』?`,
+                        header: '取消訂單',
+                        icon: 'pi pi-info-circle',
+                        position: 'top',
+                        accept: async () => {
+                            this.loading = true;
+                            const response = await Refund(this.selectedOrder).then(response => response);
+                            const status = response.status;
+                            if (status === 200) {
+                                const data = response.data;
+                                const code = data.rtnCode;
+                                const status = this.$common.ChangeReturnCode(code);
+                                switch (code) {
+                                    default:
+                                        this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                        this.GetOrdersCondition();
+                                        break;
+                                }
+                            }
+                            this.loading = false;
+                        },
+                        reject: () => {
+
                         }
-                    }
-                    this.loading = false;
+                    });
                 }
                 catch (exception) {
                     console.log(exception)
@@ -425,21 +469,32 @@
             },
             onVoid: async function () {
                 try {
-                    this.loading = true;
-                    const response = await Void(this.selectedOrder).then(response => response);
-                    const status = response.status;
-                    if (status === 200) {
-                        const data = response.data;
-                        const code = data.rtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
-                        switch (code) {
-                            default:
-                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetOrdersCondition();
-                                break;
+                    this.$confirm.require({
+                        message: `請問確定要取消此訂單編號『${this.selectedOrder.orderNo}』?`,
+                        header: '取消訂單',
+                        icon: 'pi pi-info-circle',
+                        position: 'top',
+                        accept: async () => {
+                            this.loading = true;
+                            const response = await Void(this.selectedOrder).then(response => response);
+                            const status = response.status;
+                            if (status === 200) {
+                                const data = response.data;
+                                const code = data.rtnCode;
+                                const status = this.$common.ChangeReturnCode(code);
+                                switch (code) {
+                                    default:
+                                        this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
+                                        this.GetOrdersCondition();
+                                        break;
+                                }
+                            }
+                            this.loading = false;
+                        },
+                        reject: () => {
+
                         }
-                    }
-                    this.loading = false;
+                    });   
                 }
                 catch (exception) {
                     console.log(exception)
