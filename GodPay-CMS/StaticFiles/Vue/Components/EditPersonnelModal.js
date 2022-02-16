@@ -50,7 +50,7 @@
                                             {{tempLoginId}}
                                         </span>
                                         <v-field type="text" class="p-inputtext p-component form-control" id="userId"
-                                            v-model="storePersonnelModel.userId" rules="required|account" name="帳號" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]" ></v-field>
+                                            v-model.trim ="storePersonnelModel.userId" rules="required|account" name="帳號" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]" ></v-field>
                                         <error-message name="帳號" class="invalid-feedback"></error-message>
                                         <server-error-message v-bind:attr="'userId'"></server-error-message>
                                     </div>                    
@@ -58,7 +58,7 @@
                             </template>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <v-field type="email" class="p-inputtext p-component form-control" id="email" v-model="storePersonnelModel.email"
+                                <v-field type="email" class="p-inputtext p-component form-control" id="email" v-model.trim ="storePersonnelModel.email"
                                     name="email" rules="required|email" v-bind:class="[{'is-invalid':errors['email']||modelStateError['email']}]" ></v-field>
                                 <error-message name="email" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'email'"></server-error-message>

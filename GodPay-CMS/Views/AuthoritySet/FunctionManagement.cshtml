@@ -5,13 +5,13 @@
     <div class="px-3">
         <div class="p-toolbar p-component w-100 mb-2">
             <div class="p-toolbar-group-left">
-                <p-button label="新增功能" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditFuncModal(true)"></p-button>
+                <p-button label="新增功能" icon="pi pi-plus" class="p-mr-2" v-on:click="OpenEditFuncModal(true)"></p-button>
             </div>
             <div class="p-toolbar-group-right">
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model="filtersFuncClass['global'].value" placeholder="搜索" />
+                           v-model.trim="filtersFuncClass['global'].value" placeholder="搜索" />
                 </span>
             </div>
         </div>
@@ -36,7 +36,7 @@
         </p-column>
         <p-column style="min-width:8rem" class="d-flex justify-content-center">
             <template #body="slotProps">
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯功能'" v-on:click="OpenEditFuncModal(false,slotProps.data.fid)"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded me-1" v-tooltip.top="'編輯功能'" v-on:click="OpenEditFuncModal(false,slotProps.data.fid)"></p-button>
             </template>
         </p-column>
         <template #empty>
@@ -55,155 +55,155 @@
                  v-bind:func-class-list="funcClassList"  v-bind:temp-loading ="loading"></edit-func-modal>
 
 <script type="text/javascript">
-    @section Vue
-    {
-        const { FilterMatchMode } = primevue.api;
-        import {
-        GetListOfFunc, GetFuncDetailById, UpdateFunc,
-        PostFunc, GetListOfFuncClass
-        } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-        import EditFuncModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditFuncModal.js'
-        const app = Vue.createApp({
-            components: {
-                "p-datatable": primevue.datatable,
-                "p-column": primevue.column,
-                "p-toolbar": primevue.toolbar,
-                EditFuncModal
-            },
-            data: function () {
-                return {
-                    funcList: [],
-                    filtersFuncClass: null,
-                    isNew: true,
-                    modelStateError: {},
-                    func: {},
-                    selectedFunc: {},
-                    funcClassList: [],
-                    loading: false
+@section Vue
+{
+    const { FilterMatchMode } = primevue.api;
+    import {
+    GetListOfFunc, GetFuncDetailById, UpdateFunc,
+    PostFunc, GetListOfFuncClass
+    } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import EditFuncModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditFuncModal.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
+
+    const app = Vue.createApp({
+        mixins: [dataTableMixins],
+        components: {
+            EditFuncModal
+        },
+        data: function () {
+            return {
+                funcList: [],
+                filtersFuncClass: null,
+                isNew: true,
+                modelStateError: {},
+                func: {},
+                selectedFunc: {},
+                funcClassList: [],
+                loading: false
+            }
+        },
+        created: function () {
+            this.GetListOfFunc();
+            this.InitFilters();
+        },
+        methods: {
+            InitFilters: function () {
+                this.filtersFuncClass = {
+                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                 }
             },
-            created: function () {
-                this.GetListOfFunc();
-                this.InitFilters();
-            },
-            methods: {
-                InitFilters: function () {
-                    this.filtersFuncClass = {
-                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-                    }
-                },
-                GetListOfFunc: async function () {
-                    try {
-                        const response = await GetListOfFunc().then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    this.funcList = data.rtnData
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-                },
-                OpenEditFuncModal: function (isNew, fid = '') {
-                    this.isNew = isNew;
-                    this.modelStateError = {};
-                    this.GetListOfFuncClass();
-                    if (isNew) {
-                        this.func = {};
-                    }
-                    else {
-                        this.GetFuncCode(fid);
-                    }
-                    this.$refs.editFunc.Show(isNew);
-                },
-                GetFuncCode: async function (fid) {
-                    try {
-                        let query = {
-                            params: {
-                                fid: fid
-                            }
-                        };
-                        const response = await GetFuncDetailById(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    this.func = data.rtnData;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-                },
-                GetListOfFuncClass: async function () {
-                    try {
-                        const response = await GetListOfFuncClass().then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    this.funcClassList = data.rtnData
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-                },
-                SaveFunc: async function (value) {
-                    let response = null;
-                    this.loading = true;
-                    if (this.isNew) {
-                        response = await PostFunc(value).then(response => response);
-                    } else {
-                        response = await UpdateFunc(value).then(response => response);
-                    }
+            GetListOfFunc: async function () {
+                try {
+                    const response = await GetListOfFunc().then(response => response);
                     const status = response.status;
                     if (status === 200) {
-                        const responseData = response.data;
-                        const code = responseData.rtnCode;
-                        const status = this.$common.ChangeReturnCode(code);
+                        const data = response.data;
+                        const code = data.rtnCode;
                         switch (code) {
                             case 200:
-                                this.$refs.editFunc.Close();
-                                this.func = {};
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                this.GetListOfFunc();
-                                break;
-                            case 401:
-                                if (typeof (responseData.rtnData) === 'string') {
-                                    this.modelStateError = JSON.parse(responseData.rtnData);
-                                }
-                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                this.funcList = data.rtnData
                                 break;
                             default:
-                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                         }
                     }
-                    this.loading = false
-                },
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            },
+            OpenEditFuncModal: function (isNew, fid = '') {
+                this.isNew = isNew;
+                this.modelStateError = {};
+                this.GetListOfFuncClass();
+                if (isNew) {
+                    this.func = {};
+                }
+                else {
+                    this.GetFuncCode(fid);
+                }
+                this.$refs.editFunc.Show(isNew);
+            },
+            GetFuncCode: async function (fid) {
+                try {
+                    let query = {
+                        params: {
+                            fid: fid
+                        }
+                    };
+                    const response = await GetFuncDetailById(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                this.func = data.rtnData;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            },
+            GetListOfFuncClass: async function () {
+                try {
+                    const response = await GetListOfFuncClass().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                this.funcClassList = data.rtnData
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            },
+            SaveFunc: async function (value) {
+                let response = null;
+                this.loading = true;
+                if (this.isNew) {
+                    response = await PostFunc(value).then(response => response);
+                } else {
+                    response = await UpdateFunc(value).then(response => response);
+                }
+                const status = response.status;
+                if (status === 200) {
+                    const responseData = response.data;
+                    const code = responseData.rtnCode;
+                    const status = this.$common.ChangeReturnCode(code);
+                    switch (code) {
+                        case 200:
+                            this.$refs.editFunc.Close();
+                            this.func = {};
+                            this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                            this.GetListOfFunc();
+                            break;
+                        case 401:
+                            if (typeof (responseData.rtnData) === 'string') {
+                                this.modelStateError = JSON.parse(responseData.rtnData);
+                            }
+                            this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                            break;
+                        default:
+                            this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                            break;
+                    }
+                }
+                this.loading = false
+            },
 
-            }
-         })
-    }
+        }
+    })
+}
 </script>

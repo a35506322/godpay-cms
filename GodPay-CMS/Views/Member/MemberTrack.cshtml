@@ -11,7 +11,7 @@
                         <div class="border-bottom-gray mb-3">會員類型</div>
                     </div>
                     <div class="col-6  col-xl-4 mb-2">
-                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機號碼" v-model="member.phone" />
+                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機號碼" v-model.trim="member.phone" />
                     </div>
                 </div>
             </div>
@@ -76,9 +76,8 @@
         GetMemberTrack
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     import { setDate } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js'
-    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
+
     const app = Vue.createApp({
-        mixins: [commonMixins],
         components: {
             "p-toolbar": primevue.toolbar,
             "p-treetable": primevue.treetable,
@@ -97,12 +96,6 @@
                 queryLoading: false,
                 memberTracks:[]
             }
-        },
-        created: function () {
-
-        },
-        mounted: function () {
-
         },
         methods: {
             OnClear: function () {

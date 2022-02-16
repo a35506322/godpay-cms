@@ -88,8 +88,12 @@
 {
     import { GetStoreProfile, UpateStore } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     import EditStoreDetail from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditStoreDetail.js'
+    import autthorityMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/AutthorityMixins.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
+
     const uid = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "Uid").Value';
     const app = Vue.createApp({
+        mixins: [autthorityMixins, dataTableMixins],
         components: {
             EditStoreDetail
         },

@@ -1,10 +1,6 @@
 ﻿import { GetListOfFunctionFilter } from '../Services/IpassService.js'
 
 export default {
-    components: {
-        "p-datatable": primevue.datatable,
-        "p-column": primevue.column,
-    },
     data: function () {
         return {
             funcs: [],

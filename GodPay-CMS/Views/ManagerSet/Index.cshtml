@@ -6,13 +6,13 @@
     <div class="px-3">
         <div class="p-toolbar p-component w-100 mb-2">
             <div class="p-toolbar-group-left">
-                <p-button label="新增業務" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditManagerModal(true)" v-if="this.$common.CheckAuthority(funcs,'OperateManager')"></p-button>
+                <p-button label="新增業務" icon="pi pi-plus" class="p-mr-2" v-on:click="OpenEditManagerModal(true)" v-if="this.$common.CheckAuthority(funcs,'OperateManager')"></p-button>
             </div>
             <div class="p-toolbar-group-right">
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model="filtersManager['global'].value" placeholder="搜尋" />
+                           v-model.trim="filtersManager['global'].value" placeholder="搜尋" />
                 </span>
             </div>
         </div>
@@ -48,7 +48,7 @@
             <template #body="slotProps">
                 <p-button icon="bi bi-card-heading" class="p-button-rounded p-button-info me-5" v-tooltip.top="'業務詳細資訊'" v-on:click="OpenManagerDetailModal(slotProps.data.uid)"></p-button>           
                 <template v-if="this.$common.CheckAuthority(funcs,'OperateManager')">
-                    <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditManagerModal(false,slotProps.data.userId)"></p-button>
+                    <p-button icon="pi pi-pencil" class="p-button-rounded me-5" v-tooltip.top="'編輯業務資訊'" v-on:click="OpenEditManagerModal(false,slotProps.data.userId)"></p-button>
                     <p-button icon="bi bi-gear" class="p-button-rounded p-button-warning" v-tooltip.top="'權限設定'" v-on:click="OpenManagerAuthoritySettingModal(slotProps.data)"></p-button>
                 </template>
             </template>
@@ -84,10 +84,11 @@
     import managerDetailModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ManagerDetailModal.js'
     import editManagerModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditManagerModal.js'
     import managerAuthoritySettingModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ManagerAuthoritySettingModal.js'
-    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
+    import autthorityMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/AutthorityMixins.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
 
     const app = Vue.createApp({
-        mixins: [commonMixins],
+        mixins: [autthorityMixins, dataTableMixins],
         components: {
             managerDetailModal,
             editManagerModal,

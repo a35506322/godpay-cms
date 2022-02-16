@@ -5,13 +5,13 @@
     <div class="px-3">
         <div class="p-toolbar p-component w-100 mb-2">
             <div class="p-toolbar-group-left">
-                <p-button label="新增類別" icon="pi pi-plus" class="p-button-success p-mr-2" v-on:click="OpenEditFuncClassModal(true)"></p-button>
+                <p-button label="新增類別" icon="pi pi-plus" class="p-mr-2" v-on:click="OpenEditFuncClassModal(true)"></p-button>
             </div>
             <div class="p-toolbar-group-right">
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model="filtersFuncClass['global'].value" placeholder="搜索" />
+                           v-model.trim="filtersFuncClass['global'].value" placeholder="搜索" />
                 </span>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <p-column field="funcClassChName" header="中文名稱"></p-column>
         <p-column style="min-width:8rem" class="d-flex justify-content-center">
             <template #body="slotProps">
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success me-1" v-tooltip.top="'編輯類別'" v-on:click="OpenEditFuncClassModal(false,slotProps.data.funcClassCode)"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded me-1" v-tooltip.top="'編輯類別'" v-on:click="OpenEditFuncClassModal(false,slotProps.data.funcClassCode)"></p-button>
             </template>
         </p-column>
         <template #empty>
@@ -46,139 +46,139 @@
                        v-on:save="SaveClass" v-bind:model-state-error="modelStateError"></edit-func-class-modal>
 
 <script type="text/javascript">
-    @section Vue
-    {
-        const { FilterMatchMode } = primevue.api;
-        import {
-        GetListOfFuncClass, PostFuncClass, GetFuncClassDetailById,
-        UpdateFuncClass
-        } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-        import editFuncClassModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditFuncClassModal.js'
-        const app = Vue.createApp({
-            components: {
-                "p-datatable": primevue.datatable,
-                "p-column": primevue.column,
-                "p-toolbar": primevue.toolbar,
-                editFuncClassModal
-            },
-            data: function () {
-                return {
-                    funcClasss: [],
-                    selectedFuncClass: {},
-                    filtersFuncClass: null,
-                    funcClass: {},
-                    isNew: true,
-                    modelStateError: {},
-                    loading: false
-                }
-            },
-            created: function () {
-                this.GetListOfFunction();
-                this.InitFilters();
-            },
-            methods: {
-                OpenEditFuncClassModal: function (isNew, funcCode = '') {
-                    this.isNew = isNew;
-                    this.modelStateError = {};
-                    if (isNew) {
-                        this.funcClass = {};
-                    }
-                    else {
-                        this.GetFuncCode(funcCode);
-                    }
-                    this.$refs.editFuncClass.Show(isNew);
-                },
-                GetListOfFunction: async function () {
-                    try {
-                        const response = await GetListOfFuncClass().then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    this.funcClasss = data.rtnData;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-                },
-                InitFilters: function () {
-                    this.filtersFuncClass = {
-                        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-                    }
-                },
-                SaveClass: async function (value) {
-                    try {
-                        let response = null;
-                        this.loading = true;
-                        if (this.isNew) {
-                            response = await PostFuncClass(value).then(response => response);
-                        } else {
-                            response = await UpdateFuncClass(value).then(response => response);
-                        }
-                        const status = response.status;
-                        if (status === 200) {
-                            const responseData = response.data;
-                            const code = responseData.rtnCode;
-                            const status = this.$common.ChangeReturnCode(code);
-                            switch (code) {
-                                case 200:
-                                    this.$refs.editFuncClass.Close();
-                                    this.funcClass = {};
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
-                                    this.GetListOfFunction();
-                                    break;
-                                case 401:
-                                    if (typeof (responseData.rtnData) === 'string') {
-                                        this.modelStateError = JSON.parse(responseData.rtnData);
-                                    }
-                                    this.$emitter.emit('ServerErrorMessages', this.modelStateError);
-                                    break;
-                                default:
-                                    this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responserata.RtnData, life: 5000, group: 'backend-laoout' });
-                                    break;
-                            }
-                        }
-                        this.loading = false;
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                        this.loading = false;
-                    }                    
-                },
-                GetFuncCode: async function (funcCode) {
-                    try {
-                        let query = {
-                            params: {
-                                funcCode: funcCode
-                            }
-                        };
-                        const response = await GetFuncClassDetailById(query).then(response => response);
-                        const status = response.status;
-                        if (status === 200) {
-                            const data = response.data;
-                            const code = data.rtnCode;
-                            switch (code) {
-                                case 200:
-                                    this.funcClass = data.rtnData;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    catch (exception) {
-                        console.log(exception);
-                    }
-                }
+@section Vue
+{
+    const { FilterMatchMode } = primevue.api;
+    import {
+    GetListOfFuncClass, PostFuncClass, GetFuncClassDetailById,
+    UpdateFuncClass
+    } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import editFuncClassModal from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/EditFuncClassModal.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
 
+    const app = Vue.createApp({
+        mixins: [dataTableMixins],
+        components: {
+            editFuncClassModal
+        },
+        data: function () {
+            return {
+                funcClasss: [],
+                selectedFuncClass: {},
+                filtersFuncClass: null,
+                funcClass: {},
+                isNew: true,
+                modelStateError: {},
+                loading: false
             }
-         })
-    }
+        },
+        created: function () {
+            this.GetListOfFunction();
+            this.InitFilters();
+        },
+        methods: {
+            OpenEditFuncClassModal: function (isNew, funcCode = '') {
+                this.isNew = isNew;
+                this.modelStateError = {};
+                if (isNew) {
+                    this.funcClass = {};
+                }
+                else {
+                    this.GetFuncCode(funcCode);
+                }
+                this.$refs.editFuncClass.Show(isNew);
+            },
+            GetListOfFunction: async function () {
+                try {
+                    const response = await GetListOfFuncClass().then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                this.funcClasss = data.rtnData;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            },
+            InitFilters: function () {
+                this.filtersFuncClass = {
+                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+                }
+            },
+            SaveClass: async function (value) {
+                try {
+                    let response = null;
+                    this.loading = true;
+                    if (this.isNew) {
+                        response = await PostFuncClass(value).then(response => response);
+                    } else {
+                        response = await UpdateFuncClass(value).then(response => response);
+                    }
+                    const status = response.status;
+                    if (status === 200) {
+                        const responseData = response.data;
+                        const code = responseData.rtnCode;
+                        const status = this.$common.ChangeReturnCode(code);
+                        switch (code) {
+                            case 200:
+                                this.$refs.editFuncClass.Close();
+                                this.funcClass = {};
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
+                                this.GetListOfFunction();
+                                break;
+                            case 401:
+                                if (typeof (responseData.rtnData) === 'string') {
+                                    this.modelStateError = JSON.parse(responseData.rtnData);
+                                }
+                                this.$emitter.emit('ServerErrorMessages', this.modelStateError);
+                                break;
+                            default:
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responserata.RtnData, life: 5000, group: 'backend-laoout' });
+                                break;
+                        }
+                    }
+                    this.loading = false;
+                }
+                catch (exception) {
+                    console.log(exception);
+                    this.loading = false;
+                }
+            },
+            GetFuncCode: async function (funcCode) {
+                try {
+                    let query = {
+                        params: {
+                            funcCode: funcCode
+                        }
+                    };
+                    const response = await GetFuncClassDetailById(query).then(response => response);
+                    const status = response.status;
+                    if (status === 200) {
+                        const data = response.data;
+                        const code = data.rtnCode;
+                        switch (code) {
+                            case 200:
+                                this.funcClass = data.rtnData;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (exception) {
+                    console.log(exception);
+                }
+            }
+
+        }
+    })
+}
 </script>

@@ -82,10 +82,12 @@
         }
 
         // 全域註冊Component
+        import serverErrorMessage from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Components/ServerErrorMessage.js'
         app.component('pToast', primevue.toast);
         app.component('vForm', VeeValidate.Form);
         app.component('vField', VeeValidate.Field);
         app.component('errorMessage', VeeValidate.ErrorMessage);
+        app.component('server-error-message', serverErrorMessage);
 
         // 驗證規則
         Object.keys(VeeValidateRules).forEach(rule => {

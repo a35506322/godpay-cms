@@ -74,11 +74,12 @@
     import {
         GetUserById, EditUser, EditKey
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
+    import autthorityMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/AutthorityMixins.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
 
     const Id = '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value';
     const app = Vue.createApp({
-        mixins: [commonMixins],
+        mixins: [autthorityMixins, dataTableMixins],
         components: {
             editUserModal,
             changePasswordModal
@@ -164,7 +165,7 @@
                         switch (responseData.rtnCode) {
                             case 200:
                                 await this.GetUserById();
-                                this.$refs.editUser.Close();                               
+                                this.$refs.editUser.Close();
                                 this.$toast.add({ severity: status, summary: message, detail: '', life: 5000, group: 'backend-laoout' });
                                 break;
                             case 401:

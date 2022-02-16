@@ -21,7 +21,7 @@
                                 v-model.trim="addCustomerViewModel.customerName" />
                     </div>
                     <div class="col">
-                        <p-button label="新增" icon="pi pi-plus" class="p-button-success p-mr-1" v-on:click="PostCutsomterSave" v-bind:loading="loading"></p-button>
+                        <p-button label="新增" icon="pi pi-plus" class="p-mr-1" v-on:click="PostCutsomterSave" v-bind:loading="loading"></p-button>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                            placeholder="搜尋" v-model="filtersCompany['global'].value" />
+                            placeholder="搜尋" v-model.trim="filtersCompany['global'].value" />
                 </span>
             </div>
         </div>
@@ -67,12 +67,10 @@
     import {
         GetCustomers, PostCustomer, UpdateCustomer
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
+
     const app = Vue.createApp({
-        components: {
-            "p-datatable": primevue.datatable,
-            "p-column": primevue.column,
-            "p-toolbar": primevue.toolbar,
-        },
+        mixins: [dataTableMixins],
         data: function () {
             return {
                 customers:[],
@@ -138,8 +136,6 @@
                     });
                 }
                 catch (exception) {
-                    // 存入log
-                    // 導去錯誤頁面
                     console.log(exception);
                 }
             },
@@ -195,8 +191,6 @@
                     });
                 }
                 catch (exception) {
-                    // 存入log
-                    // 導去錯誤頁面
                     console.log(exception);
                     this.loading = false;
                 }

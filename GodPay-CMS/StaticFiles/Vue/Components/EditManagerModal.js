@@ -46,14 +46,14 @@
                                 <div class="col-md-6">
                                     <label for="userId" class="form-label">帳號</label>
                                     <v-field type="text" class="p-inputtext p-component form-control" id="userId"
-                                     v-model="tempModel.userId" rules="required|account" name="帳號" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]"></v-field>
+                                     v-model.trim="tempModel.userId" rules="required|account" name="帳號" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]"></v-field>
                                     <error-message name="帳號" class="invalid-feedback"></error-message>
                                     <server-error-message v-bind:attr="'userId'"></server-error-message>
                                 </div>
                             </template>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <v-field type="email" class="p-inputtext p-component form-control" id="email" v-model="tempModel.email"
+                                <v-field type="email" class="p-inputtext p-component form-control" id="email" v-model.trim="tempModel.email"
                                 rules="required|email" name="email" v-bind:class="[{'is-invalid':errors['email']||modelStateError['email']}]"></v-field>
                                 <error-message name="email" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'email'"></server-error-message>
@@ -76,14 +76,14 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="name" class="form-label">名字</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="name" v-model="tempModel.name"
+                                <v-field type="text" class="p-inputtext p-component form-control" id="name" v-model.trim="tempModel.name"
                                 rules="required" name="名字" v-bind:class="[{'is-invalid':errors['名字']||modelStateError['name']}]"></v-field>
                                 <error-message name="名字" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'name'"></server-error-message>
                             </div>                           
                             <div class="col-md-6">
                                 <label for="department" class="form-label">部門</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="department" v-model="tempModel.department"
+                                <v-field type="text" class="p-inputtext p-component form-control" id="department" v-model.trim="tempModel.department"
                                 rules="required" name="部門" v-bind:class="[{'is-invalid':errors['部門']||modelStateError['department']}]"></v-field>
                                 <error-message name="部門" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'department'"></server-error-message>

@@ -49,7 +49,7 @@
                         </span>
                     </div>
                     <div class="col-6 col-xl-6 mb-2 pt-2">
-                        <input type="text" class="p-inputtext p-component form-control" placeholder="訂單編號" v-model="common.orderNo" />
+                        <input type="text" class="p-inputtext p-component form-control" placeholder="訂單編號" v-model.trim="common.orderNo" />
                     </div>
                     <div class="col-6  col-xl-4 mb-2 pt-2">
                         <select class="form-select rounded-1" v-model="common.orderStatus">
@@ -75,13 +75,13 @@
                         <div class="border-bottom-gray mb-3">會員類型</div>
                     </div>
                     <div class="col-6 col-xl-4 mb-2">
-                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員ID" v-model="member.memberID" />
+                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員ID" v-model.trim="member.memberID" />
                     </div>
                     <div class="col-6  col-xl-4 mb-2">
-                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機號碼" v-model="member.phone" />
+                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機號碼" v-model.trim="member.phone" />
                     </div>
                     <div class="col-6  col-xl-4">
-                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機Email" v-model="member.email" />
+                        <input type="text" class="p-inputtext p-component form-control" placeholder="會員手機Email" v-model.trim="member.email" />
                     </div>
                 </div>
             </div>
@@ -194,16 +194,11 @@
         GetCustomers, GetStoreForDDL, GetGLBDStatusCodeEnum
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
     import { setDate } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Common.js'
-    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
+    import autthorityMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/AutthorityMixins.js'
+    import dataTableMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/DataTableMixins.js'
+
     const app = Vue.createApp({
-        mixins: [commonMixins],
-        components: {
-            "p-toolbar": primevue.toolbar,
-            "p-calendar": primevue.calendar,
-            "p-scrollpanel": primevue.scrollpanel,
-            "p-card": primevue.card,
-            "p-column": primevue.column
-        },
+        mixins: [autthorityMixins, dataTableMixins],
         data: function () {
             return {
                 customer: {
@@ -388,7 +383,7 @@
                                 }
                                 break;
                             default:
-                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });                                
+                                this.$toast.add({ severity: status, summary: data.rtnMessage, detail: data.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                         }
                     }
@@ -494,7 +489,7 @@
                         reject: () => {
 
                         }
-                    });   
+                    });
                 }
                 catch (exception) {
                     console.log(exception)

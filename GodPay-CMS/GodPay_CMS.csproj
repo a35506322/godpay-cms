@@ -55,7 +55,8 @@
     <_CustomFiles Remove="StaticFiles\Vue\Components\StoreAuthoritySettingModal.js" />
     <_CustomFiles Remove="StaticFiles\Vue\Components\StorePersonnelAuthoritySettingModal.js" />
     <_CustomFiles Remove="StaticFiles\Vue\Methods\Format.js" />
-    <_CustomFiles Remove="StaticFiles\Vue\Mixins\CommonMixins.js" />
+    <_CustomFiles Remove="StaticFiles\Vue\Mixins\AutthorityMixins.js" />
+    <_CustomFiles Remove="StaticFiles\Vue\Mixins\DataTableMixins.js" />
     <DotNetPublishFiles Include="@(_CustomFiles)">
       <DestinationRelativePath>StaticFiles/%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
     </DotNetPublishFiles>

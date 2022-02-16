@@ -67,7 +67,7 @@
                             <div class="col-md-6">
                                 <label for="Email" class="form-label">功能英文名稱</label>
                                 <v-field class="p-inputtext p-component form-control"
-                                    v-model="funcModel.funcEnName" name="功能英文名稱" rules="required|enClass" v-bind:class="[{'is-invalid':errors['功能英文名稱']||modelStateError['funcEnName']}]"
+                                    v-model.trim="funcModel.funcEnName" name="功能英文名稱" rules="required|enClass" v-bind:class="[{'is-invalid':errors['功能英文名稱']||modelStateError['funcEnName']}]"
                                 />
                                 <error-message name="功能英文名稱" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'funcEnName'"></server-error-message>
@@ -75,7 +75,7 @@
                             <div class="col-md-6">
                                 <label for="Status" class="form-label">功能中文名稱</label>
                                 <v-field class="p-inputtext p-component form-control"
-                                    v-model="funcModel.funcChName" name="功能中文名稱" rules="required|chClass" v-bind:class="[{'is-invalid':errors['功能中文名稱']||modelStateError['funcChName']}]"
+                                    v-model.trim="funcModel.funcChName" name="功能中文名稱" rules="required|chClass" v-bind:class="[{'is-invalid':errors['功能中文名稱']||modelStateError['funcChName']}]"
                                 />
                                 <error-message name="功能中文名稱" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'funcChName'"></server-error-message>

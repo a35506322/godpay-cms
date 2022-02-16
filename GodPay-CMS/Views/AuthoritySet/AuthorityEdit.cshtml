@@ -12,7 +12,7 @@
                 </template>
                 <template v-else>
                     <p-button label="復原" icon="pi pi-refresh" class="p-button-info p-mr-1 me-1" v-on:click="Refresh"></p-button>
-                    <p-button label="儲存" icon="pi pi-save" class="p-button-success p-mr-1" v-on:click=" UpdateRoleMaxAuthority" v-bind:loading="loading"></p-button>
+                    <p-button label="儲存" icon="pi pi-save" class="p-mr-1" v-on:click=" UpdateRoleMaxAuthority" v-bind:loading="loading"></p-button>
                 </template>
             </div>
         </div>
@@ -85,9 +85,7 @@
 @section Vue
 {
     import { GetListOfFunctionsForAuthority, UpdateRoleMaxAuthority } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
-    import commonMixins from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Mixins/CommonMixins.js'
     const app = Vue.createApp({
-        mixins: [commonMixins],
         data: function () {
             return {
                 authoritys: [],
@@ -97,13 +95,6 @@
         },
         created: function () {
             this.GetListOfFunction();
-            const query = {
-                params: {
-                    isWebSite: 'false',
-                    funcClassEnName: '@(httpContextAccessor.HttpContext.Request.RouteValues["controller"] as string)'
-                }
-            };
-            this.GetListOfFunctionFilter(query);
         },
         methods: {
             GetListOfFunction: async function () {

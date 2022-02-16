@@ -40,7 +40,7 @@
                             <div class="col-md-6">
                                 <label for="funcClassEnName" class="form-label">類別英文名稱</label>
                                 <v-field class="p-inputtext p-component form-control" id="funcClassEnName"
-                                    v-model="classModel.funcClassEnName" name="類別英文名稱" rules="required|enClass" v-bind:class="[{'is-invalid':errors['類別英文名稱']||modelStateError['funcClassEnName']}]"
+                                    v-model.trim="classModel.funcClassEnName" name="類別英文名稱" rules="required|enClass" v-bind:class="[{'is-invalid':errors['類別英文名稱']||modelStateError['funcClassEnName']}]"
                                 />
                                 <error-message name="類別英文名稱" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'funcClassEnName'"></server-error-message>
@@ -48,7 +48,7 @@
                             <div class="col-md-6">
                                 <label for="funcClassChName" class="form-label">類別中文名稱</label>
                                 <v-field class="p-inputtext p-component form-control" id="funcClassChName"
-                                    v-model="classModel.funcClassChName" name="類別中文名稱" rules="required|chClass" v-bind:class="[{'is-invalid':errors['類別中文名稱']||modelStateError['funcClassChName']}]"
+                                    v-model.trim="classModel.funcClassChName" name="類別中文名稱" rules="required|chClass" v-bind:class="[{'is-invalid':errors['類別中文名稱']||modelStateError['funcClassChName']}]"
                                 />
                                 <error-message name="類別中文名稱" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'funcClassChName'"></server-error-message>
