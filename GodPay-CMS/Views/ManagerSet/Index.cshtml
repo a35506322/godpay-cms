@@ -12,7 +12,7 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model.trim="filtersManager['global'].value" placeholder="搜尋" />
+                           v-model.trim="filtersSearch['global'].value" placeholder="搜尋" />
                 </span>
             </div>
         </div>
@@ -23,7 +23,7 @@
                  v-model:selection="selectedManager" selection-mode="single" data-key="userId"
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:global-filter-fields="['userId','email','status']"
-                 v-model:filters="filtersManager" filter-display="menu">
+                 v-model:filters="filtersSearch" filter-display="menu">
         <p-column field="userId" header="帳號"></p-column>
         <p-column field="email" header="電子信箱"></p-column>
         <p-column field="roleChName" header="角色"></p-column>
@@ -75,7 +75,6 @@
 <script type="text/javascript">
 @section Vue
 {
-    const { FilterMatchMode} = primevue.api;
     import {
         GetManagerAll, GetManagerDeatil,
         PostManagerAndInsider, GetManager, UpdateManagerAndInsider,
@@ -103,7 +102,6 @@
                 isNew: null,
                 modelStateError: {},
                 accountStatus: [],
-                filtersManager: null,
                 managerAuthority: {},
                 tempUid: 0,
                 loading: false
@@ -119,7 +117,6 @@
             };
             this.GetListOfFunctionFilter(query);
             this.GetAccountStatusEnum();
-            this.InitFilters();
         },
         methods: {
             GetManagerAll: async function () {
@@ -285,11 +282,6 @@
                 }
 
             },
-            InitFilters: function () {
-                this.filtersManager = {
-                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-                }
-            },
             GetManagerAuthority: async function (userId) {
                 try {
                     let query = {
@@ -354,6 +346,6 @@
                 }
             }
         }
-        })
+    })
 }
 </script>

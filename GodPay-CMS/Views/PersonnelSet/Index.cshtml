@@ -12,7 +12,7 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model.trim="filtersPersonnels['global'].value" placeholder="搜尋" />
+                           v-model.trim="filtersSearch['global'].value" placeholder="搜尋" />
                 </span>
             </div>
         </div>
@@ -23,7 +23,7 @@
                  v-model:selection="selectedStore" selection-mode="single" data-key="userId"
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:global-filter-fields="['userId','email','status']"
-                 v-model:filters="filtersPersonnels" filter-display="menu">
+                 v-model:filters="filtersSearch" filter-display="menu">
         <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header">
             <template #body="slotProps" v-if="col.format =='date'">
                 {{$format.FormatTWDate(slotProps.data[col.field])}}
@@ -55,7 +55,6 @@
 <script type="text/javascript">
 @section Vue
 {
-    const { FilterMatchMode } = primevue.api;
     import {
     GetStorePersonnels,
     GetAccountStatusEnum, GetUserById, PostStorePersonnel,
@@ -83,7 +82,6 @@
                 isNew: null,
                 modelStateError: {},
                 accountStatus: [],
-                filtersPersonnels: null,
                 loginId: '@httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c=>c.Type == ClaimTypes.Name).Value' + '_',
                 loading: false,
                 storePersonnelAuthority: {},
@@ -104,7 +102,6 @@
             ];
             this.GetStorePersonnels();
             this.GetAccountStatusEnum();
-            this.InitFilters();
             const query = {
                 params: {
                     isWebSite: 'false',
@@ -232,11 +229,6 @@
                 }
                 catch (exception) {
                     console.log(exception)
-                }
-            },
-            InitFilters: function () {
-                this.filtersPersonnels = {
-                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                 }
             },
             GetStorePersonnelAuthority: async function (userId) {

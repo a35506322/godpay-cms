@@ -29,7 +29,7 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                            placeholder="搜尋" v-model.trim="filtersCompany['global'].value" />
+                            placeholder="搜尋" v-model.trim="filtersSearch['global'].value" />
                 </span>
             </div>
         </div>
@@ -40,7 +40,7 @@
                     v-bind:rows-per-page-options="[10,20,50]" current-page-report-template="顯示第 {first} 至 {last} 項結果 ，共  {totalRecords}項"
                     v-model:editing-rows="editingRows" v-on:row-edit-save="RowEditSave"
                     v-bind:global-filter-fields="['customerName']"
-                    v-model:filters="filtersCompany" filter-display="menu">
+                    v-model:filters="filtersSearch" filter-display="menu">
         <p-column field="customerName" header="公司名稱" body-style="text-align:center">
             <template #editor="{ data, field }">
                 <input type="text" class="p-inputtext p-component form-control" v-model="data[field]" autofocus />
@@ -63,7 +63,6 @@
 <script type="text/javascript">
 @section Vue
 {
-    const { FilterMatchMode } = primevue.api;
     import {
         GetCustomers, PostCustomer, UpdateCustomer
     } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Services/IpassService.js'
@@ -79,14 +78,12 @@
                     customerName: ''
                 },
                 modelStateError: {},
-                filtersCompany: null,
                 loading: false,
                 blockedPanel: false
             }
         },
         created: function () {
             this.GetCustomers();
-            this.InitFilters();
         },
         methods: {
             RowEditSave: function (event) {
@@ -216,11 +213,6 @@
                 }
                 catch (exception) {
                     console.log(exception);
-                }
-            },
-            InitFilters: function () {
-                this.filtersCompany = {
-                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS }
                 }
             }
         }

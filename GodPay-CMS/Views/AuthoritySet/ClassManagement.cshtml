@@ -11,7 +11,7 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model.trim="filtersFuncClass['global'].value" placeholder="搜索" />
+                           v-model.trim="filtersSearch['global'].value" placeholder="搜索" />
                 </span>
             </div>
         </div>
@@ -23,7 +23,7 @@
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:scrollable="true" scroll-height="58vh"
                  v-bind:global-filter-fields="['funcClassEnName','funcClassChName']"
-                 v-model:filters="filtersFuncClass" filter-display="menu">
+                 v-model:filters="filtersSearch" filter-display="menu">
         <p-column field="funcClassEnName" header="英文名稱"></p-column>
         <p-column field="funcClassChName" header="中文名稱"></p-column>
         <p-column style="min-width:8rem" class="d-flex justify-content-center">
@@ -48,7 +48,6 @@
 <script type="text/javascript">
 @section Vue
 {
-    const { FilterMatchMode } = primevue.api;
     import {
     GetListOfFuncClass, PostFuncClass, GetFuncClassDetailById,
     UpdateFuncClass
@@ -65,7 +64,6 @@
             return {
                 funcClasss: [],
                 selectedFuncClass: {},
-                filtersFuncClass: null,
                 funcClass: {},
                 isNew: true,
                 modelStateError: {},
@@ -74,7 +72,6 @@
         },
         created: function () {
             this.GetListOfFunction();
-            this.InitFilters();
         },
         methods: {
             OpenEditFuncClassModal: function (isNew, funcCode = '') {
@@ -106,11 +103,6 @@
                 }
                 catch (exception) {
                     console.log(exception);
-                }
-            },
-            InitFilters: function () {
-                this.filtersFuncClass = {
-                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
                 }
             },
             SaveClass: async function (value) {

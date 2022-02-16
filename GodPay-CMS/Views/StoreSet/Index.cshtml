@@ -12,7 +12,7 @@
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input type="text" class="p-inputtext p-component p-filled"
-                           v-model.trim="filtersStores['global'].value" placeholder="搜尋" />
+                           v-model.trim="filtersSearch['global'].value" placeholder="搜尋" />
                 </span>
             </div>
         </div>
@@ -23,7 +23,7 @@
                  v-model:selection="selectedStore" selection-mode="single" data-key="userId"
                  v-bind:resizable-columns="true" column-resize-mode="fit"
                  v-bind:global-filter-fields="['userId','email','status']"
-                 v-model:filters="filtersStores" filter-display="menu">
+                 v-model:filters="filtersSearch" filter-display="menu">
         <p-column v-for="(col,index) in columnsDefs" v-bind:key="col.field" v-bind:field="col.field" v-bind:header="col.header">
             <template #body="slotProps" v-if="col.format =='date'">
                 {{$format.FormatTWDate(slotProps.data[col.field])}}
@@ -60,7 +60,6 @@
 <script type="text/javascript">
 @section Vue
 {
-    const { FilterMatchMode } = primevue.api;
     import {
     GetStores, GetStoreDetail, PostUserAndStore,
     GetAccountStatusEnum, GetStoreById, UpateUserAndStore,
@@ -89,7 +88,6 @@
                 isNew: null,
                 modelStateError: {},
                 accountStatus: [],
-                filtersStores: null,
                 customers: [],
                 storeAuthority: {},
                 tempUid: 0,
@@ -109,7 +107,6 @@
                 { field: 'lastChangePwdDate', header: '最後更改密碼時間', format: 'date' }
             ];
             this.GetAccountStatusEnum();
-            this.InitFilters();
             const query = {
                 params: {
                     isWebSite: 'false',
@@ -274,11 +271,6 @@
                     console.log(exception)
                 }
             },
-            InitFilters: function () {
-                this.filtersStores = {
-                    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-                }
-            },
             GetCustomers: async function () {
                 const response = await GetCustomers().then(response => response);
                 const status = response.status;
@@ -361,6 +353,6 @@
                 }
             }
         }
-        })
+    })
 }
 </script>
