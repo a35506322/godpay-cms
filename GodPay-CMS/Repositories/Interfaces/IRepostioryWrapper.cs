@@ -9,5 +9,6 @@
         public IStoreRepository storeRepository { get; }
         public ICustomerRepository customerRepository { get; }
         public IPersonnelRepository personnelRepository { get; }
+        public IBankDetailRepository bankDetailRepository { get; }
     }
 }

@@ -13,5 +13,6 @@
         public IPersonnelService personnelService { get; }
         public IGLBDOperationAndTransactionRecordService glbd_OperationAndTransactionRecordService { get; }
         public IMemberTrackService memberTrackService { get; }
+        public IBankService  bankService { get; }
     }
 }

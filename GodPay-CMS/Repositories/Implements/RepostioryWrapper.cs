@@ -11,6 +11,7 @@ namespace GodPay_CMS.Repositories.Implements
         private readonly IStoreRepository _storeRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IPersonnelRepository _personnelRepository;
+        private readonly IBankDetailRepository _bankDetailRepository;
 
         public RepostioryWrapper(IUserRepository userRepository,
                                 IFuncRepository funcRepository,
@@ -18,7 +19,8 @@ namespace GodPay_CMS.Repositories.Implements
                                 IInsiderRepository insiderRepository,
                                 IStoreRepository storeRepository,
                                 ICustomerRepository customerRepository,
-                                IPersonnelRepository personnelRepository)
+                                IPersonnelRepository personnelRepository,
+                                IBankDetailRepository bankDetailRepository)
         {
             _userRepository = userRepository;
             _funcRepository = funcRepository;
@@ -27,6 +29,7 @@ namespace GodPay_CMS.Repositories.Implements
             _storeRepository = storeRepository;
             _customerRepository = customerRepository;
             _personnelRepository = personnelRepository;
+            _bankDetailRepository = bankDetailRepository;
         }
 
         public IUserRepository userRepository => _userRepository;
@@ -42,5 +45,7 @@ namespace GodPay_CMS.Repositories.Implements
         public ICustomerRepository customerRepository => _customerRepository;
 
         public IPersonnelRepository personnelRepository => _personnelRepository;
+
+        public IBankDetailRepository bankDetailRepository => _bankDetailRepository;
     }
 }

@@ -61,6 +61,7 @@ namespace GodPay_CMS
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IPersonnelRepository, PersonnelRepository>();
+            services.AddScoped<IBankDetailRepository, BankDetailRepository>();
 
             // Service
             services.AddScoped<IServiceWrapper, ServiceWrapper>();
@@ -75,7 +76,8 @@ namespace GodPay_CMS
             services.AddScoped<IPersonnelService, PersonnelService>();
             services.AddScoped<IGLBDOperationAndTransactionRecordService, GLBDOperationAndTransactionRecordService>();
             services.AddScoped<IMemberTrackService, MemberTrackService>();
-            
+            services.AddScoped<IBankService, BankService>();
+
             // Helper
             services.AddSingleton<IDecipherHelper, DecipherHelper>();
 
