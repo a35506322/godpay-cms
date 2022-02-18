@@ -116,11 +116,12 @@
             }
         });
         import {
-            VerifyAccount, VerifyEnClass, VerifyChClass
+            VerifyAccount, VerifyEnClass, VerifyChClass, VerifyNumber
         } from '@settings.Value.Urls.BaseUrl/StaticFiles/Vue/Methods/Validates.js';
         VeeValidate.defineRule('account', VerifyAccount);
         VeeValidate.defineRule('enClass', VerifyEnClass);
         VeeValidate.defineRule('chClass', VerifyChClass);
+        VeeValidate.defineRule('onlyNumber', VerifyNumber);
         // 多國語系
         VeeValidateI18n.loadLocaleFromURL('@settings.Value.Urls.BaseUrl/lib/vee-validate/i18n/dist/locale/zh_TW.json');
         // 配置

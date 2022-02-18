@@ -59,7 +59,7 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="userId">帳號</param>
         /// <returns></returns>
-        public Task<IEnumerable<User>> GetUserAndInsiderByUserId(string userId);
+        public Task<User> GetUserAndInsiderByUserId(string userId);
 
         /// <summary>
         /// 修改業務使用者及詳細資料
@@ -87,7 +87,7 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId);
+        public Task<User> GetUserAndStoreByUserId(string userId);
 
         /// <summary>
         /// 修改特約商店詳細資料

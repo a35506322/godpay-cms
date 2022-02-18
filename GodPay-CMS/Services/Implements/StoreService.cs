@@ -69,13 +69,10 @@ namespace GodPay_CMS.Services.Implements
         public async Task<ResponseViewModel> GetUserAndStoreByUserId(string userId)
         {
             var users = await _repostioryWrapper.userRepository.GetUserAndStoreByUserId(userId);
-            if (users.Count() == 0)
+            if (users == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
-            if (users.Count() > 1)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = ReturnCodeEnum.GetFail.GetEnumDescription(), RtnData="此特店帳號存在兩筆" };
-
-            var storeRsp = _mapper.Map<StoreParticularsRsp>(users.ToList().SingleOrDefault());
+            var storeRsp = _mapper.Map<StoreParticularsRsp>(users);
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = storeRsp };
         }
 

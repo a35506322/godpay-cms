@@ -120,30 +120,33 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="receivingBankCode" class="form-label">收款銀行</label>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="receivingBankCode" v-model.trim="storeModel.receivingBankCode"
+                                    name="收款銀行" rules="required|onlyNumber" v-bind:class="[{'is-invalid':errors['收款銀行']||modelStateError['receivingBankCode']}]"></v-field>
+                                <error-message name="收款銀行" class="invalid-feedback"></error-message>
+                                <server-error-message v-bind:attr="'receivingBankCode'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="receivingBranch" class="form-label">收款銀行分行</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="receivingBranch" v-model.number="storeModel.receivingBranch"
-                                    name="收款分行" rules="required" v-bind:class="[{'is-invalid':errors['收款分行']||modelStateError['receivingBranch']}]"></v-field>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="receivingBranch" v-model.trim="storeModel.receivingBranch"
+                                    name="收款分行" rules="required|onlyNumber" v-bind:class="[{'is-invalid':errors['收款分行']||modelStateError['receivingBranch']}]"></v-field>
                                 <error-message name="收款分行" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'receivingBranch'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="receivingAccount" class="form-label">收款銀行帳號</label>
-                                <v-field type="text" class="p-inputtext p-component form-control" id="receivingAccount" v-model.number="storeModel.receivingAccount"
-                                    name="收款帳號" rules="required" v-bind:class="[{'is-invalid':errors['收款帳號']||modelStateError['receivingAccount']}]"></v-field>
+                                <v-field type="text" class="p-inputtext p-component form-control" id="receivingAccount" v-model.trim="storeModel.receivingAccount"
+                                    name="收款帳號" rules="required|onlyNumber" v-bind:class="[{'is-invalid':errors['收款帳號']||modelStateError['receivingAccount']}]"></v-field>
                                 <error-message name="收款帳號" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'receivingAccount'"></server-error-message>
                             </div>
                             <div class="col-md-6">
                                 <label for="moneyTransferDay" class="form-label">匯款天數</label>
                                 <v-field type="text" class="p-inputtext p-component form-control" id="moneyTransferDay" v-model.number="storeModel.moneyTransferDay"
-                                    name="匯款天數" rules="required" v-bind:class="[{'is-invalid':errors['匯款天數']||modelStateError['moneyTransferDay']}]"></v-field>
+                                    name="匯款天數" rules="required|min_value:1|max_value:30" v-bind:class="[{'is-invalid':errors['匯款天數']||modelStateError['moneyTransferDay']}]"></v-field>
                                 <error-message name="匯款天數" class="invalid-feedback"></error-message>
                                 <server-error-message v-bind:attr="'moneyTransferDay'"></server-error-message>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="p-dialog-footer">

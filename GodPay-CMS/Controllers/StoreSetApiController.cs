@@ -54,8 +54,9 @@ namespace GodPay_CMS.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUserAndStore([FromBody] PostUserAndStoreViewModel postUserAndStoreViewModal)
         {
-            var response = await _serviceWrapper.storeService.PostUserAndStore(postUserAndStoreViewModal);
-            return Ok(response);
+            //var response = await _serviceWrapper.storeService.PostUserAndStore(postUserAndStoreViewModal);
+            //return Ok(response);
+            return Ok();
         }
 
         /// <summary>

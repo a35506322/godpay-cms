@@ -203,7 +203,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<User>> GetUserAndInsiderByUserId(string userId)
+        public async Task<User> GetUserAndInsiderByUserId(string userId)
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -218,7 +218,7 @@ namespace GodPay_CMS.Repositories.Implements
                      return user;
                  }, new { userId = userId }, splitOn: "Iid");
 
-                return users;
+                return users.ToList().SingleOrDefault();
             }
         }
 
@@ -271,7 +271,9 @@ namespace GodPay_CMS.Repositories.Implements
         {
             postUserAndStoreReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndStoreReq.UserId);
             postUserAndStoreReq.Role = RoleEnum.Store;
+            // 預設方法
             postUserAndStoreReq.Func = 14339;
+            // 之後要改成未驗證
             postUserAndStoreReq.Status = AccountStatusEnum.Activate;
             postUserAndStoreReq.CreateDate = DateTime.Now;
             postUserAndStoreReq.StoreId = Guid.NewGuid();
@@ -283,8 +285,10 @@ namespace GodPay_CMS.Repositories.Implements
                                     Values (@UserId,@UserKey,@Email,@Func,@Status,@Role,@CreateDate);";
 
                 // 新增特店詳細資料子表
-                sqlString += @"Insert Into [dbo].[Customer_Store] (Uid,CustomerId,StoreId,StoreName,TaxId,Owner,Address,Risk,TransLimit,OwnerEmail)
+                sqlString += @"Insert Into [dbo].[Customer_Store] (Uid,CustomerId,StoreId,StoreName,TaxId,Owner,Address,Risk,TransLimit,OwnerEmail
+                                ,ReceivingAccount,ReceivingBankCode,ReceivingBranch,MoneyTransferDay)
                                 Select A.Uid,@CustomerId,@StoreId,@StoreName,@TaxId,@Owner,@Address,'B',500000.0000,@OwnerEmail
+                                ,@ReceivingAccount,@ReceivingBankCode,@ReceivingBranch,@MoneyTransferDay
                                 From [dbo].[User] A
                                 Where A.UserId = @UserId;";
 
@@ -341,7 +345,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<User>> GetUserAndStoreByUserId(string userId)
+        public async Task<User> GetUserAndStoreByUserId(string userId)
         {
             string sql = @"Select *
                          From [dbo].[User] U
@@ -355,7 +359,8 @@ namespace GodPay_CMS.Repositories.Implements
                     user.Customer_Store = store;
                     return user;
                 }, new { userId = userId }, splitOn: "SeqNo");
-                return users;
+
+                return users.ToList().SingleOrDefault();
             }
         }
 
@@ -379,10 +384,15 @@ namespace GodPay_CMS.Repositories.Implements
                                         T2.Owner = @Owner,
                                         T2.Address = @Address,
                                         T2.OwnerEmail = @OwnerEmail,
-                                        T2.CustomerId = @CustomerId
+                                        T2.CustomerId = @CustomerId,
+                                        T2.ReceivingAccount = @ReceivingAccount,
+                                        T2.ReceivingBankCode = @ReceivingBankCode,
+                                        T2.ReceivingBranch = @ReceivingBranch,
+                                        T2.MoneyTransferDay = @MoneyTransferDay
                                     From
                                     (
                                         Select S.StoreName, S.TaxId, S.Owner, S.Address, S.OwnerEmail,S.CustomerId
+                                        ,S.ReceivingAccount,S.ReceivingBankCode,S.ReceivingBranch,S.MoneyTransferDay
                                         From [dbo].[Customer_Store] S
                                         Where S.Uid = @Uid
                                     )T2;";

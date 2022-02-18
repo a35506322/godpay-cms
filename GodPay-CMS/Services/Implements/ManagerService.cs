@@ -80,13 +80,10 @@ namespace GodPay_CMS.Services.Implements
         {
             var users = await _repostioryWrapper.userRepository.GetUserAndInsiderByUserId(userId);
 
-            if (users.Count() == 0)
+            if (users == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
-            if (users.Count() > 1)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = ReturnCodeEnum.GetFail.GetEnumDescription(), RtnData="此業務存在不只一筆" };
-
-            var businessmanRsp = _mapper.Map<ManagerRsp>(users.ToList().SingleOrDefault());
+            var businessmanRsp = _mapper.Map<ManagerRsp>(users);
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = businessmanRsp };
 
         }

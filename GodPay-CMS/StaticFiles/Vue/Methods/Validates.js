@@ -15,3 +15,9 @@ export function VerifyChClass(value) {
     const result = regexs.test(value);
     return result ? true : '只能輸入中文'
 };
+
+export function VerifyNumber(value) {
+    const regexs = /^[0-9]*$/;
+    const result = regexs.test(value);
+    return result ? true : '只能輸入數字'
+};

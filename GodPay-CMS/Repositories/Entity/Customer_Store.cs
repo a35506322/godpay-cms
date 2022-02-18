@@ -63,6 +63,26 @@ namespace GodPay_CMS.Repositories.Entity
         public decimal? TransLimit { get; set; }
 
         /// <summary>
+        /// 收款銀行帳號
+        /// </summary>
+        public string ReceivingAccount { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 收款銀行代碼
+        /// </summary>
+        public string ReceivingBankCode { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 收款銀行分行
+        /// </summary>
+        public string ReceivingBranch { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 匯款天數
+        /// </summary>
+        public int MoneyTransferDay { get; set; }
+
+        /// <summary>
         /// 公司
         /// </summary>
         public Customer Customer { get; set; }
