@@ -119,7 +119,7 @@
                                 <server-error-message v-bind:attr="'ownerEmail'"></server-error-message>
                             </div>
                             <div class="col-md-6">
-                                <label for="receivingBankCode" class="form-label">收款銀行</label>
+                                <label for="receivingBankCode" class="form-label">收款銀行代碼</label>
                                 <v-field type="text" class="p-inputtext p-component form-control" id="receivingBankCode" v-model.trim="storeModel.receivingBankCode"
                                     name="收款銀行" rules="required|onlyNumber" v-bind:class="[{'is-invalid':errors['收款銀行']||modelStateError['receivingBankCode']}]"></v-field>
                                 <error-message name="收款銀行" class="invalid-feedback"></error-message>

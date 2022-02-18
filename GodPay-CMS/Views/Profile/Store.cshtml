@@ -73,6 +73,46 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">收款銀行代碼</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.receivingBankCode">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">收款銀行分行</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.receivingBranch">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">收款銀行帳號</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.receivingAccount">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="mb-1 row">
+                                        <label class="col-sm-2 col-form-label">匯款天數</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" readonly class="form-control-plaintext outline-none" v-bind:value="storeDetail.moneyTransferDay">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

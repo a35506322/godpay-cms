@@ -48,5 +48,25 @@
         ///  負責人電子信箱
         /// </summary>
         public string OwnerEmail { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 收款銀行帳號
+        /// </summary>
+        public string ReceivingAccount { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 收款銀行代碼
+        /// </summary>
+        public string ReceivingBankCode { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 收款銀行分行
+        /// </summary>
+        public string ReceivingBranch { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 匯款天數
+        /// </summary>
+        public int MoneyTransferDay { get; set; }
     }
 }

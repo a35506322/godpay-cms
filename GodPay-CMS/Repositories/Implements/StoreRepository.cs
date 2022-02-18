@@ -89,7 +89,11 @@ namespace GodPay_CMS.Repositories.Implements
                 bool result = false;
                 string sqlString = string.Empty;
                 var parameters = new 
-                { 
+                {
+                    ReceivingAccount = model.ReceivingAccount,
+                    ReceivingBankCode = model.ReceivingBankCode,
+                    ReceivingBranch = model.ReceivingBranch,
+                    MoneyTransferDay = model.MoneyTransferDay,
                     StoreName = model.StoreName,
                     TaxId = model.TaxId,
                     Owner=model.Owner,
@@ -104,7 +108,11 @@ namespace GodPay_CMS.Repositories.Implements
 	                                    T.TaxId     = @TaxId,
 	                                    T.Owner     = @Owner,
 	                                    T.Address   = @Address,
-	                                    T.OwnerEmail = @OwnerEmail 
+	                                    T.OwnerEmail = @OwnerEmail,
+                                        T.ReceivingAccount = @ReceivingAccount,
+                                        T.ReceivingBankCode = @ReceivingBankCode,
+                                        T.ReceivingBranch = @ReceivingBranch,
+                                        T.MoneyTransferDay = @MoneyTransferDay
                                     From
                                     (
 	                                    Select *

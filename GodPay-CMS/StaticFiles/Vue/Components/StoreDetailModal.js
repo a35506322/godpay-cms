@@ -110,6 +110,46 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">收款銀行代碼</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.receivingBankCode">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">收款銀行分行</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.receivingBranch">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">收款銀行帳號</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.receivingAccount">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">匯款天數</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" readonly class="form-control-plaintext outline-none" v-bind:value="detail.moneyTransferDay">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

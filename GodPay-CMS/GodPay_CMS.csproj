@@ -50,13 +50,6 @@
   
   <ItemGroup>
     <_CustomFiles Include="$(MSBuildProjectDirectory)\StaticFiles\**\**\*.*" />
-    <Compile Remove="Common\Profiles\SigninProfile.cs" />
-    <_CustomFiles Remove="StaticFiles\Vue\Components\EditFuncModal.js" />
-    <_CustomFiles Remove="StaticFiles\Vue\Components\StoreAuthoritySettingModal.js" />
-    <_CustomFiles Remove="StaticFiles\Vue\Components\StorePersonnelAuthoritySettingModal.js" />
-    <_CustomFiles Remove="StaticFiles\Vue\Methods\Format.js" />
-    <_CustomFiles Remove="StaticFiles\Vue\Mixins\AutthorityMixins.js" />
-    <_CustomFiles Remove="StaticFiles\Vue\Mixins\DataTableMixins.js" />
     <DotNetPublishFiles Include="@(_CustomFiles)">
       <DestinationRelativePath>StaticFiles/%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
     </DotNetPublishFiles>
