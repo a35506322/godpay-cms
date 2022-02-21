@@ -107,7 +107,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> BatchUpdateRoleFlag(IEnumerable<UpdateRoleAuthorityReq> updateRoleAuthorityReqs)
+        public async Task<bool> BatchUpdateRoleFlag(IEnumerable<Func> funcs)
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -135,7 +135,7 @@ namespace GodPay_CMS.Repositories.Implements
                     bool result = false;
                     try
                     {
-                        int rowConunts = await connection.ExecuteAsync(sqlString, updateRoleAuthorityReqs, transaction: tran);
+                        int rowConunts = await connection.ExecuteAsync(sqlString, funcs, transaction: tran);
                         if (rowConunts > 0)
                         {
                             result = true;

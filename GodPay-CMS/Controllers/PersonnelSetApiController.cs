@@ -3,6 +3,7 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using GodPay_CMS.Services.DTO.Request;
 
 namespace GodPay_CMS.Controllers
 {
@@ -35,26 +36,26 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增特店的特店人員
         /// </summary>
-        /// <param name="postStorePersonnelViewModel">postStorePersonnelViewModel</param>
+        /// <param name="postStorePersonnelReq">postStorePersonnelReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostStorePersonnel([FromBody]PostStorePersonnelViewModel postStorePersonnelViewModel)
+        public async Task<IActionResult> PostStorePersonnel([FromBody]PostStorePersonnelReq postStorePersonnelReq)
         {
-            var response = await _serviceWrapper.personnelService.PostStorePersonnel(postStorePersonnelViewModel);
+            var response = await _serviceWrapper.personnelService.PostStorePersonnel(postStorePersonnelReq);
             return Ok(response);
         }
 
         /// <summary>
         /// 修改特店的特店人員
         /// </summary>
-        /// <param name="updateStorePersonnelViewModel">updateStorePersonnelViewModel</param>
+        /// <param name="putStorePersonnelReq">putStorePersonnelReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateStorePersonnel([FromBody] UpdateStorePersonnelViewModel updateStorePersonnelViewModel)
+        public async Task<IActionResult> UpdateStorePersonnel([FromBody] PutStorePersonnelReq putStorePersonnelReq)
         {
-            var response = await _serviceWrapper.personnelService.UpdateStorePersonnel(updateStorePersonnelViewModel);
+            var response = await _serviceWrapper.personnelService.UpdateStorePersonnel(putStorePersonnelReq);
             return Ok(response);
         }
 
@@ -74,13 +75,13 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 修改特店人員角色權限
         /// </summary>
-        /// <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+        /// <param name="putUserAuthorityReq">putUserAuthorityReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateStorePersonnelAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        public async Task<IActionResult> UpdateStorePersonnelAuthority([FromBody] PutUserAuthorityReq putUserAuthorityReq)
         {
-            var response = await _serviceWrapper.personnelService.UpdateStorePersonnelAuthority(updateUserAuthorityViewModel);
+            var response = await _serviceWrapper.personnelService.UpdateStorePersonnelAuthority(putUserAuthorityReq);
             return Ok(response);
         }
     }

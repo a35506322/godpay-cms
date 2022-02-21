@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Repositories.Entity;
+using GodPay_CMS.Services.DTO.Request;
+using GodPay_CMS.Services.DTO.Response;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -39,28 +41,27 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 登入
         /// </summary>
-        /// <param name="signinViewModel">signinViewModel</param>
+        /// <param name="postSigninReq">postSigninReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(ResponseViewModel), 200)]
-        public async Task<IActionResult> SignIn([FromBody] SigninViewModel signinViewModel)
+        public async Task<IActionResult> SignIn([FromBody] PostSigninReq postSigninReq)
         {
-            var result = await _serviceWrapper.signinService.SigninUser(signinViewModel);
+            var result = await _serviceWrapper.signinService.SigninUser(postSigninReq);
 
             if (result.RtnCode == ReturnCodeEnum.Ok)
             {
-                UserRsp data = (UserRsp)result.RtnData;
-
+                User data = (User)result.RtnData;
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,data.UserId),
-                    new Claim(ClaimTypes.Role,data.Role.ToString()),
+                    new Claim(ClaimTypes.Role,((RoleEnum)data.Role).ToString()),
                     new Claim("FuncFlag",data.Func.ToString()),
                     new Claim("Uid",data.Uid.ToString())
                 };
 
-                if (data.Role == RoleEnum.Store)
+                if (data.Role == (int)RoleEnum.Store)
                 { 
                     var user = await _serviceWrapper.storeService.GetUserAndStoreByUserId(data.UserId);
                     claims.Add(new Claim("StoreId", ((StoreParticularsRsp)user.RtnData).StoreId.ToString()));

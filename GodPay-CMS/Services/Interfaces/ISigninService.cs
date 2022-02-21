@@ -1,4 +1,5 @@
-﻿using GodPay_CMS.Controllers.ViewModels;
+﻿using GodPay_CMS.Services.DTO.Request;
+using GodPay_CMS.Controllers.ViewModels;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -11,8 +12,8 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 登入
         /// </summary>
-        /// <param name="signinReq"></param>
+        /// <param name="postSigninReq">postSigninReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> SigninUser(SigninViewModel signinViewModel);
+        public Task<ResponseViewModel> SigninUser(PostSigninReq postSigninReq);
     }
 }

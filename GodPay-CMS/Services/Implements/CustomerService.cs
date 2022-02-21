@@ -5,6 +5,7 @@ using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,14 +43,14 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = customer };
         }
 
-        public async Task<ResponseViewModel> Add(AddCustomerViewModel addCustomerViewModel)
+        public async Task<ResponseViewModel> Add(PostCustomerReq postCustomerReq)
         {
-            var customerParams = _mapper.Map<CustomerParams>(addCustomerViewModel);
+            var customerParams = _mapper.Map<CustomerParams>(postCustomerReq);
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
             if (customer != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.SameNameFail, RtnMessage= ReturnCodeEnum.SameNameFail.GetEnumDescription(), RtnData = "公司名稱重覆" };
 
-            Customer customerReq = _mapper.Map<Customer>(addCustomerViewModel);
+            Customer customerReq = _mapper.Map<Customer>(postCustomerReq);
 
             var result = await _repostioryWrapper.customerRepository.Add(customerReq);
 
@@ -59,16 +60,17 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel();
         }
 
-        public async Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel)
+        public async Task<ResponseViewModel> Edit(PutCustomerReq putCustomerReq)
         {
-            var customerParams = _mapper.Map<CustomerParams>(editCustomerViewModel);
+            CustomerParams customerParams = new CustomerParams();
+            customerParams.SeqNo = putCustomerReq.SeqNo;
 
             var customer = await _repostioryWrapper.customerRepository.Get(customerParams);
 
             if (customer == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() };
 
-            var customerReq = _mapper.Map<Customer>(editCustomerViewModel);
+            var customerReq = _mapper.Map<Customer>(putCustomerReq);
 
             var result = await _repostioryWrapper.customerRepository.Update(customerReq);
 

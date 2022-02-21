@@ -1,5 +1,6 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
 using System.Threading.Tasks;
+using GodPay_CMS.Services.DTO.Request;
 
 namespace GodPay_CMS.Services.Interfaces
 {
@@ -22,9 +23,9 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 新增特店及詳細資料
         /// </summary>
-        /// <param name="postUserAndStoreViewModel"></param>
+        /// <param name="postUserAndStoreReq"></param>
         /// <returns></returns>
-        Task<ResponseViewModel> PostUserAndStore(PostUserAndStoreViewModel postUserAndStoreViewModel);
+        Task<ResponseViewModel> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq);
 
         /// <summary>
         /// 取得特店及詳細資料
@@ -36,16 +37,16 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 更新特店及詳細資料
         /// </summary>
-        /// <param name="updateUserAndStoreViewModel"></param>
+        /// <param name="putUserAndStoreReq">putUserAndStoreReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel);
+        public Task<ResponseViewModel> UpateUserAndStore(PutUserAndStoreReq putUserAndStoreReq);
 
         /// <summary>
         /// 更新特店
         /// </summary>
-        /// <param name="updateStoreViewModel"></param>
+        /// <param name="putStoreReq">putStoreReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpateStore(UpdateStoreViewModel updateStoreViewModel);
+        public Task<ResponseViewModel> UpateStore(PutStoreReq putStoreReq);
 
         /// <summary>
         /// 取得特店角色權限
@@ -57,9 +58,9 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 修改特店角色權限
         /// </summary>
-        /// <param name="updateUserAuthorityViewModel"></param>
+        /// <param name="putUserAuthorityReq">putUserAuthorityReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateStoreAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
+        public Task<ResponseViewModel> UpdateStoreAuthority(PutUserAuthorityReq putUserAuthorityReq);
 
         /// <summary>
         /// 取得特店下拉式選單

@@ -1,5 +1,6 @@
 ﻿using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO.Request;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -22,15 +23,15 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 新增公司
         /// </summary>
-        /// <param name="addCustomerViewModel">公司名稱</param>
+        /// <param name="postCustomerReq">postCustomerReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> Add(AddCustomerViewModel addCustomerViewModel);
+        public Task<ResponseViewModel> Add(PostCustomerReq postCustomerReq);
 
         /// <summary>
         /// 編輯公司
         /// </summary>
-        /// <param name="editCustomerViewModel"></param>
+        /// <param name="putCustomerReq">putCustomerReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> Edit(EditCustomerViewModel editCustomerViewModel);
+        public Task<ResponseViewModel> Edit(PutCustomerReq putCustomerReq);
     }
 }

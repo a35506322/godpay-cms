@@ -1,6 +1,6 @@
 ﻿using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.Parameters;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

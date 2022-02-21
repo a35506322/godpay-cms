@@ -1,5 +1,6 @@
 ﻿using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO.Request;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,9 +26,9 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 修改角色最大權限
         /// </summary>
-        /// <param name="updateAuthorityClassViewModels"></param>
+        /// <param name="putAuthorityClassReq">putAuthorityClassReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateAuthorityClassViewModel> updateAuthorityClassViewModels);
+        public Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<PutAuthorityClassReq> putAuthorityClassReq);
        
         /// <summary>
         /// 功能類別列表
@@ -38,9 +39,9 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 新增功能類別
         /// </summary>
-        /// <param name="postFuncClassViewModel"></param>
+        /// <param name="postFuncClassReq">postFuncClassReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> PostFuncClass(PostFuncClassViewModel postFuncClassViewModel);
+        public Task<ResponseViewModel> PostFuncClass(PostFuncClassReq postFuncClassReq);
 
         /// <summary>
         /// 個別功能類別
@@ -52,9 +53,9 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 編輯功能類別
         /// </summary>
-        /// <param name="updateFuncClassViewModel"></param>
+        /// <param name="putFuncClassReq">putFuncClassReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateFuncClass(UpdateFuncClassViewModel updateFuncClassViewModel);
+        public Task<ResponseViewModel> UpdateFuncClass(PutFuncClassReq putFuncClassReq);
 
         /// <summary>
         /// 取得功能總表
@@ -72,16 +73,16 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 修改功能
         /// </summary>
-        /// <param name="updateFuncViewModel"></param>
+        /// <param name="putFuncReq">putFuncReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateFunc(UpdateFuncViewModel updateFuncViewModel);
+        public Task<ResponseViewModel> UpdateFunc(PutFuncReq putFuncReq);
 
         /// <summary>
         /// 新增功能
         /// </summary>
-        /// <param name="postFuncViewModel"></param>
+        /// <param name="postFuncReq"></param>
         /// <returns></returns>
-        public Task<ResponseViewModel> PostFunc(PostFuncViewModel postFuncViewModel);
+        public Task<ResponseViewModel> PostFunc(PostFuncReq postFuncReq);
 
     }
 }

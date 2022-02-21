@@ -5,6 +5,7 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -21,23 +22,21 @@ namespace GodPay_CMS.Services.Implements
             _mapper = mapper;
         }
 
-        public async Task<ResponseViewModel> SigninUser(SigninViewModel signinViewModel)
+        public async Task<ResponseViewModel> SigninUser(PostSigninReq postSigninReq)
         {
-            var userReq = _mapper.Map<User>(signinViewModel);
+            var userReq = _mapper.Map<User>(postSigninReq);
 
             var user = await _repostioryWrapper.userRepository.GetByUserIdAndUserKey(userReq);
 
-            var userRsp = _mapper.Map<UserRsp>(user);
-
-            if (userRsp == null)
+            if (user == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = ReturnCodeEnum.LoginFail.GetEnumDescription(), RtnData = "帳號密碼錯誤" };
 
-            if(userRsp.Status==AccountStatusEnum.Deactivate)
+            if (user.Status== (int)AccountStatusEnum.Deactivate)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.LoginFail, RtnMessage = ReturnCodeEnum.LoginFail.GetEnumDescription(), RtnData = "帳號停用中，請聯絡管理員" };
 
             await _repostioryWrapper.userRepository.UpdateLoginTime(userReq);
 
-            return new ResponseViewModel() { RtnData = userRsp };
+            return new ResponseViewModel() { RtnData = user };
         }
     }
 }

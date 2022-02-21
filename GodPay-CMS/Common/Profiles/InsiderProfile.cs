@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Repositories.Entity;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
 
 namespace GodPay_CMS.Common.Profiles
 {

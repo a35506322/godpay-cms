@@ -19,7 +19,7 @@
                         <div class="mb-3">
                             <label for="account" class="form-label">Account</label>
                             <v-field type="text" id="account" class="p-inputtext p-component form-control" name="帳號" placeholder="請輸入帳號"
-                                     v-model.trim="signinViewModel.userId" rules="required" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]"></v-field>
+                                     v-model.trim="postSigninReq.userId" rules="required" v-bind:class="[{'is-invalid':errors['帳號']||modelStateError['userId']}]"></v-field>
                             <error-message name="帳號" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'userId'"></server-error-message>
                         </div>
@@ -27,7 +27,7 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <v-field type="password" id="password" class="p-inputtext p-component form-control" name="密碼" placeholder="請輸入密碼"
-                                     v-model.trim="signinViewModel.userKey" rules="required" v-bind:class="[{'is-invalid':errors['密碼']||modelStateError['userKey']}]"></v-field>
+                                     v-model.trim="postSigninReq.userKey" rules="required" v-bind:class="[{'is-invalid':errors['密碼']||modelStateError['userKey']}]"></v-field>
                             <error-message name="密碼" class="invalid-feedback"></error-message>
                             <server-error-message v-bind:attr="'userKey'"></server-error-message>
                         </div>
@@ -65,7 +65,7 @@
         data: function () {
             return {
                 modelStateError: {},
-                signinViewModel: {},
+                postSigninReq: {},
                 loading: false
             }
         },
@@ -73,7 +73,7 @@
             SignIn: async function () {
                 try {
                     this.loading = true;
-                    const response = await PostSignin(this.signinViewModel).then(response => response);
+                    const response = await PostSignin(this.postSigninReq).then(response => response);
                     const status = response.status;
                     if (status === 200) {
                         const responseData = response.data;

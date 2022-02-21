@@ -5,7 +5,8 @@ using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -30,11 +31,8 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> GetListOfFunctionsForAuthority()
         {
-            var funcCalss = await _repostioryWrapper.funcClassRepository.GetByFuncClassAndFunc();
-            
-            if (funcCalss == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = "取得功能資料失敗" };
-
+            var funcCalss = await _repostioryWrapper.funcClassRepository.GetAllByFuncClassAndFunc();
+           
             var functionListViewModel = _mapper.Map<IEnumerable<AuthorityFuncClassRsp>>(funcCalss);
 
             return new ResponseViewModel() { RtnData = functionListViewModel };
@@ -42,37 +40,34 @@ namespace GodPay_CMS.Services.Implements
 
         public async Task<ResponseViewModel> GetListOfFunctionsFilter(FunctionParams functionParams)
         {
-            var getFuncFilterReq = _mapper.Map<GetFuncFilterReq>(functionParams);
+            var getFuncFilterReq = _mapper.Map<GetByFuncClassAndFuncFilterReq>(functionParams);
             getFuncFilterReq.Role = (int)(RoleEnum)Enum.Parse(typeof(RoleEnum), _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role).Value);
             getFuncFilterReq.FuncFlag = int.Parse(_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "FuncFlag").Value);
 
             var funcCalss = await _repostioryWrapper.funcClassRepository.GetByFuncClassAndFuncFilter(getFuncFilterReq);
-
-            if (funcCalss == null)
-                return new ResponseViewModel() { RtnCode = ReturnCodeEnum.GetFail, RtnMessage = ReturnCodeEnum.GetFail.GetEnumDescription(), RtnData="權限有誤" };
 
             var functionListViewModel = _mapper.Map<IEnumerable<AuthorityFuncClassRsp>>(funcCalss);
 
             return new ResponseViewModel() { RtnData = functionListViewModel };
         }
 
-        public async Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<UpdateAuthorityClassViewModel> updateAuthorityClassViewModels)
+        public async Task<ResponseViewModel> UpdateRoleMaxAuthority(IEnumerable<PutAuthorityClassReq> putAuthorityClassReq)
         {
-            if (updateAuthorityClassViewModels.Count() == 0)
+            if (putAuthorityClassReq.Count() == 0)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage= ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription(), RtnData = "修改角色資訊個數不能為0" };
 
             // 取得原資料與新資料做差異對比
-            var funcCalsses = await _repostioryWrapper.funcClassRepository.GetByFuncClassAndFunc();
-            List<UpdateRoleAuthorityReq> oldAuthority = new List<UpdateRoleAuthorityReq>();
+            var funcCalsses = await _repostioryWrapper.funcClassRepository.GetAllByFuncClassAndFunc();
+            List<Func> oldAuthority = new List<Func>();
             foreach (var funClass in funcCalsses)
             {
-                oldAuthority.AddRange(_mapper.Map<IEnumerable<UpdateRoleAuthorityReq>>(funClass.Funcs));
+                oldAuthority.AddRange(_mapper.Map<IEnumerable<Func>>(funClass.Funcs));
             }
 
-            List<UpdateRoleAuthorityReq> newAuthority = new List<UpdateRoleAuthorityReq>();
-            foreach (var funClass in updateAuthorityClassViewModels)
+            List<Func> newAuthority = new List<Func>();
+            foreach (var funClass in putAuthorityClassReq)
             {
-                newAuthority.AddRange(_mapper.Map<IEnumerable<UpdateRoleAuthorityReq>>(funClass.UpdateFuncViewModel));
+                newAuthority.AddRange(_mapper.Map<IEnumerable<Func>>(funClass.PutAuthorityFuncRequests));
             }
             var updateRoleAuthorityReqs = newAuthority.Where(c => !oldAuthority.Any(n => n.Fid == c.Fid && n.FuncCode == c.FuncCode && n.RoleFlag == c.RoleFlag));
             
@@ -90,14 +85,12 @@ namespace GodPay_CMS.Services.Implements
         {
             var allFunc = await _repostioryWrapper.funcClassRepository.GetAll();
 
-            var allFuncRsp = _mapper.Map<IEnumerable<FuncClassRsp>>(allFunc);
-
-            return new ResponseViewModel() { RtnData = allFuncRsp };
+            return new ResponseViewModel() { RtnData = allFunc };
         }
 
-        public async Task<ResponseViewModel> PostFuncClass(PostFuncClassViewModel postFuncClassViewModel)
+        public async Task<ResponseViewModel> PostFuncClass(PostFuncClassReq postFuncClassReq)
         {
-            var funClass = _mapper.Map<FuncClass>(postFuncClassViewModel);
+            var funClass = _mapper.Map<FuncClass>(postFuncClassReq);
             var response = await _repostioryWrapper.funcClassRepository.Add(funClass);
             if(response)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = ReturnCodeEnum.Ok.GetEnumDescription() };
@@ -114,9 +107,9 @@ namespace GodPay_CMS.Services.Implements
 
         }
 
-        public async Task<ResponseViewModel> UpdateFuncClass(UpdateFuncClassViewModel updateFuncClassViewModel)
+        public async Task<ResponseViewModel> UpdateFuncClass(PutFuncClassReq putFuncClassReq)
         {
-            var funcClass = _mapper.Map<FuncClass>(updateFuncClassViewModel);
+            var funcClass = _mapper.Map<FuncClass>(putFuncClassReq);
             var response = await _repostioryWrapper.funcClassRepository.Update(funcClass);
             if (response)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = ReturnCodeEnum.Ok.GetEnumDescription() };
@@ -141,14 +134,14 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = funcRsp };
         }
 
-        public async Task<ResponseViewModel> UpdateFunc(UpdateFuncViewModel updateFuncViewModel)
+        public async Task<ResponseViewModel> UpdateFunc(PutFuncReq putFuncReq)
         {
-            var isExsit = await _repostioryWrapper.funcClassRepository.GetById(updateFuncViewModel.FuncClassCode);
+            var isExsit = await _repostioryWrapper.funcClassRepository.GetById(putFuncReq.FuncClassCode);
             if (isExsit == null)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage= ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription(), RtnData = "此代碼並不存在" };
-            
-            updateFuncViewModel.FuncEnName = updateFuncViewModel.FuncEnName.ToUpperForFirst();           
-            var func = _mapper.Map<Func>(updateFuncViewModel);
+
+            putFuncReq.FuncEnName = putFuncReq.FuncEnName.ToUpperForFirst();           
+            var func = _mapper.Map<Func>(putFuncReq);
             var response = await _repostioryWrapper.funcRepository.Update(func);
             
             if(response)
@@ -156,13 +149,13 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
 
-        public async Task<ResponseViewModel> PostFunc(PostFuncViewModel postFuncViewModel)
+        public async Task<ResponseViewModel> PostFunc(PostFuncReq postFuncReq)
         {
-            var isExsit = await _repostioryWrapper.funcClassRepository.GetById(postFuncViewModel.FuncClassCode);
+            var isExsit = await _repostioryWrapper.funcClassRepository.GetById(postFuncReq.FuncClassCode);
             if(isExsit==null)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription(), RtnData = "此代碼並不存在" };
-            postFuncViewModel.FuncEnName = postFuncViewModel.FuncEnName.ToUpperForFirst();
-            var func = _mapper.Map<Func>(postFuncViewModel);
+            postFuncReq.FuncEnName = postFuncReq.FuncEnName.ToUpperForFirst();
+            var func = _mapper.Map<Func>(postFuncReq);
             var response = await _repostioryWrapper.funcRepository.Add(func);
             if (response)
                 return new ResponseViewModel { RtnCode = ReturnCodeEnum.Ok, RtnMessage = ReturnCodeEnum.Ok.GetEnumDescription() };

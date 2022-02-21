@@ -1,4 +1,6 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,26 +39,26 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 編輯使用者資訊
         /// </summary>
-        /// <param name="editUserViewModel">editUserViewModel</param>
+        /// <param name="putUserReq">putUserReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Edit([FromBody] EditUserViewModel editUserViewModel)
+        public async Task<IActionResult> Edit([FromBody] PutUserReq putUserReq)
         {
-            var result = await _serviceWrapper.userService.UpdateUser(editUserViewModel);
+            var result = await _serviceWrapper.userService.UpdateUser(putUserReq);
             return Ok(result);
         }
 
         /// <summary>
         /// 變更使用者密碼
         /// </summary>
-        /// <param name="editKeyViewModel">editKeyViewModel</param>
+        /// <param name="putEditKeyReq">putEditKeyReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> EditKey([FromBody] EditKeyViewModel editKeyViewModel)
+        public async Task<IActionResult> EditKey([FromBody] PutEditKeyReq putEditKeyReq)
         {
-            var result = await _serviceWrapper.userService.UpdateKey(editKeyViewModel);
+            var result = await _serviceWrapper.userService.UpdateKey(putEditKeyReq);
             return Ok(result);
         }
 
@@ -76,13 +78,13 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 更新特店詳細資料
         /// </summary>
-        /// <param name="updateStoreViewModel">更新特店資訊</param>
+        /// <param name="putStoreReq"> putStoreReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateStoreDeatil([FromBody] UpdateStoreViewModel updateStoreViewModel)
+        public async Task<IActionResult> UpdateStoreDeatil([FromBody] PutStoreReq putStoreReq)
         {
-            var response = await _serviceWrapper.storeService.UpateStore(updateStoreViewModel);
+            var response = await _serviceWrapper.storeService.UpateStore(putStoreReq);
             return Ok(response);
         }
     }

@@ -6,6 +6,8 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
+using GodPay_CMS.Services.DTO.Response;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -50,13 +52,11 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = insiderRsp };
         }
 
-        public async Task<ResponseViewModel> PostManagerAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModal)
+        public async Task<ResponseViewModel> PostManagerAndInsider(PostUserAndInsiderReq postUserAndInsiderReq)
         {
-            var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndInsiderViewModal.UserId);
+            var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndInsiderReq.UserId);
             if (user != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnData = "已有重複帳號", RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription() };
-
-            var postUserAndInsiderReq = _mapper.Map<PostUserAndInsiderReq>(postUserAndInsiderViewModal);
 
             var result = await _repostioryWrapper.userRepository.PostUserAndInsider(postUserAndInsiderReq);
             if (result)
@@ -65,11 +65,12 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
 
-        public async Task<ResponseViewModel> UpdateManagerAndInsider(UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
+        public async Task<ResponseViewModel> UpdateManagerAndInsider(PutUserAndInsiderReq putUserAndInsiderReq)
         {
-            var updateUserAndInsiderReq = _mapper.Map<UpdateUserAndInsiderReq>(updateUserAndInsiderViewModal);
-            updateUserAndInsiderReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            var result = await _repostioryWrapper.userRepository.UpdateUserAndInsider(updateUserAndInsiderReq);
+            putUserAndInsiderReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            putUserAndInsiderReq.LastModifyDate = DateTime.Now;
+
+            var result = await _repostioryWrapper.userRepository.UpdateUserAndInsider(putUserAndInsiderReq);
             if (result)
                 return new ResponseViewModel();
             else
@@ -109,13 +110,14 @@ namespace GodPay_CMS.Services.Implements
                 Role = (int)RoleEnum.Manager,
                 FuncFlag = user.Func
             };
+
             var managerAuthority = await _repostioryWrapper.funcClassRepository.GetRoleAuthority(getRoleAuthorityReq);
             return new ResponseViewModel() { RtnData = managerAuthority };
         }
 
-        public async Task<ResponseViewModel> UpdateManagerAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        public async Task<ResponseViewModel> UpdateManagerAuthority(PutUserAuthorityReq putUserAuthorityReq)
         {
-            var updateUserAuthorityReq = _mapper.Map<User>(updateUserAuthorityViewModel);
+            var updateUserAuthorityReq = _mapper.Map<User>(putUserAuthorityReq);
             updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
             updateUserAuthorityReq.LastModifyDate = DateTime.Now;
 

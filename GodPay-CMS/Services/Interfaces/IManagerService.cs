@@ -1,5 +1,7 @@
 ﻿using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -25,16 +27,16 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 新增業務及詳細資料
         /// </summary>
-        /// <param name="postUserAndInsiderViewModel"></param>
+        /// <param name="postUserAndInsiderReq">postUserAndInsiderReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> PostManagerAndInsider(PostUserAndInsiderViewModel postUserAndInsiderViewModel);
+        public Task<ResponseViewModel> PostManagerAndInsider(PostUserAndInsiderReq postUserAndInsiderReq);
 
         /// <summary>
         /// 更新業務及詳細資料
         /// </summary>
-        /// <param name="postUserAndInsiderReq"></param>
+        /// <param name="putUserAndInsiderReq">putUserAndInsiderReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateManagerAndInsider(UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal);
+        public Task<ResponseViewModel> UpdateManagerAndInsider(PutUserAndInsiderReq putUserAndInsiderReq);
 
         /// <summary>
         /// 取得業務及詳細資料
@@ -59,8 +61,8 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 修改業務權限
         /// </summary>
-        /// <param name="updateUserAuthorityViewModel"></param>
+        /// <param name="putUserAuthorityReq">putUserAuthorityReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateManagerAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
+        public Task<ResponseViewModel> UpdateManagerAuthority(PutUserAuthorityReq putUserAuthorityReq);
     }
 }

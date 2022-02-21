@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,14 +56,14 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 批次修改最大權限
         /// </summary>
-        /// <param name="functionParams">functionParams</param>
+        /// <param name="putAuthorityClassReq">putAuthorityClassReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<UpdateAuthorityClassViewModel> updateAuthorityClassViewModels)
+        public async Task<IActionResult> UpdateRoleMaxAuthority([FromBody] IEnumerable<PutAuthorityClassReq> putAuthorityClassReq)
         {
-            var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(updateAuthorityClassViewModels);
+            var response = await _serviceWrapper.authorityService.UpdateRoleMaxAuthority(putAuthorityClassReq);
             return Ok(response);
         }
 
@@ -82,14 +83,14 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增功能類別
         /// </summary>
-        /// <param name="functionParams">postFuncClassViewModel</param>
+        /// <param name="postFuncClassReq">postFuncClassReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassViewModel postFuncClassViewModel)
+        public async Task<IActionResult> PostFuncClass([FromBody] PostFuncClassReq  postFuncClassReq)
         {
-            var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassViewModel);
+            var response = await _serviceWrapper.authorityService.PostFuncClass(postFuncClassReq);
             return Ok(response);
         }
 
@@ -110,14 +111,14 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 編輯功能類別
         /// </summary>
-        /// <param name="updateFuncClassViewModel">updateFuncClassViewModel</param>
+        /// <param name="putFuncClassReq">putFuncClassReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateFuncClass([FromBody] UpdateFuncClassViewModel updateFuncClassViewModel)
+        public async Task<IActionResult> UpdateFuncClass([FromBody] PutFuncClassReq putFuncClassReq)
         {
-            var response = await _serviceWrapper.authorityService.UpdateFuncClass(updateFuncClassViewModel);
+            var response = await _serviceWrapper.authorityService.UpdateFuncClass(putFuncClassReq);
             return Ok(response);
         }
 
@@ -151,28 +152,28 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 修改功能
         /// </summary>
-        /// <param name="updateFuncViewModel">updateFuncViewModel</param>
+        /// <param name="putFuncReq">putFuncReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateFunc([FromBody] UpdateFuncViewModel updateFuncViewModel)
+        public async Task<IActionResult> UpdateFunc([FromBody] PutFuncReq putFuncReq)
         {
-            var response = await _serviceWrapper.authorityService.UpdateFunc(updateFuncViewModel);
+            var response = await _serviceWrapper.authorityService.UpdateFunc(putFuncReq);
             return Ok(response);
         }
 
         /// <summary>
         /// 新增功能
         /// </summary>
-        /// <param name="postFuncViewModel">postFuncViewModel</param>
+        /// <param name="postFuncReq">postFuncReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PostFunc([FromBody]PostFuncViewModel postFuncViewModel)
+        public async Task<IActionResult> PostFunc([FromBody] PostFuncReq postFuncReq)
         {
-            var response = await _serviceWrapper.authorityService.PostFunc(postFuncViewModel);
+            var response = await _serviceWrapper.authorityService.PostFunc(postFuncReq);
             return Ok(response);
         }
 

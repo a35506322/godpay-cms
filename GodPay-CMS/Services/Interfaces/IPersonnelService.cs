@@ -1,5 +1,6 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
 using System.Threading.Tasks;
+using GodPay_CMS.Services.DTO.Request;
 
 namespace GodPay_CMS.Services.Interfaces
 {
@@ -13,15 +14,15 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 新增特店人員
         /// </summary>
-        /// <param name="postStorePersonnelViewModel"></param>
+        /// <param name="postStorePersonnelReq">postStorePersonnelReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelViewModel postStorePersonnelViewModel);
+        public Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelReq postStorePersonnelReq);
         /// <summary>
         /// 修改特店人員
         /// </summary>
-        /// <param name="updateStorePersonnelViewModel"></param>
+        /// <param name="putStorePersonnelReq">putStorePersonnelReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateStorePersonnel(UpdateStorePersonnelViewModel updateStorePersonnelViewModel);
+        public Task<ResponseViewModel> UpdateStorePersonnel(PutStorePersonnelReq putStorePersonnelReq);
         /// <summary>
         /// 取得單筆特店人員權限
         /// </summary>
@@ -31,8 +32,8 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 修改特店人員權限
         /// </summary>
-        /// <param name="updateUserAuthorityViewModel"></param>
+        /// <param name="putUserAuthorityReq">putUserAuthorityReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateStorePersonnelAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel);
+        public Task<ResponseViewModel> UpdateStorePersonnelAuthority(PutUserAuthorityReq putUserAuthorityReq);
     }
 }

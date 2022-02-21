@@ -18,6 +18,6 @@ namespace GodPay_CMS.Repositories.Interfaces
         /// </summary>
         /// <param name="updateRoleAuthorityReqs"></param>
         /// <returns></returns>
-        public Task<bool> BatchUpdateRoleFlag(IEnumerable<UpdateRoleAuthorityReq> updateRoleAuthorityReqs);
+        public Task<bool> BatchUpdateRoleFlag(IEnumerable<Func> funcs);
     }
 }

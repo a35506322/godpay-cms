@@ -1,5 +1,6 @@
 ﻿using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,26 +47,26 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增公司
         /// </summary>
-        /// <param name="addCustomerViewModel">addCustomerViewModel</param>
+        /// <param name="postCustomerReq">postCustomerReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddCustomerViewModel addCustomerViewModel)
+        public async Task<IActionResult> Post([FromBody] PostCustomerReq postCustomerReq)
         {
-            var response = await _serviceWrapper.customerService.Add(addCustomerViewModel);
+            var response = await _serviceWrapper.customerService.Add(postCustomerReq);
             return Ok(response);
         }
 
         /// <summary>
         /// 編輯公司
         /// </summary>
-        /// <param name="editCustomerViewModel">EditCustomerViewModel</param>
+        /// <param name="putCustomerReq">putCustomerReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Edit([FromBody] EditCustomerViewModel editCustomerViewModel)
+        public async Task<IActionResult> Edit([FromBody] PutCustomerReq putCustomerReq)
         {
-            var response = await _serviceWrapper.customerService.Edit(editCustomerViewModel);
+            var response = await _serviceWrapper.customerService.Edit(putCustomerReq);
 
             return Ok(response);
         }

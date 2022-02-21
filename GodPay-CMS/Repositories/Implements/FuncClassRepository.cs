@@ -7,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using GodPay_CMS.Repositories.Entity;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Common.Helpers.Decipher;
 using Microsoft.Extensions.Options;
 using GodPay_CMS.Common;
@@ -85,7 +86,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFunc()
+        public async Task<IEnumerable<FuncClass>> GetAllByFuncClassAndFunc()
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -113,7 +114,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFuncFilter(GetFuncFilterReq getFuncFilterReq)
+        public async Task<IEnumerable<FuncClass>> GetByFuncClassAndFuncFilter(GetByFuncClassAndFuncFilterReq getByFuncClassAndFuncFilterReq)
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -124,12 +125,12 @@ namespace GodPay_CMS.Repositories.Implements
                 sqlString += "And B.RoleFlag & @Role <> 0 ";
                 sqlString += "And B.FuncCode & @FuncFlag <> 0 ";
 
-                if (!String.IsNullOrEmpty(getFuncFilterReq.IsWebSite))
+                if (!String.IsNullOrEmpty(getByFuncClassAndFuncFilterReq.IsWebSite))
                 {
                     sqlString += "And B.IsWebsite = @IsWebSite ";
                 }
                 
-                if (!String.IsNullOrEmpty(getFuncFilterReq.FuncClassEnName))
+                if (!String.IsNullOrEmpty(getByFuncClassAndFuncFilterReq.FuncClassEnName))
                 {
                     sqlString += "And A.FuncClassEnName = @FuncClassEnName ";
                 }
@@ -143,7 +144,7 @@ namespace GodPay_CMS.Repositories.Implements
                     funcClass.Funcs = new List<Func>();
                     funcClass.Funcs.Add(func);
                     return funcClass;
-                }, getFuncFilterReq, splitOn: "Fid");
+                }, getByFuncClassAndFuncFilterReq, splitOn: "Fid");
 
                 // 重做一份真1對多
                 var result = funcClass.GroupBy(f => f.FuncClassCode).Select(g =>

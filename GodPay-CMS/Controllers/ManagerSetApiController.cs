@@ -1,4 +1,6 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,13 +50,13 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 新增業務
         /// </summary>
-        /// <param name="postUserAndInsiderViewModal">postUserAndInsiderViewModal</param>
+        /// <param name="postUserAndInsiderReq">postUserAndInsiderReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostManagerAndInsider([FromBody] PostUserAndInsiderViewModel postUserAndInsiderViewModal)
+        public async Task<IActionResult> PostManagerAndInsider([FromBody] PostUserAndInsiderReq postUserAndInsiderReq)
         {
-            var response = await _serviceWrapper.managerService.PostManagerAndInsider(postUserAndInsiderViewModal);
+            var response = await _serviceWrapper.managerService.PostManagerAndInsider(postUserAndInsiderReq);
             return Ok(response);
         }
 
@@ -74,13 +76,13 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 更新業務
         /// </summary>
-        /// <param name="updateUserAndInsiderViewModal">updateUserAndInsiderViewModal</param>
+        /// <param name="putUserAndInsiderReq">putUserAndInsiderReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateManagerAndInsider([FromBody] UpdateUserAndInsiderViewModel updateUserAndInsiderViewModal)
+        public async Task<IActionResult> UpdateManagerAndInsider([FromBody] PutUserAndInsiderReq putUserAndInsiderReq)
         {
-            var response = await _serviceWrapper.managerService.UpdateManagerAndInsider(updateUserAndInsiderViewModal);
+            var response = await _serviceWrapper.managerService.UpdateManagerAndInsider(putUserAndInsiderReq);
             return Ok(response);
         }
 
@@ -100,13 +102,13 @@ namespace GodPay_CMS.Controllers
         /// <summary>
         /// 修改業務角色權限
         /// </summary>
-        /// <param name="updateUserAuthorityViewModel">updateUserAuthorityViewModel</param>
+        /// <param name="putUserAuthorityReq">putUserAuthorityReq</param>
         /// <response code="200">連線成功</response>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateManagerAuthority([FromBody] UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        public async Task<IActionResult> UpdateManagerAuthority([FromBody] PutUserAuthorityReq putUserAuthorityReq)
         {
-            var response = await _serviceWrapper.managerService.UpdateManagerAuthority(updateUserAuthorityViewModel);
+            var response = await _serviceWrapper.managerService.UpdateManagerAuthority(putUserAuthorityReq);
             return Ok(response);
         }
     }

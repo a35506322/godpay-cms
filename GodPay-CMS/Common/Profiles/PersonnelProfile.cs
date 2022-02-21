@@ -2,7 +2,7 @@
 using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Common.Helpers;
 using GodPay_CMS.Repositories.Entity;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
 
 namespace GodPay_CMS.Common.Profiles
 {

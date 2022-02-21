@@ -6,6 +6,8 @@ using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
+using GodPay_CMS.Services.DTO.Response;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -50,15 +52,13 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = storesRsp };
         }
 
-        public async Task<ResponseViewModel> PostUserAndStore(PostUserAndStoreViewModel postUserAndStoreViewModel)
+        public async Task<ResponseViewModel> PostUserAndStore(PostUserAndStoreReq postUserAndStoreReq)
         {
-            var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndStoreViewModel.UserId);
+            var user = await _repostioryWrapper.userRepository.GetByUserId(postUserAndStoreReq.UserId);
             if (user != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription(), RtnData = "已有重複帳號" };
 
-            var storeReq = _mapper.Map<PostUserAndStoreReq>(postUserAndStoreViewModel);
-
-            var result = await _repostioryWrapper.userRepository.PostUserAndStore(storeReq);
+            var result = await _repostioryWrapper.userRepository.PostUserAndStore(postUserAndStoreReq);
 
             if (result)
                 return new ResponseViewModel();
@@ -76,25 +76,24 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.Ok, RtnData = storeRsp };
         }
 
-        public async Task<ResponseViewModel> UpateUserAndStore(UpdateUserAndStoreViewModel updateUserAndStoreViewModel)
+        public async Task<ResponseViewModel> UpateUserAndStore(PutUserAndStoreReq putUserAndStoreReq)
         {
-            var updateUserAndStoreReq = _mapper.Map<UpdateUserAndStoreReq>(updateUserAndStoreViewModel);
-            updateUserAndStoreReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            updateUserAndStoreReq.LastModifyDate = DateTime.Now;
+            putUserAndStoreReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            putUserAndStoreReq.LastModifyDate = DateTime.Now;
 
-            var result = await _repostioryWrapper.userRepository.UpateUserAndStore(updateUserAndStoreReq);
+            var result = await _repostioryWrapper.userRepository.UpateUserAndStore(putUserAndStoreReq);
             if (result)
                 return new ResponseViewModel();
 
             return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
 
-        public async Task<ResponseViewModel> UpateStore(UpdateStoreViewModel updateStoreViewModel)
+        public async Task<ResponseViewModel> UpateStore(PutStoreReq putStoreReq)
         {
-            var storeDeatail = await _repostioryWrapper.storeRepository.GetById(updateStoreViewModel.Uid);
+            var storeDeatail = await _repostioryWrapper.storeRepository.GetById(putStoreReq.Uid);
             if (storeDeatail == null) { return new ResponseViewModel() { RtnCode = ReturnCodeEnum.NotFound, RtnMessage = ReturnCodeEnum.NotFound.GetEnumDescription() }; }
 
-            var updateStoreReq = _mapper.Map<Customer_Store>(updateStoreViewModel);
+            var updateStoreReq = _mapper.Map<Customer_Store>(putStoreReq);
             updateStoreReq.User.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
             updateStoreReq.User.LastModifyDate = DateTime.Now;
             var result = await _repostioryWrapper.storeRepository.Update(updateStoreReq);
@@ -119,9 +118,9 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = storeAuthority };
         }
 
-        public async Task<ResponseViewModel> UpdateStoreAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        public async Task<ResponseViewModel> UpdateStoreAuthority(PutUserAuthorityReq putUserAuthorityReq)
         {
-            var updateUserAuthorityReq = _mapper.Map<User>(updateUserAuthorityViewModel);
+            var updateUserAuthorityReq = _mapper.Map<User>(putUserAuthorityReq);
             updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
             updateUserAuthorityReq.LastModifyDate = DateTime.Now;
 

@@ -5,7 +5,8 @@ using GodPay_CMS.Common.Util;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
+using GodPay_CMS.Services.DTO.Request;
 using GodPay_CMS.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -58,16 +59,16 @@ namespace GodPay_CMS.Services.Implements
             return new ResponseViewModel() { RtnData = managerAuthority };
         }
 
-        public async Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelViewModel postStorePersonnelViewModel)
+        public async Task<ResponseViewModel> PostStorePersonnel(PostStorePersonnelReq postStorePersonnelReq)
         {
             string loginId = $"{_httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value}_";
-            string postId = $"{loginId}{postStorePersonnelViewModel.UserId.Trim()}";
+            string postId = $"{loginId}{postStorePersonnelReq.UserId.Trim()}";
 
             var user = await _repostioryWrapper.userRepository.GetByUserId(postId);
             if (user != null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription(), RtnData = "此帳號已重複" };
 
-            var postUserReq = _mapper.Map<User>(postStorePersonnelViewModel);
+            var postUserReq = _mapper.Map<User>(postStorePersonnelReq);
             postUserReq.UserId = postId;
             postUserReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd",postId);
             postUserReq.Customer_Personnel = new Customer_Personnel();
@@ -80,13 +81,13 @@ namespace GodPay_CMS.Services.Implements
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.ExecutionFail, RtnMessage = ReturnCodeEnum.ExecutionFail.GetEnumDescription() };
         }
 
-        public async Task<ResponseViewModel> UpdateStorePersonnel(UpdateStorePersonnelViewModel updateStorePersonnelViewModel)
+        public async Task<ResponseViewModel> UpdateStorePersonnel(PutStorePersonnelReq putStorePersonnelReq)
         {
-            var user = await _repostioryWrapper.userRepository.GetByUserId(updateStorePersonnelViewModel.UserId);
+            var user = await _repostioryWrapper.userRepository.GetByUserId(putStorePersonnelReq.UserId);
             if (user == null)
                 return new ResponseViewModel() { RtnCode = ReturnCodeEnum.AuthenticationLogicFail, RtnMessage = ReturnCodeEnum.AuthenticationLogicFail.GetEnumDescription(), RtnData = "此帳號不存在"};
 
-            var updateUserReq = _mapper.Map<User>(updateStorePersonnelViewModel);
+            var updateUserReq = _mapper.Map<User>(putStorePersonnelReq);
 
             var isSuccess = await _repostioryWrapper.userRepository.UpdateStorePersonnel(updateUserReq);
             if (isSuccess)
@@ -96,9 +97,9 @@ namespace GodPay_CMS.Services.Implements
 
         }
 
-        public async Task<ResponseViewModel> UpdateStorePersonnelAuthority(UpdateUserAuthorityViewModel updateUserAuthorityViewModel)
+        public async Task<ResponseViewModel> UpdateStorePersonnelAuthority(PutUserAuthorityReq putUserAuthorityReq)
         {
-            var updateUserAuthorityReq = _mapper.Map<User>(updateUserAuthorityViewModel);
+            var updateUserAuthorityReq = _mapper.Map<User>(putUserAuthorityReq);
             updateUserAuthorityReq.LastModifier = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
             updateUserAuthorityReq.LastModifyDate = DateTime.Now;
 

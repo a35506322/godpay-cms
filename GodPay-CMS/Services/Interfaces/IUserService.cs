@@ -1,4 +1,5 @@
 ﻿using GodPay_CMS.Controllers.ViewModels;
+using GodPay_CMS.Services.DTO.Request;
 using System.Threading.Tasks;
 
 namespace GodPay_CMS.Services.Interfaces
@@ -18,15 +19,15 @@ namespace GodPay_CMS.Services.Interfaces
         /// <summary>
         /// 更新使用者
         /// </summary>
-        /// <param name="editUserViewModel"></param>
+        /// <param name="putUserReq"></param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateUser(EditUserViewModel editUserViewModel);
+        public Task<ResponseViewModel> UpdateUser(PutUserReq putUserReq);
 
         /// <summary>
         /// 變更密碼
         /// </summary>
-        /// <param name="editKeyViewModel"></param>
+        /// <param name="putEditKeyReq">putEditKeyReq</param>
         /// <returns></returns>
-        public Task<ResponseViewModel> UpdateKey(EditKeyViewModel editKeyViewModel);
+        public Task<ResponseViewModel> UpdateKey(PutEditKeyReq putEditKeyReq);
     }
 }

@@ -18,7 +18,7 @@
                 <div class="d-flex">
                     <div class="col me-1">
                         <input type="text" class="p-inputtext p-component" name="customerName" autocomplete="off" placeholder="請輸入公司名稱即可新增"
-                                v-model.trim="addCustomerViewModel.customerName" />
+                                v-model.trim="postCustomerReq.customerName" />
                     </div>
                     <div class="col">
                         <p-button label="新增" icon="pi pi-plus" class="p-mr-1" v-on:click="PostCutsomterSave" v-bind:loading="loading"></p-button>
@@ -74,7 +74,7 @@
             return {
                 customers:[],
                 editingRows: [],
-                addCustomerViewModel: {
+                postCustomerReq: {
                     customerName: ''
                 },
                 modelStateError: {},
@@ -138,7 +138,7 @@
             },
             PostCutsomterSave: function () {
                 try {
-                    if (this.addCustomerViewModel.customerName === '') {
+                    if (this.postCustomerReq.customerName === '') {
                         this.$toast.add({ severity: 'error', summary: '驗證失敗', detail: '公司名稱為必輸', life: 5000, group: 'backend-laoout' });
                         return;
                     }
@@ -149,7 +149,7 @@
                         position: 'top',
                         accept: async () => {
                             this.loading = true;
-                            const response = await PostCustomer(this.addCustomerViewModel).then(response => response);
+                            const response = await PostCustomer(this.postCustomerReq).then(response => response);
                             const status = response.status;
                             if (status === 200) {
                                 const responseData = response.data;
@@ -157,7 +157,7 @@
                                 const status = this.$common.ChangeReturnCode(code);
                                 switch (code) {
                                     case 200:
-                                        this.addCustomerViewModel = {
+                                        this.postCustomerReq = {
                                             customerName: ''
                                         };
                                         this.modelStateError = {};

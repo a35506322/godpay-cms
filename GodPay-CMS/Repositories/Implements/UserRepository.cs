@@ -5,6 +5,7 @@ using GodPay_CMS.Controllers.Parameters;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Repositories.Interfaces;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Request;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -118,13 +119,13 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<int> UpdateUser(UpdateUserReq updateUserReq)
+        public async Task<int> UpdateUser(User updateUserReq)
         {
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
                 string sql = @" UPDATE [dbo].[User] 
                                 SET Email = @Email, 
-                                    LastModifier =   @ModifierId,
+                                    LastModifier =   @LastModifier,
                                     LastModifyDate = GETDATE()
                                 WHERE UserId = @UserId";
 
@@ -134,9 +135,9 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<int> UpdateKey(EditKeyViewModel editKeyViewModel)
+        public async Task<int> UpdateKey(PutEditKeyReq putEditKeyReq)
         {
-            editKeyViewModel.NewKey = RNGCrypto.HMACSHA256(editKeyViewModel.NewKey, editKeyViewModel.UserId);
+            putEditKeyReq.NewKey = RNGCrypto.HMACSHA256(putEditKeyReq.NewKey, putEditKeyReq.UserId);
 
             using (IDbConnection _connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -145,19 +146,19 @@ namespace GodPay_CMS.Repositories.Implements
                                     LastChangePwdDate = GETDATE()
                                 WHERE UserId = @UserId";
 
-                var entity = await _connection.ExecuteAsync(sql, editKeyViewModel);
+                var entity = await _connection.ExecuteAsync(sql, putEditKeyReq);
 
                 return entity;
             }
         }
 
-        public async Task<bool> PostUserAndInsider(PostUserAndInsiderReq userAndInsiderReq)
+        public async Task<bool> PostUserAndInsider(PostUserAndInsiderReq postUserAndInsiderReq)
         {
-            userAndInsiderReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", userAndInsiderReq.UserId);
-            userAndInsiderReq.Role = RoleEnum.Manager;
-            userAndInsiderReq.Func = 1795;
-            userAndInsiderReq.Status = AccountStatusEnum.Activate;
-            userAndInsiderReq.CreateDate = DateTime.Now;
+            postUserAndInsiderReq.UserKey = RNGCrypto.HMACSHA256("p@ssw0rd", postUserAndInsiderReq.UserId);
+            postUserAndInsiderReq.Role = RoleEnum.Manager;
+            postUserAndInsiderReq.Func = 1795;
+            postUserAndInsiderReq.Status = AccountStatusEnum.Activate;
+            postUserAndInsiderReq.CreateDate = DateTime.Now;
 
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -189,7 +190,7 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        int rowCounts = await connection.ExecuteAsync(sqlString, userAndInsiderReq, transaction: tran);
+                        int rowCounts = await connection.ExecuteAsync(sqlString, postUserAndInsiderReq, transaction: tran);
                         if (rowCounts > 0) { result = true; }
                         tran.Commit();
                     }
@@ -222,7 +223,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> UpdateUserAndInsider(UpdateUserAndInsiderReq updateUserAndInsiderReq)
+        public async Task<bool> UpdateUserAndInsider(PutUserAndInsiderReq putUserAndInsiderReq)
         {
             using (IDbConnection connection = new SqlConnection(_decipherHelper.ConnDecryptorAES(_settings.Value.ConnectionSettings.IPASS)))
             {
@@ -253,7 +254,7 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        int rowCounts = await connection.ExecuteAsync(sqlString, updateUserAndInsiderReq, transaction: tran);
+                        int rowCounts = await connection.ExecuteAsync(sqlString, putUserAndInsiderReq, transaction: tran);
                         if (rowCounts > 0) { result = true; }
                         tran.Commit();
                     }
@@ -364,7 +365,7 @@ namespace GodPay_CMS.Repositories.Implements
             }
         }
 
-        public async Task<bool> UpateUserAndStore(UpdateUserAndStoreReq updateUserAndStoreReq)
+        public async Task<bool> UpateUserAndStore(PutUserAndStoreReq putUserAndStoreReq)
         {
             string sql = @"Update T
                                     SET T.Status = @Status,
@@ -404,7 +405,7 @@ namespace GodPay_CMS.Repositories.Implements
                 {
                     try
                     {
-                        var response = await connection.ExecuteAsync(sql, updateUserAndStoreReq, transaction: tran);
+                        var response = await connection.ExecuteAsync(sql, putUserAndStoreReq, transaction: tran);
                         if (response > 0)
                             result = true;
                         tran.Commit();

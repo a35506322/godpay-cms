@@ -90,11 +90,11 @@
                 tooltipList: [],
                 user: {},
                 editViewModel: {
-                    modifierId: Id,
+                    lastModifier: Id,
                     userId: '',
                     email: ''
                 },
-                editKeyViewModel: {
+                putEditKeyReq: {
                     userId: Id,
                     oldKey: '',
                     newKey: '',
@@ -187,11 +187,11 @@
                 }
             },
             SaveKey: async function (value) {
-                this.editKeyViewModel = value;
-                this.editKeyViewModel.userId = this.user.userId;
+                this.putEditKeyReq = value;
+                this.putEditKeyReq.userId = this.user.userId;
                 try {
                     this.loading = true;
-                    const response = await EditKey(this.editKeyViewModel).then(response => response);
+                    const response = await EditKey(this.putEditKeyReq).then(response => response);
                     if (response.status === 200) {
                         const responseData = response.data;
                         const code = responseData.rtnCode;
@@ -199,6 +199,7 @@
                         switch (code) {
                             case 200:
                                 this.$refs.changePassword.Close();
+                                this.$toast.add({ severity: status, summary: responseData.rtnMessage, detail: responseData.rtnData, life: 5000, group: 'backend-laoout' });
                                 break;
                             case 401:
                                 if (typeof (response.data.rtnData) === 'string') {

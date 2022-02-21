@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GodPay_CMS.Repositories.Entity;
-using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;

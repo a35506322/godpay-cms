@@ -3,6 +3,8 @@ using GodPay_CMS.Common.Enums;
 using GodPay_CMS.Controllers.ViewModels;
 using GodPay_CMS.Repositories.Entity;
 using GodPay_CMS.Services.DTO;
+using GodPay_CMS.Services.DTO.Response;
+using GodPay_CMS.Services.DTO.Request;
 using System;
 using System.Linq;
 
@@ -20,12 +22,12 @@ namespace GodPay_CMS.Common.Profiles
                                                             .Cast<int>()
                                                             .Where(r => Convert.ToBoolean(r & o.RoleFlag))
                                                             .ToArray()));
-            CreateMap<UpdateAuthorityFuncViewModel, UpdateRoleAuthorityReq>()
-                .ForMember(n => n.RoleFlag, o => o.MapFrom(o => o.RoleFlag.Sum()));
-            CreateMap<Func, UpdateRoleAuthorityReq>();
-            CreateMap<UpdateFuncViewModel, Func>();
-            CreateMap<PostFuncViewModel, Func>()
-                .ForMember(n=>n.RoleFlag,o=>o.MapFrom(o=>0));
+
+            CreateMap<PutAuthorityFuncReq, Func>()
+                .ForMember(n => n.RoleFlag, o => o.MapFrom(o => o.RoleFlag.Sum()));    
+            CreateMap<PostFuncReq, Func>()
+                .ForMember(n => n.RoleFlag, o => o.MapFrom(o => 0));
+            CreateMap<PutFuncReq, Func>();
             CreateMap<Func, FuncAndFuncClassRsp>()
                 .ForMember(n => n.FuncClassChName, o => o.MapFrom(o => o.FuncClass.FuncClassChName));
         }
